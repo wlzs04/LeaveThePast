@@ -1,0 +1,16 @@
+<MassActor>
+	<Actor id="30001" actorName="群演1" description="群演1的描述。"/>
+	<Actor id="30002" actorName="群演2" description="群演2的描述。"/>
+	<Actor id="30003" actorName="店小二" description="一个普通的店小二。" modelPath="GameContent/Resource/Others/Model/dianxiaoer/dianxiaoer.dianxiaoer" defaultPosition="5860,-140,108" defaultRotation="0,0,90">
+		<ChatList>
+			<Chat text="客官要住店吗？"/>
+			<Chat text="客官慢走。"/>
+		</ChatList>
+	</Actor>
+	<Actor id="30004" actorName="路人甲" description="一个普通的路人。" modelPath="GameContent/Resource/Others/Model/dianxiaoer/dianxiaoer.dianxiaoer">
+		<ChatList>
+			<Chat text="今天天气真好！"/>
+			<Chat text="今天起得真早。"/>
+		</ChatList>
+	</Actor>
+</MassActor>

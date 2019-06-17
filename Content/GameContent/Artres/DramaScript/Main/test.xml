@@ -1,0 +1,11 @@
+<Script>
+	<Move actorId="10001" actionTime="2" speed="100" direction="1,0,0"/>
+	<Rotate actorId="10001" actionTime="1" value="-90" />
+	<Say actorId="10001" text="既然想听声音，我就随便说点什么吧！" voicePath="saysomething.wav" actionTime="0.5"/>
+	<Say actorId="10001" text="如果没事的话，我先走了。" voicePath="goaway.wav" actionTime="1"/>
+	<Rotate actorId="10001" actionTime="1" value="90" />
+	<Move actorId="10001" actionTime="4" speed="100" direction="1,0,0"/>
+</Script>
+
+
+

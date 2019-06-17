@@ -1,0 +1,7 @@
+﻿<MessageTip>
+  <Recorder id="10001" value="现在时间未到...."/>
+  <Recorder id="10002" value="已完成！"/>
+  <Recorder id="10003" value="请先完成其他任务！"/>
+  <Recorder id="10004" value="城门已经关闭！"/>
+  <Recorder id="10005" value="信息已经发出！"/>
+</MessageTip>

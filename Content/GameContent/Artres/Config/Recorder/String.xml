@@ -1,0 +1,7 @@
+﻿<String>
+  <Recorder id="10001" value="加载中..."/>
+  <Recorder id="10002" value="开始"/>
+  <Recorder id="10003" value="结束"/>
+  <Recorder id="10004" value="确定"/>
+  <Recorder id="10005" value="取消"/>
+</String>
