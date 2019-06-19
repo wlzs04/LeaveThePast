@@ -1,4 +1,4 @@
 <MainActor>
-	<Recorder id="10001" actorName="主角1" description="主角1的描述。" modelPath="GameContent/Resource/Others/Model/Main/MainActor.MainActor"/>
-	<Recorder id="10002" actorName="主角2" description="主角2的描述。"/>
+	<Recorder actorId="10001" actorName="主角1" description="主角1的描述。" modelPath="GameContent/Resource/Others/Model/Main/MainActor.MainActor"/>
+	<Recorder actorId="10002" actorName="主角2" description="主角2的描述。"/>
 </MainActor>

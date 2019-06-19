@@ -1,4 +1,4 @@
 <MinorActor>
-	<Recorder id="20001" actorName="配角1" description="配角1的描述。"/>
-	<Recorder id="20002" actorName="配角2" description="配角2的描述。"/>
+	<Recorder actorId="20001" actorName="配角1" description="配角1的描述。"/>
+	<Recorder actorId="20002" actorName="配角2" description="配角2的描述。"/>
 </MinorActor>
