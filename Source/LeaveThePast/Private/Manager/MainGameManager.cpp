@@ -51,6 +51,12 @@ void UMainGameManager::InitGameTime()
 	StartTime();
 }
 
+void UMainGameManager::BeginGame()
+{
+	//将所有常驻演员加载到场景中
+	actorManager->LoadAllPermanentActorToScene();
+}
+
 void UMainGameManager::StartTime()
 {
 	startTime = true;

@@ -5,6 +5,8 @@
 #include "XmlParser/Public/XmlFile.h"
 #include "ActionBase.generated.h"
 
+class AActorBase;
+
 UCLASS()
 class LEAVETHEPAST_API UActionBase : public UObject
 {
@@ -20,6 +22,7 @@ public:
 	void Execute();
 	virtual void Load(FXmlNode* xmlNode);
 	bool GetIsCompleted();
+	AActorBase* GetExecuteActor();
 protected:
 
 	//加载内容
@@ -29,8 +32,9 @@ protected:
 	//ActorBase executor = nullptr;//执行者
 	bool isCompleted = false;//是否完成
 private:
-
 	//由文件配置的属性
 	int actorId = 0;//执行指令的演员的Id
 	bool isAsync = false;//是否此指令执行的同时执行下一条指令
+
+	AActorBase* executeActor = nullptr;
 };

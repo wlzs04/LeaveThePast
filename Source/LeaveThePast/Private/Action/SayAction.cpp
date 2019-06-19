@@ -1,4 +1,5 @@
 #include "..\..\Public\Action\SayAction.h"
+#include "..\..\Public\Actor\ActorBase.h"
 #include "Kismet/GameplayStatics.h"
 #include "Engine/Engine.h"
 #include "Engine/World.h"
@@ -21,7 +22,7 @@ void USayAction::Load(FXmlNode* xmlNode)
 
 void USayAction::Update()
 {
-	if (isCompleted == false && currentPlayer != nullptr)
+	if (isCompleted == false && GetExecuteActor() != nullptr)
 	{
 		currentTime = GWorld->GetTimeSeconds();
 		if (currentTime - startTime < actionTime)
@@ -30,6 +31,10 @@ void USayAction::Update()
 		}
 		else
 		{
+			if (GetExecuteActor() != nullptr)
+			{
+				GetExecuteActor()->StopTalk();
+			}
 			isCompleted = true;
 		}
 	}
@@ -37,7 +42,10 @@ void USayAction::Update()
 
 void USayAction::ExecuteReal()
 {
-	currentPlayer = GWorld->GetFirstPlayerController()->GetPawn();
+	if (GetExecuteActor() != nullptr)
+	{
+		GetExecuteActor()->StartTalk();
+	}
 	startTime = GWorld->GetTimeSeconds();
 	currentTime = GWorld->GetTimeSeconds();
 	isCompleted = false;

@@ -22,7 +22,6 @@ private:
 	float speed = 100;
 	float actionTime = 1;
 
-	APawn* currentPlayer = nullptr;
 	float currentTime = 0;
 	float startTime = 0;
 };

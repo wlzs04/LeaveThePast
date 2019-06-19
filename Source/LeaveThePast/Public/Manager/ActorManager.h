@@ -1,32 +1,41 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
-#include <LeaveThePast\Public\Actor\MainActor.h>
-#include <LeaveThePast\Public\Actor\MassActor.h>
+#include <LeaveThePast\Public\Actor\ActorBase.h>
+#include <LeaveThePast\Public\Actor\MainActorInfo.h>
+#include <LeaveThePast\Public\Actor\MinorActorInfo.h>
+#include <LeaveThePast\Public\Actor\MassActorInfo.h>
 #include "ActorManager.generated.h"
 
-/**
- * 
- */
 UCLASS()
 class LEAVETHEPAST_API UActorManager : public UObject
 {
 	GENERATED_BODY()
 public:
 	//加载所有演员
-	void LoadAllActor();
+	void LoadAllActorInfo();
+
+	//将所有常驻演员加载到场景中
+	void LoadAllPermanentActorToScene();
+
+	//通过演员Id获得演员
+	AActorBase* GetActorById(int actorId);
 private:
 	//加载主演
-	void LoadMainActor();
+	void LoadMainActorInfo();
+	//加载次演
+	void LoadMinorActorInfo();
 	//加载群演
-	void LoadMassActor();
+	void LoadMassActorInfo();
 
 	FString mainActorRelativePath = TEXT("GameContent/Artres/Actor/MainActor.xml");
+	FString minorActorRelativePath = TEXT("GameContent/Artres/Actor/MinorActor.xml");
 	FString massActorRelativePath = TEXT("GameContent/Artres/Actor/MassActor.xml");
 
-	TMap<int, AMainActor*> mainActorMap;
-	TMap<int, AMassActor*> massActorMap;
+	TMap<int, UMainActorInfo*> mainActorInfoMap;
+	TMap<int, UMinorActorInfo*> minorActorInfoMap;
+	TMap<int, UMassActorInfo*> massActorInfoMap;
+
+	TMap<int, AActorBase*> actorBaseMap;
 };

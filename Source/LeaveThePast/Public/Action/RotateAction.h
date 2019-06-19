@@ -26,7 +26,6 @@ private:
 	//转身角度，默认Z方向，人正常转身的方向
 	float value = 90;
 
-	APawn* currentPlayer = nullptr;
 	float currentTime = 0;
 	float lastTime = 0;
 	float startTime = 0;

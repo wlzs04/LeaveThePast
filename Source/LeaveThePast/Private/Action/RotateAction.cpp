@@ -1,4 +1,5 @@
 #include "RotateAction.h"
+#include "..\..\Public\Actor\ActorBase.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/Pawn.h"
 #include "Engine/World.h"
@@ -21,13 +22,13 @@ void URotateAction::Load(FXmlNode* xmlNode)
 
 void URotateAction::Update()
 {
-	if (isCompleted == false && currentPlayer != nullptr)
+	if (isCompleted == false && GetExecuteActor() != nullptr)
 	{
 		currentTime = GWorld->GetTimeSeconds();
 		if (currentTime - startTime < actionTime)
 		{
 			float speed = (value/ actionTime)* (currentTime - lastTime);
-			currentPlayer->AddActorLocalRotation(FRotator(0, speed, 0));
+			GetExecuteActor()->AddActorLocalRotation(FRotator(0, speed, 0));
 		}
 		else
 		{
@@ -39,7 +40,6 @@ void URotateAction::Update()
 
 void URotateAction::ExecuteReal()
 {
-	currentPlayer = GWorld->GetFirstPlayerController()->GetPawn();
 	startTime = GWorld->GetTimeSeconds();
 	currentTime = GWorld->GetTimeSeconds();
 	lastTime = currentTime;

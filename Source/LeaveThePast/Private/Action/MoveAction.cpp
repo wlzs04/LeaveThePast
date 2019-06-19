@@ -1,4 +1,5 @@
 #include "..\..\Public\Action\MoveAction.h"
+#include "..\..\Public\Actor\ActorBase.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/Pawn.h"
 #include "Engine/World.h"
@@ -26,12 +27,12 @@ void UMoveAction::Load(FXmlNode* xmlNode)
 
 void UMoveAction::Update()
 {
-	if (isCompleted==false && currentPlayer != nullptr)
+	if (isCompleted==false && GetExecuteActor() != nullptr)
 	{
 		currentTime = GWorld->GetTimeSeconds();
 		if (currentTime - startTime < actionTime)
 		{
-			currentPlayer->AddMovementInput(direction, GWorld->DeltaTimeSeconds);
+			GetExecuteActor()->AddMovementInput(direction, GWorld->DeltaTimeSeconds);
 		}
 		else
 		{
@@ -42,7 +43,6 @@ void UMoveAction::Update()
 
 void UMoveAction::ExecuteReal()
 {
-	currentPlayer = GWorld->GetFirstPlayerController()->GetPawn();
 	startTime = GWorld->GetTimeSeconds();
 	currentTime = GWorld->GetTimeSeconds();
 	isCompleted = false;

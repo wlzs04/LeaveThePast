@@ -1,4 +1,5 @@
 #include "ActorBase.h"
+#include "..\..\Public\Action\ActionBase.h"
 #include "Components/SkeletalMeshComponent.h"
 
 // Sets default values
@@ -6,8 +7,6 @@ AActorBase::AActorBase()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
-
 }
 
 // Called when the game starts or when spawned
@@ -22,59 +21,81 @@ void AActorBase::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-void AActorBase::Load(FXmlNode* xmlNode)
+void AActorBase::Execute(UActionBase* action)
 {
-	for (auto item : xmlNode->GetAttributes())
+	if (actionList.Contains(action))
 	{
-		if (item.GetTag() == "actorId")
-		{
-			actorId = FCString::Atoi(*item.GetValue());
-		}
-		else if (item.GetTag() == "actorName")
-		{
-			actorName = item.GetValue();
-		}
-		else if (item.GetTag() == "description")
-		{
-			description = item.GetValue();
-		}
-		else if (item.GetTag() == "modelPath")
-		{
-			modelPath = item.GetValue();
-		}
-		else if (item.GetTag() == "defaultPosition")
-		{
-			modelPath = item.GetValue();
-		}
-		else if (item.GetTag() == "defaultRotation")
-		{
-			modelPath = item.GetValue();
-		}
+		UE_LOG(LogLoad, Log, TEXT("演员Id:%d已经拥有指令:%s！"), actorInfo->GetActorId(), *action->GetActionName());
+		return;
 	}
-
-	for (auto childNode : xmlNode->GetChildrenNodes())
-	{
-		if (childNode->GetTag() == "ChatList")
-		{
-			for (auto chatNode : childNode->GetChildrenNodes())
-			{
-				FChat chat(chatNode->GetAttribute(TEXT("text")), chatNode->GetAttribute(TEXT("voicePath")));
-				chatList.Add(chat);
-			}
-		}
-	}
+	actionList.Add(action);
 }
 
 void AActorBase::StartPerform()
 {
-	FString modelName = TEXT("SkeletalMesh'/Game/");
-	modelName += modelPath;
-	modelName += TEXT("'");
-	USkeletalMesh* newMesh = LoadObject<USkeletalMesh>(NULL, modelName.GetCharArray().GetData());
-	GetMesh()->SetSkeletalMesh(newMesh);
+	LoadModel();
+}
+
+void AActorBase::SetActorInfo(UActorInfoBase* newActorInfo)
+{
+	actorInfo = newActorInfo;
+}
+
+void AActorBase::LoadModel()
+{
+	FString modelPath = actorInfo->GetModelPath();
+	if (!modelPath.IsEmpty())
+	{
+		FString modelName = TEXT("SkeletalMesh'/Game/");
+		modelName += modelPath;
+		modelName += TEXT("'");
+		USkeletalMesh* newMesh = LoadObject<USkeletalMesh>(NULL, modelName.GetCharArray().GetData());
+		if (newMesh==nullptr)
+		{
+			UE_LOG(LogLoad, Log, TEXT("演员Id:%d模型加载失败，路径：%s"), actorInfo->GetActorId(), *modelName);
+		}
+		else
+		{
+			GetMesh()->SetSkeletalMesh(newMesh);
+		}
+	}
+	else
+	{
+		UE_LOG(LogLoad, Log, TEXT("演员Id:%d模型路径为空"), actorInfo->GetActorId());
+	}
 }
 
 int AActorBase::GetActorId()
 {
-	return actorId;
+	return actorInfo->GetActorId();
+}
+
+bool AActorBase::IsPermanent()
+{
+	return actorInfo->IsPermanent();
+}
+
+FVector AActorBase::GetDefaultPosition()
+{
+	return actorInfo->GetDefaultPosition();
+}
+
+FRotator AActorBase::GetDefaultRotation()
+{
+	return actorInfo->GetDefaultRotation();
+}
+
+bool AActorBase::IsInTalking()
+{
+	return actorInfo->IsInTalking();
+}
+
+void AActorBase::StartTalk()
+{
+	actorInfo->StartTalk();
+}
+
+void AActorBase::StopTalk()
+{
+	actorInfo->StopTalk();
 }

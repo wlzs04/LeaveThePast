@@ -21,7 +21,6 @@ private:
 	FString voicePath = TEXT("");
 	float actionTime = 1;
 
-	APawn* currentPlayer = nullptr;
 	float currentTime = 0;
 	float startTime = 0;
 };
