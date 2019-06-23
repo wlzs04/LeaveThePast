@@ -3,6 +3,7 @@
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
 #include "XmlParser/Public/XmlFile.h"
+#include "Property/PropertyBase.h"
 #include "ActorInfoBase.generated.h"
 
 USTRUCT()
@@ -37,26 +38,22 @@ public:
 
 	bool IsPermanent();
 
-	FString GetModelPath();
+	FString GetModelName();
+	FString GetModelRootPath();
 
 	FVector GetDefaultPosition();
 	FRotator GetDefaultRotation();
 
-	UFUNCTION(BlueprintCallable)
-	bool IsInTalking();
-
-	void StartTalk();
-
-	void StopTalk();
 private:
 	int actorId = 0;//演员的Id
 	FString actorName = TEXT("未命名演员");//演员名称
 	FString description = TEXT("无描述。");//演员描述
-	FString modelPath = TEXT("");//演员模型的路径
+	FString modelName = TEXT("");//演员模型的名称
+	FString modelRootPath = TEXT("");//演员模型的根路径
 	FVector defaultPosition = FVector(0, 0, 0);//默认位置
 	FRotator defaultRotation = FRotator(0, 0, 0);//默认角度
 	bool isPermanent = false;//是否为常驻演员
 
+	TArray<UPropertyBase> propertyList;//属性列表
 	TArray<FChat> chatList;//闲话列表
-	bool isInTalking = false;//在谈话中
 };

@@ -1,18 +1,100 @@
 #include "ActorBase.h"
 #include "..\..\Public\Action\ActionBase.h"
+#include "GameFramework/Controller.h"
+#include "GameFramework/PlayerController.h"
+#include "Animation/AnimBlueprintGeneratedClass.h"
+#include "Components/InputComponent.h"
 #include "Components/SkeletalMeshComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
+#include <Runtime\Engine\Classes\Engine\InputDelegateBinding.h>
 
 // Sets default values
 AActorBase::AActorBase()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
+	// set our turn rates for input
+	//BaseTurnRate = 45.f;
+	//BaseLookUpRate = 45.f;
+
+	// Don't rotate when the controller rotates. Let that just affect the camera.
+	bUseControllerRotationPitch = false;
+	bUseControllerRotationYaw = false;
+	bUseControllerRotationRoll = false;
+
+	// Configure character movement
+	GetCharacterMovement()->bOrientRotationToMovement = true; // Character moves in the direction of input...	
+	GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f); // ...at this rotation rate
+	GetCharacterMovement()->JumpZVelocity = 600.f;
+	GetCharacterMovement()->AirControl = 0.2f;
+
+	AutoPossessPlayer = EAutoReceiveInput::Player0;
+	bFindCameraComponentWhenViewTarget = true;
+
+	GetMesh()->SetRelativeLocation(FVector(0, 0, -90));
+	GetMesh()->SetRelativeRotation(FRotator(0, 90, 0));
+
+	//AddCameraFollow();
 }
 
 // Called when the game starts or when spawned
 void AActorBase::BeginPlay()
 {
 	Super::BeginPlay();
+}
+
+void AActorBase::SetupPlayerInputComponent(UInputComponent* playerInputComponent)
+{
+	Super::SetupPlayerInputComponent(playerInputComponent);
+	check(playerInputComponent);
+	//PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
+	//PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
+
+	playerInputComponent->BindAxis("MoveForward", this, &AActorBase::MoveForwardInputFunction);
+	playerInputComponent->BindAxis("MoveRight", this, &AActorBase::MoveRightInputFunction);
+
+	playerInputComponent->BindAxis("Turn", this, &AActorBase::TurnInputFunction);
+	playerInputComponent->BindAxis("LookUp", this, &AActorBase::LookUpInputFunction);
+}
+
+void AActorBase::MoveForwardInputFunction(float value)
+{
+	if ((Controller != NULL) && (value != 0.0f))
+	{
+		// find out which way is forward
+		const FRotator Rotation = Controller->GetControlRotation();
+		const FRotator YawRotation(0, Rotation.Yaw, 0);
+
+		// get forward vector
+		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+		AddMovementInput(Direction, value);
+	}
+}
+
+void AActorBase::MoveRightInputFunction(float value)
+{
+	if ((Controller != NULL) && (value != 0.0f))
+	{
+		// find out which way is right
+		const FRotator Rotation = Controller->GetControlRotation();
+		const FRotator YawRotation(0, Rotation.Yaw, 0);
+
+		// get right vector 
+		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+		// add movement in that direction
+		AddMovementInput(Direction, value);
+	}
+}
+
+void AActorBase::TurnInputFunction(float value)
+{
+	AddControllerYawInput(value * 45 * GetWorld()->GetDeltaSeconds());
+}
+
+void AActorBase::LookUpInputFunction(float value)
+{
+	AddControllerPitchInput(value * 45 * GetWorld()->GetDeltaSeconds());
 }
 
 // Called every frame
@@ -33,23 +115,24 @@ void AActorBase::Execute(UActionBase* action)
 
 void AActorBase::StartPerform()
 {
-	LoadModel();
+	
 }
 
 void AActorBase::SetActorInfo(UActorInfoBase* newActorInfo)
 {
 	actorInfo = newActorInfo;
+	LoadModel();
 }
 
 void AActorBase::LoadModel()
 {
-	FString modelPath = actorInfo->GetModelPath();
+	FString modelPath = actorInfo->GetModelRootPath();
+	FString modelName = actorInfo->GetModelName();
 	if (!modelPath.IsEmpty())
 	{
-		FString modelName = TEXT("SkeletalMesh'/Game/");
-		modelName += modelPath;
-		modelName += TEXT("'");
-		USkeletalMesh* newMesh = LoadObject<USkeletalMesh>(NULL, modelName.GetCharArray().GetData());
+		FString realModelPath = TEXT("SkeletalMesh'/Game/");
+		realModelPath += modelPath + TEXT("/")+ modelName+ TEXT(".") + modelName + TEXT("'");
+		USkeletalMesh* newMesh = LoadObject<USkeletalMesh>(NULL, realModelPath.GetCharArray().GetData());
 		if (newMesh==nullptr)
 		{
 			UE_LOG(LogLoad, Log, TEXT("演员Id:%d模型加载失败，路径：%s"), actorInfo->GetActorId(), *modelName);
@@ -58,6 +141,11 @@ void AActorBase::LoadModel()
 		{
 			GetMesh()->SetSkeletalMesh(newMesh);
 		}
+		//UAnimBlueprint
+		FString realAnimationPath = TEXT("/Game/");
+		realAnimationPath += modelPath + TEXT("/") + modelName + TEXT("AnimBP.") + modelName + TEXT("AnimBP_C");
+		UAnimBlueprintGeneratedClass* meshAnim = LoadObject<UAnimBlueprintGeneratedClass>(NULL, realAnimationPath.GetCharArray().GetData());
+		GetMesh()->SetAnimInstanceClass(meshAnim);
 	}
 	else
 	{
@@ -87,15 +175,74 @@ FRotator AActorBase::GetDefaultRotation()
 
 bool AActorBase::IsInTalking()
 {
-	return actorInfo->IsInTalking();
+	return isInTalking;
 }
 
 void AActorBase::StartTalk()
 {
-	actorInfo->StartTalk();
+	isInTalking = true;
 }
 
 void AActorBase::StopTalk()
 {
-	actorInfo->StopTalk();
+	isInTalking = false;
+}
+
+void AActorBase::AddCameraFollow()
+{
+	if (springArmComponent == nullptr)
+	{
+		springArmComponent = NewObject<USpringArmComponent>(this, TEXT("SpringArm"), RF_NoFlags, nullptr, false, nullptr);
+		springArmComponent->SetupAttachment(RootComponent);
+		springArmComponent->TargetArmLength = 300.0f;
+		springArmComponent->bUsePawnControlRotation = true;
+		springArmComponent->SetRelativeLocation(FVector(0, 0, 90));
+		springArmComponent->RegisterComponent();
+		AddInstanceComponent(springArmComponent);
+	}
+	if (cameraComponent == nullptr)
+	{
+		cameraComponent = NewObject<UCameraComponent>(this, TEXT("Camera"), RF_NoFlags, nullptr, false, nullptr);
+		cameraComponent->SetupAttachment(springArmComponent, USpringArmComponent::SocketName);
+		cameraComponent->bUsePawnControlRotation = false;
+		cameraComponent->RegisterComponent();
+		AddInstanceComponent(cameraComponent);
+	}
+
+
+}
+
+void AActorBase::RemoveCameraFollow()
+{
+	if (springArmComponent == nullptr)
+	{
+		RemoveInstanceComponent(springArmComponent);
+		springArmComponent = nullptr;
+	}
+	if (cameraComponent == nullptr)
+	{
+		RemoveInstanceComponent(cameraComponent);
+		cameraComponent = nullptr;
+	}
+}
+
+void AActorBase::AddInputFunction()
+{
+	// Set up player input component, if there isn't one already.
+	//if (InputComponent == nullptr)
+	//{
+	//	InputComponent = CreatePlayerInputComponent();
+	//	if (InputComponent)
+	//	{
+	//		SetupPlayerInputComponent(InputComponent);
+	//		AddInstanceComponent(InputComponent);
+	//		//InputComponent->RegisterComponent();
+	//		if (UInputDelegateBinding::SupportsInputDelegate(GetClass()))
+	//		{
+	//			InputComponent->bBlockInput = bBlockInput;
+	//			UInputDelegateBinding::BindInputDelegates(GetClass(), InputComponent);
+	//		}
+
+	//	}
+	//}
 }

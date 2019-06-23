@@ -16,9 +16,13 @@ void UActorInfoBase::Load(FXmlNode* xmlNode)
 		{
 			description = item.GetValue();
 		}
-		else if (item.GetTag() == "modelPath")
+		else if (item.GetTag() == "modelName")
 		{
-			modelPath = item.GetValue();
+			modelName = item.GetValue();
+		}
+		else if (item.GetTag() == "modelRootPath")
+		{
+			modelRootPath = item.GetValue();
 		}
 		else if (item.GetTag() == "defaultPosition")
 		{
@@ -60,6 +64,24 @@ void UActorInfoBase::Load(FXmlNode* xmlNode)
 				chatList.Add(chat);
 			}
 		}
+		if (childNode->GetTag() == "Model")
+		{
+			for (auto item : childNode->GetAttributes())
+			{
+				if (item.GetTag() == "modelName")
+				{
+					modelName = item.GetValue();
+				}
+				if (item.GetTag() == "modelRootPath")
+				{
+					modelRootPath = item.GetValue();
+				}
+			}
+		}
+		if (childNode->GetTag() == "PropertyList")
+		{
+			
+		}
 	}
 }
 
@@ -73,9 +95,14 @@ bool UActorInfoBase::IsPermanent()
 	return isPermanent;
 }
 
-FString UActorInfoBase::GetModelPath()
+FString UActorInfoBase::GetModelName()
 {
-	return modelPath;
+	return modelName;
+}
+
+FString UActorInfoBase::GetModelRootPath()
+{
+	return modelRootPath;
 }
 
 FVector UActorInfoBase::GetDefaultPosition()
@@ -86,19 +113,4 @@ FVector UActorInfoBase::GetDefaultPosition()
 FRotator UActorInfoBase::GetDefaultRotation()
 {
 	return defaultRotation;
-}
-
-bool UActorInfoBase::IsInTalking()
-{
-	return isInTalking;
-}
-
-void UActorInfoBase::StartTalk()
-{
-	isInTalking = true;
-}
-
-void UActorInfoBase::StopTalk()
-{
-	isInTalking = false;
 }

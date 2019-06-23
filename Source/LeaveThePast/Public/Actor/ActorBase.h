@@ -3,6 +3,8 @@
 #include "CoreMinimal.h"
 #include "XmlParser/Public/XmlFile.h"
 #include "GameFramework/Character.h"
+#include "GameFramework\SpringArmComponent.h"
+#include "Camera/CameraComponent.h"
 #include <LeaveThePast\Public\Actor\ActorInfoBase.h>
 #include "ActorBase.generated.h"
 
@@ -27,6 +29,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	virtual void StartPerform();
 
+	//设置角色信息
 	void SetActorInfo(UActorInfoBase* newActorInfo);
 
 	//加载演员模型
@@ -46,11 +49,32 @@ public:
 	void StartTalk();
 
 	void StopTalk();
+
+	//设置摄像机跟随
+	void AddCameraFollow();
+
+	//移除摄像机跟随
+	void RemoveCameraFollow();
+
+	void AddInputFunction();
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
+	virtual void SetupPlayerInputComponent(class UInputComponent* playerInputComponent) override;
 private:
+	void MoveForwardInputFunction(float value);
+	void MoveRightInputFunction(float value);
+	void TurnInputFunction(float value);
+	void LookUpInputFunction(float value);
+
 	UActorInfoBase* actorInfo = nullptr;
 	TArray<UActionBase*> actionList;
+
+	bool isInTalking = false;//在谈话中
+
+	//摄像机组件
+	UPROPERTY()
+	USpringArmComponent* springArmComponent = nullptr;
+	UPROPERTY()
+	UCameraComponent* cameraComponent = nullptr;
 };

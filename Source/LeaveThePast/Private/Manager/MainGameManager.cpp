@@ -9,6 +9,7 @@
 #include "Engine/Texture2D.h"
 #include "LogMacros.h"
 #include "Engine/World.h"
+#include "GameFramework/PlayerController.h"
 
 #include <LeaveThePast\Public\Action\MoveAction.h>
 #include <LeaveThePast\Public\Action\SayAction.h>
@@ -36,7 +37,7 @@ void UMainGameManager::InitManager()
 	dramaScriptManager->LoadDramaScriptAll();
 
 	actorManager = NewObject<UActorManager>(this); 
-	actorManager->LoadAllActor();
+	actorManager->LoadAllActorInfo();
 }
 
 void UMainGameManager::LoadIegalAction()
@@ -55,6 +56,16 @@ void UMainGameManager::BeginGame()
 {
 	//将所有常驻演员加载到场景中
 	actorManager->LoadAllPermanentActorToScene();
+
+	AActorBase* mainActor = actorManager->LoadActorToSceneById(10001);
+	AActorBase* actor =  actorManager->GetActorById(10001);
+	mainActor->AddCameraFollow();
+
+	//APlayerController* playerController = GWorld->GetFirstPlayerController<APlayerController>();
+	//playerController->SetPawn(mainActor);
+	//playerController->SetViewTarget(mainActor);
+	//mainActor->AddInputFunction();
+	//mainActor->EnableInput(playerController);
 }
 
 void UMainGameManager::StartTime()

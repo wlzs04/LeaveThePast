@@ -13,14 +13,22 @@ class LEAVETHEPAST_API UActorManager : public UObject
 {
 	GENERATED_BODY()
 public:
+	UActorManager();
+
 	//加载所有演员
 	void LoadAllActorInfo();
 
 	//将所有常驻演员加载到场景中
 	void LoadAllPermanentActorToScene();
 
+	//将指定演员加载到场景中
+	AActorBase* LoadActorToSceneById(int actorId);
+
 	//通过演员Id获得演员
 	AActorBase* GetActorById(int actorId);
+
+	//通过演员Id获得演员信息
+	UActorInfoBase* GetActorInfoById(int actorId);
 private:
 	//加载主演
 	void LoadMainActorInfo();
@@ -38,4 +46,5 @@ private:
 	TMap<int, UMassActorInfo*> massActorInfoMap;
 
 	TMap<int, AActorBase*> actorBaseMap;
+	TSubclassOf<AActor> BPMyActorClass;
 };

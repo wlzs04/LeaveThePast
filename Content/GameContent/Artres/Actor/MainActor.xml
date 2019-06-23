@@ -1,4 +1,15 @@
 <MainActor>
-	<Recorder actorId="10001" actorName="主角1" description="主角1的描述。" modelPath="GameContent/Resource/Others/Model/Main/MainActor.MainActor"/>
+	<Recorder actorId="10001" actorName="主角1" description="主角1的描述。" modelId="" defaultPosition="6251.0,-100,70" defaultRotation="0,0,90">
+		<Model modelName="MainActor" modelRootPath="GameContent/Resource/Others/Model/Main">
+
+		</Model>
+		<PropertyList>
+			<Attack name="攻击力" value="100"/>
+			<Defense name="防御力" value="100"/>
+			<Speed name="速度" value="100"/>
+			<Life name="生命值" value="1000"/>
+			<Power name="能力值" value="1000"/>
+		</PropertyList>
+	</Recorder>
 	<Recorder actorId="10002" actorName="主角2" description="主角2的描述。"/>
 </MainActor>

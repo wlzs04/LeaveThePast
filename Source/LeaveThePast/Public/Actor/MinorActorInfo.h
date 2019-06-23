@@ -3,6 +3,7 @@
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
 #include "XmlParser/Public/XmlFile.h"
+#include "ActorInfoBase.h"
 #include "MinorActorInfo.generated.h"
 
 UCLASS()

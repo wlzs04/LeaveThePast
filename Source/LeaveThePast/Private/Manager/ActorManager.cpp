@@ -1,5 +1,15 @@
 #include "ActorManager.h"
 #include "Engine/World.h"
+#include "Public/UObject/ConstructorHelpers.h"
+
+UActorManager::UActorManager():Super()
+{
+	static ConstructorHelpers::FClassFinder<AActor> BP_MyActor(TEXT("Blueprint'/Game/GameContent/WorldObject/Actor/ActorBase_BP.ActorBase_BP_C'"));
+	if (BP_MyActor.Succeeded())
+	{
+		BPMyActorClass = BP_MyActor.Class;
+	}
+}
 
 void UActorManager::LoadAllActorInfo()
 {
@@ -17,11 +27,32 @@ void UActorManager::LoadAllPermanentActorToScene()
 		UMassActorInfo* actorInfo = pair.Value;
 		if (actorInfo->IsPermanent())
 		{
-			AActorBase* actor = GWorld->SpawnActor<AActorBase>(actor->GetDefaultPosition(), actor->GetDefaultRotation());
+			AActorBase* actor = GWorld->SpawnActor<AActorBase>(actorInfo->GetDefaultPosition(), actorInfo->GetDefaultRotation());
 			actor->SetActorInfo(actorInfo);
 			actorBaseMap.Add(actor->GetActorId(),actor);
 		}
 	}
+}
+
+AActorBase* UActorManager::LoadActorToSceneById(int actorId)
+{
+	if (GetActorById(actorId) != nullptr)
+	{
+		return GetActorById(actorId);
+	}
+	UActorInfoBase* actorInfo = GetActorInfoById(actorId);
+	if (actorInfo != nullptr)
+	{
+		AActorBase* actor = GWorld->SpawnActor<AActorBase>(BPMyActorClass,actorInfo->GetDefaultPosition(), actorInfo->GetDefaultRotation());
+		actor->SetActorInfo(actorInfo);
+		actorBaseMap.Add(actor->GetActorId(), actor);
+		return actor;
+	}
+	else
+	{
+		UE_LOG(LogLoad, Error, TEXT("配置中不存在演员：%d"), actorId);
+	}
+	return nullptr;
 }
 
 AActorBase* UActorManager::GetActorById(int actorId)
@@ -30,18 +61,23 @@ AActorBase* UActorManager::GetActorById(int actorId)
 	{
 		return actorBaseMap[actorId];
 	}
-	/*if (mainActorMap.Contains(actorId))
+	return nullptr;
+}
+
+UActorInfoBase* UActorManager::GetActorInfoById(int actorId)
+{
+	if (mainActorInfoMap.Contains(actorId))
 	{
-		return mainActorMap[actorId];
+		return mainActorInfoMap[actorId];
 	}
-	else if (minorActorMap.Contains(actorId))
+	else if (minorActorInfoMap.Contains(actorId))
 	{
-		return minorActorMap[actorId];
+		return minorActorInfoMap[actorId];
 	}
-	else if (massActorMap.Contains(actorId))
+	else if (massActorInfoMap.Contains(actorId))
 	{
-		return massActorMap[actorId];
-	}*/
+		return massActorInfoMap[actorId];
+	}
 	return nullptr;
 }
 

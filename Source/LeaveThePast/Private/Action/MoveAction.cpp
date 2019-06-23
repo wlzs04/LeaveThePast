@@ -32,7 +32,7 @@ void UMoveAction::Update()
 		currentTime = GWorld->GetTimeSeconds();
 		if (currentTime - startTime < actionTime)
 		{
-			GetExecuteActor()->AddMovementInput(direction, GWorld->DeltaTimeSeconds);
+			GetExecuteActor()->AddMovementInput(direction * speed, GWorld->DeltaTimeSeconds);
 		}
 		else
 		{
