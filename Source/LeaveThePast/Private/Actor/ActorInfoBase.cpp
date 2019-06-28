@@ -2,6 +2,7 @@
 
 void UActorInfoBase::Load(FXmlNode* xmlNode)
 {
+	//基础属性
 	for (auto item : xmlNode->GetAttributes())
 	{
 		if (item.GetTag() == "actorId")
@@ -31,9 +32,9 @@ void UActorInfoBase::Load(FXmlNode* xmlNode)
 			defaultPositionString.ParseIntoArray(stringArray, TEXT(","));
 			if (stringArray.Num() == 3)
 			{
-				defaultPosition.X = FCString::Atoi(*stringArray[0]);
-				defaultPosition.Y = FCString::Atoi(*stringArray[1]);
-				defaultPosition.Z = FCString::Atoi(*stringArray[2]);
+				defaultPosition.X = FCString::Atof(*stringArray[0]);
+				defaultPosition.Y = FCString::Atof(*stringArray[1]);
+				defaultPosition.Z = FCString::Atof(*stringArray[2]);
 			}
 		}
 		else if (item.GetTag() == "defaultRotation")
@@ -43,9 +44,9 @@ void UActorInfoBase::Load(FXmlNode* xmlNode)
 			defaultRotationString.ParseIntoArray(stringArray, TEXT(","));
 			if (stringArray.Num() == 3)
 			{
-				defaultRotation.Roll = FCString::Atoi(*stringArray[0]);
-				defaultRotation.Pitch = FCString::Atoi(*stringArray[1]);
-				defaultRotation.Yaw = FCString::Atoi(*stringArray[2]);
+				defaultRotation.Roll = FCString::Atof(*stringArray[0]);
+				defaultRotation.Pitch = FCString::Atof(*stringArray[1]);
+				defaultRotation.Yaw = FCString::Atof(*stringArray[2]);
 			}
 		}
 		else if (item.GetTag() == "isPermanent")
@@ -56,6 +57,7 @@ void UActorInfoBase::Load(FXmlNode* xmlNode)
 
 	for (auto childNode : xmlNode->GetChildrenNodes())
 	{
+		//闲话列表
 		if (childNode->GetTag() == "ChatList")
 		{
 			for (auto chatNode : childNode->GetChildrenNodes())
@@ -64,6 +66,7 @@ void UActorInfoBase::Load(FXmlNode* xmlNode)
 				chatList.Add(chat);
 			}
 		}
+		//模型
 		if (childNode->GetTag() == "Model")
 		{
 			for (auto item : childNode->GetAttributes())
@@ -72,15 +75,46 @@ void UActorInfoBase::Load(FXmlNode* xmlNode)
 				{
 					modelName = item.GetValue();
 				}
-				if (item.GetTag() == "modelRootPath")
+				else if (item.GetTag() == "modelRootPath")
 				{
 					modelRootPath = item.GetValue();
 				}
 			}
 		}
+		//属性
 		if (childNode->GetTag() == "PropertyList")
 		{
-			
+			for (auto propertyNode : childNode->GetChildrenNodes())
+			{
+				UPropertyBase* propertyBase = nullptr;
+				FString propertyName = propertyNode->GetTag();
+				if (propertyName == TEXT("Attack"))
+				{
+					propertyBase = NewObject<UPropertyBase>();
+				}
+				else if (propertyName == TEXT("Defense"))
+				{
+					propertyBase = NewObject<UPropertyBase>();
+				}
+				else if (propertyNode->GetTag() == TEXT("Speed"))
+				{
+					propertyBase = NewObject<UPropertyBase>();
+				}
+				else if (propertyName == TEXT("Life"))
+				{
+					propertyBase = NewObject<UPropertyBase>();
+				}
+				else if (propertyName == TEXT("Power"))
+				{
+					propertyBase = NewObject<UPropertyBase>();
+				}
+				else
+				{
+					UE_LOG(LogLoad, Log, TEXT("演员Id:%d配置中存在未知属性:%s！"), actorId, *propertyName);
+				}
+				propertyBase->SetInfo(propertyNode->GetAttribute(TEXT("name")), propertyNode->GetAttribute(TEXT("value")));
+				propertyMap.Add(propertyNode->GetTag(), propertyBase);
+			}
 		}
 	}
 }
@@ -113,4 +147,13 @@ FVector UActorInfoBase::GetDefaultPosition()
 FRotator UActorInfoBase::GetDefaultRotation()
 {
 	return defaultRotation;
+}
+
+FString UActorInfoBase::GetPropertyValue(FString propertyName)
+{
+	if (propertyMap.Contains(propertyName))
+	{
+		return propertyMap[propertyName]->GetPropertyValue();
+	}
+	return TEXT("未找到");
 }

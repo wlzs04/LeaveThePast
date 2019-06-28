@@ -124,4 +124,8 @@ private:
 	bool isFixedTime = false;//是否固定时间
 
 	TMap<FString, UActionBase*> legalActionMap;
+
+	AActorBase* mainActor = nullptr;
+	AActorBase* mainActor2 = nullptr;
+	AActorBase* cameraActor = nullptr;
 };

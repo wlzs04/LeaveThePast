@@ -3,9 +3,9 @@
 #include "CoreMinimal.h"
 #include "XmlParser/Public/XmlFile.h"
 #include "GameFramework/Character.h"
-#include "GameFramework\SpringArmComponent.h"
+#include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
-#include <LeaveThePast\Public\Actor\ActorInfoBase.h>
+#include "ActorInfoBase.h"
 #include "ActorBase.generated.h"
 
 class UActionBase;
@@ -32,6 +32,10 @@ public:
 	//设置角色信息
 	void SetActorInfo(UActorInfoBase* newActorInfo);
 
+	//设置角色信息
+	UFUNCTION(BlueprintCallable)
+	UActorInfoBase* GetActorInfo();
+
 	//加载演员模型
 	UFUNCTION(BlueprintCallable)
 	void LoadModel();
@@ -57,16 +61,18 @@ public:
 	void RemoveCameraFollow();
 
 	void AddInputFunction();
+
+	void MoveForwardInputFunction(float value);
+	void MoveRightInputFunction(float value);
+	void TurnInputFunction(float value);
+	void LookUpInputFunction(float value);
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* playerInputComponent) override;
 private:
-	void MoveForwardInputFunction(float value);
-	void MoveRightInputFunction(float value);
-	void TurnInputFunction(float value);
-	void LookUpInputFunction(float value);
 
+	UPROPERTY()
 	UActorInfoBase* actorInfo = nullptr;
 	TArray<UActionBase*> actionList;
 

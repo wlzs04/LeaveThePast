@@ -1,6 +1,7 @@
 #include "ActorBase.h"
 #include "..\..\Public\Action\ActionBase.h"
 #include "GameFramework/Controller.h"
+#include "Engine/Engine.h"
 #include "GameFramework/PlayerController.h"
 #include "Animation/AnimBlueprintGeneratedClass.h"
 #include "Components/InputComponent.h"
@@ -23,13 +24,14 @@ AActorBase::AActorBase()
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationRoll = false;
 
-	// Configure character movement
+	//// Configure character movement
 	GetCharacterMovement()->bOrientRotationToMovement = true; // Character moves in the direction of input...	
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f); // ...at this rotation rate
 	GetCharacterMovement()->JumpZVelocity = 600.f;
 	GetCharacterMovement()->AirControl = 0.2f;
 
-	AutoPossessPlayer = EAutoReceiveInput::Player0;
+	//AutoPossessPlayer = EAutoReceiveInput::Player0;
+	//AutoPossessPlayer = EAutoReceiveInput::Player0;
 	bFindCameraComponentWhenViewTarget = true;
 
 	GetMesh()->SetRelativeLocation(FVector(0, 0, -90));
@@ -47,23 +49,20 @@ void AActorBase::BeginPlay()
 void AActorBase::SetupPlayerInputComponent(UInputComponent* playerInputComponent)
 {
 	Super::SetupPlayerInputComponent(playerInputComponent);
-	check(playerInputComponent);
+	//check(playerInputComponent);
 	//PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	//PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
-	playerInputComponent->BindAxis("MoveForward", this, &AActorBase::MoveForwardInputFunction);
-	playerInputComponent->BindAxis("MoveRight", this, &AActorBase::MoveRightInputFunction);
-
-	playerInputComponent->BindAxis("Turn", this, &AActorBase::TurnInputFunction);
-	playerInputComponent->BindAxis("LookUp", this, &AActorBase::LookUpInputFunction);
+	
 }
 
 void AActorBase::MoveForwardInputFunction(float value)
 {
-	if ((Controller != NULL) && (value != 0.0f))
+	APlayerController* playerController = GWorld->GetFirstPlayerController<APlayerController>();
+	if ((playerController != NULL) && (value != 0.0f))
 	{
 		// find out which way is forward
-		const FRotator Rotation = Controller->GetControlRotation();
+		const FRotator Rotation = playerController->GetControlRotation();
 		const FRotator YawRotation(0, Rotation.Yaw, 0);
 
 		// get forward vector
@@ -74,10 +73,11 @@ void AActorBase::MoveForwardInputFunction(float value)
 
 void AActorBase::MoveRightInputFunction(float value)
 {
-	if ((Controller != NULL) && (value != 0.0f))
+	APlayerController* playerController = GWorld->GetFirstPlayerController<APlayerController>();
+	if ((playerController != NULL) && (value != 0.0f))
 	{
 		// find out which way is right
-		const FRotator Rotation = Controller->GetControlRotation();
+		const FRotator Rotation = playerController->GetControlRotation();
 		const FRotator YawRotation(0, Rotation.Yaw, 0);
 
 		// get right vector 
@@ -122,6 +122,12 @@ void AActorBase::SetActorInfo(UActorInfoBase* newActorInfo)
 {
 	actorInfo = newActorInfo;
 	LoadModel();
+	GetCharacterMovement()->MaxWalkSpeed = FCString::Atof(*actorInfo->GetPropertyValue(TEXT("Speed")));
+}
+
+UActorInfoBase* AActorBase::GetActorInfo()
+{
+	return actorInfo;
 }
 
 void AActorBase::LoadModel()
@@ -208,20 +214,22 @@ void AActorBase::AddCameraFollow()
 		cameraComponent->RegisterComponent();
 		AddInstanceComponent(cameraComponent);
 	}
-
-
 }
 
 void AActorBase::RemoveCameraFollow()
 {
-	if (springArmComponent == nullptr)
+	if (springArmComponent != nullptr)
 	{
+		springArmComponent->UnregisterComponent();
 		RemoveInstanceComponent(springArmComponent);
+		springArmComponent->DestroyComponent();
 		springArmComponent = nullptr;
 	}
-	if (cameraComponent == nullptr)
+	if (cameraComponent != nullptr)
 	{
+		cameraComponent->UnregisterComponent();
 		RemoveInstanceComponent(cameraComponent);
+		cameraComponent->DestroyComponent();
 		cameraComponent = nullptr;
 	}
 }

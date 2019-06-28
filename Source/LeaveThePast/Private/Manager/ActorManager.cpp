@@ -1,14 +1,10 @@
 #include "ActorManager.h"
 #include "Engine/World.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "Public/UObject/ConstructorHelpers.h"
 
 UActorManager::UActorManager():Super()
 {
-	static ConstructorHelpers::FClassFinder<AActor> BP_MyActor(TEXT("Blueprint'/Game/GameContent/WorldObject/Actor/ActorBase_BP.ActorBase_BP_C'"));
-	if (BP_MyActor.Succeeded())
-	{
-		BPMyActorClass = BP_MyActor.Class;
-	}
 }
 
 void UActorManager::LoadAllActorInfo()
@@ -43,10 +39,21 @@ AActorBase* UActorManager::LoadActorToSceneById(int actorId)
 	UActorInfoBase* actorInfo = GetActorInfoById(actorId);
 	if (actorInfo != nullptr)
 	{
-		AActorBase* actor = GWorld->SpawnActor<AActorBase>(BPMyActorClass,actorInfo->GetDefaultPosition(), actorInfo->GetDefaultRotation());
-		actor->SetActorInfo(actorInfo);
-		actorBaseMap.Add(actor->GetActorId(), actor);
-		return actor;
+		FActorSpawnParameters actorSpawnParameters;
+		actorSpawnParameters.bAllowDuringConstructionScript = true;
+		actorSpawnParameters.bNoFail = true;
+		AActorBase* actor = GWorld->SpawnActor<AActorBase>(actorInfo->GetDefaultPosition(), actorInfo->GetDefaultRotation(), actorSpawnParameters);
+		if (actor)
+		{
+			actor->SetActorInfo(actorInfo);
+			actor->Restart();
+			if (actor->GetCharacterMovement())
+			{
+				actor->GetCharacterMovement()->SetDefaultMovementMode();
+			}
+			actorBaseMap.Add(actor->GetActorId(), actor);
+			return actor;
+		}
 	}
 	else
 	{

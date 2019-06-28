@@ -44,6 +44,9 @@ public:
 	FVector GetDefaultPosition();
 	FRotator GetDefaultRotation();
 
+	UFUNCTION(BlueprintCallable)
+	FString GetPropertyValue(FString propertyName);
+
 private:
 	int actorId = 0;//演员的Id
 	FString actorName = TEXT("未命名演员");//演员名称
@@ -54,6 +57,6 @@ private:
 	FRotator defaultRotation = FRotator(0, 0, 0);//默认角度
 	bool isPermanent = false;//是否为常驻演员
 
-	TArray<UPropertyBase> propertyList;//属性列表
+	TMap<FString,UPropertyBase*> propertyMap;//属性列表
 	TArray<FChat> chatList;//闲话列表
 };

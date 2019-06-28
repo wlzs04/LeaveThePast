@@ -14,6 +14,7 @@
 #include <LeaveThePast\Public\Action\MoveAction.h>
 #include <LeaveThePast\Public\Action\SayAction.h>
 #include <LeaveThePast\Public\Action\RotateAction.h>
+#include <DirectorActor.h>
 
 void UMainGameManager::InitAll()
 {
@@ -55,11 +56,16 @@ void UMainGameManager::InitGameTime()
 void UMainGameManager::BeginGame()
 {
 	//将所有常驻演员加载到场景中
-	actorManager->LoadAllPermanentActorToScene();
+	//actorManager->LoadAllPermanentActorToScene();
 
-	AActorBase* mainActor = actorManager->LoadActorToSceneById(10001);
-	AActorBase* actor =  actorManager->GetActorById(10001);
-	mainActor->AddCameraFollow();
+	/*APawn* defaultPawn = GWorld->GetFirstPlayerController<APlayerController>()->GetPawn();
+	if (defaultPawn != nullptr)
+	{
+		ADirectorActor* directorActor = (ADirectorActor*)defaultPawn;
+		directorActor->InitActorList();
+	}*/
+	
+
 
 	//APlayerController* playerController = GWorld->GetFirstPlayerController<APlayerController>();
 	//playerController->SetPawn(mainActor);
