@@ -57,8 +57,6 @@ void UMainGameManager::InitGameTime()
 
 void UMainGameManager::BeginGame()
 {
-	//将所有常驻演员加载到场景中
-	//actorManager->LoadAllPermanentActorToScene();
 
 	/*APawn* defaultPawn = GWorld->GetFirstPlayerController<APlayerController>()->GetPawn();
 	if (defaultPawn != nullptr)

@@ -4,13 +4,20 @@ void UChapter::Update()
 {
 	if (!isCompleted && currentSection != nullptr)
 	{
-		if (!currentSection->GetIsCompleted())
+		if (currentSection->GetCurrentParagraph())
 		{
 			currentSection->Update();
 		}
 		else
 		{
 			currentSection = nullptr;
+			for (auto section : sectionList)
+			{
+				if (!section->GetIsCompleted())
+				{
+					return;
+				}
+			}
 			isCompleted = true;
 		}
 	}
@@ -53,15 +60,21 @@ bool UChapter::GetIsCompleted()
 	return isCompleted;
 }
 
+USection* UChapter::GetCurrentSection()
+{
+	return currentSection;
+}
+
 void UChapter::Start()
 {
-	if (sectionList.Num() > 0)
+	for (auto section: sectionList)
 	{
-		sectionList[0]->Start();
-		currentSection = sectionList[0];
+		if (!section->GetIsCompleted())
+		{
+			section->Start();
+			currentSection = section;
+			return;
+		}
 	}
-	else
-	{
-		isCompleted = true;
-	}
+	isCompleted = true;
 }

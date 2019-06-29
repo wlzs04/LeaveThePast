@@ -35,14 +35,14 @@ void UDramaScriptManager::Tick()
 {
 	if (currentScript != nullptr)
 	{
-		if (currentScript->GetIsCompleted())
+		if (currentScript->GetCurrentSection())
 		{
-			currentScript = nullptr;
-			return;
+			currentScript->Update();
 		}
 		else
 		{
-			currentScript->Update();
+			currentScript = nullptr;
+			return;
 		}
 	}
 }

@@ -11,6 +11,13 @@ void USection::Update()
 		else
 		{
 			currentParagraph = nullptr;
+			for (auto paragraph : paragraphList)
+			{
+				if (!paragraph->GetIsCompleted())
+				{
+					return;
+				}
+			}
 			isCompleted = true;
 		}
 	}
@@ -21,13 +28,23 @@ bool USection::GetIsCompleted()
 	return isCompleted;
 }
 
+UParagraph* USection::GetCurrentParagraph()
+{
+	return currentParagraph;
+}
+
 void USection::Start()
 {
-	if (paragraphList.Num() > 0)
+	for (auto paragraph : paragraphList)
 	{
-		paragraphList[0]->Start();
-		currentParagraph = paragraphList[0];
+		if (!paragraph->GetIsCompleted())
+		{
+			paragraph->Start();
+			currentParagraph = paragraph;
+			return;
+		}
 	}
+	isCompleted = true;
 }
 
 void USection::Load(FXmlNode* xmlNode)

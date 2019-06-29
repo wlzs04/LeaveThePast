@@ -23,8 +23,12 @@ void UActorManager::LoadAllPermanentActorToScene()
 		UMassActorInfo* actorInfo = pair.Value;
 		if (actorInfo->IsPermanent())
 		{
-			AActorBase* actor = GWorld->SpawnActor<AActorBase>(actorInfo->GetDefaultPosition(), actorInfo->GetDefaultRotation());
+			FActorSpawnParameters actorSpawnParameters;
+			actorSpawnParameters.bAllowDuringConstructionScript = true;
+			actorSpawnParameters.bNoFail = true;
+			AActorBase* actor = GWorld->SpawnActor<AActorBase>(actorInfo->GetDefaultPosition(), actorInfo->GetDefaultRotation(), actorSpawnParameters);
 			actor->SetActorInfo(actorInfo);
+			actor->Restart();
 			actorBaseMap.Add(actor->GetActorId(),actor);
 		}
 	}
@@ -47,10 +51,6 @@ AActorBase* UActorManager::LoadActorToSceneById(int actorId)
 		{
 			actor->SetActorInfo(actorInfo);
 			actor->Restart();
-			if (actor->GetCharacterMovement())
-			{
-				actor->GetCharacterMovement()->SetDefaultMovementMode();
-			}
 			actorBaseMap.Add(actor->GetActorId(), actor);
 			return actor;
 		}

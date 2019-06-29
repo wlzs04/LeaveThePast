@@ -17,10 +17,11 @@ void ADirectorActor::InitActorList()
 	UMainGameManager* gameManager = (UMainGameManager*)(GWorld->GetGameInstance());
 	UActorManager* actorManager = gameManager->GetActorManager();
 
+	//将所有常驻演员加载到场景中
+	actorManager->LoadAllPermanentActorToScene();
+
 	AActorBase* mainActor = actorManager->LoadActorToSceneById(10001);
-	//mainActor->SetOwner(this);
 	AActorBase* mainActor2 = actorManager->LoadActorToSceneById(10002);
-	//mainActor2->SetOwner(this);
 
 	canControlActorList.Add(mainActor);
 	canControlActorList.Add(mainActor2);
@@ -34,21 +35,29 @@ void ADirectorActor::SetCameraActorById(int actorId)
 	{
 		return;
 	}
+	UMainGameManager* gameManager = (UMainGameManager*)(GWorld->GetGameInstance());
+	UActorManager* actorManager = gameManager->GetActorManager();
+	AActorBase* actor = actorManager->GetActorById(actorId);
+	if (actor != nullptr)
+	{
+		if (currentControlActor != nullptr)
+		{
+			currentControlActor->RemoveCameraFollow();
+		}
+		//currentControlActorIndex = i;
+		//currentControlActor = canControlActorList[currentControlActorIndex];
+		currentControlActor = actor;
+		currentControlActor->AddCameraFollow();
+
+		APlayerController* playerController = GWorld->GetFirstPlayerController<APlayerController>();
+		playerController->SetViewTarget(currentControlActor);
+		currentControlActor->Controller = playerController;
+	}
 	for (int i = 0; i < canControlActorList.Num(); i++)
 	{
 		if (canControlActorList[i]->GetActorId() == actorId)
 		{
-			if (currentControlActor != nullptr)
-			{
-				currentControlActor->RemoveCameraFollow();
-			}
 			currentControlActorIndex = i;
-			currentControlActor = canControlActorList[currentControlActorIndex];
-			currentControlActor->AddCameraFollow();
-
-			APlayerController* playerController = GWorld->GetFirstPlayerController<APlayerController>();
-			playerController->SetViewTarget(currentControlActor);
-			currentControlActor->Controller = playerController;
 		}
 	}
 }

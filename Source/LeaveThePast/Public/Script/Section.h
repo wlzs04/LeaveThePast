@@ -13,6 +13,7 @@ public:
 	void Update();
 	void Load(FXmlNode* xmlNode);
 	bool GetIsCompleted();
+	UParagraph* GetCurrentParagraph();
 	void Start();
 private:
 	TArray<UParagraph*> paragraphList;

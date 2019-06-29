@@ -1,6 +1,8 @@
 #include "../../Public/Script/Paragraph.h"
 #include "../../Public/Manager/MainGameManager.h"
 #include "Engine/World.h"
+#include "..\..\Public\Actor\DirectorActor.h"
+#include "GameFramework/PlayerController.h"
 
 void UParagraph::Update()
 {
@@ -24,6 +26,10 @@ void UParagraph::Update()
 			{
 				isStart = false;
 				isCompleted = true;
+
+				APlayerController* playerController = GWorld->GetFirstPlayerController<APlayerController>();
+				((ADirectorActor*)playerController->GetPawn())->EnableInput(playerController);
+
 				return;
 			}
 			actionList[currentActionIndex]->Execute();
@@ -62,5 +68,10 @@ void UParagraph::Start()
 	currentActionIndex = 0;
 	isStart = true;
 	isCompleted = false;
+
+	APlayerController* playerController = GWorld->GetFirstPlayerController<APlayerController>();
+	
+	((ADirectorActor*)playerController->GetPawn())->DisableInput(playerController);
+
 	actionList[currentActionIndex]->Execute();
 }

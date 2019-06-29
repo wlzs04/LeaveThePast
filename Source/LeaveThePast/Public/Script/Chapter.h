@@ -13,6 +13,7 @@ public:
 	void Update();
 	void Load(FString newChapterPath);
 	bool GetIsCompleted();
+	USection* GetCurrentSection();
 	void Start();
 private:
 	TArray<USection*> sectionList;

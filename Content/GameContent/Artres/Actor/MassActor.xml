@@ -1,7 +1,7 @@
 <MassActor>
 	<Actor actorId="30001" actorName="群演1" description="群演1的描述。"/>
 	<Actor actorId="30002" actorName="群演2" description="群演2的描述。"/>
-	<Actor actorId="30003" actorName="店小二" description="一个普通的店小二。" isPermanent="true" modelName="dianxiaoer" modelRootPath="GameContent/Resource/Others/Model/dianxiaoer" defaultPosition="5860,-140,70" defaultRotation="0,0,90">
+	<Actor actorId="30003" actorName="店小二" description="一个普通的店小二。" isPermanent="true" modelName="dianxiaoer" modelRootPath="GameContent/Resource/Others/Model/dianxiaoer" defaultPosition="5860,-140,106" defaultRotation="0,0,90">
 		<ChatList>
 			<Chat text="客官要住店吗？"/>
 			<Chat text="客官慢走。"/>
