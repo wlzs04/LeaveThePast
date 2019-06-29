@@ -74,7 +74,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	UDramaScriptManager* GetDramaScriptManager();
 
-	//获得剧本管理器
+	//获得角色管理器
 	UFUNCTION(BlueprintCallable)
 	UActorManager* GetActorManager();
 

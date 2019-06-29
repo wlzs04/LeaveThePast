@@ -2,10 +2,10 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
-#include "../Script/DramaScript.h"
 #include "DramaScriptManager.generated.h"
 
 class UActionBase;
+class UChapter;
 
 UCLASS()
 class LEAVETHEPAST_API UDramaScriptManager : public UObject
@@ -28,6 +28,6 @@ private:
 	void LoadDramaScriptMain();
 
 	FString dramaScriptMainRelativePath = TEXT("GameContent/Artres/DramaScript/Main/");
-	TMap<FString, UDramaScript*> dramaScriptMainMap;
-	UDramaScript* currentScript = nullptr;
+	TMap<FString, UChapter*> chapterMainMap;
+	UChapter* currentScript = nullptr;
 };

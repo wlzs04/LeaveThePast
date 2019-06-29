@@ -29,7 +29,6 @@ protected:
 	virtual void ExecuteReal() {};
 
 	FString actionName = TEXT("未命名指令");//指令名称
-	//ActorBase executor = nullptr;//执行者
 	bool isCompleted = false;//是否完成
 private:
 	//由文件配置的属性

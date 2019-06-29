@@ -1,8 +1,8 @@
-#include "..\..\Public\Script\DramaScript.h"
+#include "../../Public/Script/Paragraph.h"
+#include "../../Public/Manager/MainGameManager.h"
 #include "Engine/World.h"
-#include "..\..\Public\Manager\MainGameManager.h"
 
-void UDramaScript::Update()
+void UParagraph::Update()
 {
 	if (isStart)
 	{
@@ -19,7 +19,7 @@ void UDramaScript::Update()
 		}
 		else
 		{
-			currentActionIndex++; 
+			currentActionIndex++;
 			if (currentActionIndex >= actionList.Num())
 			{
 				isStart = false;
@@ -32,21 +32,13 @@ void UDramaScript::Update()
 	}
 }
 
-void UDramaScript::Load(FString newScriptPath)
+void UParagraph::Load(FXmlNode* xmlNode)
 {
-	scriptPath = newScriptPath;
-	FXmlFile* xmlFile = new FXmlFile(scriptPath); 
-	if (!xmlFile->IsValid())
-	{
-		UE_LOG(LogLoad, Error, TEXT("dramaScriptMainPath文件加载失败：%s"), *scriptPath);
-		return;
-	}
 	UMainGameManager* gameManager = ((UMainGameManager*)(GWorld->GetGameInstance()));
-	FXmlNode* rootNode = xmlFile->GetRootNode();
-	for (auto childNode : rootNode->GetChildrenNodes())
+	for (auto childNode : xmlNode->GetChildrenNodes())
 	{
 		UActionBase* actionBase = gameManager->GetIegalActionByName(childNode->GetTag());
-		
+
 		if (actionBase != nullptr)
 		{
 			UActionBase* actionBase2 = NewObject<UActionBase>((UObject*)GetTransientPackage(), actionBase->GetClass());
@@ -58,17 +50,14 @@ void UDramaScript::Load(FString newScriptPath)
 			UE_LOG(LogLoad, Error, TEXT("未知指令：%s"), *childNode->GetTag());
 		}
 	}
-	xmlFile->Clear();
-	delete xmlFile;
-	UE_LOG(LogLoad, Log, TEXT("DramaScript文件：%s加载完成！"), *scriptPath);
 }
 
-bool UDramaScript::GetIsCompleted()
+bool UParagraph::GetIsCompleted()
 {
 	return isCompleted;
 }
 
-void UDramaScript::Start()
+void UParagraph::Start()
 {
 	currentActionIndex = 0;
 	isStart = true;

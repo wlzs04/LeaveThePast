@@ -5,6 +5,7 @@
 #include "Runtime/Core/Public/Misc/Paths.h"
 #include "Runtime/Core/Public/HAL/FileManager.h"
 #include "MainGameManager.h"
+#include <LeaveThePast\Public\Script\Chapter.h>
 
 UDramaScriptManager::UDramaScriptManager() :UObject()
 {
@@ -12,7 +13,7 @@ UDramaScriptManager::UDramaScriptManager() :UObject()
 
 void UDramaScriptManager::StartDramaScriptMainByNameIndex(FString scriptName, int index)
 {
-	if (!dramaScriptMainMap.Contains(scriptName))
+	if (!chapterMainMap.Contains(scriptName))
 	{
 		UE_LOG(LogLoad, Error, TEXT("未知剧本文件：%s"), *scriptName);
 		return;
@@ -24,7 +25,7 @@ void UDramaScriptManager::StartDramaScriptMainByNameIndex(FString scriptName, in
 	}
 	else
 	{
-		currentScript = dramaScriptMainMap[scriptName];
+		currentScript = chapterMainMap[scriptName];
 		currentScript->Start();
 		UE_LOG(LogLoad, Log, TEXT("剧本开始：%s"), *scriptName);
 	}
@@ -62,8 +63,8 @@ void UDramaScriptManager::LoadDramaScriptMain()
 	for (auto var : dramaScriptMainPaths)
 	{
 		FString scriptPath = dramaScriptMainRootPath + var;
-		UDramaScript* dramaScript = NewObject<UDramaScript>();
-		dramaScript->Load(scriptPath);
-		dramaScriptMainMap.Add(var.Left(var.Len()-4), dramaScript);
+		UChapter* chapter = NewObject<UChapter>();
+		chapter->Load(scriptPath);
+		chapterMainMap.Add(var.Left(var.Len()-4), chapter);
 	}
 }

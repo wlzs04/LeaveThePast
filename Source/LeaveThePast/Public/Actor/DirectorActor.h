@@ -1,5 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -21,6 +19,10 @@ public:
 	//通过id设置当前摄像演员
 	UFUNCTION(BlueprintCallable)
 	void SetCameraActorById(int actorId);
+
+	//通过当前摄像演员
+	UFUNCTION(BlueprintCallable)
+	AActorBase* GetCameraActor();
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

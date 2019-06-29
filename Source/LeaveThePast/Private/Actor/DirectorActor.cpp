@@ -34,23 +34,28 @@ void ADirectorActor::SetCameraActorById(int actorId)
 	{
 		return;
 	}
-	for (AActorBase* actor : canControlActorList)
+	for (int i = 0; i < canControlActorList.Num(); i++)
 	{
-		if (actor->GetActorId() == actorId)
+		if (canControlActorList[i]->GetActorId() == actorId)
 		{
 			if (currentControlActor != nullptr)
 			{
 				currentControlActor->RemoveCameraFollow();
 			}
+			currentControlActorIndex = i;
 			currentControlActor = canControlActorList[currentControlActorIndex];
 			currentControlActor->AddCameraFollow();
 
 			APlayerController* playerController = GWorld->GetFirstPlayerController<APlayerController>();
 			playerController->SetViewTarget(currentControlActor);
 			currentControlActor->Controller = playerController;
-			
 		}
 	}
+}
+
+AActorBase* ADirectorActor::GetCameraActor()
+{
+	return currentControlActor;
 }
 
 // Called when the game starts or when spawned

@@ -14,6 +14,7 @@
 #include <LeaveThePast\Public\Action\MoveAction.h>
 #include <LeaveThePast\Public\Action\SayAction.h>
 #include <LeaveThePast\Public\Action\RotateAction.h>
+#include <LeaveThePast\Public\Action\ChangeCameraActorAction.h>
 #include <DirectorActor.h>
 
 void UMainGameManager::InitAll()
@@ -46,6 +47,7 @@ void UMainGameManager::LoadIegalAction()
 	AddIegalAction(NewObject<UMoveAction>(this));
 	AddIegalAction(NewObject<USayAction>(this));
 	AddIegalAction(NewObject<URotateAction>(this));
+	AddIegalAction(NewObject<UChangeCameraActorAction>(this));
 }
 
 void UMainGameManager::InitGameTime()

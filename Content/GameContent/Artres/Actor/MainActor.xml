@@ -13,7 +13,7 @@
 	</Recorder>
 	
 	<Recorder actorId="10002" actorName="主角2" description="主角2的描述。" modelId="" defaultPosition="6042.0,-30,106" defaultRotation="0,0,90">
-		<Model modelName="MainActor" modelRootPath="GameContent/Resource/Others/Model/Main">
+		<Model modelName="NPC2Actor" modelRootPath="GameContent/Resource/Others/Model/NPC2">
 
 		</Model>
 		<PropertyList>
