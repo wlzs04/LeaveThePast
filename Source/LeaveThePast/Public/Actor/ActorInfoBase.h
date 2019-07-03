@@ -47,6 +47,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	FString GetPropertyValue(FString propertyName);
 
+
+	UFUNCTION(BlueprintCallable)
+	TMap<FString, UPropertyBase*> GetPropertyMap();
 private:
 	int actorId = 0;//演员的Id
 	FString actorName = TEXT("未命名演员");//演员名称

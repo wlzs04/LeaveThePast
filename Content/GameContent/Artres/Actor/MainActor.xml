@@ -1,5 +1,5 @@
 <MainActor>
-	<Recorder actorId="10001" actorName="主角1" description="主角1的描述。" modelId="" defaultPosition="6251.0,130,106" defaultRotation="0,0,90">
+	<Actor actorId="10001" actorName="主角1" description="主角1的描述。" modelId="" defaultPosition="6251.0,130,106" defaultRotation="0,0,90">
 		<Model modelName="MainActor" modelRootPath="GameContent/Resource/Others/Model/Main">
 
 		</Model>
@@ -10,9 +10,9 @@
 			<Life name="生命值" value="1000"/>
 			<Power name="能力值" value="1000"/>
 		</PropertyList>
-	</Recorder>
+	</Actor>
 	
-	<Recorder actorId="10002" actorName="主角2" description="主角2的描述。" modelId="" defaultPosition="6042.0,-30,106" defaultRotation="0,0,90">
+	<Actor actorId="10002" actorName="主角2" description="主角2的描述。" modelId="" defaultPosition="6042.0,-30,106" defaultRotation="0,0,90">
 		<Model modelName="NPC2Actor" modelRootPath="GameContent/Resource/Others/Model/NPC2">
 
 		</Model>
@@ -23,5 +23,5 @@
 			<Life name="生命值" value="1200"/>
 			<Power name="能力值" value="600"/>
 		</PropertyList>
-	</Recorder>
+	</Actor>
 </MainActor>

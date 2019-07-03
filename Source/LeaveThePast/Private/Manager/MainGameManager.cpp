@@ -17,6 +17,71 @@
 #include <LeaveThePast\Public\Action\ChangeCameraActorAction.h>
 #include <DirectorActor.h>
 
+UTimeData::UTimeData()
+{
+	gameDuringSecond = 0;
+}
+
+UTimeData::~UTimeData()
+{
+
+}
+
+void UTimeData::Tick(float secondTime)
+{
+	gameDuringSecond += secondTime;
+}
+
+float UTimeData::GetHours()
+{
+	return (int)GetAllHours() % 24;
+}
+
+float UTimeData::GetAllHours()
+{
+	return gameDuringSecond / 3600;
+}
+
+float UTimeData::GetMinutes()
+{
+	return (int)GetAllMinutes() % 60;
+}
+
+float UTimeData::GetAllMinutes()
+{
+	return gameDuringSecond / 60;
+}
+
+float UTimeData::GetSeconds()
+{
+	return ((int)gameDuringSecond) % 60;
+}
+
+float UTimeData::GetAllSeconds()
+{
+	return gameDuringSecond;
+}
+
+float UTimeData::GetMilliseconds()
+{
+	return (gameDuringSecond - (int)gameDuringSecond) * 1000;
+}
+
+float UTimeData::GetAllMilliseconds()
+{
+	return gameDuringSecond * 1000;
+}
+
+void UTimeData::SetTime(int hour, int minute, int second)
+{
+	second = FMath::Clamp(second, 0, 59);
+	gameDuringSecond = second;
+	minute = FMath::Clamp(minute, 0, 59);
+	gameDuringSecond += minute * 60;
+	hour = FMath::Max(0, hour);
+	gameDuringSecond += hour * 3600;
+}
+
 void UMainGameManager::InitAll()
 {
 	if (!haveInited)
@@ -89,6 +154,26 @@ bool UMainGameManager::IsStartTime()
 	return startTime;
 }
 
+UTimeData* UMainGameManager::GetRealDuringTime()
+{
+	return realTimeData;
+}
+
+UTimeData* UMainGameManager::GetGameDuringTime()
+{
+	return gameTimeData;
+}
+
+void UMainGameManager::SetGameAndRealTimeRate(float newGameAndRealTimeRate)
+{
+	gameAndRealTimeRate = newGameAndRealTimeRate;
+}
+
+float UMainGameManager::GetGameAndRealTimeRate()
+{
+	return gameAndRealTimeRate;
+}
+
 void UMainGameManager::Tick(float secondTime)
 {
 	if (startTime)
@@ -129,6 +214,16 @@ UUserData* UMainGameManager::GetUserData()
 	return userData;
 }
 
+void UMainGameManager::SetIsFixedTime(bool newIsFixedTime)
+{
+	isFixedTime = newIsFixedTime;
+}
+
+bool UMainGameManager::GetIsFixedTime()
+{
+	return isFixedTime;
+}
+
 void UMainGameManager::ExitGame()
 {
 	SaveUserData();
@@ -152,7 +247,7 @@ UActorManager* UMainGameManager::GetActorManager()
 
 UTexture2D* UMainGameManager::LoadTexture2D(FString path, bool& isValid, int32& outWidth, int32& outHeight)
 {
-	path = FPaths::ProjectContentDir() + TEXT("GameContent/Data/Texture/") + path;
+	path = FPaths::ProjectContentDir() + path;
 	UTexture2D* texture = nullptr;
 	isValid = false;
 	if (!FPlatformFileManager::Get().GetPlatformFile().FileExists(*path))

@@ -22,7 +22,11 @@ class LEAVETHEPAST_API UPropertyBase : public UObject
 	GENERATED_BODY()
 public:
 	void SetInfo(FString newPropertyName, FString newPropertyValue);
+
+	UFUNCTION(BlueprintCallable)
 	FString GetPropertyValue();
+
+	UFUNCTION(BlueprintCallable)
 	FString GetPropertyName();
 	PropertyEnum GetPropertyType();
 private:

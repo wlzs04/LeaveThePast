@@ -17,14 +17,6 @@ void UActorInfoBase::Load(FXmlNode* xmlNode)
 		{
 			description = item.GetValue();
 		}
-		else if (item.GetTag() == "modelName")
-		{
-			modelName = item.GetValue();
-		}
-		else if (item.GetTag() == "modelRootPath")
-		{
-			modelRootPath = item.GetValue();
-		}
 		else if (item.GetTag() == "defaultPosition")
 		{
 			FString defaultPositionString = item.GetValue();
@@ -52,6 +44,10 @@ void UActorInfoBase::Load(FXmlNode* xmlNode)
 		else if (item.GetTag() == "isPermanent")
 		{
 			isPermanent = item.GetValue().ToBool();
+		}
+		else
+		{
+			UE_LOG(LogLoad, Log, TEXT("演员Id:%d配置中存在未知属性:%s！"), actorId, *item.GetTag());
 		}
 	}
 
@@ -156,4 +152,9 @@ FString UActorInfoBase::GetPropertyValue(FString propertyName)
 		return propertyMap[propertyName]->GetPropertyValue();
 	}
 	return TEXT("未找到");
+}
+
+TMap<FString, UPropertyBase*> UActorInfoBase::GetPropertyMap()
+{
+	return propertyMap;
 }

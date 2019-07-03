@@ -23,10 +23,14 @@ public:
 
 	//获得描述
 	UFUNCTION(BlueprintCallable)
-	FString GetDescript();
+	FString GetDescription();
+
+	//获得类型
+	UFUNCTION(BlueprintCallable)
+	FString GetImagePath();
 private:
 	FString itemName;
 	int itemType;
-	FString descript;
-	
+	FString description;
+	FString imagePath;
 };

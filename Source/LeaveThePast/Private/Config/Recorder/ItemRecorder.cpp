@@ -3,14 +3,15 @@
 void UItemRecorder::LoadRecorder(FXmlNode* xmlNode)
 {
 	URecorderBase::LoadRecorder(xmlNode);
-
+	
 	itemName = xmlNode->GetAttribute(TEXT("itemName"));
 	FString itemTypeString = xmlNode->GetAttribute(TEXT("itemType"));
 	if (!itemTypeString.IsEmpty())
 	{
-		itemType = id = FCString::Atoi(*itemTypeString);
+		itemType = FCString::Atoi(*itemTypeString);
 	}
-	descript = xmlNode->GetAttribute(TEXT("descript"));
+	description = xmlNode->GetAttribute(TEXT("description"));
+	imagePath = xmlNode->GetAttribute(TEXT("imagePath"));
 }
 
 FString UItemRecorder::GetRecordName()
@@ -28,7 +29,12 @@ int UItemRecorder::GetTtemType()
 	return itemType;
 }
 
-FString UItemRecorder::GetDescript()
+FString UItemRecorder::GetDescription()
 {
-	return descript;
+	return description;
+}
+
+FString UItemRecorder::GetImagePath()
+{
+	return imagePath;
 }

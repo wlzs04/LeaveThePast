@@ -20,6 +20,11 @@ UConfigManager::~UConfigManager()
 
 TMap<int, URecorderBase*> UConfigManager::GetConfigByName(UClass* recorderClass)
 {
+	if (recorderClass == nullptr)
+	{
+		UE_LOG(LogLoad, Error, TEXT("未选择Recorder类型！"));
+		return TMap<int, URecorderBase*>();
+	}
 	FString configName = recorderClass->GetName();
 	configName = configName.Left(configName.Len() - 8);
 
@@ -37,6 +42,11 @@ TMap<int, URecorderBase*> UConfigManager::GetConfigByName(UClass* recorderClass)
 
 void UConfigManager::LoadConfigByName(UClass* recorderClass)
 {
+	if (recorderClass == nullptr)
+	{
+		UE_LOG(LogLoad, Error, TEXT("未选择Recorder类型！"));
+		return;
+	}
 	FString configName = recorderClass->GetName();
 	configName = configName.Left(configName.Len() - 8);
 

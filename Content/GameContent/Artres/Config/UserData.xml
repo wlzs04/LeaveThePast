@@ -1,6 +1,7 @@
-<UserData >
+<?xml version="1.0" encoding="UTF-8"?>
+<UserData hour="6" minute="0" second="0" isFixedTime="false" gameAndRealTimeRate="1.0">
 	<ItemMap>
-		<Item id="10001" number="12"/>
-		<Item id="10002" number="1"/>
+		<Item id="10001" number="12" />
+		<Item id="10002" number="1" />
 	</ItemMap>
 </UserData>
