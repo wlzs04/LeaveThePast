@@ -71,7 +71,7 @@ AActorBase* ADirectorActor::GetCameraActor()
 void ADirectorActor::BeginPlay()
 {
 	Super::BeginPlay();
-	InitActorList();
+	//InitActorList();
 }
 
 // Called every frame

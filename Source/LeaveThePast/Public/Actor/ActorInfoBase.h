@@ -47,7 +47,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	FString GetPropertyValue(FString propertyName);
 
-
 	UFUNCTION(BlueprintCallable)
 	TMap<FString, UPropertyBase*> GetPropertyMap();
 private:

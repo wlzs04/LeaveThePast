@@ -62,10 +62,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void InitAll();
 
-	//游戏开始
-	UFUNCTION(BlueprintCallable)
-	void BeginGame();
-
 	//开始计时
 	UFUNCTION(BlueprintCallable)
 	void StartTime();

@@ -14,7 +14,12 @@ UUserData::UUserData() :UObject()
 void UUserData::Save()
 {
 	UMainGameManager* gameManager = Cast<UMainGameManager>(GetWorld()->GetGameInstance());
-
+	UTimeData* gameDuringTime = gameManager->GetGameDuringTime();
+	hour = gameDuringTime->GetHours();
+	minute = gameDuringTime->GetMinutes();
+	second = gameDuringTime->GetSeconds();
+	isFixedTime = gameManager->GetIsFixedTime();
+	gameAndRealTimeRate = gameManager->GetGameAndRealTimeRate();
 	FString xmlContent = TEXT("<UserData ");
 	//start 添加基础信息
 	xmlContent.Append(TEXT("hour=\"") + FString::FromInt(hour) + TEXT("\" "));

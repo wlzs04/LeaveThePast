@@ -117,26 +117,9 @@ void UMainGameManager::LoadIegalAction()
 
 void UMainGameManager::InitGameTime()
 {
+	realTimeData = NewObject<UTimeData>(this);
+	gameTimeData = NewObject<UTimeData>(this);
 	StartTime();
-}
-
-void UMainGameManager::BeginGame()
-{
-
-	/*APawn* defaultPawn = GWorld->GetFirstPlayerController<APlayerController>()->GetPawn();
-	if (defaultPawn != nullptr)
-	{
-		ADirectorActor* directorActor = (ADirectorActor*)defaultPawn;
-		directorActor->InitActorList();
-	}*/
-	
-
-
-	//APlayerController* playerController = GWorld->GetFirstPlayerController<APlayerController>();
-	//playerController->SetPawn(mainActor);
-	//playerController->SetViewTarget(mainActor);
-	//mainActor->AddInputFunction();
-	//mainActor->EnableInput(playerController);
 }
 
 void UMainGameManager::StartTime()
@@ -178,6 +161,11 @@ void UMainGameManager::Tick(float secondTime)
 {
 	if (startTime)
 	{
+		realTimeData->Tick(secondTime);
+		if (!isFixedTime)
+		{
+			gameTimeData->Tick(secondTime * gameAndRealTimeRate);
+		}
 		dramaScriptManager->Tick();
 	}
 }
@@ -202,6 +190,9 @@ void UMainGameManager::LoadUserData()
 {
 	userData = NewObject<UUserData>(this);
 	userData->Load();
+	gameTimeData->SetTime(userData->GetHour(), userData->GetMinute(), userData->GetSecond());
+	SetIsFixedTime(userData->GetIsFixedTime());
+	SetGameAndRealTimeRate(userData->GetGameAndRealTimeRate());
 }
 
 void UMainGameManager::SaveUserData()
