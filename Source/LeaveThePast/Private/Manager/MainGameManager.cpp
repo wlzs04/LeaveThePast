@@ -16,6 +16,7 @@
 #include <LeaveThePast\Public\Action\RotateAction.h>
 #include <LeaveThePast\Public\Action\ChangeCameraActorAction.h>
 #include <DirectorActor.h>
+#include <LeaveThePast\Public\Config\Recorder\MessageTipRecorder.h>
 
 UTimeData::UTimeData()
 {
@@ -315,4 +316,27 @@ UActionBase* UMainGameManager::GetIegalActionByName(FString actionName)
 		return legalActionMap[actionName];
 	}
 	return nullptr;
+}
+
+void UMainGameManager::AddMessageTip(FString value)
+{
+	AddMessageTip_BPEvent(value);
+}
+
+void UMainGameManager::AddMessageTipById(int id)
+{
+	FString value = TEXT("");
+
+	URecorderBase* messageTipRecorder = configManager->GetConfigByNameId(UMessageTipRecorder::StaticClass(),id);
+	if (messageTipRecorder != nullptr)
+	{
+		value = ((UMessageTipRecorder*)messageTipRecorder)->GetValue();
+	}
+
+	AddMessageTip(value);
+}
+
+void UMainGameManager::SetTalkUI(FString talkValue, FString actorName, float continueTime, FString headImagePath, bool isLeft)
+{
+	SetTalkUI_BPEvent(talkValue, actorName, continueTime, headImagePath, isLeft);
 }

@@ -40,6 +40,16 @@ TMap<int, URecorderBase*> UConfigManager::GetConfigByName(UClass* recorderClass)
 	return *configMap[configName];
 }
 
+URecorderBase* UConfigManager::GetConfigByNameId(UClass* recorderClass, int id)
+{
+	TMap<int, URecorderBase*> configMap = GetConfigByName(recorderClass);
+	if (configMap.Contains(id))
+	{
+		return configMap[id];
+	}
+	return nullptr;
+}
+
 void UConfigManager::LoadConfigByName(UClass* recorderClass)
 {
 	if (recorderClass == nullptr)

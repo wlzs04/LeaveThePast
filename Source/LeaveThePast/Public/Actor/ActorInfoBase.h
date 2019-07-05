@@ -38,6 +38,8 @@ public:
 
 	bool IsPermanent();
 
+	FString GetActorName();
+
 	FString GetModelName();
 	FString GetModelRootPath();
 

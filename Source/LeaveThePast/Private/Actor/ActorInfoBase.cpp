@@ -125,6 +125,11 @@ bool UActorInfoBase::IsPermanent()
 	return isPermanent;
 }
 
+FString UActorInfoBase::GetActorName()
+{
+	return actorName;
+}
+
 FString UActorInfoBase::GetModelName()
 {
 	return modelName;

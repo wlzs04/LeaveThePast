@@ -153,6 +153,26 @@ public:
 	UFUNCTION(BlueprintCallable)
 	UActionBase* GetIegalActionByName(FString actionName);
 
+	//弹提示
+	UFUNCTION(BlueprintCallable)
+	void AddMessageTip(FString value);
+
+	//弹提示
+	UFUNCTION(BlueprintCallable)
+	void AddMessageTipById(int id);
+
+	//弹提示由蓝图实现
+	UFUNCTION(BlueprintImplementableEvent)
+	void AddMessageTip_BPEvent(const FString& value);
+
+	//显示谈话界面
+	UFUNCTION(BlueprintCallable)
+	void SetTalkUI(FString talkValue,FString actorName, float continueTime = 1,FString headImagePath = TEXT(""),bool isLeft = true);
+
+	//弹提示由蓝图实现
+	UFUNCTION(BlueprintImplementableEvent)
+	void SetTalkUI_BPEvent(const FString& talkValue, const FString& actorName, const float continueTime, const FString& headImagePath, const bool isLeft);
+
 	//执行指令
 	//UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
 	//void ExecuteAction_BPEvent(const FString& actionString);

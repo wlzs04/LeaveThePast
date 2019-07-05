@@ -12,9 +12,13 @@ class LEAVETHEPAST_API UConfigManager : public UObject
 public:
 	~UConfigManager();
 
-	//获得指定名称的配置
+	//获得指定名称的配置表
 	UFUNCTION(BlueprintCallable)
 	TMap<int, URecorderBase*> GetConfigByName(UClass* recorderClass);
+
+	//获得指定名称和Id的配置
+	UFUNCTION(BlueprintCallable)
+	URecorderBase* GetConfigByNameId(UClass* recorderClass,int id);
 
 	//加载指定名称的配置
 	UFUNCTION(BlueprintCallable)

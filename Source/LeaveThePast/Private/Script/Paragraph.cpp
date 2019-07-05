@@ -70,7 +70,6 @@ void UParagraph::Start()
 	isCompleted = false;
 
 	APlayerController* playerController = GWorld->GetFirstPlayerController<APlayerController>();
-	
 	((ADirectorActor*)playerController->GetPawn())->DisableInput(playerController);
 
 	actionList[currentActionIndex]->Execute();

@@ -1,19 +1,19 @@
-#include "..\..\Public\Action\SayAction.h"
-#include "..\..\Public\Actor\ActorBase.h"
+#include "../../Public/Action/MessageTipAction.h"
+#include "../../Public/Actor/ActorBase.h"
 #include "../../Public/Manager/MainGameManager.h"
 #include "Kismet/GameplayStatics.h"
 #include "Engine/Engine.h"
 #include "Engine/World.h"
 
-USayAction::USayAction() :UActionBase()
+UMessageTipAction::UMessageTipAction() :UActionBase()
 {
 	actionName = TEXT("Say");
 }
 
-void USayAction::Load(FXmlNode* xmlNode)
+void UMessageTipAction::Load(FXmlNode* xmlNode)
 {
 	UActionBase::Load(xmlNode);
-	for (auto attribute : xmlNode->GetAttributes())
+	for (auto attribute:xmlNode->GetAttributes())
 	{
 		FString attributeName = attribute.GetTag();
 		FString attributeValue = attribute.GetValue();
@@ -21,45 +21,34 @@ void USayAction::Load(FXmlNode* xmlNode)
 		{
 			text = attributeValue;
 		}
-		else if (attributeName == TEXT("voicePath"))
-		{
-			voicePath = attributeValue;
-		}
-		else if (attributeName == TEXT("actionTime"))
+		else if(attributeName == TEXT("actionTime"))
 		{
 			actionTime = FCString::Atof(*attributeValue);
 		}
 	}
 }
 
-void USayAction::Update()
+void UMessageTipAction::Update()
 {
 	if (isCompleted == false && GetExecuteActor() != nullptr)
 	{
 		currentTime = GWorld->GetTimeSeconds();
 		if (currentTime - startTime < actionTime)
 		{
-			
+
 		}
 		else
 		{
-			if (GetExecuteActor() != nullptr)
-			{
-				GetExecuteActor()->StopTalk();
-			}
 			isCompleted = true;
 		}
 	}
 }
 
-void USayAction::ExecuteReal()
+void UMessageTipAction::ExecuteReal()
 {
-	if (GetExecuteActor() != nullptr)
-	{
-		GetExecuteActor()->StartTalk();
-	}
 	startTime = GWorld->GetTimeSeconds();
 	currentTime = GWorld->GetTimeSeconds();
 	isCompleted = false;
-	((UMainGameManager*)(GWorld->GetGameInstance()))->SetTalkUI(text, GetExecuteActor()->GetActorInfo()->GetActorName(),actionTime);
+	((UMainGameManager*)(GWorld->GetGameInstance()))->AddMessageTip(text);
 }
+
