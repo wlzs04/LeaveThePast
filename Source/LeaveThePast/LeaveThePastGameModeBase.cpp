@@ -1,7 +1,6 @@
 #include "LeaveThePastGameModeBase.h"
 #include "GameFramework/PlayerController.h"
 #include "Engine/World.h"
-#include <DirectorActor.h>
 
 void ALeaveThePastGameModeBase::StartPlay()
 {
