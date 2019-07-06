@@ -2,8 +2,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
-#include "../../Public/Manager/MainGameManager.h"
-#include "Public/Actor/DirectorActor.h"
+#include "Manager/MainGameManager.h"
+#include "Actor/DirectorActor.h"
 #include "LeaveThePastGameModeBase.generated.h"
 
 UCLASS()
