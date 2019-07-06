@@ -8,6 +8,7 @@
 #include "Components/SkeletalMeshComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include <Runtime\Engine\Classes\Engine\InputDelegateBinding.h>
+#include <LeaveThePast\Public\Manager\LogManager.h>
 
 // Sets default values
 AActorBase::AActorBase()
@@ -107,7 +108,7 @@ void AActorBase::Execute(UActionBase* action)
 {
 	if (actionList.Contains(action))
 	{
-		UE_LOG(LogLoad, Log, TEXT("演员Id:%d已经拥有指令:%s！"), actorInfo->GetActorId(), *action->GetActionName());
+		LogError(FString::Printf(TEXT("演员Id:%d已经拥有指令:%s"), actorInfo->GetActorId(), *action->GetActionName()));
 		return;
 	}
 	actionList.Add(action);
@@ -141,7 +142,7 @@ void AActorBase::LoadModel()
 		USkeletalMesh* newMesh = LoadObject<USkeletalMesh>(NULL, realModelPath.GetCharArray().GetData());
 		if (newMesh==nullptr)
 		{
-			UE_LOG(LogLoad, Log, TEXT("演员Id:%d模型加载失败，路径：%s"), actorInfo->GetActorId(), *modelName);
+			LogError(FString::Printf(TEXT("演员Id:%d模型加载失败，路径：%s"), actorInfo->GetActorId(), *modelName));
 		}
 		else
 		{
@@ -155,7 +156,7 @@ void AActorBase::LoadModel()
 	}
 	else
 	{
-		UE_LOG(LogLoad, Log, TEXT("演员Id:%d模型路径为空"), actorInfo->GetActorId());
+		LogError(FString::Printf(TEXT("演员Id:%d模型路径为空"), actorInfo->GetActorId()));
 	}
 }
 
@@ -232,25 +233,4 @@ void AActorBase::RemoveCameraFollow()
 		cameraComponent->DestroyComponent();
 		cameraComponent = nullptr;
 	}
-}
-
-void AActorBase::AddInputFunction()
-{
-	// Set up player input component, if there isn't one already.
-	//if (InputComponent == nullptr)
-	//{
-	//	InputComponent = CreatePlayerInputComponent();
-	//	if (InputComponent)
-	//	{
-	//		SetupPlayerInputComponent(InputComponent);
-	//		AddInstanceComponent(InputComponent);
-	//		//InputComponent->RegisterComponent();
-	//		if (UInputDelegateBinding::SupportsInputDelegate(GetClass()))
-	//		{
-	//			InputComponent->bBlockInput = bBlockInput;
-	//			UInputDelegateBinding::BindInputDelegates(GetClass(), InputComponent);
-	//		}
-
-	//	}
-	//}
 }

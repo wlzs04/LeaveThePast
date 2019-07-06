@@ -12,8 +12,6 @@ class LEAVETHEPAST_API UActionBase : public UObject
 {
 	GENERATED_BODY()
 public:
-	UActionBase();
-
 	//初始化，清空已完成等状态
 	void Init();
 	int GetActorId();

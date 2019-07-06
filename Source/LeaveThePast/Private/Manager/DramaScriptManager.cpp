@@ -7,27 +7,36 @@
 #include "MainGameManager.h"
 #include <LeaveThePast\Public\Script\Chapter.h>
 
-UDramaScriptManager::UDramaScriptManager() :UObject()
+UDramaScriptManager* UDramaScriptManager::dramaScriptManager = nullptr;
+
+UDramaScriptManager* UDramaScriptManager::GetInstance()
 {
+	return UDramaScriptManager::dramaScriptManager;
+}
+
+void UDramaScriptManager::Init()
+{
+	UDramaScriptManager::dramaScriptManager = this;
+	LoadDramaScriptAll();
 }
 
 void UDramaScriptManager::StartDramaScriptMainByNameIndex(FString scriptName, int index)
 {
 	if (!chapterMainMap.Contains(scriptName))
 	{
-		UE_LOG(LogLoad, Error, TEXT("未知剧本文件：%s"), *scriptName);
+		LogError(FString::Printf(TEXT("未知剧本文件：%s"), *scriptName));
 		return;
 	}
 	else if(currentScript!=nullptr && !currentScript->GetIsCompleted())
 	{
-		UE_LOG(LogLoad, Error, TEXT("当前已存在正在运行的剧本"));
+		LogError(FString::Printf(TEXT("当前已存在正在运行的剧本")));
 		return;
 	}
 	else
 	{
 		currentScript = chapterMainMap[scriptName];
 		currentScript->Start();
-		UE_LOG(LogLoad, Log, TEXT("剧本开始：%s"), *scriptName);
+		LogNormal(FString::Printf(TEXT("剧本开始：%s"), *scriptName));
 	}
 }
 

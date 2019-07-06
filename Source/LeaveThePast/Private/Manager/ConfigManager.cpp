@@ -1,10 +1,13 @@
 #include "../../public/Manager/ConfigManager.h"
+#include "../../public/Manager/LogManager.h"
 #include "Runtime/XmlParser/Public/XmlParser.h"
 #include "Runtime/XmlParser/Public/FastXml.h" 
 #include "XmlParser/Public/XmlFile.h"
 #include "LogMacros.h"
 #include "Paths.h"
 #include "UObjectGlobals.h"
+
+UConfigManager* UConfigManager::configManager = nullptr;
 
 UConfigManager::~UConfigManager()
 {
@@ -18,11 +21,21 @@ UConfigManager::~UConfigManager()
 	}
 }
 
+UConfigManager* UConfigManager::GetInstance()
+{
+	return UConfigManager::configManager;
+}
+
+void UConfigManager::Init()
+{
+	UConfigManager::configManager = this;
+}
+
 TMap<int, URecorderBase*> UConfigManager::GetConfigByName(UClass* recorderClass)
 {
 	if (recorderClass == nullptr)
 	{
-		UE_LOG(LogLoad, Error, TEXT("未选择Recorder类型！"));
+		LogError(FString::Printf(TEXT("未选择Recorder类型！")));
 		return TMap<int, URecorderBase*>();
 	}
 	FString configName = recorderClass->GetName();
@@ -34,7 +47,7 @@ TMap<int, URecorderBase*> UConfigManager::GetConfigByName(UClass* recorderClass)
 	}
 	if (!configMap.Contains(configName))
 	{
-		UE_LOG(LogLoad, Error, TEXT("配置文件加载失败：%s"), *configName);
+		LogError(FString::Printf(TEXT("配置文件加载失败：%s"), *configName));
 		return TMap<int, URecorderBase*>();
 	}
 	return *configMap[configName];
@@ -42,10 +55,10 @@ TMap<int, URecorderBase*> UConfigManager::GetConfigByName(UClass* recorderClass)
 
 URecorderBase* UConfigManager::GetConfigByNameId(UClass* recorderClass, int id)
 {
-	TMap<int, URecorderBase*> configMap = GetConfigByName(recorderClass);
-	if (configMap.Contains(id))
+	TMap<int, URecorderBase*> recorderMap = GetConfigByName(recorderClass);
+	if (recorderMap.Contains(id))
 	{
-		return configMap[id];
+		return recorderMap[id];
 	}
 	return nullptr;
 }
@@ -54,7 +67,7 @@ void UConfigManager::LoadConfigByName(UClass* recorderClass)
 {
 	if (recorderClass == nullptr)
 	{
-		UE_LOG(LogLoad, Error, TEXT("未选择Recorder类型！"));
+		LogError(FString::Printf(TEXT("未选择Recorder类型！")));
 		return;
 	}
 	FString configName = recorderClass->GetName();
@@ -71,7 +84,7 @@ void UConfigManager::LoadConfigByName(UClass* recorderClass)
 	FXmlFile* xmlFile = new FXmlFile(configPath);
 	if (!xmlFile->IsValid())
 	{
-		UE_LOG(LogLoad, Error, TEXT("配置文件加载失败：%s"), *configPath);
+		LogError(FString::Printf(TEXT("配置文件加载失败：%s"), *configPath));
 		return;
 	}
 
@@ -86,5 +99,5 @@ void UConfigManager::LoadConfigByName(UClass* recorderClass)
 
 	xmlFile->Clear();
 	delete xmlFile;
-	UE_LOG(LogLoad, Log, TEXT("Save文件：%s加载完成！"), *configPath);
+	LogNormal(FString::Printf(TEXT("配置文件加载完成：%s"), *configPath));
 }

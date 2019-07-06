@@ -13,7 +13,9 @@ class LEAVETHEPAST_API UActorManager : public UObject
 {
 	GENERATED_BODY()
 public:
-	UActorManager();
+	static UActorManager* GetInstance();
+
+	void Init();
 
 	//加载所有演员
 	void LoadAllActorInfo();
@@ -36,6 +38,8 @@ private:
 	void LoadMinorActorInfo();
 	//加载群演
 	void LoadMassActorInfo();
+
+	static UActorManager* actorManager;
 
 	FString mainActorRelativePath = TEXT("GameContent/Artres/Actor/MainActor.xml");
 	FString minorActorRelativePath = TEXT("GameContent/Artres/Actor/MinorActor.xml");

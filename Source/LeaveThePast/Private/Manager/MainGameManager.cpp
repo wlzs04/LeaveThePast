@@ -83,10 +83,18 @@ void UTimeData::SetTime(int hour, int minute, int second)
 	gameDuringSecond += hour * 3600;
 }
 
+UMainGameManager* UMainGameManager::gameManager = nullptr;
+
+UMainGameManager* UMainGameManager::GetInstance()
+{
+	return UMainGameManager::gameManager;
+}
+
 void UMainGameManager::InitAll()
 {
 	if (!haveInited)
 	{
+		UMainGameManager::gameManager = this;
 		InitGameTime();
 		InitManager();
 		LoadSystemData();
@@ -98,14 +106,17 @@ void UMainGameManager::InitAll()
 void UMainGameManager::InitManager()
 {
 	configManager = NewObject<UConfigManager>(this);
+	configManager->Init();
 
 	LoadIegalAction();
-
 	dramaScriptManager = NewObject<UDramaScriptManager>(this);
-	dramaScriptManager->LoadDramaScriptAll();
+	dramaScriptManager->Init();
 
 	actorManager = NewObject<UActorManager>(this); 
-	actorManager->LoadAllActorInfo();
+	actorManager->Init();
+
+	logManager = NewObject<ULogManager>(this); 
+	logManager->Init();
 }
 
 void UMainGameManager::LoadIegalAction()
@@ -237,6 +248,16 @@ UActorManager* UMainGameManager::GetActorManager()
 	return actorManager;
 }
 
+ULogManager* UMainGameManager::GetLogManager()
+{
+	return logManager;
+}
+
+FString UMainGameManager::GetArtresPath()
+{
+	return FPaths::ProjectContentDir() + TEXT("GameContent/Artres/");
+}
+
 UTexture2D* UMainGameManager::LoadTexture2D(FString path, bool& isValid, int32& outWidth, int32& outHeight)
 {
 	path = FPaths::ProjectContentDir() + path;
@@ -280,7 +301,7 @@ UTexture2D* UMainGameManager::LoadTexture2D(FString path, bool& isValid, int32& 
 	}
 	else
 	{
-		UE_LOG(LogLoad, Error, TEXT("未知图片文件加载失败：%s"), *path);
+		LogError(FString::Printf(TEXT("未知图片文件加载失败：%s"), *path));
 	}
 	if (ImageWrapper.IsValid() && ImageWrapper->SetCompressed(RawFileData.GetData(), RawFileData.Num()))
 	{

@@ -12,6 +12,10 @@ class LEAVETHEPAST_API UConfigManager : public UObject
 public:
 	~UConfigManager();
 
+	static UConfigManager* GetInstance();
+
+	void Init();
+
 	//获得指定名称的配置表
 	UFUNCTION(BlueprintCallable)
 	TMap<int, URecorderBase*> GetConfigByName(UClass* recorderClass);
@@ -25,6 +29,8 @@ public:
 	void LoadConfigByName(UClass* recorderClass);
 
 private:
+	static UConfigManager* configManager;
+
 	TMap<FString, TMap<int, URecorderBase*>*> configMap;
 
 	FString configRootPath = TEXT("GameContent/Artres/Config/Recorder/");

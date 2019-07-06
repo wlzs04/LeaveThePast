@@ -84,7 +84,7 @@ void UUserData::Load()
 	FXmlFile* xmlFile = new FXmlFile(savePath);
 	if (!xmlFile->IsValid())
 	{
-		UE_LOG(LogLoad, Error, TEXT("存档文件加载失败：%s"), *savePath);
+		LogError(FString::Printf(TEXT("存档文件加载失败：%s"), *savePath));
 		return;
 	}
 
@@ -117,7 +117,7 @@ void UUserData::Load()
 		}
 		else
 		{
-			UE_LOG(LogLoad, Error, TEXT("角色存档中存在未知属性：%s:%s"), *attributeName,*attributeValue);
+			LogWarning(FString::Printf(TEXT("角色存档中存在未知属性：%s:%s"), *attributeName, *attributeValue));
 		}
 	}
 	{
@@ -148,5 +148,5 @@ void UUserData::Load()
 
 	xmlFile->Clear();
 	delete xmlFile;
-	UE_LOG(LogLoad, Log, TEXT("Save文件：%s加载完成！"), *savePath);
+	LogNormal(FString::Printf(TEXT("Save文件：%s加载完成！"), *savePath));
 }

@@ -2,9 +2,19 @@
 #include "Engine/World.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Public/UObject/ConstructorHelpers.h"
+#include <LeaveThePast\Public\Manager\LogManager.h>
 
-UActorManager::UActorManager():Super()
+UActorManager* UActorManager::actorManager = nullptr;
+
+UActorManager* UActorManager::GetInstance()
 {
+	return UActorManager::actorManager;
+}
+
+void UActorManager::Init()
+{
+	UActorManager::actorManager = this;
+	LoadAllActorInfo();
 }
 
 void UActorManager::LoadAllActorInfo()
@@ -57,7 +67,7 @@ AActorBase* UActorManager::LoadActorToSceneById(int actorId)
 	}
 	else
 	{
-		UE_LOG(LogLoad, Error, TEXT("配置中不存在演员：%d"), actorId);
+		LogError(FString::Printf(TEXT("配置中不存在演员：%d"), actorId));
 	}
 	return nullptr;
 }
@@ -95,7 +105,7 @@ void UActorManager::LoadMainActorInfo()
 	FXmlFile* xmlFile = new FXmlFile(mainActorPath);
 	if (!xmlFile->IsValid())
 	{
-		UE_LOG(LogLoad, Error, TEXT("MainActor文件加载失败：%s"), *mainActorPath);
+		LogError(FString::Printf(TEXT("MainActor文件加载失败：%s"), *mainActorPath));
 		return;
 	}
 	FXmlNode* rootNode = xmlFile->GetRootNode();
@@ -107,7 +117,7 @@ void UActorManager::LoadMainActorInfo()
 	}
 	xmlFile->Clear();
 	delete xmlFile;
-	UE_LOG(LogLoad, Log, TEXT("MainActor文件：%s加载完成！"), *mainActorPath);
+	LogNormal(FString::Printf(TEXT("MainActor文件加载完成：%s"), *mainActorPath));
 }
 
 void UActorManager::LoadMinorActorInfo()
@@ -117,7 +127,7 @@ void UActorManager::LoadMinorActorInfo()
 	FXmlFile* xmlFile = new FXmlFile(minorActorPath);
 	if (!xmlFile->IsValid())
 	{
-		UE_LOG(LogLoad, Error, TEXT("MinorActor文件加载失败：%s"), *minorActorPath);
+		LogError(FString::Printf(TEXT("MinorActor文件加载完成：%s"), *minorActorPath));
 		return;
 	}
 	FXmlNode* rootNode = xmlFile->GetRootNode();
@@ -129,7 +139,7 @@ void UActorManager::LoadMinorActorInfo()
 	}
 	xmlFile->Clear();
 	delete xmlFile;
-	UE_LOG(LogLoad, Log, TEXT("MinorActor文件：%s加载完成！"), *minorActorPath);
+	LogNormal(FString::Printf(TEXT("MinorActor文件加载完成：%s"), *minorActorPath));
 }
 
 void UActorManager::LoadMassActorInfo()
@@ -139,7 +149,7 @@ void UActorManager::LoadMassActorInfo()
 	FXmlFile* xmlFile = new FXmlFile(massActorPath);
 	if (!xmlFile->IsValid())
 	{
-		UE_LOG(LogLoad, Error, TEXT("MassActor文件加载失败：%s"), *massActorPath);
+		LogError(FString::Printf(TEXT("MassActor文件加载完成：%s"), *massActorPath));
 		return;
 	}
 	FXmlNode* rootNode = xmlFile->GetRootNode();
@@ -151,5 +161,5 @@ void UActorManager::LoadMassActorInfo()
 	}
 	xmlFile->Clear();
 	delete xmlFile;
-	UE_LOG(LogLoad, Log, TEXT("MassActor文件：%s加载完成！"), *massActorPath);
+	LogNormal(FString::Printf(TEXT("MassActor文件加载完成：%s"), *massActorPath));
 }

@@ -1,6 +1,7 @@
 #include "..\..\Public\Config\SystemData.h"
 #include "Paths.h"
 #include "XmlParser/Public/XmlFile.h"
+#include <LeaveThePast\Public\Manager\LogManager.h>
 
 USystemData::USystemData() :UObject()
 {
@@ -12,7 +13,7 @@ void USystemData::Load()
 	FXmlFile* xmlFile = new FXmlFile(savePath);
 	if (!xmlFile->IsValid())
 	{
-		UE_LOG(LogLoad, Error, TEXT("存档文件加载失败：%s"), *savePath);
+		LogError(FString::Printf(TEXT("存档文件加载失败：%s"), *savePath));
 		return;
 	}
 
@@ -44,7 +45,7 @@ void USystemData::Load()
 
 	xmlFile->Clear();
 	delete xmlFile;
-	UE_LOG(LogLoad, Log, TEXT("Save文件：%s加载完成！"), *savePath);
+	LogNormal(FString::Printf(TEXT("Save文件：%s加载完成！"), *savePath));
 }
 
 void USystemData::Save()

@@ -1,12 +1,7 @@
-#include "..\..\Public\Action\ActionBase.h"
-#include "..\..\Public\Actor\ActorBase.h"
-#include "..\..\Public\Manager\MainGameManager.h"
+#include "../../Public/Action/ActionBase.h"
+#include "../../Public/Actor/ActorBase.h"
+#include "../../Public/Manager/MainGameManager.h"
 #include "Engine/World.h"
-
-UActionBase::UActionBase():UObject()
-{
-	
-}
 
 void UActionBase::Init()
 {
@@ -25,7 +20,7 @@ FString UActionBase::GetActionName()
 
 void UActionBase::Execute()
 {
-	UE_LOG(LogLoad, Log, TEXT("%s指令开始执行！"), *actionName);
+	LogNormal(actionName + TEXT("指令开始执行！"));
 	UMainGameManager* gameManager = (UMainGameManager*)(GWorld->GetGameInstance());
 	executeActor = gameManager->GetActorManager()->GetActorById(actorId);
 	ExecuteReal();

@@ -12,7 +12,9 @@ class LEAVETHEPAST_API UDramaScriptManager : public UObject
 {
 	GENERATED_BODY()
 public:
-	UDramaScriptManager();
+	static UDramaScriptManager* GetInstance();
+
+	void Init();
 
 	//开始执行任务
 	UFUNCTION(BlueprintCallable)
@@ -26,6 +28,8 @@ public:
 private:
 	//加载主线剧本
 	void LoadDramaScriptMain();
+
+	static UDramaScriptManager* dramaScriptManager;
 
 	FString dramaScriptMainRelativePath = TEXT("GameContent/Artres/DramaScript/Main/");
 	TMap<FString, UChapter*> chapterMainMap;

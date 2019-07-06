@@ -11,7 +11,7 @@ void UWorldData::Load()
 	FXmlFile* xmlFile = new FXmlFile(savePath);
 	if (!xmlFile->IsValid())
 	{
-		UE_LOG(LogLoad, Error, TEXT("存档文件加载失败：%s"), *savePath);
+		//UE_LOG(LogLoad, Error, TEXT("存档文件加载失败：%s"), *savePath);
 		return;
 	}
 

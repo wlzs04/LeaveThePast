@@ -60,8 +60,6 @@ public:
 	//移除摄像机跟随
 	void RemoveCameraFollow();
 
-	void AddInputFunction();
-
 	void MoveForwardInputFunction(float value);
 	void MoveRightInputFunction(float value);
 	void TurnInputFunction(float value);

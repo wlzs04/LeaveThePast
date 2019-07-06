@@ -1,4 +1,5 @@
 #include "..\..\Public\Actor\ActorInfoBase.h"
+#include <LeaveThePast\Public\Manager\LogManager.h>
 
 void UActorInfoBase::Load(FXmlNode* xmlNode)
 {
@@ -47,7 +48,7 @@ void UActorInfoBase::Load(FXmlNode* xmlNode)
 		}
 		else
 		{
-			UE_LOG(LogLoad, Log, TEXT("演员Id:%d配置中存在未知属性:%s！"), actorId, *item.GetTag());
+			LogWarning(FString::Printf(TEXT("演员Id:%d配置中存在未知属性:%s！"), actorId, *item.GetTag()));
 		}
 	}
 
@@ -106,7 +107,7 @@ void UActorInfoBase::Load(FXmlNode* xmlNode)
 				}
 				else
 				{
-					UE_LOG(LogLoad, Log, TEXT("演员Id:%d配置中存在未知属性:%s！"), actorId, *propertyName);
+					LogWarning(FString::Printf(TEXT("演员Id:%d配置中存在未知属性:%s！"), actorId, *propertyName));
 				}
 				propertyBase->SetInfo(propertyNode->GetAttribute(TEXT("name")), propertyNode->GetAttribute(TEXT("value")));
 				propertyMap.Add(propertyNode->GetTag(), propertyBase);

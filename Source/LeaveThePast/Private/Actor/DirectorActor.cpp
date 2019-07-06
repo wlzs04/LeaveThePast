@@ -44,8 +44,6 @@ void ADirectorActor::SetCameraActorById(int actorId)
 		{
 			currentControlActor->RemoveCameraFollow();
 		}
-		//currentControlActorIndex = i;
-		//currentControlActor = canControlActorList[currentControlActorIndex];
 		currentControlActor = actor;
 		currentControlActor->AddCameraFollow();
 

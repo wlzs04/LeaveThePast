@@ -5,6 +5,7 @@
 #include "ConfigManager.h"
 #include "DramaScriptManager.h"
 #include "ActorManager.h"
+#include "LogManager.h"
 #include "../Config/UserData.h"
 #include "../Config/SystemData.h"
 #include "MainGameManager.generated.h"
@@ -58,6 +59,8 @@ class LEAVETHEPAST_API UMainGameManager : public UGameInstance
 {
 	GENERATED_BODY()
 public:
+	static UMainGameManager* GetInstance();
+
 	//初始化所有内容
 	UFUNCTION(BlueprintCallable)
 	void InitAll();
@@ -142,6 +145,14 @@ public:
 	UFUNCTION(BlueprintCallable)
 	UActorManager* GetActorManager();
 
+	//获得角色管理器
+	UFUNCTION(BlueprintCallable)
+	ULogManager* GetLogManager();
+
+	//获得资源路径
+	UFUNCTION(BlueprintCallable)
+	FString GetArtresPath();
+
 	//加载本地图片
 	UFUNCTION(BlueprintCallable)
 	UTexture2D* LoadTexture2D(FString path, bool& isValid, int32& outWidth, int32& outHeight);
@@ -186,6 +197,8 @@ private:
 	//初始化游戏时间
 	void InitGameTime();
 
+	static UMainGameManager* gameManager;
+
 	UPROPERTY()
 	USystemData* systemData = nullptr;
 
@@ -200,6 +213,9 @@ private:
 
 	UPROPERTY()
 	UActorManager* actorManager = nullptr;
+
+	UPROPERTY()
+	ULogManager* logManager = nullptr;
 
 	//是否已经初始化完成
 	bool haveInited = false;
