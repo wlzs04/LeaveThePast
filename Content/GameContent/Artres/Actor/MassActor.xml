@@ -19,4 +19,31 @@
 			<Chat text="今天起得真早。"/>
 		</ChatList>
 	</Actor>
+	<Actor actorId="30005" actorName="厨师" description="一个普通的厨师。">
+		<Model modelName="ChuShiNPC" modelRootPath="GameContent/Resource/Others/Model/ChuShiNPC">
+			
+		</Model>
+		<ChatList>
+			<Chat text="客官要买点什么？"/>
+			<Chat text="快来买呀，都是好吃的。"/>
+		</ChatList>
+	</Actor>
+	<Actor actorId="30006" actorName="铁匠" description="一个普通的铁匠。">
+		<Model modelName="TieJiangNPC" modelRootPath="GameContent/Resource/Others/Model/TieJiangNPC">
+			
+		</Model>
+		<ChatList>
+			<Chat text="客官要买点什么？"/>
+			<Chat text="快来买呀，都是好用的。"/>
+		</ChatList>
+	</Actor>
+	<Actor actorId="30007" actorName="铁匠" description="一个普通的铁匠。">
+		<Model modelName="YaoShangNPC" modelRootPath="GameContent/Resource/Others/Model/YaoShangNPC">
+			
+		</Model>
+		<ChatList>
+			<Chat text="客官要买点什么？"/>
+			<Chat text="快来买呀，都是好苦的。"/>
+		</ChatList>
+	</Actor>
 </MassActor>
