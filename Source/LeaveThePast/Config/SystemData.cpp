@@ -21,25 +21,40 @@ void USystemData::Load()
 
 	//加载基础属性
 	{
-		FString missionAccomplishedString = rootNode->GetAttribute(TEXT("missionAccomplished"));
-		if (!missionAccomplishedString.IsEmpty())
+		for (FXmlAttribute attribute : rootNode->GetAttributes())
 		{
-			missionAccomplished = missionAccomplishedString.ToBool();
-		}
-		FString backgroundSoundVolumeString = rootNode->GetAttribute(TEXT("backgroundSoundVolume"));
-		if (!backgroundSoundVolumeString.IsEmpty())
-		{
-			backgroundSoundVolume = FCString::Atof(*backgroundSoundVolumeString);
-		}
-		FString voiceSoundVolumeString = rootNode->GetAttribute(TEXT("voiceSoundVolume"));
-		if (!voiceSoundVolumeString.IsEmpty())
-		{
-			voiceSoundVolume = FCString::Atof(*voiceSoundVolumeString);
-		}
-		FString effectSoundVolumeString = rootNode->GetAttribute(TEXT("effectSoundVolume"));
-		if (!effectSoundVolumeString.IsEmpty())
-		{
-			effectSoundVolume = FCString::Atof(*effectSoundVolumeString);
+			FString attributeName = attribute.GetTag();
+			FString attributeValue = attribute.GetValue(); 
+			
+			if (attributeName == TEXT("showInitUI"))
+			{
+				showInitUI = attributeValue.ToBool();
+			}
+			else if (attributeName == TEXT("missionAccomplished"))
+			{
+				missionAccomplished = attributeValue.ToBool();
+			}
+			else if(attributeName == TEXT("backgroundSoundVolume"))
+			{
+				backgroundSoundVolume = FCString::Atof(*attributeValue);
+			}
+			else if (attributeName == TEXT("backgroundSoundVolume"))
+			{
+				backgroundSoundVolume = FCString::Atof(*attributeValue);
+
+			}
+			else if (attributeName == TEXT("voiceSoundVolume"))
+			{
+				voiceSoundVolume = FCString::Atof(*attributeValue);
+			}
+			else if (attributeName == TEXT("effectSoundVolume"))
+			{
+				effectSoundVolume = FCString::Atof(*attributeValue);
+			}
+			else
+			{
+				LogWarning(FString::Printf(TEXT("系统存档中存在未知属性：%s:%s"), *attributeName, *attributeValue));
+			}
 		}
 	}
 
@@ -52,6 +67,8 @@ void USystemData::Save()
 {
 	FString xmlContent = TEXT("<SystemData ");
 	//start 添加基础信息
+	FString showInitUIString = (showInitUI ? TEXT("true") : TEXT("false"));
+	xmlContent.Append(TEXT("showInitUI=\"") + showInitUIString + TEXT("\" "));
 	FString missionAccomplishedString = (missionAccomplished ? TEXT("true") : TEXT("false"));
 	xmlContent.Append(TEXT("missionAccomplished=\"") + missionAccomplishedString + TEXT("\" "));
 	xmlContent.Append(TEXT("backgroundSoundVolume=\"") + FString::SanitizeFloat(backgroundSoundVolume) + TEXT("\" "));
@@ -65,6 +82,16 @@ void USystemData::Save()
 	xmlFile->Save(savePath);
 	xmlFile->Clear();
 	delete xmlFile;
+}
+
+bool USystemData::GetShowInitUI()
+{
+	return 	showInitUI;
+}
+
+void USystemData::SetShowInitUI(bool newShowInitUI)
+{
+	showInitUI = newShowInitUI;
 }
 
 bool USystemData::GetMissionAccomplished()

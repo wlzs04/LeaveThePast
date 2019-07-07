@@ -233,6 +233,7 @@ bool UMainGameManager::GetIsFixedTime()
 void UMainGameManager::ExitGame()
 {
 	SaveUserData();
+	SaveSystemData();
 	UKismetSystemLibrary::QuitGame(this, nullptr, EQuitPreference::Quit, true);
 }
 

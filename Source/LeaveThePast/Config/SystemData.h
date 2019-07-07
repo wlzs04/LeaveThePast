@@ -16,6 +16,11 @@ public:
 	void Save();
 
 	UFUNCTION(BlueprintCallable)
+	bool GetShowInitUI();
+	UFUNCTION(BlueprintCallable)
+	void SetShowInitUI(bool newShowInitUI);
+
+	UFUNCTION(BlueprintCallable)
 	bool GetMissionAccomplished();
 	UFUNCTION(BlueprintCallable)
 	void SetMissionAccomplished(bool newMissionAccomplished);
@@ -37,6 +42,8 @@ public:
 private:
 	//保存路径
 	FString savePath;
+	//是否显示初始界面
+	bool showInitUI = true;
 	//是否游戏通关
 	bool missionAccomplished = false;
 	//背景音量

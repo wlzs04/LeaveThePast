@@ -8,6 +8,12 @@ void ALeaveThePastGameModeBase::StartPlay()
 	gameManager = (UMainGameManager*)(GWorld->GetGameInstance());
 	gameManager->InitAll();
 	gameManager->StartTime();
+
+	if (gameManager->GetSystemData()->GetShowInitUI())
+	{
+		gameManager->GetUIManager()->ShowUIByName(TEXT("InitUI"));
+	}
+
 	ADirectorActor* directorActor = Cast<ADirectorActor>(GetWorld()->GetFirstPlayerController()->GetPawn());
 	directorActor->InitActorList();
 }

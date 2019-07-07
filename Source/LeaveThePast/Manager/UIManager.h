@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
+#include <UMG.h>
 #include "UIManager.generated.h"
 
 UCLASS(BlueprintType, Blueprintable)
@@ -25,6 +26,9 @@ public:
 	//显示谈话界面
 	UFUNCTION(BlueprintCallable)
 	void SetTalkUI(FString talkValue, FString actorName, float continueTime = 1, FString headImagePath = TEXT("GameContent/Resource/Others/Image/Unknown.jpg"), bool isLeft = true);
+
+	//显示指定界面
+	UUserWidget* ShowUIByName(FString uiName);
 
 private:
 	static UUIManager* uiManager;

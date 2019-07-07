@@ -2,7 +2,6 @@
 #include "ConfigManager.h"
 #include "LogManager.h"
 #include "../Config/Recorder/MessageTipRecorder.h"
-#include <UMG.h>
 
 UUIManager* UUIManager::uiManager = nullptr;
 
@@ -60,4 +59,13 @@ void UUIManager::SetTalkUI(FString talkValue, FString actorName, float continueT
 	{
 		LogError("SetTalkUI执行SetInfo蓝图函数失败！");
 	}
+}
+
+UUserWidget* UUIManager::ShowUIByName(FString uiName)
+{
+	FString uiPath = TEXT("WidgetBlueprint'/Game/GameContent/UI/")+ uiName + TEXT(".") + uiName +TEXT("_C'");
+	UClass* widgetClass = LoadClass<UUserWidget>(NULL, *uiPath);
+	UUserWidget* widget = CreateWidget<UUserWidget>(GetWorld()->GetFirstPlayerController(), widgetClass);
+	widget->AddToViewport();
+	return widget;
 }
