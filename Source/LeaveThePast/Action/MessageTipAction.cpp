@@ -1,6 +1,7 @@
 #include "MessageTipAction.h"
 #include "../Actor/ActorBase.h"
 #include "../Manager/MainGameManager.h"
+#include "../Manager/UIManager.h"
 #include "Kismet/GameplayStatics.h"
 #include "Engine/Engine.h"
 #include "Engine/World.h"
@@ -49,6 +50,6 @@ void UMessageTipAction::ExecuteReal()
 	startTime = GWorld->GetTimeSeconds();
 	currentTime = GWorld->GetTimeSeconds();
 	isCompleted = false;
-	((UMainGameManager*)(GWorld->GetGameInstance()))->AddMessageTip(text);
+	UUIManager::GetInstance()->AddMessageTip(text);
 }
 

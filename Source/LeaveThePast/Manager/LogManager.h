@@ -34,7 +34,6 @@ private:
 	bool enableLogToFile = true;
 	bool enableLogToEdit = true;
 
-	//UPROPERTY()
 	static ULogManager* logManager;
 };
 

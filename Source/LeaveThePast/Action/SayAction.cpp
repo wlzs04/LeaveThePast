@@ -1,6 +1,7 @@
 #include "SayAction.h"
 #include "../Actor/ActorBase.h"
 #include "../Manager/MainGameManager.h"
+#include "../Manager/UIManager.h"
 #include "Kismet/GameplayStatics.h"
 #include "Engine/Engine.h"
 #include "Engine/World.h"
@@ -61,5 +62,5 @@ void USayAction::ExecuteReal()
 	startTime = GWorld->GetTimeSeconds();
 	currentTime = GWorld->GetTimeSeconds();
 	isCompleted = false;
-	((UMainGameManager*)(GWorld->GetGameInstance()))->SetTalkUI(text, GetExecuteActor()->GetActorInfo()->GetActorName(),actionTime);
+	UUIManager::GetInstance()->SetTalkUI(text, GetExecuteActor()->GetActorInfo()->GetActorName(),actionTime);
 }

@@ -117,6 +117,9 @@ void UMainGameManager::InitManager()
 
 	actorManager = NewObject<UActorManager>(this); 
 	actorManager->Init();
+
+	uiManager = NewObject<UUIManager>(this);
+	uiManager->Init();
 }
 
 void UMainGameManager::LoadIegalAction()
@@ -253,6 +256,11 @@ ULogManager* UMainGameManager::GetLogManager()
 	return logManager;
 }
 
+UUIManager* UMainGameManager::GetUIManager()
+{
+	return uiManager;
+}
+
 FString UMainGameManager::GetArtresPath()
 {
 	return FPaths::ProjectContentDir() + TEXT("GameContent/Artres/");
@@ -339,25 +347,25 @@ UActionBase* UMainGameManager::GetIegalActionByName(FString actionName)
 	return nullptr;
 }
 
-void UMainGameManager::AddMessageTip(FString value)
-{
-	AddMessageTip_BPEvent(value);
-}
-
-void UMainGameManager::AddMessageTipById(int id)
-{
-	FString value = TEXT("");
-
-	URecorderBase* messageTipRecorder = configManager->GetConfigByNameId(UMessageTipRecorder::StaticClass(),id);
-	if (messageTipRecorder != nullptr)
-	{
-		value = ((UMessageTipRecorder*)messageTipRecorder)->GetValue();
-	}
-
-	AddMessageTip(value);
-}
-
-void UMainGameManager::SetTalkUI(FString talkValue, FString actorName, float continueTime, FString headImagePath, bool isLeft)
-{
-	SetTalkUI_BPEvent(talkValue, actorName, continueTime, headImagePath, isLeft);
-}
+//void UMainGameManager::AddMessageTip(FString value)
+//{
+//	AddMessageTip_BPEvent(value);
+//}
+//
+//void UMainGameManager::AddMessageTipById(int id)
+//{
+//	FString value = TEXT("");
+//
+//	URecorderBase* messageTipRecorder = configManager->GetConfigByNameId(UMessageTipRecorder::StaticClass(),id);
+//	if (messageTipRecorder != nullptr)
+//	{
+//		value = ((UMessageTipRecorder*)messageTipRecorder)->GetValue();
+//	}
+//
+//	AddMessageTip(value);
+//}
+//
+//void UMainGameManager::SetTalkUI(FString talkValue, FString actorName, float continueTime, FString headImagePath, bool isLeft)
+//{
+//	SetTalkUI_BPEvent(talkValue, actorName, continueTime, headImagePath, isLeft);
+//}
