@@ -1,5 +1,5 @@
 <MainActor>
-	<Actor actorId="10001" actorName="主角1" description="主角1的描述。" defaultPosition="6251.0,130,106" defaultRotation="0,0,90">
+	<Actor actorId="10001" actorName="主角1" headImagePath="GameContent/Resource/Others/Image/MainActor1Head.png" description="主角1的描述。" defaultPosition="6251.0,130,106" defaultRotation="0,0,90">
 		<Model modelName="MainActor" modelRootPath="GameContent/Resource/Others/Model/Main">
 
 		</Model>
@@ -12,7 +12,7 @@
 		</PropertyList>
 	</Actor>
 	
-	<Actor actorId="10002" actorName="主角2" description="主角2的描述。" defaultPosition="6042.0,-30,106" defaultRotation="0,0,90">
+	<Actor actorId="10002" actorName="主角2" headImagePath="GameContent/Resource/Others/Image/MainActor2Head.png" description="主角2的描述。" defaultPosition="6042.0,-30,106" defaultRotation="0,0,90">
 		<Model modelName="NPC2Actor" modelRootPath="GameContent/Resource/Others/Model/NPC2">
 
 		</Model>

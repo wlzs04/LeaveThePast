@@ -37,7 +37,7 @@
 			<Chat text="快来买呀，都是好用的。"/>
 		</ChatList>
 	</Actor>
-	<Actor actorId="30007" actorName="铁匠" description="一个普通的铁匠。">
+	<Actor actorId="30007" actorName="药商" description="一个普通的药商。">
 		<Model modelName="YaoShangNPC" modelRootPath="GameContent/Resource/Others/Model/YaoShangNPC">
 			
 		</Model>

@@ -62,5 +62,5 @@ void USayAction::ExecuteReal()
 	startTime = GWorld->GetTimeSeconds();
 	currentTime = GWorld->GetTimeSeconds();
 	isCompleted = false;
-	UUIManager::GetInstance()->SetTalkUI(text, GetExecuteActor()->GetActorInfo()->GetActorName(),actionTime);
+	UUIManager::GetInstance()->ShowTalkUI(text, GetExecuteActor()->GetActorInfo()->GetActorName(),actionTime, GetExecuteActor()->GetActorInfo()->GetHeadImagePath());
 }

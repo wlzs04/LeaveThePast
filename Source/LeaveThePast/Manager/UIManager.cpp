@@ -5,11 +5,6 @@
 
 UUIManager* UUIManager::uiManager = nullptr;
 
-UUIManager::UUIManager():UObject()
-{
-
-}
-
 UUIManager* UUIManager::GetInstance()
 {
 	return uiManager;
@@ -18,15 +13,23 @@ UUIManager* UUIManager::GetInstance()
 void UUIManager::Init()
 {
 	UUIManager::uiManager = this;
-																																  //UUserWidget* userWidget = CreateWidget<UUserWidget>(GetWorld(), widgetClass);
+	
+	InitUI();
+}
+
+UUserWidget* UUIManager::LoadUIByName(FString uiName)
+{
+	FString uiPath = TEXT("WidgetBlueprint'/Game/GameContent/UI/") + uiName + TEXT(".") + uiName + TEXT("_C'");
+	UClass* widgetClass = LoadClass<UUserWidget>(NULL, *uiPath);
+	UUserWidget* widget = CreateWidget<UUserWidget>(GetWorld()->GetFirstPlayerController(), widgetClass);
+
+	return widget;
 }
 
 void UUIManager::AddMessageTip(FString value)
 {
-	UClass* widgetClass = LoadClass<UUserWidget>(NULL, TEXT("WidgetBlueprint'/Game/GameContent/UI/MessageTipUI.MessageTipUI_C'"));//
-	UUserWidget* widget = CreateWidget<UUserWidget>(GetWorld()->GetFirstPlayerController(), widgetClass);
+	UUserWidget* widget = LoadUIByName(TEXT("MessageTipUI"));
 	widget->AddToViewport();
-
 	FOutputDeviceNull outputDeviceNull;
 	bool executeSuccess = widget->CallFunctionByNameWithArguments(*FString::Printf(TEXT("SetInfo %s"), *value), outputDeviceNull, nullptr,true);
 	if (!executeSuccess)
@@ -48,24 +51,30 @@ void UUIManager::AddMessageTipById(int id)
 	AddMessageTip(value);
 }
 
-void UUIManager::SetTalkUI(FString talkValue, FString actorName, float continueTime, FString headImagePath, bool isLeft)
+void UUIManager::ShowTalkUI(FString talkValue, FString actorName, float continueTime, FString headImagePath, bool isLeft)
 {
-	UClass* widgetClass = LoadClass<UUserWidget>(NULL, TEXT("WidgetBlueprint'/Game/GameContent/UI/TalkUI.TalkUI_C'"));
-	UUserWidget* widget = CreateWidget<UUserWidget>(GetWorld()->GetFirstPlayerController(), widgetClass);
-	widget->AddToViewport();
+	talkUIWidget->AddToViewport();
 	FOutputDeviceNull outputDeviceNull;
-	bool executeSuccess = widget->CallFunctionByNameWithArguments(*FString::Printf(TEXT("SetInfo %s %s %s %f %d"), *headImagePath, *actorName, *talkValue, continueTime, isLeft), outputDeviceNull, nullptr, true);
+	bool executeSuccess = talkUIWidget->CallFunctionByNameWithArguments(*FString::Printf(TEXT("SetInfo %s %s %s %f %d"), *headImagePath, *actorName, *talkValue, continueTime, isLeft), outputDeviceNull, nullptr, true);
 	if (!executeSuccess)
 	{
-		LogError("SetTalkUI执行SetInfo蓝图函数失败！");
+		LogError("ShowTalkUI执行SetInfo蓝图函数失败！");
 	}
 }
 
-UUserWidget* UUIManager::ShowUIByName(FString uiName)
+void UUIManager::ShowMainUI()
 {
-	FString uiPath = TEXT("WidgetBlueprint'/Game/GameContent/UI/")+ uiName + TEXT(".") + uiName +TEXT("_C'");
-	UClass* widgetClass = LoadClass<UUserWidget>(NULL, *uiPath);
-	UUserWidget* widget = CreateWidget<UUserWidget>(GetWorld()->GetFirstPlayerController(), widgetClass);
-	widget->AddToViewport();
-	return widget;
+	mainUIWidget->AddToViewport();
+	FOutputDeviceNull outputDeviceNull;
+	bool executeSuccess = mainUIWidget->CallFunctionByNameWithArguments(*FString::Printf(TEXT("SetInfo")), outputDeviceNull, nullptr, true);
+	if (!executeSuccess)
+	{
+		LogError("ShowMainUI执行SetInfo蓝图函数失败！");
+	}
+}
+
+void UUIManager::InitUI()
+{
+	mainUIWidget = LoadUIByName(TEXT("MainUI"));
+	talkUIWidget = LoadUIByName(TEXT("TalkUI"));
 }

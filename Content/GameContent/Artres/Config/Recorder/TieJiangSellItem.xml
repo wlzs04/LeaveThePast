@@ -1,0 +1,7 @@
+﻿<Item>
+  <Recorder id="1" itemId="40001" price="80"/>
+  <Recorder id="2" itemId="40002" price="20"/>
+  <Recorder id="3" itemId="40003" price="40"/>
+  <Recorder id="4" itemId="40004" price="40"/>
+  <Recorder id="5" itemId="40005" price="100"/>
+</Item>

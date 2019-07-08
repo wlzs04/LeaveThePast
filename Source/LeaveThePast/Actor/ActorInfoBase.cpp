@@ -4,23 +4,25 @@
 void UActorInfoBase::Load(FXmlNode* xmlNode)
 {
 	//基础属性
-	for (auto item : xmlNode->GetAttributes())
+	for (auto attribute : xmlNode->GetAttributes())
 	{
-		if (item.GetTag() == "actorId")
+		FString attributeName = attribute.GetTag();
+		FString attributeValue = attribute.GetValue();
+		if (attributeName == "actorId")
 		{
-			actorId = FCString::Atoi(*item.GetValue());
+			actorId = FCString::Atoi(*attributeValue);
 		}
-		else if (item.GetTag() == "actorName")
+		else if (attributeName == "actorName")
 		{
-			actorName = item.GetValue();
+			actorName = attributeValue;
 		}
-		else if (item.GetTag() == "description")
+		else if (attributeName == "description")
 		{
-			description = item.GetValue();
+			description = attributeValue;
 		}
-		else if (item.GetTag() == "defaultPosition")
+		else if (attributeName == "defaultPosition")
 		{
-			FString defaultPositionString = item.GetValue();
+			FString defaultPositionString = attributeValue;
 			TArray<FString> stringArray;
 			defaultPositionString.ParseIntoArray(stringArray, TEXT(","));
 			if (stringArray.Num() == 3)
@@ -30,9 +32,9 @@ void UActorInfoBase::Load(FXmlNode* xmlNode)
 				defaultPosition.Z = FCString::Atof(*stringArray[2]);
 			}
 		}
-		else if (item.GetTag() == "defaultRotation")
+		else if (attributeName == "defaultRotation")
 		{
-			FString defaultRotationString = item.GetValue();
+			FString defaultRotationString = attributeValue;
 			TArray<FString> stringArray;
 			defaultRotationString.ParseIntoArray(stringArray, TEXT(","));
 			if (stringArray.Num() == 3)
@@ -42,13 +44,17 @@ void UActorInfoBase::Load(FXmlNode* xmlNode)
 				defaultRotation.Yaw = FCString::Atof(*stringArray[2]);
 			}
 		}
-		else if (item.GetTag() == "isPermanent")
+		else if (attributeName == "isPermanent")
 		{
-			isPermanent = item.GetValue().ToBool();
+			isPermanent = attributeValue.ToBool();
+		}
+		else if (attributeName == "headImagePath")
+		{
+			headImagePath = attributeValue;
 		}
 		else
 		{
-			LogWarning(FString::Printf(TEXT("演员Id:%d配置中存在未知属性:%s！"), actorId, *item.GetTag()));
+			LogWarning(FString::Printf(TEXT("演员Id:%d配置中存在未知属性:%s！"), actorId, *attributeName));
 		}
 	}
 
@@ -129,6 +135,11 @@ bool UActorInfoBase::IsPermanent()
 FString UActorInfoBase::GetActorName()
 {
 	return actorName;
+}
+
+FString UActorInfoBase::GetHeadImagePath()
+{
+	return headImagePath;
 }
 
 FString UActorInfoBase::GetModelName()

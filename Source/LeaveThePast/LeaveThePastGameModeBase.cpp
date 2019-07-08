@@ -11,11 +11,13 @@ void ALeaveThePastGameModeBase::StartPlay()
 
 	if (gameManager->GetSystemData()->GetShowInitUI())
 	{
-		gameManager->GetUIManager()->ShowUIByName(TEXT("InitUI"));
+		gameManager->GetUIManager()->LoadUIByName(TEXT("InitUI"))->AddToViewport();
 	}
 
 	ADirectorActor* directorActor = Cast<ADirectorActor>(GetWorld()->GetFirstPlayerController()->GetPawn());
 	directorActor->InitActorList();
+
+	gameManager->GetUIManager()->ShowMainUI();
 }
 
 void ALeaveThePastGameModeBase::Tick(float deltaSeconds)
