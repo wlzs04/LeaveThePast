@@ -51,7 +51,7 @@ public:
 	FRotator GetDefaultRotation();
 
 	UFUNCTION(BlueprintCallable)
-	FString GetPropertyValue(FString propertyName);
+	float GetPropertyValue(FString propertyName);
 
 	UFUNCTION(BlueprintCallable)
 	TMap<FString, UPropertyBase*> GetPropertyMap();

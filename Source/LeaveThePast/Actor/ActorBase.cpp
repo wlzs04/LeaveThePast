@@ -4,8 +4,9 @@
 #include "GameFramework/Controller.h"
 #include "Engine/Engine.h"
 #include "GameFramework/PlayerController.h"
-#include "Animation/AnimBlueprintGeneratedClass.h"
 #include "Components/InputComponent.h"
+#include "Animation/AnimBlueprintGeneratedClass.h"
+#include "GameFramework/PlayerInput.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
@@ -30,14 +31,10 @@ AActorBase::AActorBase()
 	GetCharacterMovement()->JumpZVelocity = 600.f;
 	GetCharacterMovement()->AirControl = 0.2f;
 
-	//AutoPossessPlayer = EAutoReceiveInput::Player0;
-	//AutoPossessPlayer = EAutoReceiveInput::Player0;
 	bFindCameraComponentWhenViewTarget = true;
 
 	GetMesh()->SetRelativeLocation(FVector(0, 0, -90));
 	GetMesh()->SetRelativeRotation(FRotator(0, 90, 0));
-
-	//AddCameraFollow();
 }
 
 // Called when the game starts or when spawned
@@ -49,11 +46,6 @@ void AActorBase::BeginPlay()
 void AActorBase::SetupPlayerInputComponent(UInputComponent* playerInputComponent)
 {
 	Super::SetupPlayerInputComponent(playerInputComponent);
-	//check(playerInputComponent);
-	//PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
-	//PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
-
-	
 }
 
 void AActorBase::MoveForwardInputFunction(float value)
@@ -67,7 +59,6 @@ void AActorBase::MoveForwardInputFunction(float value)
 
 		// get forward vector
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
-		value = FCString::Atof(*(GetActorInfo()->GetPropertyMap()[TEXT("Speed")]->GetPropertyValue()));
 		AddMovementInput(Direction, value);
 	}
 }
@@ -83,8 +74,6 @@ void AActorBase::MoveRightInputFunction(float value)
 
 		// get right vector 
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
-		// add movement in that direction
-		value = FCString::Atof(*(GetActorInfo()->GetPropertyMap()[TEXT("Speed")]->GetPropertyValue()));
 		AddMovementInput(Direction, value);
 	}
 }
@@ -97,6 +86,16 @@ void AActorBase::TurnInputFunction(float value)
 void AActorBase::LookUpInputFunction(float value)
 {
 	AddControllerPitchInput(value * 45 * GetWorld()->GetDeltaSeconds());
+}
+
+void AActorBase::SetAccelerate(bool enableAccelerate)
+{
+	float newMaxWalkSpeed = actorInfo->GetPropertyValue(TEXT("Speed"));
+	if (enableAccelerate)
+	{
+		newMaxWalkSpeed *= 6;
+	}
+	GetCharacterMovement()->MaxWalkSpeed = newMaxWalkSpeed;
 }
 
 // Called every frame
@@ -124,7 +123,7 @@ void AActorBase::SetActorInfo(UActorInfoBase* newActorInfo)
 {
 	actorInfo = newActorInfo;
 	LoadModel();
-	GetCharacterMovement()->MaxWalkSpeed = FCString::Atof(*actorInfo->GetPropertyValue(TEXT("Speed")));
+	GetCharacterMovement()->MaxWalkSpeed =  actorInfo->GetPropertyValue(TEXT("Speed"));
 }
 
 UActorInfoBase* AActorBase::GetActorInfo()

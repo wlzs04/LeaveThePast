@@ -21,10 +21,10 @@ class LEAVETHEPAST_API UPropertyBase : public UObject
 {
 	GENERATED_BODY()
 public:
-	void SetInfo(FString newPropertyName, FString newPropertyValue);
+	void SetInfo(FString newPropertyName, float newPropertyValue);
 
 	UFUNCTION(BlueprintCallable)
-	FString GetPropertyValue();
+	float GetPropertyValue();
 
 	UFUNCTION(BlueprintCallable)
 	FString GetPropertyName();
@@ -32,5 +32,5 @@ public:
 private:
 	PropertyEnum propertyEnum = PropertyEnum::Unknown;
 	FString propertyName = TEXT("未命名");
-	FString propertyValue = TEXT("未知值");
+	float propertyValue = 0;
 };

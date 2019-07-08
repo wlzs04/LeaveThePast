@@ -64,6 +64,8 @@ public:
 	void MoveRightInputFunction(float value);
 	void TurnInputFunction(float value);
 	void LookUpInputFunction(float value);
+
+	void SetAccelerate(bool enableAccelerate);
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -81,4 +83,6 @@ private:
 	USpringArmComponent* springArmComponent = nullptr;
 	UPROPERTY()
 	UCameraComponent* cameraComponent = nullptr;
+
+	int y = 0;
 };

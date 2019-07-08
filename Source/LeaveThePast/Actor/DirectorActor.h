@@ -41,6 +41,8 @@ private:
 
 	void ChangeControlActorInputFunction();
 	void SystemInputFunction();
+	void StartAccelerateInputFunction();
+	void StopAccelerateInputFunction();
 
 	TArray<AActorBase*> canControlActorList;
 	AActorBase* currentControlActor = nullptr;

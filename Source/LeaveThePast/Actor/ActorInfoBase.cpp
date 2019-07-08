@@ -115,8 +115,8 @@ void UActorInfoBase::Load(FXmlNode* xmlNode)
 				{
 					LogWarning(FString::Printf(TEXT("演员Id:%d配置中存在未知属性:%s！"), actorId, *propertyName));
 				}
-				propertyBase->SetInfo(propertyNode->GetAttribute(TEXT("name")), propertyNode->GetAttribute(TEXT("value")));
-				propertyMap.Add(propertyNode->GetTag(), propertyBase);
+				propertyBase->SetInfo(propertyNode->GetAttribute(TEXT("name")),FCString::Atof(*propertyNode->GetAttribute(TEXT("value"))));
+				propertyMap.Add(propertyName, propertyBase);
 			}
 		}
 	}
@@ -162,13 +162,13 @@ FRotator UActorInfoBase::GetDefaultRotation()
 	return defaultRotation;
 }
 
-FString UActorInfoBase::GetPropertyValue(FString propertyName)
+float UActorInfoBase::GetPropertyValue(FString propertyName)
 {
 	if (propertyMap.Contains(propertyName))
 	{
 		return propertyMap[propertyName]->GetPropertyValue();
 	}
-	return TEXT("未找到");
+	return 0;
 }
 
 TMap<FString, UPropertyBase*> UActorInfoBase::GetPropertyMap()

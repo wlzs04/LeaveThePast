@@ -89,7 +89,9 @@ void ADirectorActor::SetupPlayerInputComponent(UInputComponent* playerInputCompo
 	playerInputComponent->BindAxis("LookUp", this, &ADirectorActor::LookUpInputFunction);
 
 	playerInputComponent->BindAction("ChangeControlActor", EInputEvent::IE_Released, this, &ADirectorActor::ChangeControlActorInputFunction);
-	playerInputComponent->BindAction("System",EInputEvent::IE_Released,this, &ADirectorActor::SystemInputFunction);
+	playerInputComponent->BindAction("System", EInputEvent::IE_Released, this, &ADirectorActor::SystemInputFunction);
+	playerInputComponent->BindAction("Accelerate", EInputEvent::IE_Pressed, this, &ADirectorActor::StartAccelerateInputFunction);
+	playerInputComponent->BindAction("Accelerate",EInputEvent::IE_Released,this, &ADirectorActor::StopAccelerateInputFunction);
 }
 
 void ADirectorActor::MoveForwardInputFunction(float value)
@@ -100,13 +102,7 @@ void ADirectorActor::MoveForwardInputFunction(float value)
 	}
 	if (currentControlActor != nullptr)
 	{
-		UPlayerInput* pi = GWorld->GetFirstPlayerController<APlayerController>()->PlayerInput;
-		FKeyState* keyState = pi->GetKeyState(EKeys::LeftShift);
-		if (keyState!=nullptr&& keyState->bDown == 1)
-		{
-			value *= 3;
-		}
-		currentControlActor->MoveForwardInputFunction(value * GetWorld()->GetDeltaSeconds());
+		currentControlActor->MoveForwardInputFunction(value);
 	}
 }
 
@@ -118,13 +114,7 @@ void ADirectorActor::MoveRightInputFunction(float value)
 	}
 	if (currentControlActor != nullptr)
 	{
-		UPlayerInput* pi = GWorld->GetFirstPlayerController<APlayerController>()->PlayerInput;
-		FKeyState* keyState = pi->GetKeyState(EKeys::LeftShift);
-		if (keyState != nullptr && keyState->bDown == 1)
-		{
-			value *= 3;
-		}
-		currentControlActor->MoveRightInputFunction(value * GetWorld()->GetDeltaSeconds());
+		currentControlActor->MoveRightInputFunction(value);
 	}
 }
 
@@ -186,5 +176,20 @@ void ADirectorActor::SystemInputFunction()
 		UUIManager::GetInstance()->ShowMenuUI();
 	}
 	GWorld->GetFirstPlayerController<APlayerController>()->bShowMouseCursor = inMenuUI;
-	
+}
+
+void ADirectorActor::StartAccelerateInputFunction()
+{
+	if (currentControlActor != nullptr)
+	{
+		currentControlActor->SetAccelerate(true);
+	}
+}
+
+void ADirectorActor::StopAccelerateInputFunction()
+{
+	if (currentControlActor != nullptr)
+	{
+		currentControlActor->SetAccelerate(false);
+	}
 }

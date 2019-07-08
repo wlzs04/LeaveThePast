@@ -1,12 +1,12 @@
 #include "PropertyBase.h"
 
-void UPropertyBase::SetInfo(FString newPropertyName, FString newPropertyValue)
+void UPropertyBase::SetInfo(FString newPropertyName, float newPropertyValue)
 {
 	propertyName = newPropertyName;
 	propertyValue = newPropertyValue;
 }
 
-FString UPropertyBase::GetPropertyValue()
+float UPropertyBase::GetPropertyValue()
 {
 	return propertyValue;
 }
