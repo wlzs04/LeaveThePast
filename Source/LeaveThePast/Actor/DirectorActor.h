@@ -27,7 +27,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -40,8 +40,11 @@ private:
 	void LookUpInputFunction(float value);
 
 	void ChangeControlActorInputFunction();
+	void SystemInputFunction();
 
 	TArray<AActorBase*> canControlActorList;
 	AActorBase* currentControlActor = nullptr;
 	int currentControlActorIndex = 0;
+
+	bool inMenuUI = false;
 };

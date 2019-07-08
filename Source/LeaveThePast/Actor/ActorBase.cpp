@@ -67,6 +67,7 @@ void AActorBase::MoveForwardInputFunction(float value)
 
 		// get forward vector
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+		value = FCString::Atof(*(GetActorInfo()->GetPropertyMap()[TEXT("Speed")]->GetPropertyValue()));
 		AddMovementInput(Direction, value);
 	}
 }
@@ -83,6 +84,7 @@ void AActorBase::MoveRightInputFunction(float value)
 		// get right vector 
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 		// add movement in that direction
+		value = FCString::Atof(*(GetActorInfo()->GetPropertyMap()[TEXT("Speed")]->GetPropertyValue()));
 		AddMovementInput(Direction, value);
 	}
 }

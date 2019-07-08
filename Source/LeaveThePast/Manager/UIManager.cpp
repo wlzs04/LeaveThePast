@@ -73,8 +73,24 @@ void UUIManager::ShowMainUI()
 	}
 }
 
+void UUIManager::HideMainUI()
+{
+	mainUIWidget->RemoveFromParent();
+}
+
+void UUIManager::ShowMenuUI()
+{
+	menuUIWidget->AddToViewport();
+}
+
+void UUIManager::HideMenuUI()
+{
+	menuUIWidget->RemoveFromParent();
+}
+
 void UUIManager::InitUI()
 {
 	mainUIWidget = LoadUIByName(TEXT("MainUI"));
 	talkUIWidget = LoadUIByName(TEXT("TalkUI"));
+	menuUIWidget = LoadUIByName(TEXT("MenuUI"));
 }

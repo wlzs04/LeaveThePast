@@ -88,37 +88,70 @@ void ADirectorActor::SetupPlayerInputComponent(UInputComponent* playerInputCompo
 	playerInputComponent->BindAxis("Turn", this, &ADirectorActor::TurnInputFunction);
 	playerInputComponent->BindAxis("LookUp", this, &ADirectorActor::LookUpInputFunction);
 
-	playerInputComponent->BindAction("ChangeControlActor",EInputEvent::IE_Released,this, &ADirectorActor::ChangeControlActorInputFunction);
+	playerInputComponent->BindAction("ChangeControlActor", EInputEvent::IE_Released, this, &ADirectorActor::ChangeControlActorInputFunction);
+	playerInputComponent->BindAction("System",EInputEvent::IE_Released,this, &ADirectorActor::SystemInputFunction);
 }
 
 void ADirectorActor::MoveForwardInputFunction(float value)
 {
+	if (inMenuUI || value == 0)
+	{
+		return;
+	}
 	if (currentControlActor != nullptr)
 	{
-		currentControlActor->MoveForwardInputFunction(value);
+		UPlayerInput* pi = GWorld->GetFirstPlayerController<APlayerController>()->PlayerInput;
+		FKeyState* keyState = pi->GetKeyState(EKeys::LeftShift);
+		if (keyState!=nullptr&& keyState->bDown == 1)
+		{
+			value *= 3;
+		}
+		currentControlActor->MoveForwardInputFunction(value * GetWorld()->GetDeltaSeconds());
 	}
 }
 
 void ADirectorActor::MoveRightInputFunction(float value)
 {
+	if (inMenuUI || value == 0)
+	{
+		return;
+	}
 	if (currentControlActor != nullptr)
 	{
-		currentControlActor->MoveRightInputFunction(value);
+		UPlayerInput* pi = GWorld->GetFirstPlayerController<APlayerController>()->PlayerInput;
+		FKeyState* keyState = pi->GetKeyState(EKeys::LeftShift);
+		if (keyState != nullptr && keyState->bDown == 1)
+		{
+			value *= 3;
+		}
+		currentControlActor->MoveRightInputFunction(value * GetWorld()->GetDeltaSeconds());
 	}
 }
 
 void ADirectorActor::TurnInputFunction(float value)
 {
+	if (inMenuUI || value == 0)
+	{
+		return;
+	}
 	AddControllerYawInput(value * 45 * GetWorld()->GetDeltaSeconds());
 }
 
 void ADirectorActor::LookUpInputFunction(float value)
 {
+	if (inMenuUI || value == 0)
+	{
+		return;
+	}
 	AddControllerPitchInput(value * 45 * GetWorld()->GetDeltaSeconds());
 }
 
 void ADirectorActor::ChangeControlActorInputFunction()
 {
+	if (inMenuUI)
+	{
+		return;
+	}
 	if (canControlActorList.Num() == 0)
 	{
 		return;
@@ -140,3 +173,18 @@ void ADirectorActor::ChangeControlActorInputFunction()
 	currentControlActor->Controller = playerController;
 }
 
+void ADirectorActor::SystemInputFunction()
+{
+	if (inMenuUI)
+	{
+		inMenuUI = false;
+		UUIManager::GetInstance()->HideMenuUI();
+	}
+	else
+	{
+		inMenuUI = true;
+		UUIManager::GetInstance()->ShowMenuUI();
+	}
+	GWorld->GetFirstPlayerController<APlayerController>()->bShowMouseCursor = inMenuUI;
+	
+}

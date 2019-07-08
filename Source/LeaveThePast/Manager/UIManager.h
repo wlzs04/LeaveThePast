@@ -34,6 +34,17 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void ShowMainUI();
 
+	//隐藏主界面
+	UFUNCTION(BlueprintCallable)
+	void HideMainUI();
+
+	//显示菜单界面
+	UFUNCTION(BlueprintCallable)
+	void ShowMenuUI();
+
+	//隐藏菜单界面
+	UFUNCTION(BlueprintCallable)
+	void HideMenuUI();
 private:
 	//初始化常用UI
 	void InitUI();
@@ -45,4 +56,7 @@ private:
 
 	UPROPERTY()
 	UUserWidget* talkUIWidget = nullptr;
+
+	UPROPERTY()
+	UUserWidget* menuUIWidget = nullptr;
 };
