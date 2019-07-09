@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<SystemData showInitUI="false" missionAccomplished="false" backgroundSoundVolume="1.0" voiceSoundVolume="1.0" effectSoundVolume="1.0" />
+<SystemData showInitUI="false" missionAccomplished="false" mainSoundVolume="1.0" bgmSoundVolume="0.163291" voiceSoundVolume="1.0" effectSoundVolume="1.0" />

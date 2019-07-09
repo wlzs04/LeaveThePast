@@ -34,14 +34,13 @@ void USystemData::Load()
 			{
 				missionAccomplished = attributeValue.ToBool();
 			}
-			else if(attributeName == TEXT("backgroundSoundVolume"))
+			else if (attributeName == TEXT("mainSoundVolume"))
 			{
-				backgroundSoundVolume = FCString::Atof(*attributeValue);
+				mainSoundVolume = FCString::Atof(*attributeValue);
 			}
-			else if (attributeName == TEXT("backgroundSoundVolume"))
+			else if(attributeName == TEXT("bgmSoundVolume"))
 			{
-				backgroundSoundVolume = FCString::Atof(*attributeValue);
-
+				bgmSoundVolume = FCString::Atof(*attributeValue);
 			}
 			else if (attributeName == TEXT("voiceSoundVolume"))
 			{
@@ -71,7 +70,8 @@ void USystemData::Save()
 	xmlContent.Append(TEXT("showInitUI=\"") + showInitUIString + TEXT("\" "));
 	FString missionAccomplishedString = (missionAccomplished ? TEXT("true") : TEXT("false"));
 	xmlContent.Append(TEXT("missionAccomplished=\"") + missionAccomplishedString + TEXT("\" "));
-	xmlContent.Append(TEXT("backgroundSoundVolume=\"") + FString::SanitizeFloat(backgroundSoundVolume) + TEXT("\" "));
+	xmlContent.Append(TEXT("mainSoundVolume=\"") + FString::SanitizeFloat(mainSoundVolume) + TEXT("\" "));
+	xmlContent.Append(TEXT("bgmSoundVolume=\"") + FString::SanitizeFloat(bgmSoundVolume) + TEXT("\" "));
 	xmlContent.Append(TEXT("voiceSoundVolume=\"") + FString::SanitizeFloat(voiceSoundVolume) + TEXT("\" "));
 	xmlContent.Append(TEXT("effectSoundVolume=\"") + FString::SanitizeFloat(effectSoundVolume) + TEXT("\" "));
 	//end 添加基础信息
@@ -104,14 +104,24 @@ void USystemData::SetMissionAccomplished(bool newMissionAccomplished)
 	missionAccomplished = newMissionAccomplished;
 }
 
-float USystemData::GetBackgroundSoundVolume()
+float USystemData::GetMainSoundVolume()
 {
-	return backgroundSoundVolume;
+	return mainSoundVolume;
 }
 
-void USystemData::SetBackgroundSoundVolume(float newBackgroundSoundVolume)
+void USystemData::SetMainSoundVolume(float newMainSoundVolume)
 {
-	backgroundSoundVolume = newBackgroundSoundVolume;
+	mainSoundVolume = newMainSoundVolume;
+}
+
+float USystemData::GetBGMSoundVolume()
+{
+	return bgmSoundVolume;
+}
+
+void USystemData::SetBGMSoundVolume(float newBGMSoundVolume)
+{
+	bgmSoundVolume = newBGMSoundVolume;
 }
 
 float USystemData::GetVoiceSoundVolume()

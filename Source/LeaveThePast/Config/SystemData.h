@@ -26,9 +26,14 @@ public:
 	void SetMissionAccomplished(bool newMissionAccomplished);
 
 	UFUNCTION(BlueprintCallable)
-	float GetBackgroundSoundVolume();
+	float GetMainSoundVolume();
 	UFUNCTION(BlueprintCallable)
-	void SetBackgroundSoundVolume(float newBackgroundSoundVolume);
+	void SetMainSoundVolume(float newMainSoundVolume);
+
+	UFUNCTION(BlueprintCallable)
+	float GetBGMSoundVolume();
+	UFUNCTION(BlueprintCallable)
+	void SetBGMSoundVolume(float newBGMSoundVolume);
 
 	UFUNCTION(BlueprintCallable)
 	float GetVoiceSoundVolume();
@@ -46,8 +51,10 @@ private:
 	bool showInitUI = true;
 	//是否游戏通关
 	bool missionAccomplished = false;
+	//主音量
+	float mainSoundVolume = 1;
 	//背景音量
-	float backgroundSoundVolume = 1;
+	float bgmSoundVolume = 1;
 	//语音音量
 	float voiceSoundVolume = 1;
 	//效果音量
