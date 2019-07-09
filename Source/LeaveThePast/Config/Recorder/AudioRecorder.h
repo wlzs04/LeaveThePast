@@ -13,13 +13,16 @@ public:
 
 	FString GetRecordName() override;
 
-	//获得值
 	UFUNCTION(BlueprintCallable)
 	FString GetAudioName();
+
+	UFUNCTION(BlueprintCallable)
+	int GetAudioType();
 
 	UFUNCTION(BlueprintCallable)
 	FString GetAudioRootPath();
 private:
 	FString audioName;
+	int audioType = 0;//0 BGM 1 Voice 2 Effect
 	FString audioRootPath;
 };

@@ -11,6 +11,7 @@ class LEAVETHEPAST_API UAudioManager : public UObject
 {
 	GENERATED_BODY()
 public:
+	void Init();
 
 	//获得指定名称的声音
 	/*UFUNCTION(BlueprintCallable)

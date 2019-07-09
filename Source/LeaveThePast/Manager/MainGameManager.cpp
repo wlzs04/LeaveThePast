@@ -120,6 +120,9 @@ void UMainGameManager::InitManager()
 
 	uiManager = NewObject<UUIManager>(this);
 	uiManager->Init();
+
+	audioManager = NewObject<UAudioManager>(this);
+	audioManager->Init();
 }
 
 void UMainGameManager::LoadIegalAction()
@@ -260,6 +263,11 @@ ULogManager* UMainGameManager::GetLogManager()
 UUIManager* UMainGameManager::GetUIManager()
 {
 	return uiManager;
+}
+
+UAudioManager* UMainGameManager::GetAudioManager()
+{
+	return audioManager;
 }
 
 FString UMainGameManager::GetArtresPath()

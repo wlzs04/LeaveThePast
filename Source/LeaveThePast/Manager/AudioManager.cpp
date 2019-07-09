@@ -4,6 +4,11 @@
 #include "../Config/Recorder/AudioRecorder.h"
 #include "Sound/SoundBase.h"
 
+void UAudioManager::Init()
+{
+
+}
+
 USoundBase* UAudioManager::GetAudioById(int id)
 {
 	if (audioMap.Contains(id))
@@ -24,7 +29,7 @@ USoundBase* UAudioManager::LoadAudioById(int id)
 	audioName.FindLastChar(TEXT('/'), lastCharIndex);
 	FString realAudioName = audioName.Right(audioName.Len() - lastCharIndex - 1);
 	audioRecorder->GetAudioRootPath*/
-	FString audioPath = TEXT("SoundWave'/Game/" + audioRecorder->GetAudioRootPath + TEXT("/") + audioRecorder->GetAudioName() + "." + audioRecorder->GetAudioName() + "'");
+	FString audioPath = TEXT("SoundWave'/Game/" + audioRecorder->GetAudioRootPath() + TEXT("/") + audioRecorder->GetAudioName() + "." + audioRecorder->GetAudioName() + "'");
 	USoundBase* sound = LoadObject<USoundBase>(nullptr, *audioPath);
 	if (!sound)
 	{

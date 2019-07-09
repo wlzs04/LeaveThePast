@@ -206,6 +206,9 @@ private:
 	UPROPERTY()
 	UUIManager* uiManager = nullptr;
 
+	UPROPERTY()
+	UAudioManager* audioManager = nullptr;
+	
 	//是否已经初始化完成
 	bool haveInited = false;
 	bool startTime = false;
