@@ -18,6 +18,7 @@ void ALeaveThePastGameModeBase::StartPlay()
 	directorActor->InitActorList();
 
 	gameManager->GetUIManager()->ShowMainUI();
+	USoundBase* sound = gameManager->GetAudioManager()->GetAudioById(10001);
 }
 
 void ALeaveThePastGameModeBase::Tick(float deltaSeconds)

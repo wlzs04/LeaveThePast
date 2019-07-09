@@ -7,6 +7,7 @@
 #include "ActorManager.h"
 #include "LogManager.h"
 #include "UIManager.h"
+#include "AudioManager.h"
 #include "../Config/UserData.h"
 #include "../Config/SystemData.h"
 #include "MainGameManager.generated.h"
@@ -153,6 +154,10 @@ public:
 	//获得UI管理器
 	UFUNCTION(BlueprintCallable)
 	UUIManager* GetUIManager();
+
+	//获得声音管理器
+	UFUNCTION(BlueprintCallable)
+	UAudioManager* GetAudioManager();
 
 	//获得资源路径
 	UFUNCTION(BlueprintCallable)
