@@ -70,6 +70,9 @@ public:
 	void LookUpInputFunction(float value);
 
 	void SetAccelerate(bool enableAccelerate);
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	int actorIdForEditor = 0;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -90,5 +93,4 @@ private:
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta = (AllowPrivateAccess = "true"))
 	UAudioComponent* audioComponent = nullptr;
 
-	int y = 0;
 };

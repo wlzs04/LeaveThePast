@@ -5,7 +5,8 @@
 #include "CoreMinimal.h"
 #include "Styling/SlateStyle.h"
 
-class FTestPluginStyle
+/**  */
+class FMainToolPluginStyle
 {
 public:
 

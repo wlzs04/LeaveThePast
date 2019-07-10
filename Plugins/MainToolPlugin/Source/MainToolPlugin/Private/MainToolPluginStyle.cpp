@@ -1,15 +1,14 @@
 // Copyright 1998-2019 Epic Games, Inc. All Rights Reserved.
 
-#include "TestPluginStyle.h"
-#include "TestPlugin.h"
-#include "Framework/Application/SlateApplication.h"
+#include "MainToolPluginStyle.h"
 #include "Styling/SlateStyleRegistry.h"
+#include "Framework/Application/SlateApplication.h"
 #include "Slate/SlateGameResources.h"
 #include "Interfaces/IPluginManager.h"
 
-TSharedPtr< FSlateStyleSet > FTestPluginStyle::StyleInstance = NULL;
+TSharedPtr< FSlateStyleSet > FMainToolPluginStyle::StyleInstance = NULL;
 
-void FTestPluginStyle::Initialize()
+void FMainToolPluginStyle::Initialize()
 {
 	if (!StyleInstance.IsValid())
 	{
@@ -18,16 +17,16 @@ void FTestPluginStyle::Initialize()
 	}
 }
 
-void FTestPluginStyle::Shutdown()
+void FMainToolPluginStyle::Shutdown()
 {
 	FSlateStyleRegistry::UnRegisterSlateStyle(*StyleInstance);
 	ensure(StyleInstance.IsUnique());
 	StyleInstance.Reset();
 }
 
-FName FTestPluginStyle::GetStyleSetName()
+FName FMainToolPluginStyle::GetStyleSetName()
 {
-	static FName StyleSetName(TEXT("TestPluginStyle"));
+	static FName StyleSetName(TEXT("MainToolPluginStyle"));
 	return StyleSetName;
 }
 
@@ -41,12 +40,12 @@ const FVector2D Icon16x16(16.0f, 16.0f);
 const FVector2D Icon20x20(20.0f, 20.0f);
 const FVector2D Icon40x40(40.0f, 40.0f);
 
-TSharedRef< FSlateStyleSet > FTestPluginStyle::Create()
+TSharedRef< FSlateStyleSet > FMainToolPluginStyle::Create()
 {
-	TSharedRef< FSlateStyleSet > Style = MakeShareable(new FSlateStyleSet("TestPluginStyle"));
-	Style->SetContentRoot(IPluginManager::Get().FindPlugin("TestPlugin")->GetBaseDir() / TEXT("Resources"));
+	TSharedRef< FSlateStyleSet > Style = MakeShareable(new FSlateStyleSet("MainToolPluginStyle"));
+	Style->SetContentRoot(IPluginManager::Get().FindPlugin("MainToolPlugin")->GetBaseDir() / TEXT("Resources"));
 
-	Style->Set("TestPlugin.PluginAction", new IMAGE_BRUSH(TEXT("ButtonIcon_40x"), Icon40x40));
+	Style->Set("MainToolPlugin.OpenPluginWindow", new IMAGE_BRUSH(TEXT("ButtonIcon_40x"), Icon40x40));
 
 	return Style;
 }
@@ -57,7 +56,7 @@ TSharedRef< FSlateStyleSet > FTestPluginStyle::Create()
 #undef TTF_FONT
 #undef OTF_FONT
 
-void FTestPluginStyle::ReloadTextures()
+void FMainToolPluginStyle::ReloadTextures()
 {
 	if (FSlateApplication::IsInitialized())
 	{
@@ -65,7 +64,7 @@ void FTestPluginStyle::ReloadTextures()
 	}
 }
 
-const ISlateStyle& FTestPluginStyle::Get()
+const ISlateStyle& FMainToolPluginStyle::Get()
 {
 	return *StyleInstance;
 }

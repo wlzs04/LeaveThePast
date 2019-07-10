@@ -17,10 +17,10 @@ UAudioManager* UAudioManager::GetInstance()
 void UAudioManager::Init()
 {
 	audioManager = this;
-	mainSoundClass = LoadObject<USoundClass>(NULL, TEXT("SoundClass'/Game/GameContent/Audio/MainSoundMix"));
-	bgmSoundClass = LoadObject<USoundClass>(NULL, TEXT("SoundClass'/Game/GameContent/Audio/BGMSoundMix"));
-	voiceSoundClass = LoadObject<USoundClass>(NULL, TEXT("SoundClass'/Game/GameContent/Audio/VoiceSoundMix"));
-	effectSoundClass = LoadObject<USoundClass>(NULL, TEXT("SoundClass'/Game/GameContent/Audio/EffectSoundMix"));
+	mainSoundClass = LoadObject<USoundClass>(NULL, TEXT("SoundClass'/Game/GameContent/Audio/MainSoundClass.MainSoundClass'"));
+	bgmSoundClass = LoadObject<USoundClass>(NULL, TEXT("SoundClass'/Game/GameContent/Audio/BGMSoundClass.BGMSoundClass'"));
+	voiceSoundClass = LoadObject<USoundClass>(NULL, TEXT("SoundClass'/Game/GameContent/Audio/VoiceSoundClass.VoiceSoundClass'"));
+	effectSoundClass = LoadObject<USoundClass>(NULL, TEXT("SoundClass'/Game/GameContent/Audio/EffectSoundClass.EffectSoundClass'"));
 }
 
 USoundClass* UAudioManager::GetMainSoundClass()

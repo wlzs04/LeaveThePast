@@ -26,8 +26,6 @@ void UActorManager::LoadAllActorInfo()
 
 void UActorManager::LoadAllPermanentActorToScene()
 {
-	UClass* actorBlueprintClass = StaticLoadClass(UObject::StaticClass(), NULL, TEXT("/Game/GameContent/WorldObject/Actor/MassActor_BP.MassActor_BP"), NULL, LOAD_None, NULL);
-	
 	for (auto pair: massActorInfoMap)
 	{
 		UMassActorInfo* actorInfo = pair.Value;

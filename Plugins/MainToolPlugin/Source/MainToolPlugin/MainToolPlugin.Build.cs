@@ -2,9 +2,9 @@
 
 using UnrealBuildTool;
 
-public class TestPlugin : ModuleRules
+public class MainToolPlugin : ModuleRules
 {
-	public TestPlugin(ReadOnlyTargetRules Target) : base(Target)
+	public MainToolPlugin(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
 		
@@ -26,6 +26,7 @@ public class TestPlugin : ModuleRules
 			new string[]
 			{
 				"Core",
+                "LeaveThePast",
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);

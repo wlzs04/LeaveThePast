@@ -126,9 +126,14 @@ void AActorBase::StartPerform()
 void AActorBase::SetActorInfo(UActorInfoBase* newActorInfo)
 {
 	actorInfo = newActorInfo;
+	if (actorInfo == nullptr)
+	{
+		LogError(TEXT("设置actorinfo为空。"));
+		return;
+	}
 	LoadModel();
 	GetCharacterMovement()->MaxWalkSpeed =  actorInfo->GetPropertyValue(TEXT("Speed"));
-	audioComponent->SoundClassOverride = UAudioManager::GetInstance()->GetVoiceSoundClass();
+	//audioComponent->SoundClassOverride = UAudioManager::GetInstance()->GetVoiceSoundClass();
 }
 
 UActorInfoBase* AActorBase::GetActorInfo()
@@ -147,7 +152,7 @@ void AActorBase::LoadModel()
 		USkeletalMesh* newMesh = LoadObject<USkeletalMesh>(NULL, realModelPath.GetCharArray().GetData());
 		if (newMesh==nullptr)
 		{
-			LogError(FString::Printf(TEXT("演员Id:%d模型加载失败，路径：%s"), actorInfo->GetActorId(), *modelName));
+			LogError(FString::Printf(TEXT("演员Id:%d模型加载失败，路径：%s"), actorInfo->GetActorId(), *realModelPath));
 		}
 		else
 		{

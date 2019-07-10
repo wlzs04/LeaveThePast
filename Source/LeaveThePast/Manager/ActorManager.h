@@ -24,12 +24,15 @@ public:
 	void LoadAllPermanentActorToScene();
 
 	//将指定演员加载到场景中
+	UFUNCTION(BlueprintCallable)
 	AActorBase* LoadActorToSceneById(int actorId);
 
 	//通过演员Id获得演员
+	UFUNCTION(BlueprintCallable)
 	AActorBase* GetActorById(int actorId);
 
 	//通过演员Id获得演员信息
+	UFUNCTION(BlueprintCallable)
 	UActorInfoBase* GetActorInfoById(int actorId);
 private:
 	//加载主演
