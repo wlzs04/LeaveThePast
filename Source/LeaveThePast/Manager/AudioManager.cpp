@@ -3,14 +3,46 @@
 #include "ConfigManager.h"
 #include "../Config/Recorder/AudioRecorder.h"
 #include "Sound/SoundBase.h"
+#include "Sound/SoundClass.h"
 //#include "AudioDeviceManager.h"
 #include "Engine/World.h"
-#include "Engine/Public/AudioDevice.h"
+
+UAudioManager* UAudioManager::audioManager = nullptr;
+
+UAudioManager* UAudioManager::GetInstance()
+{
+	return audioManager;
+}
 
 void UAudioManager::Init()
 {
-	//FAudioDevice* AudioDevice = GetWorld()->GetAudioDevice();
+	audioManager = this;
+	mainSoundClass = LoadObject<USoundClass>(NULL, TEXT("SoundClass'/Game/GameContent/Audio/MainSoundMix"));
+	bgmSoundClass = LoadObject<USoundClass>(NULL, TEXT("SoundClass'/Game/GameContent/Audio/BGMSoundMix"));
+	voiceSoundClass = LoadObject<USoundClass>(NULL, TEXT("SoundClass'/Game/GameContent/Audio/VoiceSoundMix"));
+	effectSoundClass = LoadObject<USoundClass>(NULL, TEXT("SoundClass'/Game/GameContent/Audio/EffectSoundMix"));
 }
+
+USoundClass* UAudioManager::GetMainSoundClass()
+{
+	return mainSoundClass;
+}
+
+USoundClass* UAudioManager::GetBGMSoundClass()
+{
+	return bgmSoundClass;
+}
+
+USoundClass* UAudioManager::GetVoiceSoundClass()
+{
+	return voiceSoundClass;
+}
+
+USoundClass* UAudioManager::GetEffectSoundClass()
+{
+	return effectSoundClass;
+}
+
 
 USoundBase* UAudioManager::GetAudioById(int id)
 {

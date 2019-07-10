@@ -1,8 +1,10 @@
 #include "ActorBase.h"
 #include "..\Action\ActionBase.h"
 #include "..\Manager\LogManager.h"
+#include "..\Manager\AudioManager.h"
 #include "GameFramework/Controller.h"
 #include "Engine/Engine.h"
+#include "Sound/SoundBase.h"
 #include "GameFramework/PlayerController.h"
 #include "Components/InputComponent.h"
 #include "Animation/AnimBlueprintGeneratedClass.h"
@@ -35,6 +37,8 @@ AActorBase::AActorBase()
 
 	GetMesh()->SetRelativeLocation(FVector(0, 0, -90));
 	GetMesh()->SetRelativeRotation(FRotator(0, 90, 0));
+
+	audioComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("Audio"));
 }
 
 // Called when the game starts or when spawned
@@ -124,6 +128,7 @@ void AActorBase::SetActorInfo(UActorInfoBase* newActorInfo)
 	actorInfo = newActorInfo;
 	LoadModel();
 	GetCharacterMovement()->MaxWalkSpeed =  actorInfo->GetPropertyValue(TEXT("Speed"));
+	audioComponent->SoundClassOverride = UAudioManager::GetInstance()->GetVoiceSoundClass();
 }
 
 UActorInfoBase* AActorBase::GetActorInfo()
@@ -193,6 +198,11 @@ void AActorBase::StartTalk()
 void AActorBase::StopTalk()
 {
 	isInTalking = false;
+}
+
+void AActorBase::StartPlaySound(USoundBase* soundBase)
+{
+	audioComponent->SetSound(soundBase);
 }
 
 void AActorBase::AddCameraFollow()

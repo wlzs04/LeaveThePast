@@ -111,6 +111,9 @@ void UMainGameManager::InitManager()
 	configManager = NewObject<UConfigManager>(this);
 	configManager->Init();
 
+	audioManager = NewObject<UAudioManager>(this);
+	audioManager->Init();
+
 	LoadIegalAction();
 	dramaScriptManager = NewObject<UDramaScriptManager>(this);
 	dramaScriptManager->Init();
@@ -120,9 +123,6 @@ void UMainGameManager::InitManager()
 
 	uiManager = NewObject<UUIManager>(this);
 	uiManager->Init();
-
-	audioManager = NewObject<UAudioManager>(this);
-	audioManager->Init();
 }
 
 void UMainGameManager::LoadIegalAction()

@@ -5,10 +5,12 @@
 #include "GameFramework/Character.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
+#include "Components/AudioComponent.h"
 #include "ActorInfoBase.h"
 #include "ActorBase.generated.h"
 
 class UActionBase;
+class USoundBase;
 
 UCLASS()
 class LEAVETHEPAST_API AActorBase : public ACharacter
@@ -54,6 +56,8 @@ public:
 
 	void StopTalk();
 
+	void StartPlaySound(USoundBase* soundBase);
+
 	//设置摄像机跟随
 	void AddCameraFollow();
 
@@ -83,6 +87,8 @@ private:
 	USpringArmComponent* springArmComponent = nullptr;
 	UPROPERTY()
 	UCameraComponent* cameraComponent = nullptr;
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta = (AllowPrivateAccess = "true"))
+	UAudioComponent* audioComponent = nullptr;
 
 	int y = 0;
 };
