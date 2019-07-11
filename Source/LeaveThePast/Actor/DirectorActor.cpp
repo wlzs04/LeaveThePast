@@ -226,7 +226,8 @@ void ADirectorActor::InteractedInputFunction()
 				}
 				else if (actorInfo->GetActorType() == 1)
 				{
-					UUIManager::GetInstance()->ShowShopUI();
+					FString configName = actorInfo->GetActorTypeValue();
+					UUIManager::GetInstance()->ShowShopUI(configName);
 				}
 				else
 				{

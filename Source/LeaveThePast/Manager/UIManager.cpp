@@ -42,7 +42,7 @@ void UUIManager::AddMessageTipById(int id)
 {
 	FString value = TEXT("");
 
-	URecorderBase* messageTipRecorder = UConfigManager::GetInstance()->GetConfigByNameId(UMessageTipRecorder::StaticClass(), id);
+	URecorderBase* messageTipRecorder = UConfigManager::GetInstance()->GetConfigByNameId(UMessageTipRecorder::StaticClass(),TEXT("MessageTip"), id);
 	if (messageTipRecorder != nullptr)
 	{
 		value = ((UMessageTipRecorder*)messageTipRecorder)->GetValue();
@@ -96,9 +96,16 @@ void UUIManager::HideMenuUI()
 	menuUIWidget->RemoveFromParent();
 }
 
-void UUIManager::ShowShopUI()
+void UUIManager::ShowShopUI(FString shopConfigName)
 {
 	shopUIWidget->AddToViewport();
+
+	FOutputDeviceNull outputDeviceNull;
+	bool executeSuccess = shopUIWidget->CallFunctionByNameWithArguments(*FString::Printf(TEXT("SetInfo %s"), *shopConfigName), outputDeviceNull, nullptr, true);
+	if (!executeSuccess)
+	{
+		LogError("ShowShopUI执行SetInfo蓝图函数失败！");
+	}
 }
 
 void UUIManager::HideShopUI()

@@ -48,7 +48,7 @@ public:
 
 	//显示商品界面
 	UFUNCTION(BlueprintCallable)
-	void ShowShopUI();
+	void ShowShopUI(FString shopConfigName);
 
 	//隐藏商品界面
 	UFUNCTION(BlueprintCallable)

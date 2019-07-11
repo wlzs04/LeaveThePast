@@ -58,7 +58,7 @@ USoundBase* UAudioManager::GetAudioById(int id)
 
 USoundBase* UAudioManager::LoadAudioById(int id)
 {
-	UAudioRecorder* audioRecorder = (UAudioRecorder*)(UConfigManager::GetInstance()->GetConfigByNameId(UAudioRecorder::StaticClass(), id));
+	UAudioRecorder* audioRecorder = (UAudioRecorder*)(UConfigManager::GetInstance()->GetConfigByNameId(UAudioRecorder::StaticClass(), TEXT("Audio"),id));
 	//因为在配置文件中audioName属性可能包含路径，所以先将真实名称截取出来。
 	/*int lastCharIndex = 0;
 	audioName.FindLastChar(TEXT('/'), lastCharIndex);

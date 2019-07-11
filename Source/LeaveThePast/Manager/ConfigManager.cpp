@@ -31,19 +31,22 @@ void UConfigManager::Init()
 	UConfigManager::configManager = this;
 }
 
-TMap<int, URecorderBase*> UConfigManager::GetConfigByName(UClass* recorderClass)
+TMap<int, URecorderBase*> UConfigManager::GetConfigByName(UClass* recorderClass, FString configName)
 {
 	if (recorderClass == nullptr)
 	{
 		LogError(FString::Printf(TEXT("未选择Recorder类型！")));
 		return TMap<int, URecorderBase*>();
 	}
-	FString configName = recorderClass->GetName();
-	configName = configName.Left(configName.Len() - 8);
 
+	if (configName.IsEmpty())
+	{
+		configName = recorderClass->GetName();
+		configName = configName.Left(configName.Len() - 8);
+	}
 	if (!configMap.Contains(configName))
 	{
-		LoadConfigByName(recorderClass);
+		LoadConfigByName(recorderClass, configName);
 	}
 	if (!configMap.Contains(configName))
 	{
@@ -53,9 +56,9 @@ TMap<int, URecorderBase*> UConfigManager::GetConfigByName(UClass* recorderClass)
 	return *configMap[configName];
 }
 
-URecorderBase* UConfigManager::GetConfigByNameId(UClass* recorderClass, int id)
+URecorderBase* UConfigManager::GetConfigByNameId(UClass* recorderClass, FString configName, int id)
 {
-	TMap<int, URecorderBase*> recorderMap = GetConfigByName(recorderClass);
+	TMap<int, URecorderBase*> recorderMap = GetConfigByName(recorderClass, configName);
 	if (recorderMap.Contains(id))
 	{
 		return recorderMap[id];
@@ -63,15 +66,18 @@ URecorderBase* UConfigManager::GetConfigByNameId(UClass* recorderClass, int id)
 	return nullptr;
 }
 
-void UConfigManager::LoadConfigByName(UClass* recorderClass)
+void UConfigManager::LoadConfigByName(UClass* recorderClass, FString configName)
 {
 	if (recorderClass == nullptr)
 	{
 		LogError(FString::Printf(TEXT("未选择Recorder类型！")));
 		return;
 	}
-	FString configName = recorderClass->GetName();
-	configName = configName.Left(configName.Len() - 8);
+	if (configName.IsEmpty())
+	{
+		configName = recorderClass->GetName();
+		configName = configName.Left(configName.Len() - 8);
+	}
 
 	if (configMap.Contains(configName))
 	{

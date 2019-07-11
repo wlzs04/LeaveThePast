@@ -20,6 +20,10 @@ void UActorInfoBase::Load(FXmlNode* xmlNode)
 		{
 			actorType = FCString::Atoi(*attributeValue);
 		}
+		else if (attributeName == "actorTypeValue")
+		{
+			actorTypeValue = attributeValue;
+		}
 		else if (attributeName == "description")
 		{
 			description = attributeValue;
@@ -136,7 +140,10 @@ int UActorInfoBase::GetActorType()
 {
 	return actorType;
 }
-
+FString UActorInfoBase::GetActorTypeValue()
+{
+	return actorTypeValue;
+}
 FString UActorInfoBase::GetHeadImagePath()
 {
 	return headImagePath;

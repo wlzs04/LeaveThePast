@@ -19,7 +19,7 @@
 			<Chat text="今天起得真早。"/>
 		</ChatList>
 	</Actor>
-	<Actor actorId="30005" actorName="厨师" actorType="1" description="一个普通的厨师。">
+	<Actor actorId="30005" actorName="厨师" actorType="1" actorTypeValue="ChuShiSellItem" description="一个普通的厨师。">
 		<Model modelName="ChuShiNPC" modelRootPath="GameContent/Resource/Others/Model/ChuShiNPC">
 			
 		</Model>
@@ -28,7 +28,7 @@
 			<Chat text="快来买呀，都是好吃的。"/>
 		</ChatList>
 	</Actor>
-	<Actor actorId="30006" actorName="铁匠" actorType="1" description="一个普通的铁匠。">
+	<Actor actorId="30006" actorName="铁匠" actorType="1" actorTypeValue="TieJiangSellItem" description="一个普通的铁匠。">
 		<Model modelName="TieJiangNPC" modelRootPath="GameContent/Resource/Others/Model/TieJiangNPC">
 			
 		</Model>
@@ -37,7 +37,7 @@
 			<Chat text="快来买呀，都是好用的。"/>
 		</ChatList>
 	</Actor>
-	<Actor actorId="30007" actorName="药商" actorType="1" description="一个普通的药商。">
+	<Actor actorId="30007" actorName="药商" actorType="1" actorTypeValue="YaoShangSellItem" description="一个普通的药商。">
 		<Model modelName="YaoShangNPC" modelRootPath="GameContent/Resource/Others/Model/YaoShangNPC">
 			
 		</Model>

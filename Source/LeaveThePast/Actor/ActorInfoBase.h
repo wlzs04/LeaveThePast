@@ -43,6 +43,9 @@ public:
 	int GetActorType();
 
 	UFUNCTION(BlueprintCallable)
+	FString GetActorTypeValue();
+
+	UFUNCTION(BlueprintCallable)
 	FString GetHeadImagePath();
 
 	FString GetModelName();
@@ -63,6 +66,7 @@ private:
 	int actorId = 0;//演员的Id
 	FString actorName = TEXT("未命名演员");//演员名称
 	int actorType = 0;//演员类型 0 普通 1 商店
+	FString actorTypeValue = TEXT("");//演员类型的参数
 	FString description = TEXT("无描述。");//演员描述
 	FString modelName = TEXT("");//演员模型的名称
 	FString modelRootPath = TEXT("");//演员模型的根路径
