@@ -15,6 +15,7 @@ UActorManager* UActorManager::GetInstance()
 void UActorManager::Init()
 {
 	UActorManager::actorManager = this;
+
 	LoadAllActorInfo();
 }
 
@@ -41,7 +42,7 @@ AActorBase* UActorManager::LoadActorToSceneById(int actorId)
 		if (actor)
 		{
 			actor->SetActorInfo(actorInfo);
-			actor->Restart();
+			actor->InitByActorInfo();
 			actorBaseMap.Add(actor->GetActorId(), actor);
 			return actor;
 		}
@@ -75,6 +76,10 @@ UActorInfoBase* UActorManager::GetActorInfoById(int actorId)
 	else if (massActorInfoMap.Contains(actorId))
 	{
 		return massActorInfoMap[actorId];
+	}
+	else
+	{
+		LogError(FString::Printf(TEXT("配置中不存在演员：%d"), actorId));
 	}
 	return nullptr;
 }

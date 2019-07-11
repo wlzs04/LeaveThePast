@@ -1,6 +1,7 @@
 #include "LeaveThePastGameModeBase.h"
 #include "GameFramework/PlayerController.h"
 #include "Engine/World.h"
+#include "Engine/Level.h"
 
 void ALeaveThePastGameModeBase::StartPlay()
 {
@@ -12,6 +13,18 @@ void ALeaveThePastGameModeBase::StartPlay()
 	if (gameManager->GetSystemData()->GetShowInitUI())
 	{
 		gameManager->GetUIManager()->LoadUIByName(TEXT("InitUI"))->AddToViewport();
+	}
+	LogNormal(TEXT("初始化场景中已存在的演员信息"));
+	//初始化场景中已存在的演员信息
+	TActorIterator<AActorBase> actorItr = TActorIterator<AActorBase>(GetWorld(), AActorBase::StaticClass());
+	//for (int i = 0; i < GetLevel()->Actors.Num(); i++)
+	for (actorItr; actorItr; ++actorItr)
+	{
+		AActorBase* actorBase = *actorItr;
+		if (actorBase != nullptr && actorBase->actorIdForEditor!=0)
+		{
+			actorBase->SetActorInfo(gameManager->GetActorManager()->GetActorInfoById(actorBase->actorIdForEditor));
+		}
 	}
 
 	ADirectorActor* directorActor = Cast<ADirectorActor>(GetWorld()->GetFirstPlayerController()->GetPawn());

@@ -45,6 +45,14 @@ public:
 	//隐藏菜单界面
 	UFUNCTION(BlueprintCallable)
 	void HideMenuUI();
+
+	//显示商品界面
+	UFUNCTION(BlueprintCallable)
+	void ShowShopUI();
+
+	//隐藏商品界面
+	UFUNCTION(BlueprintCallable)
+	void HideShopUI();
 private:
 	//初始化常用UI
 	void InitUI();
@@ -59,4 +67,7 @@ private:
 
 	UPROPERTY()
 	UUserWidget* menuUIWidget = nullptr;
+
+	UPROPERTY()
+	UUserWidget* shopUIWidget = nullptr;
 };

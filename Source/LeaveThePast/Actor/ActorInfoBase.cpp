@@ -16,6 +16,10 @@ void UActorInfoBase::Load(FXmlNode* xmlNode)
 		{
 			actorName = attributeValue;
 		}
+		else if (attributeName == "actorType")
+		{
+			actorType = FCString::Atoi(*attributeValue);
+		}
 		else if (attributeName == "description")
 		{
 			description = attributeValue;
@@ -128,6 +132,11 @@ FString UActorInfoBase::GetActorName()
 	return actorName;
 }
 
+int UActorInfoBase::GetActorType()
+{
+	return actorType;
+}
+
 FString UActorInfoBase::GetHeadImagePath()
 {
 	return headImagePath;
@@ -165,4 +174,14 @@ float UActorInfoBase::GetPropertyValue(FString propertyName)
 TMap<FString, UPropertyBase*> UActorInfoBase::GetPropertyMap()
 {
 	return propertyMap;
+}
+
+FChat UActorInfoBase::GetRandomChat()
+{
+	if (chatList.Num()==0)
+	{
+		return FChat();
+	}
+	int index =FMath::RandRange(0, chatList.Num()-1);
+	return chatList[index];
 }

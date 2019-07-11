@@ -88,7 +88,8 @@ void ADirectorActor::SetupPlayerInputComponent(UInputComponent* playerInputCompo
 	playerInputComponent->BindAction("ChangeControlActor", EInputEvent::IE_Released, this, &ADirectorActor::ChangeControlActorInputFunction);
 	playerInputComponent->BindAction("System", EInputEvent::IE_Released, this, &ADirectorActor::SystemInputFunction);
 	playerInputComponent->BindAction("Accelerate", EInputEvent::IE_Pressed, this, &ADirectorActor::StartAccelerateInputFunction);
-	playerInputComponent->BindAction("Accelerate",EInputEvent::IE_Released,this, &ADirectorActor::StopAccelerateInputFunction);
+	playerInputComponent->BindAction("Accelerate", EInputEvent::IE_Released, this, &ADirectorActor::StopAccelerateInputFunction);
+	playerInputComponent->BindAction("Interacted",EInputEvent::IE_Pressed,this, &ADirectorActor::InteractedInputFunction);
 }
 
 void ADirectorActor::MoveForwardInputFunction(float value)
@@ -196,5 +197,43 @@ void ADirectorActor::StopAccelerateInputFunction()
 	if (currentControlActor != nullptr)
 	{
 		currentControlActor->SetAccelerate(false);
+	}
+}
+
+void ADirectorActor::InteractedInputFunction()
+{
+	if (currentControlActor != nullptr)
+	{
+		TArray<AActor*> canInteractedActorList = currentControlActor->GetInteractedActor();
+		for (AActor* actor : canInteractedActorList)
+		{
+			if (actor == currentControlActor)
+			{
+				continue;
+			}
+			AActorBase* actorBase = (AActorBase*)actor;
+			if (actorBase != nullptr)
+			{
+				UActorInfoBase* actorInfo = actorBase->GetActorInfo();
+				LogNormal(FString::FromInt(actorInfo->GetActorType()));
+				if (actorInfo->GetActorType()==0)
+				{
+					FChat chat = actorInfo->GetRandomChat();
+					if (!chat.text.IsEmpty())
+					{
+						UUIManager::GetInstance()->ShowTalkUI(chat.text, actorInfo->GetActorName(), 1, actorInfo->GetHeadImagePath());
+					}
+				}
+				else if (actorInfo->GetActorType() == 1)
+				{
+					UUIManager::GetInstance()->ShowShopUI();
+				}
+				else
+				{
+
+				}
+				break;
+			}
+		}
 	}
 }

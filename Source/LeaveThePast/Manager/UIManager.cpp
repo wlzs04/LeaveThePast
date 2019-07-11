@@ -53,7 +53,11 @@ void UUIManager::AddMessageTipById(int id)
 
 void UUIManager::ShowTalkUI(FString talkValue, FString actorName, float continueTime, FString headImagePath, bool isLeft)
 {
-	talkUIWidget->AddToViewport();
+	if (talkUIWidget->GetParent() == nullptr)
+	{
+		talkUIWidget->AddToViewport();
+	}
+	
 	FOutputDeviceNull outputDeviceNull;
 	bool executeSuccess = talkUIWidget->CallFunctionByNameWithArguments(*FString::Printf(TEXT("SetInfo %s %s %s %f %d"), *headImagePath, *actorName, *talkValue, continueTime, isLeft), outputDeviceNull, nullptr, true);
 	if (!executeSuccess)
@@ -64,7 +68,11 @@ void UUIManager::ShowTalkUI(FString talkValue, FString actorName, float continue
 
 void UUIManager::ShowMainUI()
 {
-	mainUIWidget->AddToViewport();
+	if (mainUIWidget->GetParent() == nullptr)
+	{
+		mainUIWidget->AddToViewport();
+	}
+
 	FOutputDeviceNull outputDeviceNull;
 	bool executeSuccess = mainUIWidget->CallFunctionByNameWithArguments(*FString::Printf(TEXT("SetInfo")), outputDeviceNull, nullptr, true);
 	if (!executeSuccess)
@@ -88,9 +96,20 @@ void UUIManager::HideMenuUI()
 	menuUIWidget->RemoveFromParent();
 }
 
+void UUIManager::ShowShopUI()
+{
+	shopUIWidget->AddToViewport();
+}
+
+void UUIManager::HideShopUI()
+{
+	shopUIWidget->AddToViewport();
+}
+
 void UUIManager::InitUI()
 {
 	mainUIWidget = LoadUIByName(TEXT("MainUI"));
 	talkUIWidget = LoadUIByName(TEXT("TalkUI"));
 	menuUIWidget = LoadUIByName(TEXT("MenuUI"));
+	shopUIWidget = LoadUIByName(TEXT("ShopUI"));
 }

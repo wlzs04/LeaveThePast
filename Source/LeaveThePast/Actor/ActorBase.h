@@ -6,6 +6,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Components/AudioComponent.h"
+#include "Components/SphereComponent.h"
 #include "ActorInfoBase.h"
 #include "ActorBase.generated.h"
 
@@ -19,6 +20,8 @@ class LEAVETHEPAST_API AActorBase : public ACharacter
 public:
 	// Sets default values for this character's properties
 	AActorBase();
+
+	void InitByActorInfo();
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -37,10 +40,6 @@ public:
 	//设置角色信息
 	UFUNCTION(BlueprintCallable)
 	UActorInfoBase* GetActorInfo();
-
-	//加载演员模型
-	UFUNCTION(BlueprintCallable)
-	void LoadModel();
 
 	int GetActorId();
 
@@ -67,7 +66,10 @@ public:
 	void TurnInputFunction(float value);
 	void LookUpInputFunction(float value);
 
+
 	void SetAccelerate(bool enableAccelerate);
+
+	TArray<AActor*> GetInteractedActor();
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	int actorIdForEditor = 0;
@@ -76,6 +78,9 @@ protected:
 	virtual void BeginPlay() override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* playerInputComponent) override;
 private:
+	//加载演员模型
+	UFUNCTION(BlueprintCallable)
+	void LoadModel();
 
 	UPROPERTY()
 	UActorInfoBase* actorInfo = nullptr;
@@ -90,5 +95,6 @@ private:
 	UCameraComponent* cameraComponent = nullptr;
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta = (AllowPrivateAccess = "true"))
 	UAudioComponent* audioComponent = nullptr;
-
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta = (AllowPrivateAccess = "true"))
+	USphereComponent* interactedComponent = nullptr;
 };

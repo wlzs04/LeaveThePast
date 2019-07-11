@@ -18,10 +18,6 @@ AActorBase::AActorBase()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	// set our turn rates for input
-	//BaseTurnRate = 45.f;
-	//BaseLookUpRate = 45.f;
-
 	// Don't rotate when the controller rotates. Let that just affect the camera.
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
@@ -39,6 +35,16 @@ AActorBase::AActorBase()
 	GetMesh()->SetRelativeRotation(FRotator(0, 90, 0));
 
 	audioComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("Audio"));
+	audioComponent->SetupAttachment(RootComponent);
+	interactedComponent = CreateDefaultSubobject<USphereComponent>(TEXT("Interacted"));
+	interactedComponent->SetupAttachment(RootComponent);
+	interactedComponent->SetSphereRadius(100);
+}
+
+void AActorBase::InitByActorInfo()
+{
+	LoadModel();
+	Restart();
 }
 
 // Called when the game starts or when spawned
@@ -102,6 +108,13 @@ void AActorBase::SetAccelerate(bool enableAccelerate)
 	GetCharacterMovement()->MaxWalkSpeed = newMaxWalkSpeed;
 }
 
+TArray<AActor*> AActorBase::GetInteractedActor()
+{
+	TArray<AActor*> overlappingActorList;
+	interactedComponent->GetOverlappingActors(overlappingActorList, AActorBase::StaticClass());
+	return overlappingActorList;
+}
+
 // Called every frame
 void AActorBase::Tick(float DeltaTime)
 {
@@ -131,7 +144,6 @@ void AActorBase::SetActorInfo(UActorInfoBase* newActorInfo)
 		LogError(TEXT("设置actorinfo为空。"));
 		return;
 	}
-	LoadModel();
 	GetCharacterMovement()->MaxWalkSpeed =  actorInfo->GetPropertyValue(TEXT("Speed"));
 	//audioComponent->SoundClassOverride = UAudioManager::GetInstance()->GetVoiceSoundClass();
 }
@@ -143,6 +155,10 @@ UActorInfoBase* AActorBase::GetActorInfo()
 
 void AActorBase::LoadModel()
 {
+	if (actorInfo == nullptr)
+	{
+		return;
+	}
 	FString modelPath = actorInfo->GetModelRootPath();
 	FString modelName = actorInfo->GetModelName();
 	if (!modelPath.IsEmpty())
