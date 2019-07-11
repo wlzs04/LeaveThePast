@@ -36,8 +36,6 @@ public:
 
 	int GetActorId();
 
-	bool IsPermanent();
-
 	UFUNCTION(BlueprintCallable)
 	FString GetActorName();
 
@@ -63,7 +61,6 @@ private:
 	FString modelRootPath = TEXT("");//演员模型的根路径
 	FVector defaultPosition = FVector(0, 0, 0);//默认位置
 	FRotator defaultRotation = FRotator(0, 0, 0);//默认角度
-	bool isPermanent = false;//是否为常驻演员
 	FString headImagePath = TEXT("GameContent/Resource/Others/Image/Unknown.jpg");
 
 	TMap<FString,UPropertyBase*> propertyMap;//属性列表

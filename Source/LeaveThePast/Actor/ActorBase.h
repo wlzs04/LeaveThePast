@@ -44,8 +44,6 @@ public:
 
 	int GetActorId();
 
-	bool IsPermanent();
-
 	FVector GetDefaultPosition();
 	FRotator GetDefaultRotation();
 

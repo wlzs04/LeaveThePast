@@ -2,6 +2,7 @@
 #include "Engine/World.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Public/UObject/ConstructorHelpers.h"
+#include "XmlParser/Public/XmlFile.h"
 #include "LogManager.h"
 
 UActorManager* UActorManager::actorManager = nullptr;
@@ -22,24 +23,6 @@ void UActorManager::LoadAllActorInfo()
 	LoadMainActorInfo();
 	LoadMinorActorInfo();
 	LoadMassActorInfo();
-}
-
-void UActorManager::LoadAllPermanentActorToScene()
-{
-	for (auto pair: massActorInfoMap)
-	{
-		UMassActorInfo* actorInfo = pair.Value;
-		if (actorInfo->IsPermanent())
-		{
-			FActorSpawnParameters actorSpawnParameters;
-			actorSpawnParameters.bAllowDuringConstructionScript = true;
-			actorSpawnParameters.bNoFail = true;
-			AActorBase* actor = GWorld->SpawnActor<AActorBase>(actorInfo->GetDefaultPosition(), actorInfo->GetDefaultRotation(), actorSpawnParameters);
-			actor->SetActorInfo(actorInfo);
-			actor->Restart();
-			actorBaseMap.Add(actor->GetActorId(),actor);
-		}
-	}
 }
 
 AActorBase* UActorManager::LoadActorToSceneById(int actorId)

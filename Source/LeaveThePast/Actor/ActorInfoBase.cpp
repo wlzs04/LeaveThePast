@@ -44,10 +44,6 @@ void UActorInfoBase::Load(FXmlNode* xmlNode)
 				defaultRotation.Yaw = FCString::Atof(*stringArray[2]);
 			}
 		}
-		else if (attributeName == "isPermanent")
-		{
-			isPermanent = attributeValue.ToBool();
-		}
 		else if (attributeName == "headImagePath")
 		{
 			headImagePath = attributeValue;
@@ -125,11 +121,6 @@ void UActorInfoBase::Load(FXmlNode* xmlNode)
 int UActorInfoBase::GetActorId()
 {
 	return actorId;
-}
-
-bool UActorInfoBase::IsPermanent()
-{
-	return isPermanent;
 }
 
 FString UActorInfoBase::GetActorName()

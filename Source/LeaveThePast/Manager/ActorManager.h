@@ -20,9 +20,6 @@ public:
 	//加载所有演员
 	void LoadAllActorInfo();
 
-	//将所有常驻演员加载到场景中
-	void LoadAllPermanentActorToScene();
-
 	//将指定演员加载到场景中
 	UFUNCTION(BlueprintCallable)
 	AActorBase* LoadActorToSceneById(int actorId);
@@ -53,5 +50,4 @@ private:
 	TMap<int, UMassActorInfo*> massActorInfoMap;
 
 	TMap<int, AActorBase*> actorBaseMap;
-	TSubclassOf<AActor> BPMyActorClass;
 };

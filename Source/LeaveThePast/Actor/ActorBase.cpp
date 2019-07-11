@@ -175,11 +175,6 @@ int AActorBase::GetActorId()
 	return actorInfo->GetActorId();
 }
 
-bool AActorBase::IsPermanent()
-{
-	return actorInfo->IsPermanent();
-}
-
 FVector AActorBase::GetDefaultPosition()
 {
 	return actorInfo->GetDefaultPosition();

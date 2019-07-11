@@ -17,9 +17,6 @@ void ADirectorActor::InitActorList()
 	UMainGameManager* gameManager = (UMainGameManager*)(GWorld->GetGameInstance());
 	UActorManager* actorManager = gameManager->GetActorManager();
 
-	//将所有常驻演员加载到场景中
-	actorManager->LoadAllPermanentActorToScene();
-
 	AActorBase* mainActor = actorManager->LoadActorToSceneById(10001);
 	AActorBase* mainActor2 = actorManager->LoadActorToSceneById(10002);
 
@@ -124,7 +121,11 @@ void ADirectorActor::TurnInputFunction(float value)
 	{
 		return;
 	}
-	AddControllerYawInput(value * 45 * GetWorld()->GetDeltaSeconds());
+	APlayerController* playerController = (APlayerController*)Controller;
+	if (playerController->IsInputKeyDown(EKeys::RightMouseButton))
+	{
+		AddControllerYawInput(value * 45 * GetWorld()->GetDeltaSeconds());
+	}
 }
 
 void ADirectorActor::LookUpInputFunction(float value)
@@ -133,7 +134,11 @@ void ADirectorActor::LookUpInputFunction(float value)
 	{
 		return;
 	}
-	AddControllerPitchInput(value * 45 * GetWorld()->GetDeltaSeconds());
+	APlayerController* playerController = (APlayerController*)Controller;
+	if (playerController->IsInputKeyDown(EKeys::RightMouseButton))
+	{
+		AddControllerPitchInput(value * 45 * GetWorld()->GetDeltaSeconds());
+	}
 }
 
 void ADirectorActor::ChangeControlActorInputFunction()

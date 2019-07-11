@@ -127,6 +127,7 @@ FReply FMainToolPluginModule::SetActorInfoToActorBPButtonClick()
 		if (actorInfo != nullptr)
 		{
 			actor->SetActorInfo(actorInfo);
+			actor->Restart();
 			UE_LOG(LogTemp, Log, TEXT("演员id：%d信息设置完成！"), actor->actorIdForEditor);
 		}
 		else
