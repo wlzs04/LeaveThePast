@@ -15,6 +15,8 @@
 #include "../Action/SayAction.h"
 #include "../Action/RotateAction.h"
 #include "../Action/ChangeCameraActorAction.h"
+#include "../Action/MessageTipAction.h"
+#include "../Action/PlayBGMAction.h"
 #include "../Actor/DirectorActor.h"
 #include "../Config/Recorder/MessageTipRecorder.h"
 
@@ -131,6 +133,8 @@ void UMainGameManager::LoadIegalAction()
 	AddIegalAction(NewObject<USayAction>(this));
 	AddIegalAction(NewObject<URotateAction>(this));
 	AddIegalAction(NewObject<UChangeCameraActorAction>(this));
+	AddIegalAction(NewObject<UMessageTipAction>(this));
+	AddIegalAction(NewObject<UPlayBGMAction>(this));
 }
 
 void UMainGameManager::InitGameTime()

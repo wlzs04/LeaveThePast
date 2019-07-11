@@ -10,6 +10,9 @@ ADirectorActor::ADirectorActor()
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
+
+	audioComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("Audio"));
+	audioComponent->SetupAttachment(RootComponent);
 }
 
 void ADirectorActor::InitActorList()
@@ -60,6 +63,13 @@ void ADirectorActor::SetCameraActorById(int actorId)
 AActorBase* ADirectorActor::GetCameraActor()
 {
 	return currentControlActor;
+}
+
+void ADirectorActor::StartPlayBGMSound(USoundCue* soundBase)
+{
+	audioComponent->SetSound(soundBase);
+	audioComponent->SoundClassOverride = UAudioManager::GetInstance()->GetBGMSoundClass();
+	audioComponent->Play();
 }
 
 // Called when the game starts or when spawned

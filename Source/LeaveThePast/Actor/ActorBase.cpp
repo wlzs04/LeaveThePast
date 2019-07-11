@@ -4,7 +4,6 @@
 #include "..\Manager\AudioManager.h"
 #include "GameFramework/Controller.h"
 #include "Engine/Engine.h"
-#include "Sound/SoundBase.h"
 #include "GameFramework/PlayerController.h"
 #include "Components/InputComponent.h"
 #include "Animation/AnimBlueprintGeneratedClass.h"
@@ -36,6 +35,7 @@ AActorBase::AActorBase()
 
 	audioComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("Audio"));
 	audioComponent->SetupAttachment(RootComponent);
+
 	interactedComponent = CreateDefaultSubobject<USphereComponent>(TEXT("Interacted"));
 	interactedComponent->SetupAttachment(RootComponent);
 	interactedComponent->SetSphereRadius(100);
@@ -216,9 +216,11 @@ void AActorBase::StopTalk()
 	isInTalking = false;
 }
 
-void AActorBase::StartPlaySound(USoundBase* soundBase)
+void AActorBase::StartPlayVoiceSound(USoundCue* soundBase)
 {
 	audioComponent->SetSound(soundBase);
+	audioComponent->SoundClassOverride = UAudioManager::GetInstance()->GetVoiceSoundClass();
+	audioComponent->Play();
 }
 
 void AActorBase::AddCameraFollow()

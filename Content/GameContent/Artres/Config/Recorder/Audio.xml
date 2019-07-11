@@ -1,7 +1,7 @@
 ﻿<Audio>
-  <Recorder id="10001" audioName="shuianfengdi" audioType="0" audioRootPath="GameContent/Resource/Others/Audio"/>
-  <Recorder id="10002" audioName="battlewin" audioType="2" audioRootPath="GameContent/Resource/Others/Audio"/>
-  <Recorder id="10003" audioName="battlefail" audioType="2" audioRootPath="GameContent/Resource/Others/Audio"/>
-  <Recorder id="10004" audioName="tagexing" audioType="0" audioRootPath="GameContent/Resource/Others/Audio"/>
-  <Recorder id="10005" audioName="xiuyfeng" audioType="0" audioRootPath="GameContent/Resource/Others/Audio"/>
+  <Recorder id="10001" audioName="shuianfengdi_Cue" audioType="0" audioRootPath="GameContent/Resource/Others/Audio"/>
+  <Recorder id="10002" audioName="battlewin_Cue" audioType="2" audioRootPath="GameContent/Resource/Others/Audio"/>
+  <Recorder id="10003" audioName="battlefail_Cue" audioType="2" audioRootPath="GameContent/Resource/Others/Audio"/>
+  <Recorder id="10004" audioName="tagexing_Cue" audioType="0" audioRootPath="GameContent/Resource/Others/Audio"/>
+  <Recorder id="10005" audioName="xiuyfeng_Cue" audioType="0" audioRootPath="GameContent/Resource/Others/Audio"/>
 </Audio>

@@ -8,7 +8,7 @@
 
 UMessageTipAction::UMessageTipAction() :UActionBase()
 {
-	actionName = TEXT("Say");
+	actionName = TEXT("MessageTip");
 }
 
 void UMessageTipAction::Load(FXmlNode* xmlNode)

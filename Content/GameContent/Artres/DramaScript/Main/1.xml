@@ -1,6 +1,7 @@
 <Chapter name="第一章" description="第一章的描述">
 	<Section name="第一节" description="第一节的描述">
 		<Paragraph>
+		<!--
 			<Move actorId="10001" actionTime="2" speed="100" direction="1,0,0"/>
 			<Rotate actorId="10001" actionTime="1" value="-90" />
 			<Say actorId="10001" text="既然想听声音，我就随便说点什么吧！" voicePath="saysomething.wav" actionTime="0.5"/>
@@ -12,10 +13,13 @@
 			<Move actorId="10002" actionTime="1" speed="100" direction="1,0,0"/>
 			<Say actorId="10002" text="你带闲钱了吗？" voicePath="saysomething.wav" actionTime="0.5"/>
 			<Say actorId="10001" text="啊？" voicePath="saysomething.wav" actionTime="0.2"/>
+			
 			<Say actorId="30003" text="这位客官吃饭没带钱。" voicePath="saysomething.wav" actionTime="1"/>
 			<ChangeCameraActor actorId="30003"/>
 			<Move actorId="30003" actionTime="1" speed="100" direction="1,0,0"/>
+			-->
 			<ChangeCameraActor actorId="10001"/>
+			<PlayBGM audioId="10005"/>
 		</Paragraph>
 		<Paragraph>
 			<Say actorId="10002" text="多少？" voicePath="saysomething.wav" actionTime="0.5"/>

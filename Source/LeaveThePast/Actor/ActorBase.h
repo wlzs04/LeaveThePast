@@ -7,6 +7,7 @@
 #include "Camera/CameraComponent.h"
 #include "Components/AudioComponent.h"
 #include "Components/SphereComponent.h"
+#include "Sound/SoundCue.h"
 #include "ActorInfoBase.h"
 #include "ActorBase.generated.h"
 
@@ -53,7 +54,7 @@ public:
 
 	void StopTalk();
 
-	void StartPlaySound(USoundBase* soundBase);
+	void StartPlayVoiceSound(USoundCue* soundBase);
 
 	//设置摄像机跟随
 	void AddCameraFollow();

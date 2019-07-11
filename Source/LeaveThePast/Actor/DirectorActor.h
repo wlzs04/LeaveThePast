@@ -3,6 +3,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
 #include "ActorBase.h"
+#include "Sound/SoundCue.h"
 #include "DirectorActor.generated.h"
 
 UCLASS()
@@ -23,6 +24,8 @@ public:
 	//通过当前摄像演员
 	UFUNCTION(BlueprintCallable)
 	AActorBase* GetCameraActor();
+
+	void StartPlayBGMSound(USoundCue* soundBase);
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -44,6 +47,9 @@ private:
 	void StartAccelerateInputFunction();
 	void StopAccelerateInputFunction();
 	void InteractedInputFunction();
+
+	UPROPERTY()
+	UAudioComponent* audioComponent = nullptr;
 
 	TArray<AActorBase*> canControlActorList;
 	AActorBase* currentControlActor = nullptr;
