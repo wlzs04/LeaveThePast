@@ -5,7 +5,7 @@
 #include "XmlParser/Public/XmlFile.h"
 #include "RecorderBase.generated.h"
 
-UCLASS()
+UCLASS(BlueprintType)
 class LEAVETHEPAST_API URecorderBase : public UObject
 {
 	GENERATED_BODY()

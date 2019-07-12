@@ -31,9 +31,9 @@ void ALeaveThePastGameModeBase::StartPlay()
 	directorActor->InitActorList();
 
 	gameManager->GetUIManager()->ShowMainUI();
-	USoundCue* sound = gameManager->GetAudioManager()->GetAudioById(10001);
+	//USoundCue* sound = gameManager->GetAudioManager()->GetAudioById(10001);
 	//directorActor->GetCameraActor()->StartPlayVoiceSound(sound);
-	directorActor->StartPlayBGMSound(sound);
+	//directorActor->StartPlayBGMSound(sound);
 
 	USystemData* systemData = gameManager->GetSystemData();
 	gameManager->GetAudioManager()->SetMainSoundVolume(systemData->GetMainSoundVolume());

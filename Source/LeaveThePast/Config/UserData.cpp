@@ -78,6 +78,85 @@ TMap<int, int> UUserData::GetItemMap()
 	return itemMap;
 }
 
+int UUserData::GetItemNumberById(int itemId)
+{
+	if (itemMap.Contains(itemId))
+	{
+		return itemMap[itemId];
+	}
+	else
+	{
+		return 0;
+	}
+}
+
+void UUserData::AddItem(int itemId, int number)
+{
+	if (itemMap.Contains(itemId))
+	{
+		itemMap[itemId] = itemMap[itemId] + number;
+	}
+	else
+	{
+		itemMap.Add(itemId, number);
+	}
+}
+
+int UUserData::ReduceItem(int itemId, int number)
+{
+	int itemNumber = GetItemNumberById(itemId);
+	if (itemNumber >= number)
+	{
+		SetItemNumber(itemId, itemNumber - number);
+		return number;
+	}
+	else
+	{
+		SetItemNumber(itemId, 0);
+		return itemNumber;
+	}
+}
+
+void UUserData::SetItemNumber(int itemId, int number)
+{
+	if (itemMap.Contains(itemId))
+	{
+		itemMap[itemId] =  number;
+	}
+	else
+	{
+		itemMap.Add(itemId, number);
+	}
+}
+
+int UUserData::GetMoney()
+{
+	TArray<int> itemList;
+	itemMap.GetKeys(itemList);
+	float totalMoney = 0;
+	for (int i = 0; i<itemList.Num(); i++)
+	{
+		int itemId = itemList[i];
+		int itemNumber = itemMap[itemId];
+		if (itemId == 10001)
+		{
+			totalMoney += 1 * itemNumber;
+		}
+		else if(itemId == 10006)
+		{
+			totalMoney += 1000 * itemNumber;
+		}
+	}
+	return totalMoney;
+}
+
+void UUserData::ReduceMoney(int money)
+{
+	int needReduceMoney = money;
+	float totalMoney = 0;
+	ReduceItem(10001, money);
+}
+
 void UUserData::Load()
 {
 	FXmlFile* xmlFile = new FXmlFile(savePath);

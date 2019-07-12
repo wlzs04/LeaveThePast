@@ -100,11 +100,10 @@ void UUIManager::ShowShopUI(FString shopConfigName)
 {
 	shopUIWidget->AddToViewport();
 
-	FOutputDeviceNull outputDeviceNull;
-	bool executeSuccess = shopUIWidget->CallFunctionByNameWithArguments(*FString::Printf(TEXT("SetInfo %s"), *shopConfigName), outputDeviceNull, nullptr, true);
-	if (!executeSuccess)
+	UFunction* functionSetInfo = shopUIWidget->FindFunction(TEXT("SetInfo"));
+	if (functionSetInfo)
 	{
-		LogError("ShowShopUI执行SetInfo蓝图函数失败！");
+		shopUIWidget->ProcessEvent(functionSetInfo, &shopConfigName);
 	}
 }
 

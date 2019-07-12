@@ -4,6 +4,7 @@
   <Recorder id="10003" itemName="信鸽" itemType="2" description="一般用来传递信件，也可以用来吃。" imagePath="GameContent/Resource/Others/Image/Pigeon.jpg"/>
   <Recorder id="10004" itemName="介绍信" itemType="3" description="到指定指点作为身份的证明。" imagePath="GameContent/Resource/Others/Image/Letter.jpg"/>
   <Recorder id="10005" itemName="通关令" itemType="3" description="背面刻着：紧急情况下可打开城门，不应轻易使用。" imagePath="GameContent/Resource/Others/Image/Token.jpg"/>
+  <Recorder id="10006" itemName="白银" itemType="1" description="值钱的东西，上面还有牙印。" imagePath="GameContent/Resource/Others/Image/Money.jpg"/>
 
   
   <Recorder id="20001" itemName="止血草" itemType="1" description="我方单体，恢复少量精。" imagePath="GameContent/Resource/Others/Image/Money.png"/>

@@ -4,4 +4,5 @@
   <Recorder id="10003" value="请先完成其他任务！"/>
   <Recorder id="10004" value="城门已经关闭！"/>
   <Recorder id="10005" value="信息已经发出！"/>
+  <Recorder id="10006" value="客官，你没带够钱，要不然少买点儿！"/>
 </MessageTip>

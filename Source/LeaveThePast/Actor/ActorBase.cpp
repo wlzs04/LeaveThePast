@@ -145,7 +145,6 @@ void AActorBase::SetActorInfo(UActorInfoBase* newActorInfo)
 		return;
 	}
 	GetCharacterMovement()->MaxWalkSpeed =  actorInfo->GetPropertyValue(TEXT("Speed"));
-	//audioComponent->SoundClassOverride = UAudioManager::GetInstance()->GetVoiceSoundClass();
 }
 
 UActorInfoBase* AActorBase::GetActorInfo()

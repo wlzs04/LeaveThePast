@@ -31,6 +31,30 @@ public:
 	UFUNCTION(BlueprintCallable)
 	TMap<int, int> GetItemMap();
 
+	//获得物品数量
+	UFUNCTION(BlueprintCallable)
+	int GetItemNumberById(int itemId);
+
+	//添加物品
+	UFUNCTION(BlueprintCallable)
+	void AddItem(int itemId,int number);
+
+	//减少物品，返回实际减少的个数
+	UFUNCTION(BlueprintCallable)
+	int ReduceItem(int itemId, int number);
+
+	//设置物品数量
+	UFUNCTION(BlueprintCallable)
+	void SetItemNumber(int itemId, int number);
+
+	//获得钱数 根据物品中铜钱、银两等值钱物品进行换算
+	UFUNCTION(BlueprintCallable)
+	int GetMoney();
+
+	//消耗钱
+	UFUNCTION(BlueprintCallable)
+	void ReduceMoney(int money);
+
 protected:
 	//保存路径
 	FString savePath;
