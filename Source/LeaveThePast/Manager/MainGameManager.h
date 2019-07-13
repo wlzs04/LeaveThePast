@@ -3,7 +3,7 @@
 #include "CoreMinimal.h"
 #include "Engine/GameInstance.h"
 #include "ConfigManager.h"
-#include "DramaScriptManager.h"
+#include "ScriptManager.h"
 #include "ActorManager.h"
 #include "LogManager.h"
 #include "UIManager.h"
@@ -141,7 +141,7 @@ public:
 
 	//获得剧本管理器
 	UFUNCTION(BlueprintCallable)
-	UDramaScriptManager* GetDramaScriptManager();
+	UScriptManager* GetScriptManager();
 
 	//获得角色管理器
 	UFUNCTION(BlueprintCallable)
@@ -195,7 +195,7 @@ private:
 	UConfigManager* configManager = nullptr;
 
 	UPROPERTY()
-	UDramaScriptManager* dramaScriptManager = nullptr;
+	UScriptManager* scriptManager = nullptr;
 
 	UPROPERTY()
 	UActorManager* actorManager = nullptr;

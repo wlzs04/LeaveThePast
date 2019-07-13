@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<UserData hour="9" minute="1" second="28" isFixedTime="false" gameAndRealTimeRate="1.0">
+<UserData hour="9" minute="2" second="13" isFixedTime="false" gameAndRealTimeRate="1.0">
 	<ItemMap>
-		<Item id="10001" number="120" />
+		<Item id="10001" number="46" />
 		<Item id="10002" number="1" />
 		<Item id="10003" number="1" />
 		<Item id="10004" number="1" />
 		<Item id="10005" number="1" />
 		<Item id="20001" number="10" />
-		<Item id="20002" number="2" />
+		<Item id="20002" number="3" />
 		<Item id="40004" number="1" />
 		<Item id="40005" number="1" />
+		<Item id="20003" number="0" />
+		<Item id="20004" number="0" />
+		<Item id="20005" number="0" />
+		<Item id="30001" number="0" />
+		<Item id="30002" number="0" />
+		<Item id="30003" number="2" />
 	</ItemMap>
 </UserData>

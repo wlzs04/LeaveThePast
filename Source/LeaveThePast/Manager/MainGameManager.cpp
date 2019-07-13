@@ -117,8 +117,8 @@ void UMainGameManager::InitManager()
 	audioManager->Init();
 
 	LoadIegalAction();
-	dramaScriptManager = NewObject<UDramaScriptManager>(this);
-	dramaScriptManager->Init();
+	scriptManager = NewObject<UScriptManager>(this);
+	scriptManager->Init();
 
 	actorManager = NewObject<UActorManager>(this); 
 	actorManager->Init();
@@ -188,7 +188,7 @@ void UMainGameManager::Tick(float secondTime)
 		{
 			gameTimeData->Tick(secondTime * gameAndRealTimeRate);
 		}
-		dramaScriptManager->Tick();
+		scriptManager->Tick();
 	}
 }
 
@@ -249,9 +249,9 @@ UConfigManager* UMainGameManager::GetConfigManager()
 	return configManager;
 }
 
-UDramaScriptManager* UMainGameManager::GetDramaScriptManager()
+UScriptManager* UMainGameManager::GetScriptManager()
 {
-	return dramaScriptManager;
+	return scriptManager;
 }
 
 UActorManager* UMainGameManager::GetActorManager()
