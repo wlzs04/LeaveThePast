@@ -37,7 +37,7 @@ void UChapter::Load(FString newChapterPath)
 	{
 		if (attribute.GetTag()==TEXT("name"))
 		{
-			chatperName = attribute.GetValue();
+			chapterName = attribute.GetValue();
 		}
 		else if (attribute.GetTag() == TEXT("description"))
 		{
@@ -77,4 +77,14 @@ void UChapter::Start()
 		}
 	}
 	isCompleted = true;
+}
+
+FString UChapter::GetChapterName()
+{
+	return chapterName;
+}
+
+FString UChapter::GetChapterDescription()
+{
+	return description;
 }

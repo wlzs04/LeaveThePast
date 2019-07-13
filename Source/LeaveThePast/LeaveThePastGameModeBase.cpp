@@ -17,7 +17,6 @@ void ALeaveThePastGameModeBase::StartPlay()
 	LogNormal(TEXT("初始化场景中已存在的演员信息"));
 	//初始化场景中已存在的演员信息
 	TActorIterator<AActorBase> actorItr = TActorIterator<AActorBase>(GetWorld(), AActorBase::StaticClass());
-	//for (int i = 0; i < GetLevel()->Actors.Num(); i++)
 	for (actorItr; actorItr; ++actorItr)
 	{
 		AActorBase* actorBase = *actorItr;

@@ -1,5 +1,5 @@
-<Chapter name="第一章" description="准备出发">
-	<Section name="第一节" description="在客栈汇合">
+<Chapter name="第二章" description="下个城镇">
+	<Section name="第一节" description="找到守卫">
 		<Paragraph>
 			<Move actorId="10001" actionTime="2" speed="100" direction="1,0,0"/>
 			<Rotate actorId="10001" actionTime="1" value="-90" />

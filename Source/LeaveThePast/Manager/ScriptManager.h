@@ -18,13 +18,20 @@ public:
 
 	//开始执行任务
 	UFUNCTION(BlueprintCallable)
-	void StartScriptMainByNameIndex(FString scriptName, int index);
+	void StartMainScriptByNameIndex(FString scriptName, int index);
 
 	UFUNCTION(BlueprintCallable)
 	void Tick();
 
 	//加载所有剧本
 	void LoadAllScript();
+
+	UFUNCTION(BlueprintCallable)
+	TMap<FString, UChapter*> GetMainChapterMap();
+	UFUNCTION(BlueprintCallable)
+	TMap<FString, UChapter*> GetSideChapterMap();
+	UFUNCTION(BlueprintCallable)
+	TMap<FString, UChapter*> GetSceneChapterMap();
 private:
 	//加载主线剧本
 	void LoadMainScript();
@@ -38,6 +45,10 @@ private:
 	FString mainScriptRelativePath = TEXT("GameContent/Artres/Script/Main/");
 	FString sideScriptRelativePath = TEXT("GameContent/Artres/Script/Side/");
 	FString sceneScriptRelativePath = TEXT("GameContent/Artres/Script/Scene/");
-	TMap<FString, UChapter*> chapterMainMap;
+
+	TMap<FString, UChapter*> mainChapterMap;
+	TMap<FString, UChapter*> sideChapterMap;
+	TMap<FString, UChapter*> sceneChapterMap;
+
 	UChapter* currentScript = nullptr;
 };

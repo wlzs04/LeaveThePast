@@ -20,9 +20,9 @@ void UScriptManager::Init()
 	LoadAllScript();
 }
 
-void UScriptManager::StartScriptMainByNameIndex(FString scriptName, int index)
+void UScriptManager::StartMainScriptByNameIndex(FString scriptName, int index)
 {
-	if (!chapterMainMap.Contains(scriptName))
+	if (!mainChapterMap.Contains(scriptName))
 	{
 		LogError(FString::Printf(TEXT("未知剧本文件：%s"), *scriptName));
 		return;
@@ -34,7 +34,7 @@ void UScriptManager::StartScriptMainByNameIndex(FString scriptName, int index)
 	}
 	else
 	{
-		currentScript = chapterMainMap[scriptName];
+		currentScript = mainChapterMap[scriptName];
 		currentScript->Start();
 		LogNormal(FString::Printf(TEXT("剧本开始：%s"), *scriptName));
 	}
@@ -63,8 +63,24 @@ void UScriptManager::LoadAllScript()
 	LoadSceneScript();
 }
 
+TMap<FString, UChapter*> UScriptManager::GetMainChapterMap()
+{
+	return mainChapterMap;
+}
+
+TMap<FString, UChapter*> UScriptManager::GetSideChapterMap()
+{
+	return sideChapterMap;
+}
+
+TMap<FString, UChapter*> UScriptManager::GetSceneChapterMap()
+{
+	return sceneChapterMap;
+}
+
 void UScriptManager::LoadMainScript()
 {
+	mainChapterMap.Empty();
 	FString mainScriptMainRootPath = FPaths::ProjectContentDir() + mainScriptRelativePath;
 	//使用此方法查找文件时需要添加文件类型
 	FString mainScriptRootFilePath = mainScriptMainRootPath + TEXT("*.*");
@@ -76,12 +92,13 @@ void UScriptManager::LoadMainScript()
 		FString scriptPath = mainScriptMainRootPath + var;
 		UChapter* chapter = NewObject<UChapter>();
 		chapter->Load(scriptPath);
-		chapterMainMap.Add(var.Left(var.Len()-4), chapter);
+		mainChapterMap.Add(var.Left(var.Len()-4), chapter);
 	}
 }
 
 void UScriptManager::LoadSideScript()
 {
+	sideChapterMap.Empty();
 	FString sideScriptMainRootPath = FPaths::ProjectContentDir() + sideScriptRelativePath;
 	//使用此方法查找文件时需要添加文件类型
 	FString sideScriptRootFilePath = sideScriptMainRootPath + TEXT("*.*");
@@ -93,12 +110,13 @@ void UScriptManager::LoadSideScript()
 		FString scriptPath = sideScriptMainRootPath + var;
 		UChapter* chapter = NewObject<UChapter>();
 		chapter->Load(scriptPath);
-		chapterMainMap.Add(var.Left(var.Len()-4), chapter);
+		sideChapterMap.Add(var.Left(var.Len()-4), chapter);
 	}
 }
 
 void UScriptManager::LoadSceneScript()
 {
+	sceneChapterMap.Empty();
 	FString sceneScriptMainRootPath = FPaths::ProjectContentDir() + sceneScriptRelativePath;
 	//使用此方法查找文件时需要添加文件类型
 	FString sceneScriptRootFilePath = sceneScriptMainRootPath + TEXT("*.*");
@@ -110,6 +128,6 @@ void UScriptManager::LoadSceneScript()
 		FString scriptPath = sceneScriptMainRootPath + var;
 		UChapter* chapter = NewObject<UChapter>();
 		chapter->Load(scriptPath);
-		chapterMainMap.Add(var.Left(var.Len()-4), chapter);
+		sceneChapterMap.Add(var.Left(var.Len()-4), chapter);
 	}
 }

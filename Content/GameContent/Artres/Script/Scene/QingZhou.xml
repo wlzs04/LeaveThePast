@@ -1,0 +1,13 @@
+<Chapter name="青州" description="青州场景的任务。">
+	<Section name="第一节" description="第一节的描述">
+		<Paragraph>
+			<Say actorId="10002" text="多少？" voicePath="saysomething.wav" actionTime="0.5"/>
+			<Say actorId="10001" text="20文。" voicePath="saysomething.wav" actionTime="0.5"/>
+			<Say actorId="10002" text="我去找。" voicePath="saysomething.wav" actionTime="0.5"/>
+		</Paragraph>
+		<Paragraph>
+			<Say actorId="10002" text="找到了。" voicePath="saysomething.wav" actionTime="0.5"/>
+			<Say actorId="10001" text="谢谢，给你2文作谢礼。" voicePath="saysomething.wav" actionTime="0.5"/>
+		</Paragraph>
+	</Section>
+</Chapter>

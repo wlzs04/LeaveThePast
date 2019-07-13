@@ -5,7 +5,7 @@
 #include "Section.h"
 #include "Chapter.generated.h"
 
-UCLASS()
+UCLASS(BlueprintType)
 class LEAVETHEPAST_API UChapter : public UObject
 {
 	GENERATED_BODY()
@@ -15,12 +15,17 @@ public:
 	bool GetIsCompleted();
 	USection* GetCurrentSection();
 	void Start();
+
+	UFUNCTION(BlueprintCallable)
+	FString GetChapterName();
+	UFUNCTION(BlueprintCallable)
+	FString GetChapterDescription();
 private:
 	TArray<USection*> sectionList;
 	bool isCompleted = false;//是否完成
 	USection* currentSection = nullptr;
 
 	FString chapterPath = TEXT("");
-	FString chatperName = TEXT("未命名");
+	FString chapterName = TEXT("未命名");
 	FString description = TEXT("无");
 };

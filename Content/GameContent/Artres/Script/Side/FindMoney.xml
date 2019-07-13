@@ -1,4 +1,4 @@
-<Task name="找零钱" description="有个人的钱丢了，请你帮忙找找。">
+<Chapter name="找零钱" description="有个人的钱丢了，请你帮忙找找。">
 	<Section name="第一节" description="第一节的描述">
 		<Paragraph>
 			<Say actorId="10002" text="多少？" voicePath="saysomething.wav" actionTime="0.5"/>
@@ -10,4 +10,4 @@
 			<Say actorId="10001" text="谢谢，给你2文作谢礼。" voicePath="saysomething.wav" actionTime="0.5"/>
 		</Paragraph>
 	</Section>
-</Task>
+</Chapter>
