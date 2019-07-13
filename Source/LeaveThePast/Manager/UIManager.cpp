@@ -112,10 +112,21 @@ void UUIManager::HideShopUI()
 	shopUIWidget->AddToViewport();
 }
 
+void UUIManager::ShowDebugUI()
+{
+	debugUIWidget->AddToViewport();
+}
+
+void UUIManager::HideDebugUI()
+{
+	debugUIWidget->RemoveFromParent();
+}
+
 void UUIManager::InitUI()
 {
 	mainUIWidget = LoadUIByName(TEXT("MainUI"));
 	talkUIWidget = LoadUIByName(TEXT("TalkUI"));
 	menuUIWidget = LoadUIByName(TEXT("MenuUI"));
 	shopUIWidget = LoadUIByName(TEXT("ShopUI"));
+	debugUIWidget = LoadUIByName(TEXT("DebugUI"));
 }

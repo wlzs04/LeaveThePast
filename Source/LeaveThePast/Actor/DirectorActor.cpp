@@ -99,7 +99,8 @@ void ADirectorActor::SetupPlayerInputComponent(UInputComponent* playerInputCompo
 	playerInputComponent->BindAction("System", EInputEvent::IE_Released, this, &ADirectorActor::SystemInputFunction);
 	playerInputComponent->BindAction("Accelerate", EInputEvent::IE_Pressed, this, &ADirectorActor::StartAccelerateInputFunction);
 	playerInputComponent->BindAction("Accelerate", EInputEvent::IE_Released, this, &ADirectorActor::StopAccelerateInputFunction);
-	playerInputComponent->BindAction("Interacted",EInputEvent::IE_Pressed,this, &ADirectorActor::InteractedInputFunction);
+	playerInputComponent->BindAction("Interacted", EInputEvent::IE_Pressed, this, &ADirectorActor::InteractedInputFunction);
+	playerInputComponent->BindAction("Debug",EInputEvent::IE_Pressed,this, &ADirectorActor::DebugInputFunction);
 }
 
 void ADirectorActor::MoveForwardInputFunction(float value)
@@ -247,4 +248,19 @@ void ADirectorActor::InteractedInputFunction()
 			}
 		}
 	}
+}
+
+void ADirectorActor::DebugInputFunction()
+{
+	if (inDebugUI)
+	{
+		inDebugUI = false;
+		UUIManager::GetInstance()->HideDebugUI();
+	}
+	else
+	{
+		inDebugUI = true;
+		UUIManager::GetInstance()->ShowDebugUI();
+	}
+	GWorld->GetFirstPlayerController<APlayerController>()->bShowMouseCursor = inDebugUI;
 }

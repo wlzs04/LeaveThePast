@@ -53,6 +53,14 @@ public:
 	//隐藏商品界面
 	UFUNCTION(BlueprintCallable)
 	void HideShopUI();
+
+	//显示调试界面
+	UFUNCTION(BlueprintCallable)
+	void ShowDebugUI();
+
+	//隐藏调试界面
+	UFUNCTION(BlueprintCallable)
+	void HideDebugUI();
 private:
 	//初始化常用UI
 	void InitUI();
@@ -70,4 +78,7 @@ private:
 
 	UPROPERTY()
 	UUserWidget* shopUIWidget = nullptr;
+
+	UPROPERTY()
+	UUserWidget* debugUIWidget = nullptr;
 };

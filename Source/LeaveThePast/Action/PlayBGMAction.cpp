@@ -35,8 +35,6 @@ void UPlayBGMAction::Update()
 
 void UPlayBGMAction::ExecuteReal()
 {
-	startTime = GWorld->GetTimeSeconds();
-	currentTime = GWorld->GetTimeSeconds();
 	isCompleted = false;
 
 	ADirectorActor* directorActor = Cast<ADirectorActor>(GWorld->GetFirstPlayerController()->GetPawn());

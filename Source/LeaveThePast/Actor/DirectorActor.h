@@ -47,7 +47,8 @@ private:
 	void StartAccelerateInputFunction();
 	void StopAccelerateInputFunction();
 	void InteractedInputFunction();
-
+	void DebugInputFunction();
+	
 	UPROPERTY()
 	UAudioComponent* audioComponent = nullptr;
 
@@ -56,4 +57,5 @@ private:
 	int currentControlActorIndex = 0;
 
 	bool inMenuUI = false;
+	bool inDebugUI = false;
 };

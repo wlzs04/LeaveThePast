@@ -17,6 +17,7 @@
 #include "../Action/ChangeCameraActorAction.h"
 #include "../Action/MessageTipAction.h"
 #include "../Action/PlayBGMAction.h"
+#include "../Action/AddItemAction.h"
 #include "../Actor/DirectorActor.h"
 #include "../Config/Recorder/MessageTipRecorder.h"
 
@@ -105,6 +106,30 @@ void UMainGameManager::InitAll()
 	}
 }
 
+void UMainGameManager::ExecuteAction(FString actionValue)
+{
+	if (actionValue.IsEmpty())
+	{
+		return;
+	}
+	TArray<FString> stringArray;
+	actionValue.ParseIntoArray(stringArray, TEXT(" "));
+	if (stringArray.Num() > 0)
+	{
+		UActionBase* actionBase = gameManager->GetIegalActionByName(stringArray[0]);
+		if (actionBase != nullptr)
+		{
+			UActionBase* actionBase2 = NewObject<UActionBase>((UObject*)GetTransientPackage(), actionBase->GetClass());
+			actionBase2->Load(stringArray);
+			actionBase2->Execute();
+		}
+		else
+		{
+			LogError(stringArray[0] + TEXT("指令不合法！"));
+		}
+	}
+}
+
 void UMainGameManager::InitManager()
 {
 	logManager = NewObject<ULogManager>(this);
@@ -135,6 +160,7 @@ void UMainGameManager::LoadIegalAction()
 	AddIegalAction(NewObject<UChangeCameraActorAction>(this));
 	AddIegalAction(NewObject<UMessageTipAction>(this));
 	AddIegalAction(NewObject<UPlayBGMAction>(this));
+	AddIegalAction(NewObject<UAddItemAction>(this));
 }
 
 void UMainGameManager::InitGameTime()

@@ -19,6 +19,7 @@ public:
 	virtual void Update() {};
 	void Execute();
 	virtual void Load(FXmlNode* xmlNode);
+	virtual void Load(TArray<FString> paramList);
 	bool GetIsCompleted();
 	AActorBase* GetExecuteActor();
 protected:

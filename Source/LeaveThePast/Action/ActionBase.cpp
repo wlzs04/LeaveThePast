@@ -21,7 +21,7 @@ FString UActionBase::GetActionName()
 void UActionBase::Execute()
 {
 	LogNormal(actionName + TEXT("指令开始执行！"));
-	UMainGameManager* gameManager = (UMainGameManager*)(GWorld->GetGameInstance());
+	UMainGameManager* gameManager = UMainGameManager::GetInstance();
 	executeActor = gameManager->GetActorManager()->GetActorById(actorId);
 	ExecuteReal();
 }
@@ -39,6 +39,11 @@ void UActionBase::Load(FXmlNode* xmlNode)
 			isAsync = item.GetValue().ToBool();
 		}
 	}
+}
+
+void UActionBase::Load(TArray<FString> paramList)
+{
+	LogWarning(TEXT("指令：")+ actionName+TEXT("未完成Load(TArray<FString> paramList)方法"));
 }
 
 bool UActionBase::GetIsCompleted()

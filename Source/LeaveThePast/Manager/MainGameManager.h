@@ -173,6 +173,10 @@ public:
 	//通过指令名称获得指令
 	UFUNCTION(BlueprintCallable)
 	UActionBase* GetIegalActionByName(FString actionName);
+
+	//执行指令
+	UFUNCTION(BlueprintCallable)
+	void ExecuteAction(FString actionValue);
 private:
 	//初始化管理类
 	void InitManager();
