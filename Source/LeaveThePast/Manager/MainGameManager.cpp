@@ -130,6 +130,18 @@ void UMainGameManager::ExecuteAction(FString actionValue)
 	}
 }
 
+void UMainGameManager::UseItem(int itemId)
+{
+	if (userData->GetItemNumberById(itemId)>0)
+	{
+		if (itemId == 20001)
+		{
+			GetUIManager()->AddMessageTipById(10007);
+		}
+	}
+	userData->ReduceItem(itemId,1);
+}
+
 void UMainGameManager::InitManager()
 {
 	logManager = NewObject<ULogManager>(this);

@@ -177,6 +177,10 @@ public:
 	//执行指令
 	UFUNCTION(BlueprintCallable)
 	void ExecuteAction(FString actionValue);
+
+	//使用物品
+	UFUNCTION(BlueprintCallable)
+	void UseItem(int itemId);
 private:
 	//初始化管理类
 	void InitManager();
