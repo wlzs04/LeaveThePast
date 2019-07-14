@@ -72,10 +72,16 @@ void ADirectorActor::StartPlayBGMSound(USoundCue* soundBase)
 	audioComponent->Play();
 }
 
+FVector ADirectorActor::GetDestination()
+{
+	return destinationPosition;
+}
+
 // Called when the game starts or when spawned
 void ADirectorActor::BeginPlay()
 {
 	Super::BeginPlay();
+	GWorld->GetFirstPlayerController<APlayerController>()->bShowMouseCursor = true;
 	//InitActorList();
 }
 
@@ -192,7 +198,6 @@ void ADirectorActor::SystemInputFunction()
 		inMenuUI = true;
 		UUIManager::GetInstance()->ShowMenuUI();
 	}
-	GWorld->GetFirstPlayerController<APlayerController>()->bShowMouseCursor = inMenuUI;
 }
 
 void ADirectorActor::StartAccelerateInputFunction()
@@ -262,5 +267,4 @@ void ADirectorActor::DebugInputFunction()
 		inDebugUI = true;
 		UUIManager::GetInstance()->ShowDebugUI();
 	}
-	GWorld->GetFirstPlayerController<APlayerController>()->bShowMouseCursor = inDebugUI;
 }

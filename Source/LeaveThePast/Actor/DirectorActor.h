@@ -26,6 +26,10 @@ public:
 	AActorBase* GetCameraActor();
 
 	void StartPlayBGMSound(USoundCue* soundBase);
+
+	//获得目的地位置
+	UFUNCTION(BlueprintCallable)
+	FVector GetDestination();
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -55,6 +59,8 @@ private:
 	TArray<AActorBase*> canControlActorList;
 	AActorBase* currentControlActor = nullptr;
 	int currentControlActorIndex = 0;
+
+	FVector destinationPosition = FVector(0, 0, 0);
 
 	bool inMenuUI = false;
 	bool inDebugUI = false;
