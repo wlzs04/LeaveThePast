@@ -61,6 +61,14 @@ public:
 	//隐藏调试界面
 	UFUNCTION(BlueprintCallable)
 	void HideDebugUI();
+
+	//显示调试界面
+	UFUNCTION(BlueprintCallable)
+	void ShowMapUI();
+
+	//隐藏调试界面
+	UFUNCTION(BlueprintCallable)
+	void HideMapUI();
 private:
 	//初始化常用UI
 	void InitUI();
@@ -81,4 +89,7 @@ private:
 
 	UPROPERTY()
 	UUserWidget* debugUIWidget = nullptr;
+
+	UPROPERTY()
+	UUserWidget* mapUIWidget = nullptr;
 };

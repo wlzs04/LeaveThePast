@@ -27,6 +27,9 @@ public:
 
 	void StartPlayBGMSound(USoundCue* soundBase);
 
+	//设置目的地位置
+	UFUNCTION(BlueprintCallable)
+	void SetDestination(FVector newDestinationPosition);
 	//获得目的地位置
 	UFUNCTION(BlueprintCallable)
 	FVector GetDestination();
@@ -52,6 +55,7 @@ private:
 	void StopAccelerateInputFunction();
 	void InteractedInputFunction();
 	void DebugInputFunction();
+	void MapInputFunction();
 	
 	UPROPERTY()
 	UAudioComponent* audioComponent = nullptr;
@@ -64,4 +68,5 @@ private:
 
 	bool inMenuUI = false;
 	bool inDebugUI = false;
+	bool inMapUI = false;
 };

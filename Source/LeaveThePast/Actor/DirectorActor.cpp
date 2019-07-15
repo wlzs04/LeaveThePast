@@ -72,6 +72,11 @@ void ADirectorActor::StartPlayBGMSound(USoundCue* soundBase)
 	audioComponent->Play();
 }
 
+void  ADirectorActor::SetDestination(FVector newDestinationPosition)
+{
+	destinationPosition = newDestinationPosition;
+}
+
 FVector ADirectorActor::GetDestination()
 {
 	return destinationPosition;
@@ -106,7 +111,8 @@ void ADirectorActor::SetupPlayerInputComponent(UInputComponent* playerInputCompo
 	playerInputComponent->BindAction("Accelerate", EInputEvent::IE_Pressed, this, &ADirectorActor::StartAccelerateInputFunction);
 	playerInputComponent->BindAction("Accelerate", EInputEvent::IE_Released, this, &ADirectorActor::StopAccelerateInputFunction);
 	playerInputComponent->BindAction("Interacted", EInputEvent::IE_Pressed, this, &ADirectorActor::InteractedInputFunction);
-	playerInputComponent->BindAction("Debug",EInputEvent::IE_Pressed,this, &ADirectorActor::DebugInputFunction);
+	playerInputComponent->BindAction("Debug", EInputEvent::IE_Pressed, this, &ADirectorActor::DebugInputFunction);
+	playerInputComponent->BindAction("Map",EInputEvent::IE_Pressed,this, &ADirectorActor::MapInputFunction);
 }
 
 void ADirectorActor::MoveForwardInputFunction(float value)
@@ -266,5 +272,19 @@ void ADirectorActor::DebugInputFunction()
 	{
 		inDebugUI = true;
 		UUIManager::GetInstance()->ShowDebugUI();
+	}
+}
+
+void ADirectorActor::MapInputFunction()
+{
+	if (inMapUI)
+	{
+		inMapUI = false;
+		UUIManager::GetInstance()->HideMapUI();
+	}
+	else
+	{
+		inMapUI = true;
+		UUIManager::GetInstance()->ShowMapUI();
 	}
 }
