@@ -17,7 +17,7 @@ UAudioManager* UAudioManager::GetInstance()
 
 void UAudioManager::Init()
 {
-	audioManager = this;
+	UAudioManager::audioManager = this;
 	mainSoundMix = LoadObject<USoundMix>(NULL, TEXT("SoundMix'/Game/GameContent/Audio/MainSoundMix.MainSoundMix'"));
 	mainSoundClass = LoadObject<USoundClass>(NULL, TEXT("SoundClass'/Game/GameContent/Audio/MainSoundClass.MainSoundClass'"));
 	bgmSoundClass = LoadObject<USoundClass>(NULL, TEXT("SoundClass'/Game/GameContent/Audio/BGMSoundClass.BGMSoundClass'"));

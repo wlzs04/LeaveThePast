@@ -1,19 +1,22 @@
 #include "LeaveThePastGameModeBase.h"
-#include "GameFramework/PlayerController.h"
+#include "Manager/MainGameManager.h"
+#include "Actor/DirectorActor.h"
+//#include "GameFramework/PlayerController.h"
 #include "Engine/World.h"
 #include "Engine/Level.h"
 
 void ALeaveThePastGameModeBase::StartPlay()
 {
 	AGameModeBase::StartPlay();
+
 	gameManager = (UMainGameManager*)(GWorld->GetGameInstance());
 	gameManager->InitAll();
-	gameManager->StartTime();
 
 	if (gameManager->GetSystemData()->GetShowInitUI())
 	{
 		gameManager->GetUIManager()->LoadUIByName(TEXT("InitUI"))->AddToViewport();
 	}
+
 	LogNormal(TEXT("初始化场景中已存在的演员信息"));
 	//初始化场景中已存在的演员信息
 	TActorIterator<AActorBase> actorItr = TActorIterator<AActorBase>(GetWorld(), AActorBase::StaticClass());
@@ -26,7 +29,7 @@ void ALeaveThePastGameModeBase::StartPlay()
 		}
 	}
 
-	ADirectorActor* directorActor = Cast<ADirectorActor>(GetWorld()->GetFirstPlayerController()->GetPawn());
+	directorActor = Cast<ADirectorActor>(GetWorld()->GetFirstPlayerController()->GetPawn());
 	directorActor->InitActorList();
 
 	gameManager->GetUIManager()->ShowMainUI();
@@ -34,11 +37,7 @@ void ALeaveThePastGameModeBase::StartPlay()
 	//directorActor->GetCameraActor()->StartPlayVoiceSound(sound);
 	//directorActor->StartPlayBGMSound(sound);
 
-	USystemData* systemData = gameManager->GetSystemData();
-	gameManager->GetAudioManager()->SetMainSoundVolume(systemData->GetMainSoundVolume());
-	gameManager->GetAudioManager()->SetBGMSoundVolume(systemData->GetBGMSoundVolume());
-	gameManager->GetAudioManager()->SetVoiceSoundVolume(systemData->GetVoiceSoundVolume());
-	gameManager->GetAudioManager()->SetEffectSoundVolume(systemData->GetEffectSoundVolume());
+	LogNormal(TEXT("游戏初始化结束。"));
 }
 
 void ALeaveThePastGameModeBase::Tick(float deltaSeconds)

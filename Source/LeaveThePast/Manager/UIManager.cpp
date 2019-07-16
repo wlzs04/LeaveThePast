@@ -13,7 +13,6 @@ UUIManager* UUIManager::GetInstance()
 void UUIManager::Init()
 {
 	UUIManager::uiManager = this;
-	
 	InitUI();
 }
 

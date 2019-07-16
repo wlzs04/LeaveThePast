@@ -14,9 +14,9 @@ ULogManager* ULogManager::GetInstance()
 
 void ULogManager::Init()
 {
+	ULogManager::logManager = this;
 	filePath = UMainGameManager::GetInstance()->GetArtresPath()+TEXT("Log.log");
 	FFileHelper::SaveStringToFile(TEXT(""), *filePath);
-	ULogManager::logManager = this;
 }
 
 void ULogManager::SetEnable(bool newEnableLogToFile, bool newEnableLogToEdit)

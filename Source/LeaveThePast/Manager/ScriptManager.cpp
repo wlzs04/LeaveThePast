@@ -1,7 +1,14 @@
 #include "ScriptManager.h"
 #include "Engine/World.h"
+
 #include "../Action/MoveAction.h"
 #include "../Action/SayAction.h"
+#include "../Action/RotateAction.h"
+#include "../Action/ChangeCameraActorAction.h"
+#include "../Action/MessageTipAction.h"
+#include "../Action/PlayBGMAction.h"
+#include "../Action/AddItemAction.h"
+
 #include "../Script/Chapter.h"
 #include "Runtime/Core/Public/Misc/Paths.h"
 #include "Runtime/Core/Public/HAL/FileManager.h"
@@ -17,6 +24,7 @@ UScriptManager* UScriptManager::GetInstance()
 void UScriptManager::Init()
 {
 	UScriptManager::scriptManager = this;
+	LoadAllIegalAction();
 	LoadAllScript();
 }
 
@@ -129,5 +137,54 @@ void UScriptManager::LoadSceneScript()
 		UChapter* chapter = NewObject<UChapter>();
 		chapter->Load(scriptPath);
 		sceneChapterMap.Add(var.Left(var.Len()-4), chapter);
+	}
+}
+
+void UScriptManager::LoadAllIegalAction()
+{
+	AddIegalAction(NewObject<UMoveAction>(this));
+	AddIegalAction(NewObject<USayAction>(this));
+	AddIegalAction(NewObject<URotateAction>(this));
+	AddIegalAction(NewObject<UChangeCameraActorAction>(this));
+	AddIegalAction(NewObject<UMessageTipAction>(this));
+	AddIegalAction(NewObject<UPlayBGMAction>(this));
+	AddIegalAction(NewObject<UAddItemAction>(this));
+}
+
+void UScriptManager::AddIegalAction(UActionBase* actionBase)
+{
+	legalActionMap.Add(actionBase->GetActionName(), actionBase);
+}
+
+UActionBase* UScriptManager::GetIegalActionByName(FString actionName)
+{
+	if (legalActionMap.Contains(actionName))
+	{
+		return legalActionMap[actionName];
+	}
+	return nullptr;
+}
+
+void UScriptManager::ExecuteAction(FString actionValue)
+{
+	if (actionValue.IsEmpty())
+	{
+		return;
+	}
+	TArray<FString> stringArray;
+	actionValue.ParseIntoArray(stringArray, TEXT(" "));
+	if (stringArray.Num() > 0)
+	{
+		UActionBase* actionBase = GetIegalActionByName(stringArray[0]);
+		if (actionBase != nullptr)
+		{
+			UActionBase* actionBase2 = NewObject<UActionBase>(this, actionBase->GetClass());
+			actionBase2->Load(stringArray);
+			actionBase2->Execute();
+		}
+		else
+		{
+			LogError(stringArray[0] + TEXT("指令不合法！"));
+		}
 	}
 }

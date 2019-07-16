@@ -11,15 +11,15 @@
 #include "Engine/World.h"
 #include "GameFramework/PlayerController.h"
 
-#include "../Action/MoveAction.h"
-#include "../Action/SayAction.h"
-#include "../Action/RotateAction.h"
-#include "../Action/ChangeCameraActorAction.h"
-#include "../Action/MessageTipAction.h"
-#include "../Action/PlayBGMAction.h"
-#include "../Action/AddItemAction.h"
+//#include "../Action/MoveAction.h"
+//#include "../Action/SayAction.h"
+//#include "../Action/RotateAction.h"
+//#include "../Action/ChangeCameraActorAction.h"
+//#include "../Action/MessageTipAction.h"
+//#include "../Action/PlayBGMAction.h"
+//#include "../Action/AddItemAction.h"
+
 #include "../Actor/DirectorActor.h"
-#include "../Config/Recorder/MessageTipRecorder.h"
 
 UMainGameManager* UMainGameManager::gameManager = nullptr;
 
@@ -33,36 +33,36 @@ void UMainGameManager::InitAll()
 	if (!haveInited)
 	{
 		UMainGameManager::gameManager = this;
-		InitGameTime();
 		InitManager();
-		LoadSystemData();
-		LoadUserData();
+
+		realTimeData = NewObject<UTimeData>(this);
+		gameTimeData = NewObject<UTimeData>(this);
+
+		systemData = NewObject<USystemData>(this);
+		ReloadSystemData();
+
+		userData = NewObject<UUserData>(this);
+		ReloadUserData();
+
+		StartTime();
+
 		haveInited = true;
 	}
 }
 
-void UMainGameManager::ExecuteAction(FString actionValue)
+void UMainGameManager::ReloadSystemData()
 {
-	if (actionValue.IsEmpty())
-	{
-		return;
-	}
-	TArray<FString> stringArray;
-	actionValue.ParseIntoArray(stringArray, TEXT(" "));
-	if (stringArray.Num() > 0)
-	{
-		UActionBase* actionBase = gameManager->GetIegalActionByName(stringArray[0]);
-		if (actionBase != nullptr)
-		{
-			UActionBase* actionBase2 = NewObject<UActionBase>((UObject*)GetTransientPackage(), actionBase->GetClass());
-			actionBase2->Load(stringArray);
-			actionBase2->Execute();
-		}
-		else
-		{
-			LogError(stringArray[0] + TEXT("指令不合法！"));
-		}
-	}
+	systemData->Load();
+	GetAudioManager()->SetMainSoundVolume(systemData->GetMainSoundVolume());
+	GetAudioManager()->SetBGMSoundVolume(systemData->GetBGMSoundVolume());
+	GetAudioManager()->SetVoiceSoundVolume(systemData->GetVoiceSoundVolume());
+	GetAudioManager()->SetEffectSoundVolume(systemData->GetEffectSoundVolume());
+}
+
+void UMainGameManager::ReloadUserData()
+{
+	userData->Load();
+	gameTimeData->SetTime(userData->GetHour(), userData->GetMinute(), userData->GetSecond());
 }
 
 void UMainGameManager::UseItem(int itemId)
@@ -88,7 +88,6 @@ void UMainGameManager::InitManager()
 	audioManager = NewObject<UAudioManager>(this);
 	audioManager->Init();
 
-	LoadIegalAction();
 	scriptManager = NewObject<UScriptManager>(this);
 	scriptManager->Init();
 
@@ -97,24 +96,6 @@ void UMainGameManager::InitManager()
 
 	uiManager = NewObject<UUIManager>(this);
 	uiManager->Init();
-}
-
-void UMainGameManager::LoadIegalAction()
-{
-	AddIegalAction(NewObject<UMoveAction>(this));
-	AddIegalAction(NewObject<USayAction>(this));
-	AddIegalAction(NewObject<URotateAction>(this));
-	AddIegalAction(NewObject<UChangeCameraActorAction>(this));
-	AddIegalAction(NewObject<UMessageTipAction>(this));
-	AddIegalAction(NewObject<UPlayBGMAction>(this));
-	AddIegalAction(NewObject<UAddItemAction>(this));
-}
-
-void UMainGameManager::InitGameTime()
-{
-	realTimeData = NewObject<UTimeData>(this);
-	gameTimeData = NewObject<UTimeData>(this);
-	StartTime();
 }
 
 void UMainGameManager::StartTime()
@@ -142,33 +123,17 @@ UTimeData* UMainGameManager::GetGameDuringTime()
 	return gameTimeData;
 }
 
-void UMainGameManager::SetGameAndRealTimeRate(float newGameAndRealTimeRate)
-{
-	gameAndRealTimeRate = newGameAndRealTimeRate;
-}
-
-float UMainGameManager::GetGameAndRealTimeRate()
-{
-	return gameAndRealTimeRate;
-}
-
 void UMainGameManager::Tick(float secondTime)
 {
 	if (startTime)
 	{
 		realTimeData->Tick(secondTime);
-		if (!isFixedTime)
+		if (!userData->GetIsFixedTime())
 		{
-			gameTimeData->Tick(secondTime * gameAndRealTimeRate);
+			gameTimeData->Tick(secondTime * userData->GetGameAndRealTimeRate());
 		}
 		scriptManager->Tick();
 	}
-}
-
-void UMainGameManager::LoadSystemData()
-{
-	systemData = NewObject<USystemData>(this);
-	systemData->Load();
 }
 
 void UMainGameManager::SaveSystemData()
@@ -181,15 +146,6 @@ USystemData* UMainGameManager::GetSystemData()
 	return systemData;
 }
 
-void UMainGameManager::LoadUserData()
-{
-	userData = NewObject<UUserData>(this);
-	userData->Load();
-	gameTimeData->SetTime(userData->GetHour(), userData->GetMinute(), userData->GetSecond());
-	SetIsFixedTime(userData->GetIsFixedTime());
-	SetGameAndRealTimeRate(userData->GetGameAndRealTimeRate());
-}
-
 void UMainGameManager::SaveUserData()
 {
 	userData->Save();
@@ -198,16 +154,6 @@ void UMainGameManager::SaveUserData()
 UUserData* UMainGameManager::GetUserData()
 {
 	return userData;
-}
-
-void UMainGameManager::SetIsFixedTime(bool newIsFixedTime)
-{
-	isFixedTime = newIsFixedTime;
-}
-
-bool UMainGameManager::GetIsFixedTime()
-{
-	return isFixedTime;
 }
 
 void UMainGameManager::ExitGame()
@@ -318,40 +264,3 @@ UTexture2D* UMainGameManager::LoadTexture2D(FString path, bool& isValid, int32& 
 	}
 	return texture;
 }
-
-void UMainGameManager::AddIegalAction(UActionBase* actionBase)
-{
-	legalActionMap.Add(actionBase->GetActionName(), actionBase);
-}
-
-UActionBase* UMainGameManager::GetIegalActionByName(FString actionName)
-{
-	if (legalActionMap.Contains(actionName))
-	{
-		return legalActionMap[actionName];
-	}
-	return nullptr;
-}
-
-//void UMainGameManager::AddMessageTip(FString value)
-//{
-//	AddMessageTip_BPEvent(value);
-//}
-//
-//void UMainGameManager::AddMessageTipById(int id)
-//{
-//	FString value = TEXT("");
-//
-//	URecorderBase* messageTipRecorder = configManager->GetConfigByNameId(UMessageTipRecorder::StaticClass(),id);
-//	if (messageTipRecorder != nullptr)
-//	{
-//		value = ((UMessageTipRecorder*)messageTipRecorder)->GetValue();
-//	}
-//
-//	AddMessageTip(value);
-//}
-//
-//void UMainGameManager::SetTalkUI(FString talkValue, FString actorName, float continueTime, FString headImagePath, bool isLeft)
-//{
-//	SetTalkUI_BPEvent(talkValue, actorName, continueTime, headImagePath, isLeft);
-//}

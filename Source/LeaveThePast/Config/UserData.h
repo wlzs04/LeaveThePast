@@ -4,9 +4,7 @@
 #include "UObject/NoExportTypes.h"
 #include "UserData.generated.h"
 
-class UGameManager;
-
-UCLASS()
+UCLASS(BlueprintType)
 class LEAVETHEPAST_API UUserData : public UObject
 {
 	GENERATED_BODY()
@@ -23,8 +21,16 @@ public:
 
 	int GetSecond();
 
+	UFUNCTION(BlueprintCallable)
+	void SetIsFixedTime(bool newIsFixedTime);
+
+	UFUNCTION(BlueprintCallable)
 	bool GetIsFixedTime();
 
+	UFUNCTION(BlueprintCallable)
+	void SetGameAndRealTimeRate(float newGameAndRealTimeRate);
+
+	UFUNCTION(BlueprintCallable)
 	float GetGameAndRealTimeRate();
 
 	//获得物品map

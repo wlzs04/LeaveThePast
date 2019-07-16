@@ -2,7 +2,6 @@
 #include "../Manager/MainGameManager.h"
 #include "Paths.h"
 #include "XmlParser/Public/XmlFile.h"
-#include "LogMacros.h"
 #include "Engine/World.h"
 
 UUserData::UUserData() :UObject()
@@ -17,8 +16,6 @@ void UUserData::Save()
 	hour = gameDuringTime->GetHours();
 	minute = gameDuringTime->GetMinutes();
 	second = gameDuringTime->GetSeconds();
-	isFixedTime = gameManager->GetIsFixedTime();
-	gameAndRealTimeRate = gameManager->GetGameAndRealTimeRate();
 	FString xmlContent = TEXT("<UserData ");
 	//start 添加基础信息
 	xmlContent.Append(TEXT("hour=\"") + FString::FromInt(hour) + TEXT("\" "));
@@ -63,9 +60,19 @@ int UUserData::GetSecond()
 	return second;
 }
 
+void UUserData::SetIsFixedTime(bool newIsFixedTime)
+{
+	isFixedTime = newIsFixedTime;
+}
+
 bool UUserData::GetIsFixedTime()
 {
 	return isFixedTime;
+}
+
+void UUserData::SetGameAndRealTimeRate(float newGameAndRealTimeRate)
+{
+	gameAndRealTimeRate = newGameAndRealTimeRate;
 }
 
 float UUserData::GetGameAndRealTimeRate()

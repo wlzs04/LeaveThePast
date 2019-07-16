@@ -40,10 +40,10 @@ void UParagraph::Update()
 
 void UParagraph::Load(FXmlNode* xmlNode)
 {
-	UMainGameManager* gameManager = ((UMainGameManager*)(GWorld->GetGameInstance()));
+	UScriptManager* scriptManager = UScriptManager::GetInstance();
 	for (auto childNode : xmlNode->GetChildrenNodes())
 	{
-		UActionBase* actionBase = gameManager->GetIegalActionByName(childNode->GetTag());
+		UActionBase* actionBase = scriptManager->GetIegalActionByName(childNode->GetTag());
 
 		if (actionBase != nullptr)
 		{

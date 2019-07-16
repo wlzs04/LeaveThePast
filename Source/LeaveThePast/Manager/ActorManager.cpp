@@ -15,7 +15,6 @@ UActorManager* UActorManager::GetInstance()
 void UActorManager::Init()
 {
 	UActorManager::actorManager = this;
-
 	LoadAllActorInfo();
 }
 

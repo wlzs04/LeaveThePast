@@ -8,8 +8,8 @@
 #include "LogManager.h"
 #include "UIManager.h"
 #include "AudioManager.h"
-#include "../Config/UserData.h"
 #include "../Config/TimeData.h"
+#include "../Config/UserData.h"
 #include "../Config/SystemData.h"
 #include "MainGameManager.generated.h"
 
@@ -23,6 +23,14 @@ public:
 	//初始化所有内容
 	UFUNCTION(BlueprintCallable)
 	void InitAll();
+
+	//重新加载系统数据
+	UFUNCTION(BlueprintCallable)
+	void ReloadSystemData();
+
+	//重新加载用户数据
+	UFUNCTION(BlueprintCallable)
+	void ReloadUserData();
 
 	//开始计时
 	UFUNCTION(BlueprintCallable)
@@ -44,21 +52,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	UTimeData* GetGameDuringTime();
 
-	//设置游戏和现实时间的比率
-	UFUNCTION(BlueprintCallable)
-	void SetGameAndRealTimeRate(float newGameAndRealTimeRate);
-
-	//设置游戏和现实时间的比率
-	UFUNCTION(BlueprintCallable)
-	float GetGameAndRealTimeRate();
-
 	//每帧执行一次
 	UFUNCTION(BlueprintCallable)
 	void Tick(float secondTime);
-
-	//加载系统数据
-	UFUNCTION(BlueprintCallable)
-	void LoadSystemData();
 
 	//保存系统数据
 	UFUNCTION(BlueprintCallable)
@@ -68,10 +64,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	USystemData* GetSystemData();
 
-	//加载用户数据
-	UFUNCTION(BlueprintCallable)
-	void LoadUserData();
-
 	//保存用户数据
 	UFUNCTION(BlueprintCallable)
 	void SaveUserData();
@@ -79,14 +71,6 @@ public:
 	//获得用户数据
 	UFUNCTION(BlueprintCallable)
 	UUserData* GetUserData();
-
-	//设置是否固定时间
-	UFUNCTION(BlueprintCallable)
-	void SetIsFixedTime(bool newIsFixedTime);
-
-	//获得是否固定时间
-	UFUNCTION(BlueprintCallable)
-	bool GetIsFixedTime();
 
 	//结束游戏
 	UFUNCTION(BlueprintCallable)
@@ -124,29 +108,12 @@ public:
 	UFUNCTION(BlueprintCallable)
 	UTexture2D* LoadTexture2D(FString path, bool& isValid, int32& outWidth, int32& outHeight);
 
-	//加载合法指令
-	void AddIegalAction(UActionBase* actionBase);
-
-	//通过指令名称获得指令
-	UFUNCTION(BlueprintCallable)
-	UActionBase* GetIegalActionByName(FString actionName);
-
-	//执行指令
-	UFUNCTION(BlueprintCallable)
-	void ExecuteAction(FString actionValue);
-
 	//使用物品
 	UFUNCTION(BlueprintCallable)
 	void UseItem(int itemId);
 private:
 	//初始化管理类
 	void InitManager();
-
-	//加载合法指令
-	void LoadIegalAction();
-
-	//初始化游戏时间
-	void InitGameTime();
 
 	static UMainGameManager* gameManager;
 
@@ -177,16 +144,12 @@ private:
 	//是否已经初始化完成
 	bool haveInited = false;
 	bool startTime = false;
-	float gameAndRealTimeRate = 1;
-	bool isFixedTime = false;//是否固定时间
 
 	UPROPERTY()
 	UTimeData* realTimeData = nullptr;
 
 	UPROPERTY()
 	UTimeData* gameTimeData = nullptr;
-
-	TMap<FString, UActionBase*> legalActionMap;
 
 	AActorBase* mainActor = nullptr;
 	AActorBase* mainActor2 = nullptr;

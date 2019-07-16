@@ -23,6 +23,14 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void Tick();
 
+	//通过指令名称获得指令
+	UFUNCTION(BlueprintCallable)
+	UActionBase* GetIegalActionByName(FString actionName);
+
+	//执行指令
+	UFUNCTION(BlueprintCallable)
+	void ExecuteAction(FString actionValue);
+
 	//加载所有剧本
 	void LoadAllScript();
 
@@ -40,7 +48,14 @@ private:
 	//加载场景剧本
 	void LoadSceneScript();
 
+	//加载所有合法指令
+	void LoadAllIegalAction();
+	//加载合法指令
+	void AddIegalAction(UActionBase* actionBase);
+
 	static UScriptManager* scriptManager;
+
+	TMap<FString, UActionBase*> legalActionMap;
 
 	FString mainScriptRelativePath = TEXT("GameContent/Artres/Script/Main/");
 	FString sideScriptRelativePath = TEXT("GameContent/Artres/Script/Side/");
