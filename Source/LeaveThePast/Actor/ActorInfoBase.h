@@ -50,8 +50,11 @@ struct FPropertyBase
 		propertyEnum = PropertyEnum::Unknown;
 	}
 
+	UPROPERTY(BlueprintReadWrite)
 	PropertyEnum propertyEnum;
+	UPROPERTY(BlueprintReadWrite)
 	FString propertyName;
+	UPROPERTY(BlueprintReadWrite)
 	float propertyValue;
 };
 

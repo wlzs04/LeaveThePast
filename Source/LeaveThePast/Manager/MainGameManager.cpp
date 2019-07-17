@@ -11,14 +11,6 @@
 #include "Engine/World.h"
 #include "GameFramework/PlayerController.h"
 
-//#include "../Action/MoveAction.h"
-//#include "../Action/SayAction.h"
-//#include "../Action/RotateAction.h"
-//#include "../Action/ChangeCameraActorAction.h"
-//#include "../Action/MessageTipAction.h"
-//#include "../Action/PlayBGMAction.h"
-//#include "../Action/AddItemAction.h"
-
 #include "../Actor/DirectorActor.h"
 
 UMainGameManager* UMainGameManager::gameManager = nullptr;
@@ -36,13 +28,15 @@ void UMainGameManager::InitAll()
 		InitManager();
 
 		realTimeData = NewObject<UTimeData>(this);
-		gameTimeData = NewObject<UTimeData>(this);
+		
 
 		systemData = NewObject<USystemData>(this);
 		ReloadSystemData();
 
 		userData = NewObject<UUserData>(this);
 		ReloadUserData();
+
+		directorActor = Cast<ADirectorActor>(GetWorld()->GetFirstPlayerController()->GetPawn());
 
 		haveInited = true;
 	}
@@ -60,7 +54,6 @@ void UMainGameManager::ReloadSystemData()
 void UMainGameManager::ReloadUserData()
 {
 	userData->Load();
-	gameTimeData->SetTime(userData->GetHour(), userData->GetMinute(), userData->GetSecond());
 }
 
 void UMainGameManager::UseItem(int itemId)
@@ -73,6 +66,13 @@ void UMainGameManager::UseItem(int itemId)
 		}
 	}
 	userData->ReduceItem(itemId,1);
+}
+
+void UMainGameManager::EnterScene(int sceneId)
+{
+	USceneRecorder* sceneRecorder = (USceneRecorder*)UConfigManager::GetInstance()->GetConfigByNameId(USceneRecorder::StaticClass(), TEXT("Scene"), sceneId);
+	directorActor->StartPlayBGMSound(GetAudioManager()->GetAudioById(sceneRecorder->GetBGMId()));
+	GetActorManager()->LoadAllActorBySceneId(sceneId);
 }
 
 void UMainGameManager::InitManager()
@@ -118,7 +118,7 @@ UTimeData* UMainGameManager::GetRealDuringTime()
 
 UTimeData* UMainGameManager::GetGameDuringTime()
 {
-	return gameTimeData;
+	return userData->GetGameTimeData();
 }
 
 void UMainGameManager::Tick(float secondTime)
@@ -128,7 +128,7 @@ void UMainGameManager::Tick(float secondTime)
 		realTimeData->Tick(secondTime);
 		if (!userData->GetIsFixedTime())
 		{
-			gameTimeData->Tick(secondTime * userData->GetGameAndRealTimeRate());
+			userData->GetGameTimeData()->Tick(secondTime * userData->GetGameAndRealTimeRate());
 		}
 		scriptManager->Tick();
 	}
@@ -156,7 +156,6 @@ UUserData* UMainGameManager::GetUserData()
 
 void UMainGameManager::ExitGame()
 {
-	SaveUserData();
 	SaveSystemData();
 	UKismetSystemLibrary::QuitGame(this, nullptr, EQuitPreference::Quit, true);
 }

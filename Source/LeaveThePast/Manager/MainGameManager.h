@@ -8,7 +8,7 @@
 #include "LogManager.h"
 #include "UIManager.h"
 #include "AudioManager.h"
-#include "../Config/TimeData.h"
+#include "../Actor/DirectorActor.h"
 #include "../Config/UserData.h"
 #include "../Config/SystemData.h"
 #include "MainGameManager.generated.h"
@@ -111,11 +111,18 @@ public:
 	//使用物品
 	UFUNCTION(BlueprintCallable)
 	void UseItem(int itemId);
+
+	//使用物品
+	UFUNCTION(BlueprintCallable)
+	void EnterScene(int sceneId);
 private:
 	//初始化管理类
 	void InitManager();
 
 	static UMainGameManager* gameManager;
+
+	UPROPERTY()
+	ADirectorActor* directorActor = nullptr;
 
 	UPROPERTY()
 	USystemData* systemData = nullptr;
@@ -147,9 +154,6 @@ private:
 
 	UPROPERTY()
 	UTimeData* realTimeData = nullptr;
-
-	UPROPERTY()
-	UTimeData* gameTimeData = nullptr;
 
 	AActorBase* mainActor = nullptr;
 	AActorBase* mainActor2 = nullptr;

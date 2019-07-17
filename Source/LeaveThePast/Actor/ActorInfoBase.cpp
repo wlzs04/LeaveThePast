@@ -79,34 +79,34 @@ void UActorInfoBase::Load(FXmlNode* xmlNode)
 			for (auto propertyNode : childNode->GetChildrenNodes())
 			{
 				FPropertyBase propertyBase;
-				FString propertyName = propertyNode->GetTag();
-				if (propertyName == TEXT("Attack"))
+				FString tag = propertyNode->GetTag();
+				if (tag == TEXT("Attack"))
 				{
 					propertyBase.propertyEnum = PropertyEnum::Attact;
 				}
-				else if (propertyName == TEXT("Defense"))
+				else if (tag == TEXT("Defense"))
 				{
 					propertyBase.propertyEnum = PropertyEnum::Defense;
 				}
-				else if (propertyNode->GetTag() == TEXT("Speed"))
+				else if (tag == TEXT("Speed"))
 				{
 					propertyBase.propertyEnum = PropertyEnum::Speed;
 				}
-				else if (propertyName == TEXT("Life"))
+				else if (tag == TEXT("Life"))
 				{
 					propertyBase.propertyEnum = PropertyEnum::Life;
 				}
-				else if (propertyName == TEXT("Power"))
+				else if (tag == TEXT("Power"))
 				{
 					propertyBase.propertyEnum = PropertyEnum::Power;
 				}
 				else
 				{
-					LogWarning(FString::Printf(TEXT("演员Id:%d配置中存在未知属性:%s！"), actorId, *propertyName));
+					LogWarning(FString::Printf(TEXT("演员Id:%d配置中存在未知属性:%s！"), actorId, *tag));
 				}
-				propertyBase.propertyName = propertyName;
+				propertyBase.propertyName = propertyNode->GetAttribute(TEXT("name"));
 				propertyBase.propertyValue = FCString::Atof(*propertyNode->GetAttribute(TEXT("value")));
-				propertyMap.Add(propertyName, propertyBase);
+				propertyMap.Add(tag, propertyBase);
 			}
 		}
 	}

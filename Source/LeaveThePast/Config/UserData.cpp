@@ -12,15 +12,11 @@ UUserData::UUserData() :UObject()
 void UUserData::Save()
 {
 	UMainGameManager* gameManager = Cast<UMainGameManager>(GetWorld()->GetGameInstance());
-	UTimeData* gameDuringTime = gameManager->GetGameDuringTime();
-	hour = gameDuringTime->GetHours();
-	minute = gameDuringTime->GetMinutes();
-	second = gameDuringTime->GetSeconds();
 	FString xmlContent = TEXT("<UserData ");
 	//start 添加基础信息
-	xmlContent.Append(TEXT("hour=\"") + FString::FromInt(hour) + TEXT("\" "));
-	xmlContent.Append(TEXT("minute=\"") + FString::FromInt(minute) + TEXT("\" "));
-	xmlContent.Append(TEXT("second=\"") + FString::FromInt(second) + TEXT("\" "));
+	xmlContent.Append(TEXT("hour=\"") + FString::FromInt((int)gameTimeData->GetHours()) + TEXT("\" "));
+	xmlContent.Append(TEXT("minute=\"") + FString::FromInt((int)gameTimeData->GetMinutes()) + TEXT("\" "));
+	xmlContent.Append(TEXT("second=\"") + FString::FromInt((int)gameTimeData->GetSeconds()) + TEXT("\" "));
 	FString isFixedTimeString = (isFixedTime ? TEXT("true") : TEXT("false"));
 	xmlContent.Append(TEXT("isFixedTime=\"") + isFixedTimeString + TEXT("\" "));
 	xmlContent.Append(TEXT("gameAndRealTimeRate=\"") + FString::SanitizeFloat(gameAndRealTimeRate) + TEXT("\" "));
@@ -45,19 +41,9 @@ void UUserData::Save()
 	delete xmlFile;
 }
 
-int UUserData::GetHour()
+UTimeData* UUserData::GetGameTimeData()
 {
-	return hour;
-}
-
-int UUserData::GetMinute()
-{
-	return minute;
-}
-
-int UUserData::GetSecond()
-{
-	return second;
+	return gameTimeData;
 }
 
 void UUserData::SetIsFixedTime(bool newIsFixedTime)
@@ -166,6 +152,7 @@ void UUserData::ReduceMoney(int money)
 
 void UUserData::Load()
 {
+	gameTimeData = NewObject<UTimeData>(this);
 	FXmlFile* xmlFile = new FXmlFile(savePath);
 	if (!xmlFile->IsValid())
 	{
@@ -174,7 +161,9 @@ void UUserData::Load()
 	}
 
 	FXmlNode* rootNode = xmlFile->GetRootNode();
-
+	int hour = 6;
+	int minute = 0;
+	int second = 0;
 	//加载基础属性
 	for (auto attribute : rootNode->GetAttributes())
 	{
@@ -230,6 +219,8 @@ void UUserData::Load()
 			}
 		}
 	}
+
+	gameTimeData->SetTime(hour,minute,second);
 
 	xmlFile->Clear();
 	delete xmlFile;

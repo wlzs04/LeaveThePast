@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
+#include "TimeData.h"
 #include "UserData.generated.h"
 
 UCLASS(BlueprintType)
@@ -15,11 +16,8 @@ public:
 
 	void Save();
 
-	int GetHour();
-
-	int GetMinute();
-
-	int GetSecond();
+	UFUNCTION(BlueprintCallable)
+	UTimeData* GetGameTimeData();
 
 	UFUNCTION(BlueprintCallable)
 	void SetIsFixedTime(bool newIsFixedTime);
@@ -65,9 +63,9 @@ protected:
 	//保存路径
 	FString savePath;
 
-	int hour = 6;//时
-	int minute = 0;//分
-	int second = 0;//秒
+	UPROPERTY()
+	UTimeData* gameTimeData = nullptr;
+
 	bool isFixedTime = false;//是否固定时间
 	float gameAndRealTimeRate = 1;
 	TMap<int, int> itemMap;

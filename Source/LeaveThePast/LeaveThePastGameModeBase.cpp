@@ -12,10 +12,6 @@ void ALeaveThePastGameModeBase::StartPlay()
 	gameManager = (UMainGameManager*)(GWorld->GetGameInstance());
 	gameManager->InitAll();
 
-	//gameManager->GetActorManager()->LoadAllActorFromScene();
-
-	gameManager->GetActorManager()->LoadAllActorBySceneId(10001);
-
 	directorActor = Cast<ADirectorActor>(GetWorld()->GetFirstPlayerController()->GetPawn());
 	directorActor->InitActorList();
 
@@ -24,6 +20,10 @@ void ALeaveThePastGameModeBase::StartPlay()
 	if (gameManager->GetSystemData()->GetShowInitUI())
 	{
 		gameManager->GetUIManager()->LoadUIByName(TEXT("InitUI"))->AddToViewport();
+	}
+	else
+	{
+		StartGame();
 	}
 }
 

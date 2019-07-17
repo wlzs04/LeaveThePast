@@ -46,6 +46,11 @@ void UActorManager::LoadAllActorInfo()
 void UActorManager::LoadAllActorBySceneId(int sceneId)
 {
 	USceneRecorder* sceneRecorder = (USceneRecorder*)UConfigManager::GetInstance()->GetConfigByNameId(USceneRecorder::StaticClass(), TEXT("Scene"), sceneId);
+	if (sceneRecorder==nullptr)
+	{
+		LogError(FString::Printf(TEXT("场景：%d不存在。"), sceneId));
+		return;
+	}
 	for (FSceneActorInfo sceneActorInfo : sceneRecorder->GetSceneActorList())
 	{
 		UActorInfoBase* actorInfo = GetNewActorInfoByInfoId(sceneActorInfo.actorId);
