@@ -1,9 +1,13 @@
 #include "ActorManager.h"
+#include "ConfigManager.h"
+#include "LogManager.h"
+#include "../Config/Recorder/SceneRecorder.h"
 #include "Engine/World.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Public/UObject/ConstructorHelpers.h"
 #include "XmlParser/Public/XmlFile.h"
-#include "LogManager.h"
+#include "Engine/Level.h"
+#include "EngineUtils.h"
 
 UActorManager* UActorManager::actorManager = nullptr;
 
@@ -25,13 +29,33 @@ void UActorManager::LoadAllActorInfo()
 	LoadMassActorInfo();
 }
 
-AActorBase* UActorManager::LoadActorToSceneById(int actorId)
+//void UActorManager::LoadAllActorFromScene()
+//{
+//	LogNormal(TEXT("初始化场景中已存在的演员信息"));
+//	TActorIterator<AActorBase> actorItr = TActorIterator<AActorBase>(GetWorld(), AActorBase::StaticClass());
+//	for (actorItr; actorItr; ++actorItr)
+//	{
+//		AActorBase* actorBase = *actorItr;
+//		if (actorBase != nullptr && actorBase->actorIdForEditor != 0)
+//		{
+//			actorBase->SetActorInfo(GetActorInfoById(actorBase->actorIdForEditor));
+//		}
+//	}
+//}
+
+void UActorManager::LoadAllActorBySceneId(int sceneId)
 {
-	if (GetActorById(actorId) != nullptr)
+	USceneRecorder* sceneRecorder = (USceneRecorder*)UConfigManager::GetInstance()->GetConfigByNameId(USceneRecorder::StaticClass(), TEXT("Scene"), sceneId);
+	for (FSceneActorInfo sceneActorInfo : sceneRecorder->GetSceneActorList())
 	{
-		return GetActorById(actorId);
+		UActorInfoBase* actorInfo = GetNewActorInfoByInfoId(sceneActorInfo.actorId);
+		actorInfo->CoverData(sceneActorInfo);
+		AActorBase* actorBase = LoadActorToSceneByActorInfo(actorInfo);
 	}
-	UActorInfoBase* actorInfo = GetActorInfoById(actorId);
+}
+
+AActorBase* UActorManager::LoadActorToSceneByActorInfo(UActorInfoBase* actorInfo)
+{
 	if (actorInfo != nullptr)
 	{
 		FActorSpawnParameters actorSpawnParameters;
@@ -42,13 +66,19 @@ AActorBase* UActorManager::LoadActorToSceneById(int actorId)
 		{
 			actor->SetActorInfo(actorInfo);
 			actor->InitByActorInfo();
-			actorBaseMap.Add(actor->GetActorId(), actor);
+			actorIdUnique++;
+			actor->SetActorId(actorIdUnique);
+			actorBaseMap.Add(actorIdUnique, actor);
 			return actor;
+		}
+		else
+		{
+			LogError(TEXT("LoadActorToSceneByInfoId中AActorBase生成失败。"));
 		}
 	}
 	else
 	{
-		LogError(FString::Printf(TEXT("配置中不存在演员：%d"), actorId));
+		LogError(TEXT("LoadActorToSceneByInfoId中actorInfo为null。"));
 	}
 	return nullptr;
 }
@@ -62,23 +92,35 @@ AActorBase* UActorManager::GetActorById(int actorId)
 	return nullptr;
 }
 
-UActorInfoBase* UActorManager::GetActorInfoById(int actorId)
+UActorInfoBase* UActorManager::GetActorInfoByInfoId(int actorInfoId)
 {
-	if (mainActorInfoMap.Contains(actorId))
+	if (mainActorInfoMap.Contains(actorInfoId))
 	{
-		return mainActorInfoMap[actorId];
+		return mainActorInfoMap[actorInfoId];
 	}
-	else if (minorActorInfoMap.Contains(actorId))
+	else if (minorActorInfoMap.Contains(actorInfoId))
 	{
-		return minorActorInfoMap[actorId];
+		return minorActorInfoMap[actorInfoId];
 	}
-	else if (massActorInfoMap.Contains(actorId))
+	else if (massActorInfoMap.Contains(actorInfoId))
 	{
-		return massActorInfoMap[actorId];
+		return massActorInfoMap[actorInfoId];
 	}
 	else
 	{
-		LogError(FString::Printf(TEXT("配置中不存在演员：%d"), actorId));
+		LogError(FString::Printf(TEXT("配置中不存在演员：%d"), actorInfoId));
+	}
+	return nullptr;
+}
+
+UActorInfoBase* UActorManager::GetNewActorInfoByInfoId(int actorInfoId)
+{
+	UActorInfoBase* actorInfo = GetActorInfoByInfoId(actorInfoId);
+	if (actorInfo != nullptr)
+	{
+		UActorInfoBase* newActorInfo = NewObject<UActorInfoBase>();
+		newActorInfo->CopyData(actorInfo);
+		return newActorInfo;
 	}
 	return nullptr;
 }

@@ -19,21 +19,15 @@ class LEAVETHEPAST_API AActorBase : public ACharacter
 {
 	GENERATED_BODY()
 public:
-	// Sets default values for this character's properties
 	AActorBase();
 
 	void InitByActorInfo();
 
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	//执行指令
 	UFUNCTION(BlueprintCallable)
 	virtual void Execute(UActionBase* action);
-
-	//开始表演
-	UFUNCTION(BlueprintCallable)
-	virtual void StartPerform();
 
 	//设置角色信息
 	void SetActorInfo(UActorInfoBase* newActorInfo);
@@ -42,10 +36,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	UActorInfoBase* GetActorInfo();
 
+	//演员Id，唯一标志，只能设置一次
+	void SetActorId(int newActorId);
 	int GetActorId();
-
-	FVector GetDefaultPosition();
-	FRotator GetDefaultRotation();
 
 	UFUNCTION(BlueprintCallable)
 	bool IsInTalking();
@@ -67,7 +60,6 @@ public:
 	void TurnInputFunction(float value);
 	void LookUpInputFunction(float value);
 
-
 	void SetAccelerate(bool enableAccelerate);
 
 	TArray<AActor*> GetInteractedActor();
@@ -75,7 +67,6 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	int actorIdForEditor = 0;
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* playerInputComponent) override;
 private:
@@ -88,6 +79,7 @@ private:
 	TArray<UActionBase*> actionList;
 
 	bool isInTalking = false;//在谈话中
+	int actorId = 0;//演员唯一Id
 
 	//摄像机组件
 	UPROPERTY()

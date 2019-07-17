@@ -69,6 +69,15 @@ public:
 	//隐藏调试界面
 	UFUNCTION(BlueprintCallable)
 	void HideMapUI();
+
+	//显示暂停界面
+	UFUNCTION(BlueprintCallable)
+	void ShowPauseUI();
+
+	//隐藏暂停界面
+	UFUNCTION(BlueprintCallable)
+	void HidePauseUI();
+	
 private:
 	//初始化常用UI
 	void InitUI();
@@ -92,4 +101,7 @@ private:
 
 	UPROPERTY()
 	UUserWidget* mapUIWidget = nullptr;
+
+	UPROPERTY()
+	UUserWidget* pauseUIWidget = nullptr;
 };

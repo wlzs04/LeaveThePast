@@ -131,6 +131,16 @@ void UUIManager::HideMapUI()
 	mapUIWidget->RemoveFromParent();
 }
 
+void UUIManager::ShowPauseUI()
+{
+	pauseUIWidget->AddToViewport();
+}
+
+void UUIManager::HidePauseUI()
+{
+	pauseUIWidget->RemoveFromParent();
+}
+
 void UUIManager::InitUI()
 {
 	mainUIWidget = LoadUIByName(TEXT("MainUI"));
@@ -139,4 +149,5 @@ void UUIManager::InitUI()
 	shopUIWidget = LoadUIByName(TEXT("ShopUI"));
 	debugUIWidget = LoadUIByName(TEXT("DebugUI"));
 	mapUIWidget = LoadUIByName(TEXT("MapUI"));
+	pauseUIWidget = LoadUIByName(TEXT("PauseUI"));
 }

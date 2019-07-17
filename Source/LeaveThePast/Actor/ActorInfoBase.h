@@ -3,7 +3,7 @@
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
 #include "XmlParser/Public/XmlFile.h"
-#include "Property/PropertyBase.h"
+#include "../Config/Recorder/SceneRecorder.h"
 #include "ActorInfoBase.generated.h"
 
 USTRUCT()
@@ -27,12 +27,46 @@ struct FChat
 	}
 };
 
+UENUM(BlueprintType)
+enum class PropertyEnum :uint8
+{
+	Unknown UMETA(DisplayName = "未知"),
+	Attact UMETA(DisplayName = "攻击力"),
+	Defense UMETA(DisplayName = "防御力"),
+	Speed UMETA(DisplayName = "速度"),
+	Life UMETA(DisplayName = "生命值"),
+	Power UMETA(DisplayName = "能力值"),
+};
+
+USTRUCT(BlueprintType)
+struct FPropertyBase
+{
+	GENERATED_USTRUCT_BODY()
+
+	FPropertyBase()
+	{
+		propertyName = TEXT("未命名");
+		propertyValue = 0;
+		propertyEnum = PropertyEnum::Unknown;
+	}
+
+	PropertyEnum propertyEnum;
+	FString propertyName;
+	float propertyValue;
+};
+
 UCLASS()
 class LEAVETHEPAST_API UActorInfoBase : public UObject
 {
 	GENERATED_BODY()
 public:
 	virtual void Load(FXmlNode* xmlNode);
+
+	//从演员信息中拷贝信息
+	void CopyData(UActorInfoBase* actorInfo);
+
+	//从场景演员信息中覆盖信息
+	void CoverData(FSceneActorInfo sceneActorInfo);
 
 	int GetActorId();
 
@@ -58,7 +92,7 @@ public:
 	float GetPropertyValue(FString propertyName);
 
 	UFUNCTION(BlueprintCallable)
-	TMap<FString, UPropertyBase*> GetPropertyMap();
+	TMap<FString, FPropertyBase> GetPropertyMap();
 
 	//随机获得一句闲话
 	FChat GetRandomChat();
@@ -74,6 +108,6 @@ private:
 	FRotator defaultRotation = FRotator(0, 0, 0);//默认角度
 	FString headImagePath = TEXT("GameContent/Resource/Others/Image/Unknown.jpg");
 
-	TMap<FString,UPropertyBase*> propertyMap;//属性列表
+	TMap<FString,FPropertyBase> propertyMap;//属性列表
 	TArray<FChat> chatList;//闲话列表
 };

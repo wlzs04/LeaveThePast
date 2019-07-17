@@ -4,10 +4,8 @@
 #include "GameFramework/PlayerController.h"
 #include "Engine/World.h"
 
-// Sets default values
 ADirectorActor::ADirectorActor()
 {
- 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
 
@@ -20,13 +18,13 @@ void ADirectorActor::InitActorList()
 	UMainGameManager* gameManager = (UMainGameManager*)(GWorld->GetGameInstance());
 	UActorManager* actorManager = gameManager->GetActorManager();
 
-	AActorBase* mainActor = actorManager->LoadActorToSceneById(10001);
-	AActorBase* mainActor2 = actorManager->LoadActorToSceneById(10002);
+	AActorBase* mainActor = actorManager->LoadActorToSceneByActorInfo(actorManager->GetActorInfoByInfoId(10001));
+	AActorBase* mainActor2 = actorManager->LoadActorToSceneByActorInfo(actorManager->GetActorInfoByInfoId(10002));
 
 	canControlActorList.Add(mainActor);
 	canControlActorList.Add(mainActor2);
 
-	SetCameraActorById(10001);
+	SetCameraActorById(mainActor->GetActorId());
 }
 
 void ADirectorActor::SetCameraActorById(int actorId)
@@ -82,22 +80,17 @@ FVector ADirectorActor::GetDestination()
 	return destinationPosition;
 }
 
-// Called when the game starts or when spawned
 void ADirectorActor::BeginPlay()
 {
 	Super::BeginPlay();
 	GWorld->GetFirstPlayerController<APlayerController>()->bShowMouseCursor = true;
-	//InitActorList();
 }
 
-// Called every frame
 void ADirectorActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
-// Called to bind functionality to input
 void ADirectorActor::SetupPlayerInputComponent(UInputComponent* playerInputComponent)
 {
 	playerInputComponent->BindAxis("MoveForward", this, &ADirectorActor::MoveForwardInputFunction);
@@ -112,7 +105,8 @@ void ADirectorActor::SetupPlayerInputComponent(UInputComponent* playerInputCompo
 	playerInputComponent->BindAction("Accelerate", EInputEvent::IE_Released, this, &ADirectorActor::StopAccelerateInputFunction);
 	playerInputComponent->BindAction("Interacted", EInputEvent::IE_Pressed, this, &ADirectorActor::InteractedInputFunction);
 	playerInputComponent->BindAction("Debug", EInputEvent::IE_Pressed, this, &ADirectorActor::DebugInputFunction);
-	playerInputComponent->BindAction("Map",EInputEvent::IE_Pressed,this, &ADirectorActor::MapInputFunction);
+	playerInputComponent->BindAction("Map", EInputEvent::IE_Pressed, this, &ADirectorActor::MapInputFunction);
+	playerInputComponent->BindAction("Pause",EInputEvent::IE_Pressed,this, &ADirectorActor::PauseInputFunction);
 }
 
 void ADirectorActor::MoveForwardInputFunction(float value)
@@ -286,5 +280,19 @@ void ADirectorActor::MapInputFunction()
 	{
 		inMapUI = true;
 		UUIManager::GetInstance()->ShowMapUI();
+	}
+}
+
+void ADirectorActor::PauseInputFunction()
+{
+	if (inPauseUI)
+	{
+		inPauseUI = false;
+		UUIManager::GetInstance()->HidePauseUI();
+	}
+	else
+	{
+		inPauseUI = true;
+		UUIManager::GetInstance()->ShowPauseUI();
 	}
 }

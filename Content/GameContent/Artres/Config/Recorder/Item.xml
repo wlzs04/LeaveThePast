@@ -1,29 +1,27 @@
 ﻿<Item>
-  <Recorder id="10001" itemName="铜钱" itemType="1" description="可以用的钱才是真钱。" imagePath="GameContent/Resource/Others/Image/Money.png"/>
-  <Recorder id="10002" itemName="钱袋" itemType="1" description="很小，很朴素的钱袋。" imagePath="GameContent/Resource/Others/Image/MoneyPackage.png"/>
-  <Recorder id="10003" itemName="信鸽" itemType="2" description="一般用来传递信件，也可以用来吃。" imagePath="GameContent/Resource/Others/Image/Pigeon.jpg"/>
-  <Recorder id="10004" itemName="介绍信" itemType="3" description="到指定指点作为身份的证明。" imagePath="GameContent/Resource/Others/Image/Letter.jpg"/>
-  <Recorder id="10005" itemName="通关令" itemType="3" description="背面刻着：紧急情况下可打开城门，不应轻易使用。" imagePath="GameContent/Resource/Others/Image/Token.jpg"/>
-  <Recorder id="10006" itemName="白银" itemType="1" description="值钱的东西，上面还有牙印。" imagePath="GameContent/Resource/Others/Image/Money.jpg"/>
+    <Recorder id="10001" itemName="铜钱" itemType="1" description="可以用的钱才是真钱。" imagePath="GameContent/Resource/Others/Image/Money.png"/>
+    <Recorder id="10002" itemName="钱袋" itemType="1" description="很小，很朴素的钱袋。" imagePath="GameContent/Resource/Others/Image/MoneyPackage.png"/>
+    <Recorder id="10003" itemName="信鸽" itemType="2" description="一般用来传递信件，也可以用来吃。" imagePath="GameContent/Resource/Others/Image/Pigeon.jpg"/>
+    <Recorder id="10004" itemName="介绍信" itemType="3" description="到指定指点作为身份的证明。" imagePath="GameContent/Resource/Others/Image/Letter.jpg"/>
+    <Recorder id="10005" itemName="通关令" itemType="3" description="背面刻着：紧急情况下可打开城门，不应轻易使用。" imagePath="GameContent/Resource/Others/Image/Token.jpg"/>
+    <Recorder id="10006" itemName="白银" itemType="1" description="值钱的东西，上面还有牙印。" imagePath="GameContent/Resource/Others/Image/Money.jpg"/>
 
-  
-  <Recorder id="20001" itemName="止血草" itemType="1" description="我方单体，恢复少量精。" imagePath="GameContent/Resource/Others/Image/Money.png"/>
-  <Recorder id="20002" itemName="行军丹" itemType="1" description="我方单体，恢复中等精。" imagePath="GameContent/Resource/Others/Image/Money.png"/>
-  <Recorder id="20003" itemName="紫菁玉蓉膏" itemType="1" description="我方单体，恢复全部精。" imagePath="GameContent/Resource/Others/Image/Money.png"/>
-  <Recorder id="20004" itemName="龙胆草" itemType="1" description="我方全体，恢复中等精。" imagePath="GameContent/Resource/Others/Image/Money.png"/>
-  <Recorder id="20005" itemName="晗灵果" itemType="1" description="我方全体，恢复大量精。" imagePath="GameContent/Resource/Others/Image/Money.png"/>
-  
-  
-  <Recorder id="30001" itemName="奶茶" itemType="1" description="恢复精比例：25%。" imagePath="GameContent/Resource/Others/Image/Money.png"/>
-  <Recorder id="30002" itemName="手抓饭" itemType="1" description="恢复精比例：55%。" imagePath="GameContent/Resource/Others/Image/Money.png"/>
-  <Recorder id="30003" itemName="红绿八宝粥" itemType="1" description="恢复精比例：60%。" imagePath="GameContent/Resource/Others/Image/Money.png"/>
-  
-  
-  <Recorder id="40001" itemName="短刀" itemType="1" description="一尺半长的钝刀，可以用来劈砍木材。" imagePath="GameContent/Resource/Others/Image/Money.png"/>
-  <Recorder id="40002" itemName="护肩" itemType="1" description="披于肩臂上的铠甲，又称“掩膊”。" imagePath="GameContent/Resource/Others/Image/Money.png"/>
-  <Recorder id="40003" itemName="铁履" itemType="1" description="鞋底加缝铁片，较普通布靴重。" imagePath="GameContent/Resource/Others/Image/Money.png"/>
-  <Recorder id="40004" itemName="木剑" itemType="1" description="用木材雕刻的剑，小孩玩具。" imagePath="GameContent/Resource/Others/Image/Money.png"/>
-  <Recorder id="40005" itemName="藤甲" itemType="1" description="以荆藤编制的护甲。" imagePath="GameContent/Resource/Others/Image/Money.png"/>
-  
-  
-  </Item>
+    
+    <Recorder id="20001" itemName="止血草" itemType="1" description="我方单体，恢复少量精。" imagePath="GameContent/Resource/Others/Image/Money.png"/>
+    <Recorder id="20002" itemName="行军丹" itemType="1" description="我方单体，恢复中等精。" imagePath="GameContent/Resource/Others/Image/Money.png"/>
+    <Recorder id="20003" itemName="紫菁玉蓉膏" itemType="1" description="我方单体，恢复全部精。" imagePath="GameContent/Resource/Others/Image/Money.png"/>
+    <Recorder id="20004" itemName="龙胆草" itemType="1" description="我方全体，恢复中等精。" imagePath="GameContent/Resource/Others/Image/Money.png"/>
+    <Recorder id="20005" itemName="晗灵果" itemType="1" description="我方全体，恢复大量精。" imagePath="GameContent/Resource/Others/Image/Money.png"/>
+    
+    
+    <Recorder id="30001" itemName="奶茶" itemType="1" description="恢复精比例：25%。" imagePath="GameContent/Resource/Others/Image/Money.png"/>
+    <Recorder id="30002" itemName="手抓饭" itemType="1" description="恢复精比例：55%。" imagePath="GameContent/Resource/Others/Image/Money.png"/>
+    <Recorder id="30003" itemName="红绿八宝粥" itemType="1" description="恢复精比例：60%。" imagePath="GameContent/Resource/Others/Image/Money.png"/>
+    
+    
+    <Recorder id="40001" itemName="短刀" itemType="1" description="一尺半长的钝刀，可以用来劈砍木材。" imagePath="GameContent/Resource/Others/Image/Money.png"/>
+    <Recorder id="40002" itemName="护肩" itemType="1" description="披于肩臂上的铠甲，又称“掩膊”。" imagePath="GameContent/Resource/Others/Image/Money.png"/>
+    <Recorder id="40003" itemName="铁履" itemType="1" description="鞋底加缝铁片，较普通布靴重。" imagePath="GameContent/Resource/Others/Image/Money.png"/>
+    <Recorder id="40004" itemName="木剑" itemType="1" description="用木材雕刻的剑，小孩玩具。" imagePath="GameContent/Resource/Others/Image/Money.png"/>
+    <Recorder id="40005" itemName="藤甲" itemType="1" description="以荆藤编制的护甲。" imagePath="GameContent/Resource/Others/Image/Money.png"/>
+</Item>

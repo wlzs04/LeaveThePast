@@ -1,7 +1,7 @@
 <MassActor>
 	<Actor actorId="30001" actorName="群演1" description="群演1的描述。"/>
 	<Actor actorId="30002" actorName="群演2" description="群演2的描述。"/>
-	<Actor actorId="30003" actorName="店小二" description="一个普通的店小二。" defaultPosition="5860,-140,106" defaultRotation="0,0,90">
+	<Actor actorId="30003" actorName="店小二" description="一个普通的店小二。" defaultPosition="3280.0,-3110.0,120" defaultRotation="0,0,0">
 		<Model modelName="dianxiaoer" modelRootPath="GameContent/Resource/Others/Model/dianxiaoer">
 			
 		</Model>
@@ -10,7 +10,7 @@
 			<Chat text="客官慢走。"/>
 		</ChatList>
 	</Actor>
-	<Actor actorId="30004" actorName="路人甲" description="一个普通的路人。">
+	<Actor actorId="30004" actorName="路人甲" description="一个普通的路人。" defaultPosition="4900,390,98" defaultRotation="0,0,-90">
 		<Model modelName="dianxiaoer" modelRootPath="GameContent/Resource/Others/Model/dianxiaoer">
 			
 		</Model>
@@ -19,7 +19,7 @@
 			<Chat text="今天起得真早。"/>
 		</ChatList>
 	</Actor>
-	<Actor actorId="30005" actorName="厨师" actorType="1" actorTypeValue="ChuShiSellItem" description="一个普通的厨师。">
+	<Actor actorId="30005" actorName="厨师" actorType="1" actorTypeValue="ChuShiSellItem" description="一个普通的厨师。" defaultPosition="4320,-560,98" defaultRotation="0,0,-90">
 		<Model modelName="ChuShiNPC" modelRootPath="GameContent/Resource/Others/Model/ChuShiNPC">
 			
 		</Model>
@@ -28,7 +28,7 @@
 			<Chat text="快来买呀，都是好吃的。"/>
 		</ChatList>
 	</Actor>
-	<Actor actorId="30006" actorName="铁匠" actorType="1" actorTypeValue="TieJiangSellItem" description="一个普通的铁匠。">
+	<Actor actorId="30006" actorName="铁匠" actorType="1" actorTypeValue="TieJiangSellItem" description="一个普通的铁匠。" defaultPosition="4690,-450,98" defaultRotation="0,0,-90">
 		<Model modelName="TieJiangNPC" modelRootPath="GameContent/Resource/Others/Model/TieJiangNPC">
 			
 		</Model>
@@ -37,7 +37,7 @@
 			<Chat text="快来买呀，都是好用的。"/>
 		</ChatList>
 	</Actor>
-	<Actor actorId="30007" actorName="药商" actorType="1" actorTypeValue="YaoShangSellItem" description="一个普通的药商。">
+	<Actor actorId="30007" actorName="药商" actorType="1" actorTypeValue="YaoShangSellItem" description="一个普通的药商。" defaultPosition="5160,-420.0,98" defaultRotation="0,0,-90">
 		<Model modelName="YaoShangNPC" modelRootPath="GameContent/Resource/Others/Model/YaoShangNPC">
 			
 		</Model>

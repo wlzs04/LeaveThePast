@@ -11,20 +11,16 @@
 #include "Components/SkeletalMeshComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
-// Sets default values
 AActorBase::AActorBase()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	// Don't rotate when the controller rotates. Let that just affect the camera.
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationRoll = false;
 
-	//// Configure character movement
-	GetCharacterMovement()->bOrientRotationToMovement = true; // Character moves in the direction of input...	
-	GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f); // ...at this rotation rate
+	GetCharacterMovement()->bOrientRotationToMovement = true;
+	GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f);
 	GetCharacterMovement()->JumpZVelocity = 600.f;
 	GetCharacterMovement()->AirControl = 0.2f;
 
@@ -47,7 +43,6 @@ void AActorBase::InitByActorInfo()
 	Restart();
 }
 
-// Called when the game starts or when spawned
 void AActorBase::BeginPlay()
 {
 	Super::BeginPlay();
@@ -63,11 +58,9 @@ void AActorBase::MoveForwardInputFunction(float value)
 	APlayerController* playerController = GWorld->GetFirstPlayerController<APlayerController>();
 	if ((playerController != NULL) && (value != 0.0f))
 	{
-		// find out which way is forward
 		const FRotator Rotation = playerController->GetControlRotation();
 		const FRotator YawRotation(0, Rotation.Yaw, 0);
 
-		// get forward vector
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
 		AddMovementInput(Direction, value);
 	}
@@ -78,11 +71,9 @@ void AActorBase::MoveRightInputFunction(float value)
 	APlayerController* playerController = GWorld->GetFirstPlayerController<APlayerController>();
 	if ((playerController != NULL) && (value != 0.0f))
 	{
-		// find out which way is right
 		const FRotator Rotation = playerController->GetControlRotation();
 		const FRotator YawRotation(0, Rotation.Yaw, 0);
 
-		// get right vector 
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 		AddMovementInput(Direction, value);
 	}
@@ -115,7 +106,6 @@ TArray<AActor*> AActorBase::GetInteractedActor()
 	return overlappingActorList;
 }
 
-// Called every frame
 void AActorBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -125,15 +115,10 @@ void AActorBase::Execute(UActionBase* action)
 {
 	if (actionList.Contains(action))
 	{
-		LogError(FString::Printf(TEXT("演员Id:%d已经拥有指令:%s"), actorInfo->GetActorId(), *action->GetActionName()));
+		LogError(FString::Printf(TEXT("演员Id:%d已经拥有指令:%s"), actorId, *action->GetActionName()));
 		return;
 	}
 	actionList.Add(action);
-}
-
-void AActorBase::StartPerform()
-{
-	
 }
 
 void AActorBase::SetActorInfo(UActorInfoBase* newActorInfo)
@@ -162,18 +147,19 @@ void AActorBase::LoadModel()
 	FString modelName = actorInfo->GetModelName();
 	if (!modelPath.IsEmpty())
 	{
+		//模型
 		FString realModelPath = TEXT("SkeletalMesh'/Game/");
 		realModelPath += modelPath + TEXT("/")+ modelName+ TEXT(".") + modelName + TEXT("'");
 		USkeletalMesh* newMesh = LoadObject<USkeletalMesh>(NULL, realModelPath.GetCharArray().GetData());
 		if (newMesh==nullptr)
 		{
-			LogError(FString::Printf(TEXT("演员Id:%d模型加载失败，路径：%s"), actorInfo->GetActorId(), *realModelPath));
+			LogError(FString::Printf(TEXT("演员信息Id:%d模型加载失败，路径：%s"), actorInfo->GetActorId(), *realModelPath));
 		}
 		else
 		{
 			GetMesh()->SetSkeletalMesh(newMesh);
 		}
-		//UAnimBlueprint
+		//动画蓝图
 		FString realAnimationPath = TEXT("/Game/");
 		realAnimationPath += modelPath + TEXT("/") + modelName + TEXT("AnimBP.") + modelName + TEXT("AnimBP_C");
 		UAnimBlueprintGeneratedClass* meshAnim = LoadObject<UAnimBlueprintGeneratedClass>(NULL, realAnimationPath.GetCharArray().GetData());
@@ -181,23 +167,25 @@ void AActorBase::LoadModel()
 	}
 	else
 	{
-		LogError(FString::Printf(TEXT("演员Id:%d模型路径为空"), actorInfo->GetActorId()));
+		LogError(FString::Printf(TEXT("演员信息Id:%d模型路径为空"), actorInfo->GetActorId()));
+	}
+}
+
+void AActorBase::SetActorId(int newActorId)
+{
+	if (actorId == 0)
+	{
+		actorId = newActorId;
+	}
+	else
+	{
+		LogError(FString::Printf(TEXT("演员Id重复设置:%d:%d"), actorId, newActorId));
 	}
 }
 
 int AActorBase::GetActorId()
 {
-	return actorInfo->GetActorId();
-}
-
-FVector AActorBase::GetDefaultPosition()
-{
-	return actorInfo->GetDefaultPosition();
-}
-
-FRotator AActorBase::GetDefaultRotation()
-{
-	return actorInfo->GetDefaultRotation();
+	return actorId;
 }
 
 bool AActorBase::IsInTalking()

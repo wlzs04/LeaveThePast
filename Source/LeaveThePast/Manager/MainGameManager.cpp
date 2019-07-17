@@ -44,8 +44,6 @@ void UMainGameManager::InitAll()
 		userData = NewObject<UUserData>(this);
 		ReloadUserData();
 
-		StartTime();
-
 		haveInited = true;
 	}
 }

@@ -20,9 +20,17 @@ public:
 	//加载所有演员
 	void LoadAllActorInfo();
 
+	//从场景中加载演员，一般用于测试阶段调整演员位置。
+	//UFUNCTION(BlueprintCallable)
+	//void LoadAllActorFromScene();
+
+	//从场景配置中中加载演员到场景中
+	UFUNCTION(BlueprintCallable)
+	void LoadAllActorBySceneId(int sceneId);
+	
 	//将指定演员加载到场景中
 	UFUNCTION(BlueprintCallable)
-	AActorBase* LoadActorToSceneById(int actorId);
+	AActorBase* LoadActorToSceneByActorInfo(UActorInfoBase* actorInfo);
 
 	//通过演员Id获得演员
 	UFUNCTION(BlueprintCallable)
@@ -30,7 +38,8 @@ public:
 
 	//通过演员Id获得演员信息
 	UFUNCTION(BlueprintCallable)
-	UActorInfoBase* GetActorInfoById(int actorId);
+	UActorInfoBase* GetActorInfoByInfoId(int actorInfoId);
+	
 private:
 	//加载主演
 	void LoadMainActorInfo();
@@ -38,6 +47,10 @@ private:
 	void LoadMinorActorInfo();
 	//加载群演
 	void LoadMassActorInfo();
+
+	//通过演员Id获得新的演员信息，一般用于新建演员
+	UFUNCTION(BlueprintCallable)
+	UActorInfoBase* GetNewActorInfoByInfoId(int actorInfoId);
 
 	static UActorManager* actorManager;
 
@@ -50,4 +63,6 @@ private:
 	TMap<int, UMassActorInfo*> massActorInfoMap;
 
 	TMap<int, AActorBase*> actorBaseMap;
+
+	int actorIdUnique = 0;//唯一的演员Id
 };

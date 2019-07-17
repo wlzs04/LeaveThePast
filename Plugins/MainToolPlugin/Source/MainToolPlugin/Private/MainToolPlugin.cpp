@@ -123,7 +123,7 @@ FReply FMainToolPluginModule::SetActorInfoToActorBPButtonClick()
 	for (UObject* obj : actorList)
 	{
 		AActorBase* actor = (AActorBase*)obj;
-		UActorInfoBase* actorInfo = actorManager->GetActorInfoById(actor->actorIdForEditor);
+		UActorInfoBase* actorInfo = actorManager->GetActorInfoByInfoId(actor->actorIdForEditor);
 		if (actorInfo != nullptr)
 		{
 			actor->SetActorInfo(actorInfo);

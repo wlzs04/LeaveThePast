@@ -12,38 +12,49 @@ void ALeaveThePastGameModeBase::StartPlay()
 	gameManager = (UMainGameManager*)(GWorld->GetGameInstance());
 	gameManager->InitAll();
 
-	if (gameManager->GetSystemData()->GetShowInitUI())
-	{
-		gameManager->GetUIManager()->LoadUIByName(TEXT("InitUI"))->AddToViewport();
-	}
+	//gameManager->GetActorManager()->LoadAllActorFromScene();
 
-	LogNormal(TEXT("初始化场景中已存在的演员信息"));
-	//初始化场景中已存在的演员信息
-	TActorIterator<AActorBase> actorItr = TActorIterator<AActorBase>(GetWorld(), AActorBase::StaticClass());
-	for (actorItr; actorItr; ++actorItr)
-	{
-		AActorBase* actorBase = *actorItr;
-		if (actorBase != nullptr && actorBase->actorIdForEditor!=0)
-		{
-			actorBase->SetActorInfo(gameManager->GetActorManager()->GetActorInfoById(actorBase->actorIdForEditor));
-		}
-	}
+	gameManager->GetActorManager()->LoadAllActorBySceneId(10001);
 
 	directorActor = Cast<ADirectorActor>(GetWorld()->GetFirstPlayerController()->GetPawn());
 	directorActor->InitActorList();
 
-	gameManager->GetUIManager()->ShowMainUI();
-	//USoundCue* sound = gameManager->GetAudioManager()->GetAudioById(10001);
-	//directorActor->GetCameraActor()->StartPlayVoiceSound(sound);
-	//directorActor->StartPlayBGMSound(sound);
-
 	LogNormal(TEXT("游戏初始化结束。"));
+
+	if (gameManager->GetSystemData()->GetShowInitUI())
+	{
+		gameManager->GetUIManager()->LoadUIByName(TEXT("InitUI"))->AddToViewport();
+	}
 }
 
 void ALeaveThePastGameModeBase::Tick(float deltaSeconds)
 {
 	Super::Tick(deltaSeconds);
 	gameManager->Tick(deltaSeconds);
+}
+
+void ALeaveThePastGameModeBase::StartGame()
+{
+	gameManager->GetUIManager()->ShowMainUI();
+
+	gameManager->StartTime();
+}
+
+void ALeaveThePastGameModeBase::PauseGame()
+{
+	gameManager->GetUIManager()->ShowPauseUI();
+	gameManager->StopTime();
+}
+
+void ALeaveThePastGameModeBase::ContinueGame()
+{
+	gameManager->GetUIManager()->HidePauseUI();
+	gameManager->StartTime();
+}
+
+void ALeaveThePastGameModeBase::EndGame()
+{
+	gameManager->ExitGame();
 }
 
 UMainGameManager* ALeaveThePastGameModeBase::GetGameManager()

@@ -12,7 +12,6 @@ class LEAVETHEPAST_API ADirectorActor : public APawn
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this pawn's properties
 	ADirectorActor();
 
 	void InitActorList();
@@ -56,6 +55,7 @@ private:
 	void InteractedInputFunction();
 	void DebugInputFunction();
 	void MapInputFunction();
+	void PauseInputFunction();
 	
 	UPROPERTY()
 	UAudioComponent* audioComponent = nullptr;
@@ -69,4 +69,5 @@ private:
 	bool inMenuUI = false;
 	bool inDebugUI = false;
 	bool inMapUI = false;
+	bool inPauseUI = false;
 };

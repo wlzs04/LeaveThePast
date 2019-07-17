@@ -1,5 +1,6 @@
 #include "ActorInfoBase.h"
 #include "../Manager/LogManager.h"
+#include "../Manager/HelpManager.h"
 
 void UActorInfoBase::Load(FXmlNode* xmlNode)
 {
@@ -30,27 +31,11 @@ void UActorInfoBase::Load(FXmlNode* xmlNode)
 		}
 		else if (attributeName == "defaultPosition")
 		{
-			FString defaultPositionString = attributeValue;
-			TArray<FString> stringArray;
-			defaultPositionString.ParseIntoArray(stringArray, TEXT(","));
-			if (stringArray.Num() == 3)
-			{
-				defaultPosition.X = FCString::Atof(*stringArray[0]);
-				defaultPosition.Y = FCString::Atof(*stringArray[1]);
-				defaultPosition.Z = FCString::Atof(*stringArray[2]);
-			}
+			defaultPosition = UHelpManager::ConvertFStringToFVector(attributeValue);
 		}
 		else if (attributeName == "defaultRotation")
 		{
-			FString defaultRotationString = attributeValue;
-			TArray<FString> stringArray;
-			defaultRotationString.ParseIntoArray(stringArray, TEXT(","));
-			if (stringArray.Num() == 3)
-			{
-				defaultRotation.Roll = FCString::Atof(*stringArray[0]);
-				defaultRotation.Pitch = FCString::Atof(*stringArray[1]);
-				defaultRotation.Yaw = FCString::Atof(*stringArray[2]);
-			}
+			defaultRotation = UHelpManager::ConvertFStringToFRotator(attributeValue);
 		}
 		else if (attributeName == "headImagePath")
 		{
@@ -93,36 +78,76 @@ void UActorInfoBase::Load(FXmlNode* xmlNode)
 		{
 			for (auto propertyNode : childNode->GetChildrenNodes())
 			{
-				UPropertyBase* propertyBase = nullptr;
+				FPropertyBase propertyBase;
 				FString propertyName = propertyNode->GetTag();
 				if (propertyName == TEXT("Attack"))
 				{
-					propertyBase = NewObject<UPropertyBase>();
+					propertyBase.propertyEnum = PropertyEnum::Attact;
 				}
 				else if (propertyName == TEXT("Defense"))
 				{
-					propertyBase = NewObject<UPropertyBase>();
+					propertyBase.propertyEnum = PropertyEnum::Defense;
 				}
 				else if (propertyNode->GetTag() == TEXT("Speed"))
 				{
-					propertyBase = NewObject<UPropertyBase>();
+					propertyBase.propertyEnum = PropertyEnum::Speed;
 				}
 				else if (propertyName == TEXT("Life"))
 				{
-					propertyBase = NewObject<UPropertyBase>();
+					propertyBase.propertyEnum = PropertyEnum::Life;
 				}
 				else if (propertyName == TEXT("Power"))
 				{
-					propertyBase = NewObject<UPropertyBase>();
+					propertyBase.propertyEnum = PropertyEnum::Power;
 				}
 				else
 				{
 					LogWarning(FString::Printf(TEXT("演员Id:%d配置中存在未知属性:%s！"), actorId, *propertyName));
 				}
-				propertyBase->SetInfo(propertyNode->GetAttribute(TEXT("name")),FCString::Atof(*propertyNode->GetAttribute(TEXT("value"))));
+				propertyBase.propertyName = propertyName;
+				propertyBase.propertyValue = FCString::Atof(*propertyNode->GetAttribute(TEXT("value")));
 				propertyMap.Add(propertyName, propertyBase);
 			}
 		}
+	}
+}
+
+void UActorInfoBase::CopyData(UActorInfoBase* actorInfo)
+{
+	actorId = actorInfo->actorId;
+	actorName = actorInfo->actorName;
+	actorType = actorInfo->actorType;
+	actorTypeValue = actorInfo->actorTypeValue;
+	description = actorInfo->description;
+	modelName = actorInfo->modelName;
+	modelRootPath = actorInfo->modelRootPath;
+	defaultPosition = actorInfo->defaultPosition;
+	defaultRotation = actorInfo->defaultRotation;
+	headImagePath = actorInfo->headImagePath;
+	propertyMap = actorInfo->propertyMap;
+	chatList = actorInfo->chatList;
+}
+
+void UActorInfoBase::CoverData(FSceneActorInfo sceneActorInfo)
+{
+	if (sceneActorInfo.actorId == actorId)
+	{
+		if (sceneActorInfo.needReplaceActorName)
+		{
+			actorName = sceneActorInfo.actorName;
+		}
+		if (sceneActorInfo.needReplaceDefaultPosition)
+		{
+			defaultPosition = sceneActorInfo.defaultPosition;
+		}
+		if (sceneActorInfo.needReplaceDefaultRotation)
+		{
+			defaultRotation = sceneActorInfo.defaultRotation;
+		}
+	}
+	else
+	{
+		LogError(TEXT("使用FSceneActorInfo覆盖UActorInfoBase数据时actorId不同。"));
 	}
 }
 
@@ -173,12 +198,12 @@ float UActorInfoBase::GetPropertyValue(FString propertyName)
 {
 	if (propertyMap.Contains(propertyName))
 	{
-		return propertyMap[propertyName]->GetPropertyValue();
+		return propertyMap[propertyName].propertyValue;
 	}
 	return 0;
 }
 
-TMap<FString, UPropertyBase*> UActorInfoBase::GetPropertyMap()
+TMap<FString, FPropertyBase> UActorInfoBase::GetPropertyMap()
 {
 	return propertyMap;
 }
