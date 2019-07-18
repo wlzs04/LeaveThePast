@@ -20,7 +20,7 @@ UUserWidget* UUIManager::LoadUIByName(FString uiName)
 {
 	FString uiPath = TEXT("WidgetBlueprint'/Game/GameContent/UI/") + uiName + TEXT(".") + uiName + TEXT("_C'");
 	UClass* widgetClass = LoadClass<UUserWidget>(NULL, *uiPath);
-	UUserWidget* widget = CreateWidget<UUserWidget>(GetWorld()->GetFirstPlayerController(), widgetClass);
+	UUserWidget* widget = CreateWidget<UUserWidget>(GWorld->GetFirstPlayerController(), widgetClass);
 
 	return widget;
 }

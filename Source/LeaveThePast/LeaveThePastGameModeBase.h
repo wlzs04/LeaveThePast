@@ -7,6 +7,13 @@
 class UMainGameManager;
 class ADirectorActor;
 
+UENUM(BlueprintType)
+enum class MainGameStateEnum :uint8
+{
+	Init UMETA(DisplayName = "初始化"),
+	Normal UMETA(DisplayName = "正常"),
+};
+
 UCLASS()
 class LEAVETHEPAST_API ALeaveThePastGameModeBase : public AGameModeBase
 {
@@ -15,6 +22,11 @@ public:
 	virtual void StartPlay() override;
 
 	virtual void Tick(float deltaSeconds) override;
+	
+	//指游戏初始化后选择存档进入游戏
+	//游戏开始
+	UFUNCTION(BlueprintCallable)
+	void InitFinish();
 
 	//指游戏初始化后选择存档进入游戏
 	//游戏开始
@@ -23,7 +35,7 @@ public:
 	//游戏暂停
 	UFUNCTION(BlueprintCallable)
 	void PauseGame();
-	//游戏暂停
+	//游戏继续
 	UFUNCTION(BlueprintCallable)
 	void ContinueGame();
 	//游戏结束
@@ -39,4 +51,6 @@ private:
 
 	UPROPERTY()
 	ADirectorActor* directorActor = nullptr;
+
+	MainGameStateEnum  mainGameState = MainGameStateEnum::Init;
 };

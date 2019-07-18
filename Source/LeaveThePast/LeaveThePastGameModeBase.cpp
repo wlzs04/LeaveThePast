@@ -1,7 +1,6 @@
 #include "LeaveThePastGameModeBase.h"
 #include "Manager/MainGameManager.h"
 #include "Actor/DirectorActor.h"
-//#include "GameFramework/PlayerController.h"
 #include "Engine/World.h"
 #include "Engine/Level.h"
 
@@ -11,10 +10,10 @@ void ALeaveThePastGameModeBase::StartPlay()
 
 	gameManager = (UMainGameManager*)(GWorld->GetGameInstance());
 	gameManager->InitAll();
-
-	directorActor = Cast<ADirectorActor>(GetWorld()->GetFirstPlayerController()->GetPawn());
 	
-	LogNormal(TEXT("游戏初始化结束。"));
+	directorActor = Cast<ADirectorActor>(GWorld->GetFirstPlayerController()->GetPawn());
+	directorActor->DisableInput(nullptr); 
+	directorActor->InitCanControlActor();
 
 	if (gameManager->GetSystemData()->GetShowInitUI())
 	{
@@ -22,7 +21,7 @@ void ALeaveThePastGameModeBase::StartPlay()
 	}
 	else
 	{
-		StartGame();
+		InitFinish();
 	}
 }
 
@@ -32,9 +31,19 @@ void ALeaveThePastGameModeBase::Tick(float deltaSeconds)
 	gameManager->Tick(deltaSeconds);
 }
 
+void ALeaveThePastGameModeBase::InitFinish()
+{
+	if (mainGameState == MainGameStateEnum::Init)
+	{
+		LogNormal(TEXT("游戏初始化结束。"));
+		mainGameState = MainGameStateEnum::Normal; 
+		StartGame();
+	}
+}
+
 void ALeaveThePastGameModeBase::StartGame()
 {
-	directorActor->InitCanControlActor();
+	directorActor->EnableInput(nullptr);
 	gameManager->GetUIManager()->ShowMainUI();
 	gameManager->StartTime();
 }

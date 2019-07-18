@@ -19,7 +19,7 @@ ADirectorActor::ADirectorActor()
 
 void ADirectorActor::InitCanControlActor()
 {
-	UMainGameManager* gameManager = (UMainGameManager*)(GWorld->GetGameInstance());
+	UMainGameManager* gameManager = UMainGameManager::GetInstance();
 	UActorManager* actorManager = gameManager->GetActorManager();
 	TArray<FSaveActorInfo> saveList = gameManager->GetUserData()->GetCanControlActorList();
 
