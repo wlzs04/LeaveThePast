@@ -28,13 +28,13 @@ void USceneRecorder::LoadRecorder(FXmlNode* xmlNode)
 				{
 					sceneActorInfo.SetActorName(attributeValue);
 				}
-				else if (attributeName == TEXT("defaultPosition"))
+				else if (attributeName == TEXT("position"))
 				{
-					sceneActorInfo.SetDefaultPosition(UHelpManager::ConvertFStringToFVector(attributeValue));
+					sceneActorInfo.SetPosition(UHelpManager::ConvertFStringToFVector(attributeValue));
 				}
-				else if (attributeName == TEXT("defaultRotation"))
+				else if (attributeName == TEXT("rotation"))
 				{
-					sceneActorInfo.SetDefaultRotation(UHelpManager::ConvertFStringToFRotator(attributeValue));
+					sceneActorInfo.SetRotation(UHelpManager::ConvertFStringToFRotator(attributeValue));
 				}
 				else
 				{

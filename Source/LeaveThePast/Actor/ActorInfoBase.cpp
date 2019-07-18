@@ -136,18 +136,31 @@ void UActorInfoBase::CoverData(FSceneActorInfo sceneActorInfo)
 		{
 			actorName = sceneActorInfo.actorName;
 		}
-		if (sceneActorInfo.needReplaceDefaultPosition)
+		if (sceneActorInfo.needReplacePosition)
 		{
-			defaultPosition = sceneActorInfo.defaultPosition;
+			defaultPosition = sceneActorInfo.position;
 		}
-		if (sceneActorInfo.needReplaceDefaultRotation)
+		if (sceneActorInfo.needReplaceRotation)
 		{
-			defaultRotation = sceneActorInfo.defaultRotation;
+			defaultRotation = sceneActorInfo.rotation;
 		}
 	}
 	else
 	{
 		LogError(TEXT("使用FSceneActorInfo覆盖UActorInfoBase数据时actorId不同。"));
+	}
+}
+
+void UActorInfoBase::CoverData(FSaveActorInfo saveActorInfo)
+{
+	if (saveActorInfo.actorId == actorId)
+	{
+		defaultPosition = saveActorInfo.position;
+		defaultRotation = saveActorInfo.rotation;
+	}
+	else
+	{
+		LogError(TEXT("使用FSaveActorInfo覆盖UActorInfoBase数据时actorId不同。"));
 	}
 }
 

@@ -20,7 +20,7 @@ void UChangeCameraActorAction::Update()
 	if (isCompleted == false && GetExecuteActor() != nullptr)
 	{
 		APlayerController* playerController = GWorld->GetFirstPlayerController<APlayerController>();
-		((ADirectorActor*)playerController->GetPawn())->SetCameraActorById(GetActorId());
+		((ADirectorActor*)playerController->GetPawn())->SetControlActorById(GetActorId());
 		isCompleted = true;
 	}
 }

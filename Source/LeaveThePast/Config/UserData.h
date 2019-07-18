@@ -5,6 +5,36 @@
 #include "TimeData.h"
 #include "UserData.generated.h"
 
+USTRUCT(BlueprintType)
+struct FSaveActorInfo
+{
+	GENERATED_USTRUCT_BODY()
+
+	FSaveActorInfo()
+	{
+		actorId = 0;
+	}
+
+	void SetActorId(int newActorId)
+	{
+		actorId = newActorId;
+	}
+
+	void SetPosition(FVector newPosition)
+	{
+		position = newPosition;
+	}
+
+	void SetRotation(FRotator newRotation)
+	{
+		rotation = newRotation;
+	}
+
+	int actorId;
+	FVector position;
+	FRotator rotation;
+};
+
 UCLASS(BlueprintType)
 class LEAVETHEPAST_API UUserData : public UObject
 {
@@ -21,16 +51,23 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void SetIsFixedTime(bool newIsFixedTime);
-
 	UFUNCTION(BlueprintCallable)
 	bool GetIsFixedTime();
 
 	UFUNCTION(BlueprintCallable)
 	void SetGameAndRealTimeRate(float newGameAndRealTimeRate);
-
 	UFUNCTION(BlueprintCallable)
 	float GetGameAndRealTimeRate();
 
+	//场景
+	UFUNCTION(BlueprintCallable)
+	void SetSceneId(int newSceneId);
+	UFUNCTION(BlueprintCallable)
+	int GetSceneId();
+
+	//可控演员列表
+	TArray<FSaveActorInfo> GetCanControlActorList();
+	
 	//获得物品map
 	UFUNCTION(BlueprintCallable)
 	TMap<int, int> GetItemMap();
@@ -68,5 +105,7 @@ protected:
 
 	bool isFixedTime = false;//是否固定时间
 	float gameAndRealTimeRate = 1;
+	int sceneId = 10001;//角色所在场景Id
+	TArray<FSaveActorInfo> canControlActorList;//可控演员列表
 	TMap<int, int> itemMap;
 };

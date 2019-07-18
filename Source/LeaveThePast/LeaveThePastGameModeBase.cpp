@@ -13,8 +13,7 @@ void ALeaveThePastGameModeBase::StartPlay()
 	gameManager->InitAll();
 
 	directorActor = Cast<ADirectorActor>(GetWorld()->GetFirstPlayerController()->GetPawn());
-	directorActor->InitActorList();
-
+	
 	LogNormal(TEXT("游戏初始化结束。"));
 
 	if (gameManager->GetSystemData()->GetShowInitUI())
@@ -35,8 +34,8 @@ void ALeaveThePastGameModeBase::Tick(float deltaSeconds)
 
 void ALeaveThePastGameModeBase::StartGame()
 {
+	directorActor->InitCanControlActor();
 	gameManager->GetUIManager()->ShowMainUI();
-
 	gameManager->StartTime();
 }
 

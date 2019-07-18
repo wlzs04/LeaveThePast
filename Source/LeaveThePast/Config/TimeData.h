@@ -41,6 +41,10 @@ public:
 	//设置游戏时间，
 	UFUNCTION(BlueprintCallable)
 	void SetTime(int hour, int minute, int second);
+
+	//获得游戏时间，
+	UFUNCTION(BlueprintCallable)
+	FTimespan GetTimespan();
 private:
 	float gameDuringSecond = 0;
 };

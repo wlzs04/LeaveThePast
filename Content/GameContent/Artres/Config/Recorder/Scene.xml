@@ -7,6 +7,6 @@
     </Recorder>
     <Recorder id="10002" sceneName="悦来客栈" bgmId="10005">
         <SceneActorInfo actorId="30003" actorName="掉小二家"/>
-        <SceneActorInfo actorId="30003" actorName="掉小二已" defaultPosition="3280.0,-2900.0,120"/>
+        <SceneActorInfo actorId="30003" actorName="掉小二已" position="3280.0,-2900.0,120"/>
     </Recorder>
 </Scene>

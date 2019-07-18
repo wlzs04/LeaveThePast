@@ -9,25 +9,37 @@ ADirectorActor::ADirectorActor()
 	PrimaryActorTick.bCanEverTick = true;
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
 
+	interactedComponent = CreateDefaultSubobject<USphereComponent>(TEXT("Interacted"));
+	interactedComponent->SetSphereRadius(10); 
+	RootComponent = interactedComponent;
+
 	audioComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("Audio"));
 	audioComponent->SetupAttachment(RootComponent);
 }
 
-void ADirectorActor::InitActorList()
+void ADirectorActor::InitCanControlActor()
 {
 	UMainGameManager* gameManager = (UMainGameManager*)(GWorld->GetGameInstance());
 	UActorManager* actorManager = gameManager->GetActorManager();
+	TArray<FSaveActorInfo> saveList = gameManager->GetUserData()->GetCanControlActorList();
 
-	AActorBase* mainActor = actorManager->LoadActorToSceneByActorInfo(actorManager->GetActorInfoByInfoId(10001));
-	AActorBase* mainActor2 = actorManager->LoadActorToSceneByActorInfo(actorManager->GetActorInfoByInfoId(10002));
-
-	canControlActorList.Add(mainActor);
-	canControlActorList.Add(mainActor2);
-
-	SetCameraActorById(mainActor->GetActorId());
+	for (FSaveActorInfo saveActorInfo: saveList)
+	{
+		UActorInfoBase* actorInfo = actorManager->GetActorInfoByInfoId(saveActorInfo.actorId);
+		if (actorInfo!=nullptr)
+		{
+			actorInfo->CoverData(saveActorInfo);
+			AActorBase* actor = actorManager->LoadActorToSceneByActorInfo(actorInfo);
+			canControlActorList.Add(actor);
+		}
+	}
+	if (canControlActorList.Num() > 0)
+	{
+		SetControlActor(canControlActorList[0]);
+	}
 }
 
-void ADirectorActor::SetCameraActorById(int actorId)
+void ADirectorActor::SetControlActorById(int actorId)
 {
 	if (currentControlActor != nullptr && currentControlActor->GetActorId() == actorId)
 	{
@@ -36,31 +48,47 @@ void ADirectorActor::SetCameraActorById(int actorId)
 	UMainGameManager* gameManager = (UMainGameManager*)(GWorld->GetGameInstance());
 	UActorManager* actorManager = gameManager->GetActorManager();
 	AActorBase* actor = actorManager->GetActorById(actorId);
+	SetControlActor(actor);
+}
+
+void ADirectorActor::SetControlActor(AActorBase* actor)
+{
 	if (actor != nullptr)
 	{
+		if (currentControlActor != nullptr && currentControlActor->GetActorId() == actor->GetActorId())
+		{
+			return;
+		}
 		if (currentControlActor != nullptr)
 		{
 			currentControlActor->RemoveCameraFollow();
 		}
 		currentControlActor = actor;
 		currentControlActor->AddCameraFollow();
-
+		FAttachmentTransformRules attachmentTransform(EAttachmentRule::KeepRelative,true);
+		AttachToActor(currentControlActor, attachmentTransform);
+		SetActorRelativeLocation(FVector(0,0,0));
 		APlayerController* playerController = GWorld->GetFirstPlayerController<APlayerController>();
 		playerController->SetViewTarget(currentControlActor);
 		currentControlActor->Controller = playerController;
 	}
 	for (int i = 0; i < canControlActorList.Num(); i++)
 	{
-		if (canControlActorList[i]->GetActorId() == actorId)
+		if (canControlActorList[i]->GetActorId() == actor->GetActorId())
 		{
 			currentControlActorIndex = i;
 		}
 	}
 }
 
-AActorBase* ADirectorActor::GetCameraActor()
+AActorBase* ADirectorActor::GetControlActor()
 {
 	return currentControlActor;
+}
+
+TArray<AActorBase*> ADirectorActor::GetCanControlActorList()
+{
+	return canControlActorList;
 }
 
 void ADirectorActor::StartPlayBGMSound(USoundCue* soundBase)
@@ -89,6 +117,10 @@ void ADirectorActor::BeginPlay()
 void ADirectorActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	//if (currentControlActor != nullptr)
+	//{
+	//	SetActorLocation(currentControlActor->GetActorLocation());
+	//}
 }
 
 void ADirectorActor::SetupPlayerInputComponent(UInputComponent* playerInputComponent)
@@ -174,16 +206,7 @@ void ADirectorActor::ChangeControlActorInputFunction()
 	{
 		currentControlActorIndex = 0;
 	}
-	if (currentControlActor != nullptr)
-	{
-		currentControlActor->RemoveCameraFollow();
-	}
-	currentControlActor = canControlActorList[currentControlActorIndex];
-	currentControlActor->AddCameraFollow();
-
-	APlayerController* playerController = GWorld->GetFirstPlayerController<APlayerController>();
-	playerController->SetViewTarget(currentControlActor);
-	currentControlActor->Controller = playerController;
+	SetControlActor(canControlActorList[currentControlActorIndex]);
 }
 
 void ADirectorActor::SystemInputFunction()

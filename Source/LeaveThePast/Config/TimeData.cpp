@@ -54,3 +54,8 @@ void UTimeData::SetTime(int hour, int minute, int second)
 	hour = FMath::Max(0, hour);
 	gameDuringSecond += hour * 3600;
 }
+
+FTimespan UTimeData::GetTimespan()
+{
+	return FTimespan(GetHours(),GetMinutes(),GetSeconds());
+}

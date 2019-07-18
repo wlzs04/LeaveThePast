@@ -14,15 +14,24 @@ class LEAVETHEPAST_API ADirectorActor : public APawn
 public:
 	ADirectorActor();
 
-	void InitActorList();
+	//初始化可控演员，从用户存档内读取
+	void InitCanControlActor();
 
-	//通过id设置当前摄像演员
+	//通过id设置当前控制演员
 	UFUNCTION(BlueprintCallable)
-	void SetCameraActorById(int actorId);
+	void SetControlActorById(int actorId);
 
-	//通过当前摄像演员
+	//设置当前控制演员
 	UFUNCTION(BlueprintCallable)
-	AActorBase* GetCameraActor();
+	void SetControlActor(AActorBase* actor);
+
+	//通过当前控制演员
+	UFUNCTION(BlueprintCallable)
+	AActorBase* GetControlActor();
+
+	//通过可控演员列表
+	UFUNCTION(BlueprintCallable)
+	TArray<AActorBase*> GetCanControlActorList();
 
 	void StartPlayBGMSound(USoundCue* soundBase);
 
@@ -59,6 +68,9 @@ private:
 	
 	UPROPERTY()
 	UAudioComponent* audioComponent = nullptr;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta = (AllowPrivateAccess = "true"))
+	USphereComponent* interactedComponent = nullptr;
 
 	TArray<AActorBase*> canControlActorList;
 	AActorBase* currentControlActor = nullptr;

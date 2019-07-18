@@ -4,6 +4,7 @@
 #include "UObject/NoExportTypes.h"
 #include "XmlParser/Public/XmlFile.h"
 #include "../Config/Recorder/SceneRecorder.h"
+#include "../Config/UserData.h"
 #include "ActorInfoBase.generated.h"
 
 USTRUCT()
@@ -70,7 +71,8 @@ public:
 
 	//从场景演员信息中覆盖信息
 	void CoverData(FSceneActorInfo sceneActorInfo);
-
+	void CoverData(FSaveActorInfo saveActorInfo);
+	
 	int GetActorId();
 
 	UFUNCTION(BlueprintCallable)

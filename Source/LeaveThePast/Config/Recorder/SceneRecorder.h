@@ -25,25 +25,25 @@ struct FSceneActorInfo
 		needReplaceActorName = true;
 	}
 
-	void SetDefaultPosition(FVector newDefaultPosition)
+	void SetPosition(FVector newPosition)
 	{
-		defaultPosition = newDefaultPosition;
-		needReplaceDefaultPosition = true;
+		position = newPosition;
+		needReplacePosition = true;
 	}
 
-	void SetDefaultRotation(FRotator newDefaultRotation)
+	void SetRotation(FRotator newRotation)
 	{
-		defaultRotation = newDefaultRotation;
-		needReplaceDefaultRotation = true;
+		rotation = newRotation;
+		needReplaceRotation = true;
 	}
 
 	int actorId;
 	bool needReplaceActorName = false;
 	FString actorName;
-	bool needReplaceDefaultPosition = false;
-	FVector defaultPosition;
-	bool needReplaceDefaultRotation = false;
-	FRotator defaultRotation;
+	bool needReplacePosition = false;
+	FVector position;
+	bool needReplaceRotation = false;
+	FRotator rotation;
 };
 
 UCLASS()

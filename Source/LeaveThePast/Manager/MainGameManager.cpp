@@ -71,8 +71,12 @@ void UMainGameManager::UseItem(int itemId)
 void UMainGameManager::EnterScene(int sceneId)
 {
 	USceneRecorder* sceneRecorder = (USceneRecorder*)UConfigManager::GetInstance()->GetConfigByNameId(USceneRecorder::StaticClass(), TEXT("Scene"), sceneId);
-	directorActor->StartPlayBGMSound(GetAudioManager()->GetAudioById(sceneRecorder->GetBGMId()));
-	GetActorManager()->LoadAllActorBySceneId(sceneId);
+	if (sceneRecorder != nullptr)
+	{
+		userData->SetSceneId(sceneId);
+		directorActor->StartPlayBGMSound(GetAudioManager()->GetAudioById(sceneRecorder->GetBGMId()));
+		GetActorManager()->LoadAllActorBySceneId(sceneId);
+	}
 }
 
 void UMainGameManager::InitManager()
