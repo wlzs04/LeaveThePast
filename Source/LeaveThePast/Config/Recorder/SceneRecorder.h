@@ -14,6 +14,8 @@ struct FSceneActorInfo
 		actorId = 0;
 	}
 
+	void LoadFromXmlNode(FXmlNode* xmlNode);
+
 	void SetActorId(int newActorId)
 	{
 		actorId = newActorId;

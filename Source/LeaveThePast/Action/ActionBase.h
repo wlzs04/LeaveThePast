@@ -14,7 +14,7 @@ class LEAVETHEPAST_API UActionBase : public UObject
 public:
 	//初始化，清空已完成等状态
 	void Init();
-	int GetActorId();
+	int GetActorInfoId();
 	FString GetActionName();
 	virtual void Update() {};
 	void Execute();
@@ -31,7 +31,7 @@ protected:
 	bool isCompleted = false;//是否完成
 private:
 	//由文件配置的属性
-	int actorId = 0;//执行指令的演员的Id
+	int actorInfoId = 0;//执行指令的演员的信息Id
 	bool isAsync = false;//是否此指令执行的同时执行下一条指令
 
 	AActorBase* executeActor = nullptr;

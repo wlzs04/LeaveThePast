@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<UserData time="9:3:28" isFixedTime="false" gameAndRealTimeRate="1.0" sceneId="10001">
+<UserData time="9:3:43" isFixedTime="false" gameAndRealTimeRate="1.0" sceneId="10001">
 	<CanControlActorList>
-		<Actor id="10001" position="4846,101,95" rotation="0,0,17" />
+		<Actor id="10001" position="4477,-2867,90" rotation="0,0,-173" />
 		<Actor id="10002" position="6042,-30,95" rotation="0,0,89" />
 	</CanControlActorList>
 	<ItemMap>
@@ -21,4 +21,12 @@
 		<Item id="30002" number="0" />
 		<Item id="30003" number="2" />
 	</ItemMap>
+	<Script>
+		<Chapter name="1" state="1">
+			<Section id="1" state="1">
+				<Paragraph id="0" state="2" />
+				<Paragraph id="1" state="1" />
+			</Section>
+		</Chapter>
+	</Script>
 </UserData>

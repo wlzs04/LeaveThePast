@@ -12,7 +12,6 @@ UUserData::UUserData() :UObject()
 
 void UUserData::Load()
 {
-	gameTimeData = NewObject<UTimeData>(this);
 	FXmlFile* xmlFile = new FXmlFile(savePath);
 	if (!xmlFile->IsValid())
 	{
@@ -32,7 +31,7 @@ void UUserData::Load()
 		if (attributeName == TEXT("time"))
 		{
 			FTimespan timespan = UHelpManager::ConvertFStringToFTimespan(attributeValue);
-			gameTimeData->SetTime(timespan.GetHours(), timespan.GetMinutes(), timespan.GetSeconds());
+			gameTimeData.SetTime(timespan.GetHours(), timespan.GetMinutes(), timespan.GetSeconds());
 		}
 		else if (attributeName == TEXT("isFixedTime"))
 		{
@@ -66,17 +65,17 @@ void UUserData::Load()
 				FString idString = itemNode->GetAttribute(TEXT("id"));
 				if (!idString.IsEmpty())
 				{
-					saveActorInfo.SetActorId(FCString::Atoi(*idString));
+					saveActorInfo.actorId = (FCString::Atoi(*idString));
 				}
 				FString positionString = itemNode->GetAttribute(TEXT("position"));
 				if (!positionString.IsEmpty())
 				{
-					saveActorInfo.SetPosition(UHelpManager::ConvertFStringToFVector(positionString));
+					saveActorInfo.position = (UHelpManager::ConvertFStringToFVector(positionString));
 				}
 				FString rotationString = itemNode->GetAttribute(TEXT("rotation"));
 				if (!rotationString.IsEmpty())
 				{
-					saveActorInfo.SetRotation(UHelpManager::ConvertFStringToFRotator(rotationString));
+					saveActorInfo.rotation = (UHelpManager::ConvertFStringToFRotator(rotationString));
 				}
 				canControlActorList.Add(saveActorInfo);
 			}
@@ -102,6 +101,31 @@ void UUserData::Load()
 				itemMap.Add(id, number);
 			}
 		}
+		//加载剧本
+		if (xmlNode->GetTag() == TEXT("Script"))
+		{
+			chapterMap.Empty();
+			for (FXmlNode* chapterNode : xmlNode->GetChildrenNodes())
+			{
+				FSaveChapterInfo chaterInfo;
+				chaterInfo.name = chapterNode->GetAttribute(TEXT("name"));
+				chaterInfo.state = FCString::Atoi(*chapterNode->GetAttribute(TEXT("state")));
+				for (FXmlNode* sectionNode : chapterNode->GetChildrenNodes())
+				{
+					FSaveSectionInfo sectionInfo;
+					sectionInfo.id = FCString::Atoi(*sectionNode->GetAttribute(TEXT("id")));
+					sectionInfo.state = FCString::Atoi(*sectionNode->GetAttribute(TEXT("state")));
+					for (FXmlNode* paragraphNode : sectionNode->GetChildrenNodes())
+					{
+						int paragraphId = FCString::Atoi(*paragraphNode->GetAttribute(TEXT("id")));
+						int paragraphState = FCString::Atoi(*paragraphNode->GetAttribute(TEXT("state")));
+						sectionInfo.paragraphMap.Add(paragraphId, paragraphState);
+					}
+					chaterInfo.sectionMap.Add(sectionInfo.id,sectionInfo);
+				}
+				chapterMap.Add(chaterInfo.name,chaterInfo);
+			}
+		}
 	}
 
 	xmlFile->Clear();
@@ -116,7 +140,7 @@ void UUserData::Save()
 	
 	FString xmlContent = TEXT("<UserData ");
 	//start 添加基础信息
-	xmlContent.Append(TEXT("time=\"") + UHelpManager::ConvertToFString(gameTimeData->GetTimespan()) + TEXT("\" "));
+	xmlContent.Append(TEXT("time=\"") + UHelpManager::ConvertToFString(gameTimeData.GetTimespan()) + TEXT("\" "));
 	FString isFixedTimeString = (isFixedTime ? TEXT("true") : TEXT("false"));
 	xmlContent.Append(TEXT("isFixedTime=\"") + isFixedTimeString + TEXT("\" "));
 	xmlContent.Append(TEXT("gameAndRealTimeRate=\"") + FString::SanitizeFloat(gameAndRealTimeRate) + TEXT("\" "));
@@ -146,6 +170,33 @@ void UUserData::Save()
 	}
 	xmlContent.Append(TEXT("\t</ItemMap>\n"));
 	//end 添加物品map
+	//start 添加剧本信息
+	xmlContent.Append(TEXT("\t<Script>\n"));
+	for (auto chapterInfo : chapterMap)
+	{
+		xmlContent.Append(TEXT("\t\t<Chapter "));
+		xmlContent.Append(TEXT("name=\"") + chapterInfo.Value.name + TEXT("\" "));
+		xmlContent.Append(TEXT("state=\"") + FString::FromInt(chapterInfo.Value.state) + TEXT("\" "));
+		xmlContent.Append(TEXT(">\n"));
+		for (auto sectionInfo : chapterInfo.Value.sectionMap)
+		{
+			xmlContent.Append(TEXT("\t\t\t<Section "));
+			xmlContent.Append(TEXT("id=\"") + FString::FromInt(sectionInfo.Value.id) + TEXT("\" "));
+			xmlContent.Append(TEXT("state=\"") + FString::FromInt(sectionInfo.Value.state) + TEXT("\" "));
+			xmlContent.Append(TEXT(">\n"));
+			for (auto paragraphInfo : sectionInfo.Value.paragraphMap)
+			{
+				xmlContent.Append(TEXT("\t\t\t\t<Paragraph "));
+				xmlContent.Append(TEXT("id=\"") + FString::FromInt(paragraphInfo.Key) + TEXT("\" "));
+				xmlContent.Append(TEXT("state=\"") + FString::FromInt(paragraphInfo.Value) + TEXT("\" "));
+				xmlContent.Append(TEXT("/>\n"));
+			}
+			xmlContent.Append(TEXT("\t\t\t</Section>\n"));
+		}
+		xmlContent.Append(TEXT("\t\t</Chapter>\n"));
+	}
+	xmlContent.Append(TEXT("\t</Script>\n"));
+	//end 添加剧本信息
 	xmlContent.Append(TEXT("</UserData>"));
 
 	FXmlFile* xmlFile = new FXmlFile(xmlContent, EConstructMethod::ConstructFromBuffer);
@@ -154,9 +205,22 @@ void UUserData::Save()
 	delete xmlFile;
 }
 
-UTimeData* UUserData::GetGameTimeData()
+FTimeData UUserData::GetGameTimeData()
 {
 	return gameTimeData;
+}
+
+void UUserData::SetGameTime(int hour, int minute, int second)
+{
+	gameTimeData.SetTime(hour, minute, second);
+}
+
+void UUserData::Tick(float secondTime)
+{
+	if (!isFixedTime)
+	{
+		gameTimeData.Tick(secondTime * gameAndRealTimeRate);
+	}
 }
 
 void UUserData::SetIsFixedTime(bool newIsFixedTime)
@@ -276,5 +340,10 @@ void UUserData::ReduceMoney(int money)
 	int needReduceMoney = money;
 	float totalMoney = 0;
 	ReduceItem(10001, money);
+}
+
+TMap<FString, FSaveChapterInfo> UUserData::GetChapterMap()
+{
+	return chapterMap;
 }
 

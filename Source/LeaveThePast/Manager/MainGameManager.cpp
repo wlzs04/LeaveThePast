@@ -27,9 +27,6 @@ void UMainGameManager::InitAll()
 		UMainGameManager::gameManager = this;
 		InitManager();
 
-		realTimeData = NewObject<UTimeData>(this);
-		
-
 		systemData = NewObject<USystemData>(this);
 		ReloadSystemData();
 
@@ -115,12 +112,12 @@ bool UMainGameManager::IsStartTime()
 	return startTime;
 }
 
-UTimeData* UMainGameManager::GetRealDuringTime()
+FTimeData UMainGameManager::GetRealTimeData()
 {
 	return realTimeData;
 }
 
-UTimeData* UMainGameManager::GetGameDuringTime()
+FTimeData UMainGameManager::GetGameTimeData()
 {
 	return userData->GetGameTimeData();
 }
@@ -129,11 +126,8 @@ void UMainGameManager::Tick(float secondTime)
 {
 	if (startTime)
 	{
-		realTimeData->Tick(secondTime);
-		if (!userData->GetIsFixedTime())
-		{
-			userData->GetGameTimeData()->Tick(secondTime * userData->GetGameAndRealTimeRate());
-		}
+		realTimeData.Tick(secondTime);
+		userData->Tick(secondTime);
 		scriptManager->Tick();
 	}
 }

@@ -19,11 +19,6 @@ UActorManager* UActorManager::GetInstance()
 void UActorManager::Init()
 {
 	UActorManager::actorManager = this;
-	LoadAllActorInfo();
-}
-
-void UActorManager::LoadAllActorInfo()
-{
 	LoadMainActorInfo();
 	LoadMinorActorInfo();
 	LoadMassActorInfo();
@@ -54,8 +49,11 @@ void UActorManager::LoadAllActorBySceneId(int sceneId)
 	for (FSceneActorInfo sceneActorInfo : sceneRecorder->GetSceneActorList())
 	{
 		UActorInfoBase* actorInfo = GetNewActorInfoByInfoId(sceneActorInfo.actorId);
-		actorInfo->CoverData(sceneActorInfo);
-		AActorBase* actorBase = LoadActorToSceneByActorInfo(actorInfo);
+		if (actorInfo != nullptr)
+		{
+			actorInfo->CoverData(sceneActorInfo);
+			AActorBase* actorBase = LoadActorToSceneByActorInfo(actorInfo);
+		}
 	}
 }
 
@@ -73,7 +71,8 @@ AActorBase* UActorManager::LoadActorToSceneByActorInfo(UActorInfoBase* actorInfo
 			actor->InitByActorInfo();
 			actorIdUnique++;
 			actor->SetActorId(actorIdUnique);
-			actorBaseMap.Add(actorIdUnique, actor);
+			actorBaseByIdMap.Add(actorIdUnique, actor);
+			actorBaseByInfoIdMap.Add(actorInfo->GetActorId(), actor);
 			return actor;
 		}
 		else
@@ -90,9 +89,18 @@ AActorBase* UActorManager::LoadActorToSceneByActorInfo(UActorInfoBase* actorInfo
 
 AActorBase* UActorManager::GetActorById(int actorId)
 {
-	if (actorBaseMap.Contains(actorId))
+	if (actorBaseByIdMap.Contains(actorId))
 	{
-		return actorBaseMap[actorId];
+		return actorBaseByIdMap[actorId];
+	}
+	return nullptr;
+}
+
+AActorBase* UActorManager::GetActorByInfoId(int actorInfoId)
+{
+	if (actorBaseByInfoIdMap.Contains(actorInfoId))
+	{
+		return actorBaseByInfoIdMap[actorInfoId];
 	}
 	return nullptr;
 }

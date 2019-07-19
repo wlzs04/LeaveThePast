@@ -27,7 +27,7 @@ void UPlayBGMAction::Load(FXmlNode* xmlNode)
 
 void UPlayBGMAction::Update()
 {
-	if (isCompleted == false && GetExecuteActor() != nullptr)
+	if (isCompleted == false)
 	{
 		isCompleted = true;
 	}

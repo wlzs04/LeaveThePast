@@ -2,6 +2,36 @@
 #include "../../Manager/LogManager.h"
 #include "../../Manager/HelpManager.h"
 
+void FSceneActorInfo::LoadFromXmlNode(FXmlNode* xmlNode)
+{
+	for (FXmlAttribute attribute : xmlNode->GetAttributes())
+	{
+		FString attributeName = attribute.GetTag();
+		FString attributeValue = attribute.GetValue();
+
+		if (attributeName == TEXT("actorId"))
+		{
+			actorId = FCString::Atoi(*attributeValue);
+		}
+		else if (attributeName == TEXT("actorName"))
+		{
+			SetActorName(attributeValue);
+		}
+		else if (attributeName == TEXT("position"))
+		{
+			SetPosition(UHelpManager::ConvertFStringToFVector(attributeValue));
+		}
+		else if (attributeName == TEXT("rotation"))
+		{
+			SetRotation(UHelpManager::ConvertFStringToFRotator(attributeValue));
+		}
+		else
+		{
+			LogWarning(FString::Printf(TEXT("FSceneActorInfoId:%d配置中存在未知属性:%s！"), actorId, *attributeName));
+		}
+	}
+}
+
 void USceneRecorder::LoadRecorder(FXmlNode* xmlNode)
 {
 	URecorderBase::LoadRecorder(xmlNode);
@@ -14,33 +44,7 @@ void USceneRecorder::LoadRecorder(FXmlNode* xmlNode)
 		if (childNode->GetTag() == TEXT("SceneActorInfo"))
 		{
 			FSceneActorInfo sceneActorInfo;
-
-			for (FXmlAttribute attribute:childNode->GetAttributes())
-			{
-				FString attributeName = attribute.GetTag();
-				FString attributeValue = attribute.GetValue();
-
-				if (attributeName == TEXT("actorId"))
-				{
-					sceneActorInfo.SetActorId(FCString::Atoi(*attributeValue));
-				}
-				else if(attributeName == TEXT("actorName"))
-				{
-					sceneActorInfo.SetActorName(attributeValue);
-				}
-				else if (attributeName == TEXT("position"))
-				{
-					sceneActorInfo.SetPosition(UHelpManager::ConvertFStringToFVector(attributeValue));
-				}
-				else if (attributeName == TEXT("rotation"))
-				{
-					sceneActorInfo.SetRotation(UHelpManager::ConvertFStringToFRotator(attributeValue));
-				}
-				else
-				{
-					LogWarning(FString::Printf(TEXT("场景Id:%d配置中存在未知属性:%s！"), id, *attributeName));
-				}
-			}
+			sceneActorInfo.LoadFromXmlNode(childNode);
 			sceneActorList.Add(sceneActorInfo);
 		}
 	}

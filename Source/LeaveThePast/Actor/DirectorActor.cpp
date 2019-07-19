@@ -25,7 +25,7 @@ void ADirectorActor::InitCanControlActor()
 
 	for (FSaveActorInfo saveActorInfo: saveList)
 	{
-		UActorInfoBase* actorInfo = actorManager->GetActorInfoByInfoId(saveActorInfo.actorId);
+		UActorInfoBase* actorInfo = actorManager->GetNewActorInfoByInfoId(saveActorInfo.actorId);
 		if (actorInfo!=nullptr)
 		{
 			actorInfo->CoverData(saveActorInfo);

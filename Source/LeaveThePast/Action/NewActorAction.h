@@ -2,18 +2,22 @@
 
 #include "CoreMinimal.h"
 #include "Action/ActionBase.h"
-#include "PlayBGMAction.generated.h"
+#include "..\Config\Recorder\SceneRecorder.h"
+#include "NewActorAction.generated.h"
 
+/**
+ * 
+ */
 UCLASS()
-class LEAVETHEPAST_API UPlayBGMAction : public UActionBase
+class LEAVETHEPAST_API UNewActorAction : public UActionBase
 {
 	GENERATED_BODY()
 public:
-	UPlayBGMAction();
+	UNewActorAction();
 protected:
 	virtual void Load(FXmlNode* xmlNode) override;
 	virtual void Update() override;
 	virtual void ExecuteReal() override;
 private:
-	int audioId = 9;
+	FSceneActorInfo sceneActorInfo;
 };

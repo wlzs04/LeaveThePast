@@ -1,51 +1,51 @@
 #include "TimeData.h"
 
-void UTimeData::Tick(float secondTime)
+void FTimeData::Tick(float secondTime)
 {
 	gameDuringSecond += secondTime;
 }
 
-float UTimeData::GetHours()
+float FTimeData::GetHours()
 {
 	return (int)GetAllHours() % 24;
 }
 
-float UTimeData::GetAllHours()
+float FTimeData::GetAllHours()
 {
 	return gameDuringSecond / 3600;
 }
 
-float UTimeData::GetMinutes()
+float FTimeData::GetMinutes()
 {
 	return (int)GetAllMinutes() % 60;
 }
 
-float UTimeData::GetAllMinutes()
+float FTimeData::GetAllMinutes()
 {
 	return gameDuringSecond / 60;
 }
 
-float UTimeData::GetSeconds()
+float FTimeData::GetSeconds()
 {
 	return ((int)gameDuringSecond) % 60;
 }
 
-float UTimeData::GetAllSeconds()
+float FTimeData::GetAllSeconds()
 {
 	return gameDuringSecond;
 }
 
-float UTimeData::GetMilliseconds()
+float FTimeData::GetMilliseconds()
 {
 	return (gameDuringSecond - (int)gameDuringSecond) * 1000;
 }
 
-float UTimeData::GetAllMilliseconds()
+float FTimeData::GetAllMilliseconds()
 {
 	return gameDuringSecond * 1000;
 }
 
-void UTimeData::SetTime(int hour, int minute, int second)
+void FTimeData::SetTime(int hour, int minute, int second)
 {
 	second = FMath::Clamp(second, 0, 59);
 	gameDuringSecond = second;
@@ -55,7 +55,7 @@ void UTimeData::SetTime(int hour, int minute, int second)
 	gameDuringSecond += hour * 3600;
 }
 
-FTimespan UTimeData::GetTimespan()
+FTimespan FTimeData::GetTimespan()
 {
 	return FTimespan(GetHours(),GetMinutes(),GetSeconds());
 }

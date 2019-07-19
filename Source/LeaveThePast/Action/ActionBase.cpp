@@ -8,9 +8,9 @@ void UActionBase::Init()
 	isCompleted = false;
 }
 
-int UActionBase::GetActorId()
+int UActionBase::GetActorInfoId()
 {
-	return actorId;
+	return actorInfoId;
 }
 
 FString UActionBase::GetActionName()
@@ -21,8 +21,7 @@ FString UActionBase::GetActionName()
 void UActionBase::Execute()
 {
 	LogNormal(actionName + TEXT("指令开始执行！"));
-	UMainGameManager* gameManager = UMainGameManager::GetInstance();
-	executeActor = gameManager->GetActorManager()->GetActorById(actorId);
+	executeActor = UActorManager::GetInstance()->GetActorByInfoId(actorInfoId);
 	ExecuteReal();
 }
 
@@ -32,7 +31,7 @@ void UActionBase::Load(FXmlNode* xmlNode)
 	{
 		if (item.GetTag() == "actorId")
 		{
-			actorId = FCString::Atoi(*item.GetValue());
+			actorInfoId = FCString::Atoi(*item.GetValue());
 		}
 		else if (item.GetTag() == "isAsync")
 		{

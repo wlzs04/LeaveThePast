@@ -1,7 +1,14 @@
 <Chapter name="第一章" description="准备出发">
-	<Section name="第一节" description="在客栈汇合">
-		<Paragraph>
-		<!--
+	<Section id="0" name="第一节" description="在客栈汇合">
+		<Paragraph id="0">
+			<NewActor actorId="10001"/>
+			<ChangeCameraActor actorId="10001"/>
+			<Say actorId="10001" text="........" voicePath="saysomething.wav" actionTime="3"/>
+			<Say actorId="10001" text="醒了·····还有点不清醒。" voicePath="saysomething.wav" actionTime="3"/>
+			<Say actorId="10001" text="赶紧起来吧，还有人在等。" voicePath="saysomething.wav" actionTime="2"/>
+			<NewScriptVolume position="5105.0,-2935.0,40" isNext="true"/>
+		</Paragraph>
+		<Paragraph id="1">
 			<Move actorId="10001" actionTime="2" speed="100" direction="1,0,0"/>
 			<Rotate actorId="10001" actionTime="1" value="-90" />
 			<Say actorId="10001" text="既然想听声音，我就随便说点什么吧！" voicePath="saysomething.wav" actionTime="0.5"/>
@@ -17,11 +24,11 @@
 			<Say actorId="30003" text="这位客官吃饭没带钱。" voicePath="saysomething.wav" actionTime="1"/>
 			<ChangeCameraActor actorId="30003"/>
 			<Move actorId="30003" actionTime="1" speed="100" direction="1,0,0"/>
-			-->
+			
 			<ChangeCameraActor actorId="10001"/>
 			<PlayBGM audioId="10005"/>
 		</Paragraph>
-		<Paragraph>
+		<Paragraph id="2">
 			<Say actorId="10002" text="多少？" voicePath="saysomething.wav" actionTime="0.5"/>
 			<Say actorId="30003" text="2钱。" voicePath="saysomething.wav" actionTime="0.5"/>
 			<Say actorId="10002" text="回见。" voicePath="saysomething.wav" actionTime="0.5"/>

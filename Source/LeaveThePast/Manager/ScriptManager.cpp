@@ -8,6 +8,8 @@
 #include "../Action/MessageTipAction.h"
 #include "../Action/PlayBGMAction.h"
 #include "../Action/AddItemAction.h"
+#include "../Action/NewActorAction.h"
+#include "../Action/NewScriptVolumeAction.h"
 
 #include "../Script/Chapter.h"
 #include "Runtime/Core/Public/Misc/Paths.h"
@@ -149,6 +151,8 @@ void UScriptManager::LoadAllIegalAction()
 	AddIegalAction(NewObject<UMessageTipAction>(this));
 	AddIegalAction(NewObject<UPlayBGMAction>(this));
 	AddIegalAction(NewObject<UAddItemAction>(this));
+	AddIegalAction(NewObject<UNewActorAction>(this));
+	AddIegalAction(NewObject<UNewScriptVolumeAction>(this));
 }
 
 void UScriptManager::AddIegalAction(UActionBase* actionBase)

@@ -17,10 +17,11 @@ void UChangeCameraActorAction::Load(FXmlNode* xmlNode)
 
 void UChangeCameraActorAction::Update()
 {
-	if (isCompleted == false && GetExecuteActor() != nullptr)
+	if (isCompleted == false)
 	{
 		APlayerController* playerController = GWorld->GetFirstPlayerController<APlayerController>();
-		((ADirectorActor*)playerController->GetPawn())->SetControlActorById(GetActorId());
+		
+		((ADirectorActor*)playerController->GetPawn())->SetControlActorById(GetExecuteActor()->GetActorId());
 		isCompleted = true;
 	}
 }

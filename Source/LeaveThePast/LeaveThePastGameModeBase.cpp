@@ -13,6 +13,7 @@ void ALeaveThePastGameModeBase::StartPlay()
 	
 	directorActor = Cast<ADirectorActor>(GWorld->GetFirstPlayerController()->GetPawn());
 	directorActor->DisableInput(nullptr); 
+	
 	directorActor->InitCanControlActor();
 
 	if (gameManager->GetSystemData()->GetShowInitUI())

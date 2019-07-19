@@ -46,11 +46,11 @@ public:
 
 	//获得游戏运行的时间
 	UFUNCTION(BlueprintCallable)
-	UTimeData* GetRealDuringTime();
+	FTimeData GetRealTimeData();
 
 	//获得游戏运行的时间
 	UFUNCTION(BlueprintCallable)
-	UTimeData* GetGameDuringTime();
+	FTimeData GetGameTimeData();
 
 	//每帧执行一次
 	UFUNCTION(BlueprintCallable)
@@ -152,8 +152,7 @@ private:
 	bool haveInited = false;
 	bool startTime = false;
 
-	UPROPERTY()
-	UTimeData* realTimeData = nullptr;
+	FTimeData realTimeData;
 
 	AActorBase* mainActor = nullptr;
 	AActorBase* mainActor2 = nullptr;

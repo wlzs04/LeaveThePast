@@ -2,18 +2,20 @@
 
 #include "CoreMinimal.h"
 #include "Action/ActionBase.h"
-#include "PlayBGMAction.generated.h"
+#include "NewScriptVolumeAction.generated.h"
 
 UCLASS()
-class LEAVETHEPAST_API UPlayBGMAction : public UActionBase
+class LEAVETHEPAST_API UNewScriptVolumeAction : public UActionBase
 {
 	GENERATED_BODY()
 public:
-	UPlayBGMAction();
+	UNewScriptVolumeAction();
 protected:
 	virtual void Load(FXmlNode* xmlNode) override;
 	virtual void Update() override;
 	virtual void ExecuteReal() override;
 private:
-	int audioId = 9;
+
+	FVector position;
+	bool isNext = true;//是否将开启脚本设定为顺序下一个
 };
