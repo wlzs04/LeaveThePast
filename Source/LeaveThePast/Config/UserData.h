@@ -62,6 +62,9 @@ public:
 
 	void Save();
 
+	//设置初始存档
+	void SetInitData();
+
 	UFUNCTION(BlueprintCallable)
 	FTimeData GetGameTimeData();
 
@@ -89,6 +92,12 @@ public:
 
 	//可控演员列表
 	TArray<FSaveActorInfo> GetCanControlActorList();
+
+	//添加可控演员
+	void AddControlActor(int actorInfoId,FVector position,FRotator rotation);
+
+	//移除可控演员
+	void RemoveControlActor(int actorInfoId);
 	
 	//获得物品map
 	UFUNCTION(BlueprintCallable)

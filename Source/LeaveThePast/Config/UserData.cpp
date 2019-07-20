@@ -15,7 +15,8 @@ void UUserData::Load()
 	FXmlFile* xmlFile = new FXmlFile(savePath);
 	if (!xmlFile->IsValid())
 	{
-		LogError(FString::Printf(TEXT("存档文件加载失败：%s"), *savePath));
+		LogError(FString::Printf(TEXT("存档文件加载失败：%s，使用初始存档。"), *savePath));
+		SetInitData();
 		return;
 	}
 
@@ -98,7 +99,7 @@ void UUserData::Load()
 				{
 					number = FCString::Atoi(*numberString);
 				}
-				itemMap.Add(id, number);
+				AddItem(id, number);
 			}
 		}
 		//加载剧本
@@ -163,10 +164,13 @@ void UUserData::Save()
 	xmlContent.Append(TEXT("\t<ItemMap>\n"));
 	for (auto var : itemMap)
 	{
-		xmlContent.Append(TEXT("\t\t<Item "));
-		xmlContent.Append(TEXT("id=\"") + FString::FromInt(var.Key) + TEXT("\" "));
-		xmlContent.Append(TEXT("number=\"") + FString::FromInt(var.Value) + TEXT("\" "));
-		xmlContent.Append(TEXT("/>\n"));
+		if (var.Value != 0)
+		{
+			xmlContent.Append(TEXT("\t\t<Item "));
+			xmlContent.Append(TEXT("id=\"") + FString::FromInt(var.Key) + TEXT("\" "));
+			xmlContent.Append(TEXT("number=\"") + FString::FromInt(var.Value) + TEXT("\" "));
+			xmlContent.Append(TEXT("/>\n"));
+		}
 	}
 	xmlContent.Append(TEXT("\t</ItemMap>\n"));
 	//end 添加物品map
@@ -203,6 +207,22 @@ void UUserData::Save()
 	xmlFile->Save(savePath);
 	xmlFile->Clear();
 	delete xmlFile;
+}
+
+void UUserData::SetInitData()
+{
+	gameTimeData.SetTime(9, 0, 0);
+
+	AddItem(10001, 50);
+	AddItem(10002, 1);
+	AddItem(10003, 1);
+	AddItem(10004, 1);
+	AddItem(10005, 1);
+	AddItem(20001, 10);
+	AddItem(20002, 3);
+	AddItem(40004, 1);
+
+	AddControlActor(10001,FVector(3705.0, -3075.0, 570.0), FRotator(0, 0, 0));
 }
 
 FTimeData UUserData::GetGameTimeData()
@@ -256,6 +276,36 @@ int UUserData::GetSceneId()
 TArray<FSaveActorInfo> UUserData::GetCanControlActorList()
 {
 	return canControlActorList;
+}
+
+void UUserData::AddControlActor(int actorInfoId, FVector position, FRotator rotation)
+{
+	for (auto saveActorInfo:canControlActorList)
+	{
+		if (saveActorInfo.actorId == actorInfoId)
+		{
+			LogError(FString::Printf(TEXT("在向存档中添加可控演员时重复infoId:%d"), actorInfoId));
+			return;
+		}
+
+	}
+	FSaveActorInfo saveActorInfo;
+	saveActorInfo.actorId = actorInfoId;
+	saveActorInfo.position = position;
+	saveActorInfo.rotation = rotation;
+	canControlActorList.Add(saveActorInfo);
+}
+
+void UUserData::RemoveControlActor(int actorInfoId)
+{
+	for (int i = 0;i<canControlActorList.Num();i++)
+	{
+		if (canControlActorList[i].actorId == actorInfoId)
+		{
+			canControlActorList.RemoveAt(i);
+			return;
+		}
+	}
 }
 
 TMap<int, int> UUserData::GetItemMap()

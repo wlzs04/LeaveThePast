@@ -25,6 +25,11 @@ UUserWidget* UUIManager::LoadUIByName(FString uiName)
 	return widget;
 }
 
+void UUIManager::ShowInitUI()
+{
+	LoadUIByName(TEXT("InitUI"))->AddToViewport();
+}
+
 void UUIManager::AddMessageTip(FString value)
 {
 	UUserWidget* widget = LoadUIByName(TEXT("MessageTipUI"));

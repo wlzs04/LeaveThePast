@@ -37,9 +37,13 @@ public:
 
 	//获得MainGameManager
 	UFUNCTION(BlueprintCallable, Category = "Main|Manager")
-	static UConfigManager* GetConfigGameManager();
+	static UConfigManager* GetConfigManager();
 
 	//获得MainGameManager
 	UFUNCTION(BlueprintCallable, Category = "Main|Manager")
 	static UScriptManager* GetScriptManager();
+
+	//加载本地图片
+	UFUNCTION(BlueprintCallable, Category = "Main|Texture")
+	static UTexture2D* LoadTexture2D(FString path, bool& isValid, int32& outWidth, int32& outHeight);
 };

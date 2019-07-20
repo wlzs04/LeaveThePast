@@ -1,5 +1,6 @@
 #include "CommonBlueprintFunctionLibrary.h"
 #include "Engine/World.h"
+#include "../Manager/HelpManager.h"
 
 int UCommonBlueprintFunctionLibrary::GetHours(FTimeData time)
 {
@@ -26,7 +27,7 @@ UMainGameManager* UCommonBlueprintFunctionLibrary::GetMainGameManager()
 	return UMainGameManager::GetInstance();
 }
 
-UConfigManager* UCommonBlueprintFunctionLibrary::GetConfigGameManager()
+UConfigManager* UCommonBlueprintFunctionLibrary::GetConfigManager()
 {
 	return UConfigManager::GetInstance();
 }
@@ -34,4 +35,9 @@ UConfigManager* UCommonBlueprintFunctionLibrary::GetConfigGameManager()
 UScriptManager* UCommonBlueprintFunctionLibrary::GetScriptManager()
 {
 	return UScriptManager::GetInstance();
+}
+
+UTexture2D* UCommonBlueprintFunctionLibrary::LoadTexture2D(FString path, bool& isValid, int32& outWidth, int32& outHeight)
+{
+	return UHelpManager::LoadTexture2D(path, isValid, outWidth,outHeight);
 }

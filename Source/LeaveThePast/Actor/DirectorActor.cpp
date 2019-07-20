@@ -108,6 +108,16 @@ FVector ADirectorActor::GetDestination()
 	return destinationPosition;
 }
 
+bool ADirectorActor::GetCanControl()
+{
+	return canControl;
+}
+
+void ADirectorActor::SetCanControl(bool newCanControl)
+{
+	canControl = newCanControl;
+}
+
 void ADirectorActor::BeginPlay()
 {
 	Super::BeginPlay();
@@ -143,7 +153,7 @@ void ADirectorActor::SetupPlayerInputComponent(UInputComponent* playerInputCompo
 
 void ADirectorActor::MoveForwardInputFunction(float value)
 {
-	if (inMenuUI || value == 0)
+	if (!canControl || value == 0)
 	{
 		return;
 	}
@@ -155,7 +165,7 @@ void ADirectorActor::MoveForwardInputFunction(float value)
 
 void ADirectorActor::MoveRightInputFunction(float value)
 {
-	if (inMenuUI || value == 0)
+	if (!canControl || value == 0)
 	{
 		return;
 	}
@@ -167,7 +177,7 @@ void ADirectorActor::MoveRightInputFunction(float value)
 
 void ADirectorActor::TurnInputFunction(float value)
 {
-	if (inMenuUI || value == 0)
+	if (!canControl || value == 0)
 	{
 		return;
 	}
@@ -180,7 +190,7 @@ void ADirectorActor::TurnInputFunction(float value)
 
 void ADirectorActor::LookUpInputFunction(float value)
 {
-	if (inMenuUI || value == 0)
+	if (!canControl || value == 0)
 	{
 		return;
 	}
@@ -193,11 +203,7 @@ void ADirectorActor::LookUpInputFunction(float value)
 
 void ADirectorActor::ChangeControlActorInputFunction()
 {
-	if (inMenuUI)
-	{
-		return;
-	}
-	if (canControlActorList.Num() == 0)
+	if (!canControl || canControlActorList.Num() == 0)
 	{
 		return;
 	}
@@ -214,17 +220,23 @@ void ADirectorActor::SystemInputFunction()
 	if (inMenuUI)
 	{
 		inMenuUI = false;
+		canControl = true;
 		UUIManager::GetInstance()->HideMenuUI();
 	}
 	else
 	{
 		inMenuUI = true;
+		canControl = false;
 		UUIManager::GetInstance()->ShowMenuUI();
 	}
 }
 
 void ADirectorActor::StartAccelerateInputFunction()
 {
+	if (!canControl)
+	{
+		return;
+	}
 	if (currentControlActor != nullptr)
 	{
 		currentControlActor->SetAccelerate(true);
@@ -233,6 +245,10 @@ void ADirectorActor::StartAccelerateInputFunction()
 
 void ADirectorActor::StopAccelerateInputFunction()
 {
+	if (!canControl)
+	{
+		return;
+	}
 	if (currentControlActor != nullptr)
 	{
 		currentControlActor->SetAccelerate(false);
@@ -241,6 +257,10 @@ void ADirectorActor::StopAccelerateInputFunction()
 
 void ADirectorActor::InteractedInputFunction()
 {
+	if (!canControl)
+	{
+		return;
+	}
 	if (currentControlActor != nullptr)
 	{
 		TArray<AActor*> canInteractedActorList = currentControlActor->GetInteractedActor();
@@ -283,11 +303,13 @@ void ADirectorActor::DebugInputFunction()
 	if (inDebugUI)
 	{
 		inDebugUI = false;
+		canControl = true;
 		UUIManager::GetInstance()->HideDebugUI();
 	}
 	else
 	{
 		inDebugUI = true;
+		canControl = false;
 		UUIManager::GetInstance()->ShowDebugUI();
 	}
 }
@@ -297,11 +319,13 @@ void ADirectorActor::MapInputFunction()
 	if (inMapUI)
 	{
 		inMapUI = false;
+		canControl = true;
 		UUIManager::GetInstance()->HideMapUI();
 	}
 	else
 	{
 		inMapUI = true;
+		canControl = false;
 		UUIManager::GetInstance()->ShowMapUI();
 	}
 }
@@ -311,11 +335,13 @@ void ADirectorActor::PauseInputFunction()
 	if (inPauseUI)
 	{
 		inPauseUI = false;
+		canControl = true;
 		UUIManager::GetInstance()->HidePauseUI();
 	}
 	else
 	{
 		inPauseUI = true;
+		canControl = false;
 		UUIManager::GetInstance()->ShowPauseUI();
 	}
 }

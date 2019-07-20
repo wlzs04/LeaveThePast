@@ -1,12 +1,7 @@
 #include "MainGameManager.h"
 #include "Kismet/KismetSystemLibrary.h"
 
-#include "FileManagerGeneric.h" 
-#include "Runtime/ImageWrapper/Public/IImageWrapper.h" 
-#include "Runtime/ImageWrapper/Public/IImageWrapperModule.h"
-#include "ModuleManager.h"
 #include "FileHelper.h"
-#include "Engine/Texture2D.h"
 #include "LogMacros.h"
 #include "Engine/World.h"
 #include "GameFramework/PlayerController.h"
@@ -34,7 +29,7 @@ void UMainGameManager::InitAll()
 		ReloadUserData();
 
 		directorActor = Cast<ADirectorActor>(GetWorld()->GetFirstPlayerController()->GetPawn());
-
+		
 		haveInited = true;
 	}
 }
@@ -191,71 +186,4 @@ UAudioManager* UMainGameManager::GetAudioManager()
 FString UMainGameManager::GetArtresPath()
 {
 	return FPaths::ProjectContentDir() + TEXT("GameContent/Artres/");
-}
-
-UTexture2D* UMainGameManager::LoadTexture2D(FString path, bool& isValid, int32& outWidth, int32& outHeight)
-{
-	path = FPaths::ProjectContentDir() + path;
-	UTexture2D* texture = nullptr;
-	isValid = false;
-	if (!FPlatformFileManager::Get().GetPlatformFile().FileExists(*path))
-	{
-		return nullptr;
-	}
-	TArray<uint8> RawFileData;
-	if (!FFileHelper::LoadFileToArray(RawFileData, *path))
-	{
-		return nullptr;
-	}
-	TSharedPtr<IImageWrapper> ImageWrapper;
-	IImageWrapperModule& ImageWrapperModule = FModuleManager::LoadModuleChecked<IImageWrapperModule>(FName("ImageWrapper"));
-	if (path.EndsWith(".png"))
-	{
-		ImageWrapper = ImageWrapperModule.CreateImageWrapper(EImageFormat::PNG);
-	}
-	else if (path.EndsWith(".jpg") || path.EndsWith(".jpeg"))
-	{
-		ImageWrapper = ImageWrapperModule.CreateImageWrapper(EImageFormat::JPEG);
-	}
-	else if (path.EndsWith(".bmp"))
-	{
-		ImageWrapper = ImageWrapperModule.CreateImageWrapper(EImageFormat::BMP);
-	}
-	else if (path.EndsWith(".ico"))
-	{
-		ImageWrapper = ImageWrapperModule.CreateImageWrapper(EImageFormat::ICO);
-
-	}
-	else if (path.EndsWith("exr"))
-	{
-		ImageWrapper = ImageWrapperModule.CreateImageWrapper(EImageFormat::EXR);
-	}
-	else if (path.EndsWith(".icns"))
-	{
-		ImageWrapper = ImageWrapperModule.CreateImageWrapper(EImageFormat::ICNS);
-	}
-	else
-	{
-		LogError(FString::Printf(TEXT("未知图片文件加载失败：%s"), *path));
-	}
-	if (ImageWrapper.IsValid() && ImageWrapper->SetCompressed(RawFileData.GetData(), RawFileData.Num()))
-	{
-		const TArray<uint8>* UncompressedRGBA = nullptr;
-		if (ImageWrapper->GetRaw(ERGBFormat::RGBA, 8, UncompressedRGBA))
-		{
-			texture = UTexture2D::CreateTransient(ImageWrapper->GetWidth(), ImageWrapper->GetHeight(), PF_R8G8B8A8);
-			
-			if (texture != nullptr)
-			{
-				isValid = true;
-				outWidth = ImageWrapper->GetWidth();
-				outHeight = ImageWrapper->GetHeight();
-				void* TextureData = texture->PlatformData->Mips[0].BulkData.Lock(LOCK_READ_WRITE);
-				FMemory::Memcpy(TextureData, UncompressedRGBA->GetData(), UncompressedRGBA->Num());
-				texture->PlatformData->Mips[0].BulkData.Unlock();
-				texture->UpdateResource();
-			}
-		}
-	}
-	return texture;
 }

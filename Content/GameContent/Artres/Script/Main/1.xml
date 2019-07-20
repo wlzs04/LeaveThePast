@@ -1,8 +1,6 @@
 <Chapter name="第一章" description="准备出发">
 	<Section id="0" name="第一节" description="在客栈汇合">
 		<Paragraph id="0">
-			<NewActor actorId="10001"/>
-			<ChangeCameraActor actorId="10001"/>
 			<Say actorId="10001" text="........" voicePath="saysomething.wav" actionTime="3"/>
 			<Say actorId="10001" text="醒了·····还有点不清醒。" voicePath="saysomething.wav" actionTime="3"/>
 			<Say actorId="10001" text="赶紧起来吧，还有人在等。" voicePath="saysomething.wav" actionTime="2"/>

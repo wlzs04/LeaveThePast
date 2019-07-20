@@ -104,10 +104,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	FString GetArtresPath();
 
-	//加载本地图片
-	UFUNCTION(BlueprintCallable)
-	UTexture2D* LoadTexture2D(FString path, bool& isValid, int32& outWidth, int32& outHeight);
-
 	//使用物品
 	UFUNCTION(BlueprintCallable)
 	void UseItem(int itemId);

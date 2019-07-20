@@ -12,13 +12,13 @@ void ALeaveThePastGameModeBase::StartPlay()
 	gameManager->InitAll();
 	
 	directorActor = Cast<ADirectorActor>(GWorld->GetFirstPlayerController()->GetPawn());
-	directorActor->DisableInput(nullptr); 
+	directorActor->SetCanControl(false); 
 	
 	directorActor->InitCanControlActor();
 
 	if (gameManager->GetSystemData()->GetShowInitUI())
 	{
-		gameManager->GetUIManager()->LoadUIByName(TEXT("InitUI"))->AddToViewport();
+		gameManager->GetUIManager()->ShowInitUI();
 	}
 	else
 	{
@@ -37,14 +37,14 @@ void ALeaveThePastGameModeBase::InitFinish()
 	if (mainGameState == MainGameStateEnum::Init)
 	{
 		LogNormal(TEXT("游戏初始化结束。"));
-		mainGameState = MainGameStateEnum::Normal; 
+		mainGameState = MainGameStateEnum::Normal;
+		directorActor->SetCanControl(true);
 		StartGame();
 	}
 }
 
 void ALeaveThePastGameModeBase::StartGame()
 {
-	directorActor->EnableInput(nullptr);
 	gameManager->GetUIManager()->ShowMainUI();
 	gameManager->StartTime();
 }

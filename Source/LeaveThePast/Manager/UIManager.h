@@ -18,6 +18,10 @@ public:
 	UFUNCTION(BlueprintCallable)
 	UUserWidget* LoadUIByName(FString uiName);
 
+	//显示初始界面
+	UFUNCTION(BlueprintCallable)
+	void ShowInitUI();
+
 	//弹提示
 	UFUNCTION(BlueprintCallable)
 	void AddMessageTip(FString value);

@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
+#include "Engine/Texture2D.h"
 #include "HelpManager.generated.h"
 
 UCLASS()
@@ -19,6 +20,9 @@ public:
 	static FString ConvertToFString(FRotator value);
 	static FString ConvertToFString(FTimespan value);
 	static FTimespan ConvertFStringToFTimespan(FString value);
+
+	//加载本地图片
+	static UTexture2D* LoadTexture2D(FString path, bool& isValid, int32& outWidth, int32& outHeight);
 private:
 	static UHelpManager* helpManager;
 };
