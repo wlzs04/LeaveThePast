@@ -3,18 +3,19 @@
 #include "CoreMinimal.h"
 #include "Action/ActionBase.h"
 #include "..\Config\Recorder\SceneRecorder.h"
-#include "NewActorAction.generated.h"
+#include "AddActorAction.generated.h"
 
 UCLASS()
-class LEAVETHEPAST_API UNewActorAction : public UActionBase
+class LEAVETHEPAST_API UAddActorAction : public UActionBase
 {
 	GENERATED_BODY()
 public:
-	UNewActorAction();
+	UAddActorAction();
 protected:
 	virtual void Load(FXmlNode* xmlNode) override;
 	virtual void Update() override;
 	virtual void ExecuteReal() override;
 private:
 	FSceneActorInfo sceneActorInfo;
+	
 };

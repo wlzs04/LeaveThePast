@@ -4,8 +4,12 @@
 #include "GameFramework/PlayerController.h"
 #include "Engine/World.h"
 
+ADirectorActor* ADirectorActor::directorActor = nullptr;
+
 ADirectorActor::ADirectorActor()
 {
+	ADirectorActor::directorActor = this;
+
 	PrimaryActorTick.bCanEverTick = true;
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
 
@@ -15,6 +19,11 @@ ADirectorActor::ADirectorActor()
 
 	audioComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("Audio"));
 	audioComponent->SetupAttachment(RootComponent);
+}
+
+ADirectorActor* ADirectorActor::GetInstance()
+{
+	return directorActor;
 }
 
 void ADirectorActor::InitCanControlActor()
@@ -36,6 +45,35 @@ void ADirectorActor::InitCanControlActor()
 	if (canControlActorList.Num() > 0)
 	{
 		SetControlActor(canControlActorList[0]);
+	}
+}
+
+void ADirectorActor::AddCanControlActorByInfoId(int actorInfoId)
+{
+	UActorManager* actorManager = UActorManager::GetInstance();
+	AActorBase* actor = actorManager->GetActorByInfoId(actorInfoId);
+	if (actor == nullptr)
+	{
+		LogError(FString::Printf(TEXT("指令AddCanControlActor，未找到actorInfoId：%d"), actorInfoId));
+	}
+	else
+	{
+		if (!canControlActorList.Contains(actor))
+		{
+			canControlActorList.Add(actor);
+		}
+	}
+}
+
+void ADirectorActor::RemoveCanControlActorByInfoId(int actorInfoId)
+{
+	for (AActorBase* actor: canControlActorList)
+	{
+		if (actor->GetActorInfo()->GetActorId() == actorInfoId)
+		{
+			canControlActorList.Remove(actor);
+			return;
+		}
 	}
 }
 

@@ -222,7 +222,7 @@ void UUserData::SetInitData()
 	AddItem(20002, 3);
 	AddItem(40004, 1);
 
-	AddControlActor(10001,FVector(3705.0, -3075.0, 570.0), FRotator(0, 0, 0));
+	//AddControlActor(10001,FVector(3705.0, -3075.0, 570.0), FRotator(0, 0, 0));
 }
 
 FTimeData UUserData::GetGameTimeData()

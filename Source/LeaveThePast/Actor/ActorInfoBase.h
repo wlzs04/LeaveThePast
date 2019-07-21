@@ -76,6 +76,9 @@ public:
 	int GetActorId();
 
 	UFUNCTION(BlueprintCallable)
+	void SetActorName(FString newActorName);
+	
+	UFUNCTION(BlueprintCallable)
 	FString GetActorName();
 
 	UFUNCTION(BlueprintCallable)

@@ -44,7 +44,14 @@ public:
 	//通过演员Id获得新的演员信息，一般用于新建演员
 	UFUNCTION(BlueprintCallable)
 	UActorInfoBase* GetNewActorInfoByInfoId(int actorInfoId);
-	
+
+	//通过演员Id移除演员
+	UFUNCTION(BlueprintCallable)
+	void RemoveActorById(int actorId);
+
+	//通过演员信息Id移除演员
+	UFUNCTION(BlueprintCallable)
+	int RemoveActorByInfoId(int actorInfoId);
 private:
 	//加载主演
 	void LoadMainActorInfo();

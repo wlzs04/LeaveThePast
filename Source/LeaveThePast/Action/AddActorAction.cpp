@@ -1,19 +1,19 @@
-#include "NewActorAction.h"
+#include "AddActorAction.h"
 #include "../Manager/ActorManager.h"
 
-UNewActorAction::UNewActorAction() :UActionBase()
+UAddActorAction::UAddActorAction() :UActionBase()
 {
-	actionName = TEXT("NewActor");
+	actionName = TEXT("AddActor");
 }
 
-void UNewActorAction::Load(FXmlNode* xmlNode)
+void UAddActorAction::Load(FXmlNode* xmlNode)
 {
 	UActionBase::Load(xmlNode);
 
 	sceneActorInfo.LoadFromXmlNode(xmlNode);
 }
 
-void UNewActorAction::Update()
+void UAddActorAction::Update()
 {
 	if (isCompleted == false)
 	{
@@ -21,7 +21,7 @@ void UNewActorAction::Update()
 	}
 }
 
-void UNewActorAction::ExecuteReal()
+void UAddActorAction::ExecuteReal()
 {
 	isCompleted = false;
 	UActorInfoBase* actorInfo = UActorManager::GetInstance()->GetNewActorInfoByInfoId(sceneActorInfo.actorId);

@@ -143,4 +143,8 @@ protected:
 	TMap<int, int> itemMap;
 
 	TMap<FString, FSaveChapterInfo> chapterMap;//剧本
+
+	//FString chapterName;
+	//int sectionId;
+	//int paragraphId;
 };

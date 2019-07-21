@@ -8,7 +8,7 @@
 #include "../Action/MessageTipAction.h"
 #include "../Action/PlayBGMAction.h"
 #include "../Action/AddItemAction.h"
-#include "../Action/NewActorAction.h"
+#include "../Action/AddActorAction.h"
 #include "../Action/NewScriptVolumeAction.h"
 #include "../Action/OptionAction.h"
 
@@ -45,6 +45,11 @@ void UScriptManager::StartMainScriptByNameIndex(FString scriptName, int sectionI
 	}
 	else
 	{
+		if (currentScript != nullptr)
+		{
+			LogNormal(FString::Printf(TEXT("现在正在进行剧本：无法执行新剧本。")));
+			return;
+		}
 		currentScript = mainChapterMap[scriptName];
 		LogNormal(FString::Printf(TEXT("剧本开始：%s"), *scriptName));
 		currentScript->Start(sectionId, paragrapgId);
@@ -152,7 +157,7 @@ void UScriptManager::LoadAllIegalAction()
 	AddIegalAction(NewObject<UMessageTipAction>(this));
 	AddIegalAction(NewObject<UPlayBGMAction>(this));
 	AddIegalAction(NewObject<UAddItemAction>(this));
-	AddIegalAction(NewObject<UNewActorAction>(this));
+	AddIegalAction(NewObject<UAddActorAction>(this));
 	AddIegalAction(NewObject<UNewScriptVolumeAction>(this));
 	AddIegalAction(NewObject<UOptionAction>(this));
 }

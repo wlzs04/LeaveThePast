@@ -14,8 +14,18 @@ class LEAVETHEPAST_API ADirectorActor : public APawn
 public:
 	ADirectorActor();
 
+	static ADirectorActor* GetInstance();
+
 	//初始化可控演员，从用户存档内读取
 	void InitCanControlActor();
+
+	//添加演员到可控演员列表中
+	UFUNCTION(BlueprintCallable)
+	void AddCanControlActorByInfoId(int actorInfoId);
+
+	//从可控演员列表中移除指定演员
+	UFUNCTION(BlueprintCallable)
+	void RemoveCanControlActorByInfoId(int actorInfoId);
 
 	//通过id设置当前控制演员
 	UFUNCTION(BlueprintCallable)
@@ -68,6 +78,8 @@ private:
 	void DebugInputFunction();
 	void MapInputFunction();
 	void PauseInputFunction();
+
+	static ADirectorActor* directorActor;
 	
 	UPROPERTY()
 	UAudioComponent* audioComponent = nullptr;

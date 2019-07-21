@@ -169,6 +169,11 @@ int UActorInfoBase::GetActorId()
 	return actorId;
 }
 
+void UActorInfoBase::SetActorName(FString newActorName)
+{
+	actorName = newActorName;
+}
+
 FString UActorInfoBase::GetActorName()
 {
 	return actorName;

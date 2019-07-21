@@ -138,6 +138,44 @@ UActorInfoBase* UActorManager::GetNewActorInfoByInfoId(int actorInfoId)
 	return nullptr;
 }
 
+void UActorManager::RemoveActorById(int actorId)
+{
+	if (actorBaseByIdMap.Contains(actorId))
+	{
+		int actorInfoId = actorBaseByIdMap[actorId]->GetActorInfo()->GetActorId();
+		actorBaseByIdMap.Remove(actorId);
+		if (actorBaseByInfoIdMap.Contains(actorInfoId))
+		{
+			for (auto actor : actorBaseByIdMap)
+			{
+				if (actor.Value->GetActorInfo()->GetActorId() == actorInfoId)
+				{
+					actorBaseByInfoIdMap[actorInfoId] = actor.Value;
+					return;
+				}
+			}
+		}
+	}
+}
+
+int UActorManager::RemoveActorByInfoId(int actorInfoId)
+{
+	int removeNumber = 0;
+	if (actorBaseByInfoIdMap.Contains(actorInfoId))
+	{
+		actorBaseByInfoIdMap.Remove(actorInfoId);
+		for (auto actor : actorBaseByIdMap)
+		{
+			if (actor.Value->GetActorInfo()->GetActorId() == actorInfoId)
+			{
+				removeNumber++;
+				actorBaseByIdMap.Remove(actor.Key);
+			}
+		}
+	}
+	return removeNumber;
+}
+
 void UActorManager::LoadMainActorInfo()
 {
 	FString mainActorPath = FPaths::ProjectContentDir() + mainActorRelativePath;

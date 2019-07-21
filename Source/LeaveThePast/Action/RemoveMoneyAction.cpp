@@ -41,4 +41,3 @@ void URemoveMoneyAction::ExecuteReal()
 	isCompleted = false;
 	UMainGameManager::GetInstance()->GetUserData()->ReduceMoney(number);
 }
-
