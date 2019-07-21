@@ -8,10 +8,10 @@
 		</Paragraph>
 		<Paragraph id="1">
 			<Move actorId="10001" actionTime="2" speed="100" direction="1,0,0"/>
-			<Rotate actorId="10001" actionTime="1" value="-90" />
+			<Rotate actorId="10001" actionTime="1" value="-90"/>
 			<Say actorId="10001" text="既然想听声音，我就随便说点什么吧！" voicePath="saysomething.wav" actionTime="0.5"/>
 			<Say actorId="10001" text="如果没事的话，我先走了。" voicePath="goaway.wav" actionTime="1"/>
-			<Rotate actorId="10001" actionTime="1" value="90" />
+			<Rotate actorId="10001" actionTime="1" value="90"/>
 			<Move actorId="10001" actionTime="4" speed="100" direction="1,0,0"/>
 			<ChangeCameraActor actorId="10002"/>
 			<Say actorId="10002" text="先别走，我有事找你！" voicePath="saysomething.wav" actionTime="1"/>
@@ -27,11 +27,20 @@
 			<PlayBGM audioId="10005"/>
 		</Paragraph>
 		<Paragraph id="2">
-			<Say actorId="10002" text="多少？" voicePath="saysomething.wav" actionTime="0.5"/>
+			<Say actorId="10001" text="多少？" voicePath="saysomething.wav" actionTime="0.5"/>
 			<Say actorId="30003" text="2钱。" voicePath="saysomething.wav" actionTime="0.5"/>
-			<Say actorId="10002" text="回见。" voicePath="saysomething.wav" actionTime="0.5"/>
-			<Move actorId="10001" actionTime="1" speed="100" direction="1,0,0"/>
-			<Say actorId="10002" text="······" voicePath="saysomething.wav" actionTime="1"/>
+			<Option>
+				<OptionItem text="我给。">
+					<Say actorId="10001" text="我给。" voicePath="saysomething.wav" actionTime="2"/>
+					<ReduceMoney number="200"/>
+					<Say actorId="30003" text="好，你们走吧。" voicePath="saysomething.wav" actionTime="3"/>
+				</OptionItem>
+				<OptionItem text="回见。">
+					<Say actorId="10001" text="回见。" voicePath="saysomething.wav" actionTime="0.5"/>
+					<Move actorId="10001" actionTime="1" speed="100" direction="1,0,0"/>
+					<Say actorId="10002" text="······" voicePath="saysomething.wav" actionTime="1"/>
+				</OptionItem>
+			</Option>
 		</Paragraph>
 	</Section>
 </Chapter>

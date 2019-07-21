@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<UserData time="9:3:43" isFixedTime="false" gameAndRealTimeRate="1.0" sceneId="10001">
+<UserData time="9:3:54" isFixedTime="false" gameAndRealTimeRate="1.0" sceneId="10001">
 	<CanControlActorList>
-		<Actor id="10001" position="4477,-2867,90" rotation="0,0,-173" />
-		<Actor id="10002" position="6042,-30,95" rotation="0,0,89" />
+		<Actor id="10001" position="4477,-2867,90" rotation="0,0,-172" />
+		<Actor id="10002" position="6015,-179,95" rotation="0,0,-85" />
 	</CanControlActorList>
 	<ItemMap>
 		<Item id="10001" number="46" />
@@ -14,11 +14,6 @@
 		<Item id="20002" number="3" />
 		<Item id="40004" number="1" />
 		<Item id="40005" number="1" />
-		<Item id="20003" number="0" />
-		<Item id="20004" number="0" />
-		<Item id="20005" number="0" />
-		<Item id="30001" number="0" />
-		<Item id="30002" number="0" />
 		<Item id="30003" number="2" />
 	</ItemMap>
 	<Script>

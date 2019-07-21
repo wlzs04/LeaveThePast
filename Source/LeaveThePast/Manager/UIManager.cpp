@@ -1,6 +1,7 @@
 #include "UIManager.h"
 #include "ConfigManager.h"
 #include "LogManager.h"
+#include "../Action/OptionAction.h"
 #include "../Config/Recorder/MessageTipRecorder.h"
 
 UUIManager* UUIManager::uiManager = nullptr;
@@ -16,9 +17,9 @@ void UUIManager::Init()
 	InitUI();
 }
 
-UUserWidget* UUIManager::LoadUIByName(FString uiName)
+UUserWidget* UUIManager::LoadUIByName(FString uiName, FString foldName)
 {
-	FString uiPath = TEXT("WidgetBlueprint'/Game/GameContent/UI/") + uiName + TEXT(".") + uiName + TEXT("_C'");
+	FString uiPath = TEXT("WidgetBlueprint'/Game/GameContent/UI/")+ foldName + uiName + TEXT(".") + uiName + TEXT("_C'");
 	UClass* widgetClass = LoadClass<UUserWidget>(NULL, *uiPath);
 	UUserWidget* widget = CreateWidget<UUserWidget>(GWorld->GetFirstPlayerController(), widgetClass);
 
@@ -146,13 +147,29 @@ void UUIManager::HidePauseUI()
 	pauseUIWidget->RemoveFromParent();
 }
 
+void UUIManager::ShowOptionUI(UOptionAction* optionAction)
+{
+	optionUIWidget->AddToViewport();
+	UFunction* functionSetInfo = optionUIWidget->FindFunction(TEXT("SetInfo"));
+	if (functionSetInfo)
+	{
+		optionUIWidget->ProcessEvent(functionSetInfo , &optionAction);
+	}
+}
+
+void UUIManager::HideOptionUI()
+{
+	optionUIWidget->RemoveFromParent();
+}
+
 void UUIManager::InitUI()
 {
 	mainUIWidget = LoadUIByName(TEXT("MainUI"));
 	talkUIWidget = LoadUIByName(TEXT("TalkUI"));
 	menuUIWidget = LoadUIByName(TEXT("MenuUI"));
-	shopUIWidget = LoadUIByName(TEXT("ShopUI"));
+	shopUIWidget = LoadUIByName(TEXT("ShopUI"),TEXT("Shop/"));
 	debugUIWidget = LoadUIByName(TEXT("DebugUI"));
-	mapUIWidget = LoadUIByName(TEXT("MapUI"));
+	mapUIWidget = LoadUIByName(TEXT("MapUI")); 
 	pauseUIWidget = LoadUIByName(TEXT("PauseUI"));
+	optionUIWidget = LoadUIByName(TEXT("OptionUI"));
 }

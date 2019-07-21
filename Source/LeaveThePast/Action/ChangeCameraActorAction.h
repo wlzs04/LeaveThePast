@@ -10,7 +10,7 @@ class LEAVETHEPAST_API UChangeCameraActorAction : public UActionBase
 	GENERATED_BODY()
 public:
 	UChangeCameraActorAction();
-	//加载内容
+protected:
 	virtual void Load(FXmlNode* xmlNode) override;
 	virtual void Update() override;
 	virtual void ExecuteReal() override;

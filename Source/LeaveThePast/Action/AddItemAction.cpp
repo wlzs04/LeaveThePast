@@ -17,6 +17,10 @@ void UAddItemAction::Load(FXmlNode* xmlNode)
 		{
 			itemId = FCString::Atoi(*attributeValue);
 		}
+		else if (attributeName == TEXT("itemNumber"))
+		{
+			itemNumber = FCString::Atoi(*attributeValue);
+		}
 	}
 }
 

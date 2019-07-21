@@ -7,7 +7,7 @@
 
 class AActorBase;
 
-UCLASS()
+UCLASS(BlueprintType)
 class LEAVETHEPAST_API UActionBase : public UObject
 {
 	GENERATED_BODY()
@@ -23,7 +23,6 @@ public:
 	bool GetIsCompleted();
 	AActorBase* GetExecuteActor();
 protected:
-
 	//加载内容
 	virtual void ExecuteReal() {};
 

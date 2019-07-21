@@ -14,7 +14,7 @@ public:
 	void Load(FXmlNode* xmlNode);
 	bool GetIsCompleted();
 	UParagraph* GetCurrentParagraph();
-	void Start();
+	void Start(int paragrapgId);
 private:
 	TArray<UParagraph*> paragraphList;
 	bool isCompleted = false;//是否完成

@@ -11,7 +11,6 @@ class LEAVETHEPAST_API UMoveAction : public UActionBase
 public:
 	UMoveAction();
 protected:
-	//加载内容
 	virtual void Load(FXmlNode* xmlNode) override;
 	virtual void Update() override;
 	virtual void ExecuteReal() override;

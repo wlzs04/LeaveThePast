@@ -2,14 +2,14 @@
 
 #include "CoreMinimal.h"
 #include "Action/ActionBase.h"
-#include "AddItemAction.generated.h"
+#include "RemoveMoneyAction.generated.h"
 
 UCLASS()
-class LEAVETHEPAST_API UAddItemAction : public UActionBase
+class LEAVETHEPAST_API URemoveMoneyAction : public UActionBase
 {
 	GENERATED_BODY()
 public:
-	UAddItemAction();
+	URemoveMoneyAction();
 protected:
 	virtual void Load(FXmlNode* xmlNode) override;
 	virtual void Load(TArray<FString> paramList) override;
@@ -17,6 +17,5 @@ protected:
 	virtual void ExecuteReal() override;
 
 private:
-	int itemId = 0;
-	int itemNumber = 1;
+	int number = 0;
 };

@@ -5,9 +5,6 @@
 #include "..\Config\Recorder\SceneRecorder.h"
 #include "NewActorAction.generated.h"
 
-/**
- * 
- */
 UCLASS()
 class LEAVETHEPAST_API UNewActorAction : public UActionBase
 {

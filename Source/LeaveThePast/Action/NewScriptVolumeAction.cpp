@@ -35,5 +35,8 @@ void UNewScriptVolumeAction::Update()
 void UNewScriptVolumeAction::ExecuteReal()
 {
 	isCompleted = false;
-	
+	//FString volumePath = TEXT("Blueprint'/Game/GameContent/WorldObject/Volume/ScriptVolumeBP.ScriptVolumeBP");
+	//UClass* widgetClass = LoadClass<UBlueprint>(NULL, *volumePath);
+	//GetWorld()->SpawnActor<AActor>(widgetClass);
+
 }

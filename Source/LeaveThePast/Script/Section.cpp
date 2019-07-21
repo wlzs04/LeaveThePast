@@ -33,16 +33,13 @@ UParagraph* USection::GetCurrentParagraph()
 	return currentParagraph;
 }
 
-void USection::Start()
+void USection::Start(int paragrapgId)
 {
-	for (auto paragraph : paragraphList)
+	if (!paragraphList[paragrapgId]->GetIsCompleted())
 	{
-		if (!paragraph->GetIsCompleted())
-		{
-			paragraph->Start();
-			currentParagraph = paragraph;
-			return;
-		}
+		paragraphList[paragrapgId]->Start();
+		currentParagraph = paragraphList[paragrapgId];
+		return;
 	}
 	isCompleted = true;
 }

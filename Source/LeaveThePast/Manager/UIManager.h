@@ -5,6 +5,8 @@
 #include <UMG.h>
 #include "UIManager.generated.h"
 
+class UOptionAction;
+
 UCLASS(BlueprintType, Blueprintable)
 class LEAVETHEPAST_API UUIManager : public UObject
 {
@@ -16,7 +18,7 @@ public:
 
 	//加载指定界面
 	UFUNCTION(BlueprintCallable)
-	UUserWidget* LoadUIByName(FString uiName);
+	UUserWidget* LoadUIByName(FString uiName,FString foldName=TEXT(""));
 
 	//显示初始界面
 	UFUNCTION(BlueprintCallable)
@@ -81,6 +83,14 @@ public:
 	//隐藏暂停界面
 	UFUNCTION(BlueprintCallable)
 	void HidePauseUI();
+
+	//显示选项界面
+	UFUNCTION(BlueprintCallable)
+	void ShowOptionUI(UOptionAction* optionAction);
+
+	//隐藏选项界面
+	UFUNCTION(BlueprintCallable)
+	void HideOptionUI();
 	
 private:
 	//初始化常用UI
@@ -108,4 +118,7 @@ private:
 
 	UPROPERTY()
 	UUserWidget* pauseUIWidget = nullptr;
+
+	UPROPERTY()
+	UUserWidget* optionUIWidget = nullptr;
 };

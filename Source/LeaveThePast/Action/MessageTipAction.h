@@ -11,11 +11,9 @@ class LEAVETHEPAST_API UMessageTipAction : public UActionBase
 public:
 	UMessageTipAction();
 protected:
-	//加载内容
 	virtual void Load(FXmlNode* xmlNode) override;
 	virtual void Update() override;
 	virtual void ExecuteReal() override;
-
 private:
 	FString text = TEXT("无内容！");
 	float actionTime = 1;

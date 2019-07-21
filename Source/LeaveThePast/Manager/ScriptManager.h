@@ -18,7 +18,7 @@ public:
 
 	//开始执行任务
 	UFUNCTION(BlueprintCallable)
-	void StartMainScriptByNameIndex(FString scriptName, int index);
+	void StartMainScriptByNameIndex(FString scriptName, int sectionId,int paragrapgId);
 
 	UFUNCTION(BlueprintCallable)
 	void Tick();

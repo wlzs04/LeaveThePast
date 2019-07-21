@@ -10,6 +10,7 @@
 #include "../Action/AddItemAction.h"
 #include "../Action/NewActorAction.h"
 #include "../Action/NewScriptVolumeAction.h"
+#include "../Action/OptionAction.h"
 
 #include "../Script/Chapter.h"
 #include "Runtime/Core/Public/Misc/Paths.h"
@@ -30,7 +31,7 @@ void UScriptManager::Init()
 	LoadAllScript();
 }
 
-void UScriptManager::StartMainScriptByNameIndex(FString scriptName, int index)
+void UScriptManager::StartMainScriptByNameIndex(FString scriptName, int sectionId, int paragrapgId)
 {
 	if (!mainChapterMap.Contains(scriptName))
 	{
@@ -45,8 +46,8 @@ void UScriptManager::StartMainScriptByNameIndex(FString scriptName, int index)
 	else
 	{
 		currentScript = mainChapterMap[scriptName];
-		currentScript->Start();
 		LogNormal(FString::Printf(TEXT("剧本开始：%s"), *scriptName));
+		currentScript->Start(sectionId, paragrapgId);
 	}
 }
 
@@ -153,6 +154,7 @@ void UScriptManager::LoadAllIegalAction()
 	AddIegalAction(NewObject<UAddItemAction>(this));
 	AddIegalAction(NewObject<UNewActorAction>(this));
 	AddIegalAction(NewObject<UNewScriptVolumeAction>(this));
+	AddIegalAction(NewObject<UOptionAction>(this));
 }
 
 void UScriptManager::AddIegalAction(UActionBase* actionBase)

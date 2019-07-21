@@ -1,4 +1,5 @@
 #include "Chapter.h"
+#include "../Manager/LogManager.h"
 
 void UChapter::Update()
 {
@@ -29,7 +30,7 @@ void UChapter::Load(FString newChapterPath)
 	FXmlFile* xmlFile = new FXmlFile(chapterPath);
 	if (!xmlFile->IsValid())
 	{
-		UE_LOG(LogLoad, Error, TEXT("Chapter文件加载失败：%s"), *chapterPath);
+		LogError(FString::Printf(TEXT("Chapter文件加载失败：%s"), *chapterPath));
 		return;
 	}
 	FXmlNode* rootNode = xmlFile->GetRootNode();
@@ -52,7 +53,7 @@ void UChapter::Load(FString newChapterPath)
 	}
 	xmlFile->Clear();
 	delete xmlFile;
-	UE_LOG(LogLoad, Log, TEXT("Chapter文件：%s加载完成！"), *chapterPath);
+	LogNormal(FString::Printf(TEXT("Chapter文件：%s加载完成"), *chapterPath));
 }
 
 bool UChapter::GetIsCompleted()
@@ -65,17 +66,15 @@ USection* UChapter::GetCurrentSection()
 	return currentSection;
 }
 
-void UChapter::Start()
+void UChapter::Start(int sectionId, int paragrapgId)
 {
-	for (auto section: sectionList)
+	if (!sectionList[sectionId]->GetIsCompleted())
 	{
-		if (!section->GetIsCompleted())
-		{
-			section->Start();
-			currentSection = section;
-			return;
-		}
+		sectionList[sectionId]->Start(paragrapgId);
+		currentSection = sectionList[sectionId];
+		return;
 	}
+	
 	isCompleted = true;
 }
 

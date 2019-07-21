@@ -2,21 +2,18 @@
 
 #include "CoreMinimal.h"
 #include "Action/ActionBase.h"
-#include "AddItemAction.generated.h"
+#include "MultiplyAction.generated.h"
 
 UCLASS()
-class LEAVETHEPAST_API UAddItemAction : public UActionBase
+class LEAVETHEPAST_API UMultiplyAction : public UActionBase
 {
 	GENERATED_BODY()
 public:
-	UAddItemAction();
-protected:
 	virtual void Load(FXmlNode* xmlNode) override;
-	virtual void Load(TArray<FString> paramList) override;
 	virtual void Update() override;
 	virtual void ExecuteReal() override;
-
 private:
-	int itemId = 0;
-	int itemNumber = 1;
+	TArray<UActionBase*> actionList; 
+	int currentActionIndex = 0;
+	bool isStart = false;//是否开始
 };

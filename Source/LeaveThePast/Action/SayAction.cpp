@@ -37,7 +37,7 @@ void USayAction::Update()
 {
 	if (isCompleted == false && GetExecuteActor() != nullptr)
 	{
-		currentTime = GWorld->GetTimeSeconds();
+		currentTime += GWorld->DeltaTimeSeconds;
 		if (currentTime - startTime < actionTime)
 		{
 			
