@@ -30,7 +30,7 @@ void URemoveMoneyAction::Load(TArray<FString> paramList)
 
 void URemoveMoneyAction::Update()
 {
-	if (isCompleted == false && GetExecuteActor() != nullptr)
+	if (isCompleted == false)
 	{
 		isCompleted = true;
 	}

@@ -19,6 +19,9 @@ class LEAVETHEPAST_API ALeaveThePastGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
 public:
+
+	static ALeaveThePastGameModeBase* GetInstance();
+
 	virtual void StartPlay() override;
 
 	virtual void Tick(float deltaSeconds) override;
@@ -44,7 +47,21 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	UMainGameManager* GetGameManager();
+
+	//获得天空球
+	UFUNCTION(BlueprintCallable)
+	AActor* GetSkyBPActor();
+
+	//刷新天空
+	UFUNCTION(BlueprintCallable)
+	void RefreshSky();
+
+	//获得剧本体积类
+	UFUNCTION(BlueprintCallable)
+	UClass* GetScriptVolumeBPClass();
 private:
+
+	static ALeaveThePastGameModeBase* leaveThePastGameModeBase;
 
 	UPROPERTY()
 	UMainGameManager* gameManager = nullptr;
@@ -53,4 +70,12 @@ private:
 	ADirectorActor* directorActor = nullptr;
 
 	MainGameStateEnum  mainGameState = MainGameStateEnum::Init;
+
+	//剧本体积类
+	UPROPERTY()
+	UClass* scriptVolumeBPClass = nullptr;
+
+	//天空球
+	UPROPERTY()
+	AActor* skyBPActor = nullptr;
 };

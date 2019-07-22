@@ -30,7 +30,7 @@ void UStartScriptAction::Load(FXmlNode* xmlNode)
 
 void UStartScriptAction::Update()
 {
-	if (isCompleted == false && GetExecuteActor() != nullptr)
+	if (isCompleted == false)
 	{
 		isCompleted = true;
 	}

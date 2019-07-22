@@ -165,10 +165,6 @@ void ADirectorActor::BeginPlay()
 void ADirectorActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	//if (currentControlActor != nullptr)
-	//{
-	//	SetActorLocation(currentControlActor->GetActorLocation());
-	//}
 }
 
 void ADirectorActor::SetupPlayerInputComponent(UInputComponent* playerInputComponent)

@@ -38,7 +38,7 @@ void UAddItemAction::Load(TArray<FString> paramList)
 
 void UAddItemAction::Update()
 {
-	if (isCompleted == false && GetExecuteActor() != nullptr)
+	if (isCompleted == false)
 	{
 		isCompleted = true;
 	}

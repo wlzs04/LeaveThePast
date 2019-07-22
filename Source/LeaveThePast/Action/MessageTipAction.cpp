@@ -31,7 +31,7 @@ void UMessageTipAction::Load(FXmlNode* xmlNode)
 
 void UMessageTipAction::Update()
 {
-	if (isCompleted == false && GetExecuteActor() != nullptr)
+	if (isCompleted == false)
 	{
 		currentTime = GWorld->GetTimeSeconds();
 		if (currentTime - startTime < actionTime)

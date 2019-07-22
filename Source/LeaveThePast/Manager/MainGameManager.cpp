@@ -28,6 +28,9 @@ void UMainGameManager::InitAll()
 		userData = NewObject<UUserData>(this);
 		ReloadUserData();
 
+		debugData = NewObject<UDebugData>(this);
+		ReloadDebugData();
+
 		directorActor = Cast<ADirectorActor>(GetWorld()->GetFirstPlayerController()->GetPawn());
 		
 		haveInited = true;
@@ -46,6 +49,11 @@ void UMainGameManager::ReloadSystemData()
 void UMainGameManager::ReloadUserData()
 {
 	userData->Load();
+}
+
+void UMainGameManager::ReloadDebugData()
+{
+	debugData->Load();
 }
 
 void UMainGameManager::UseItem(int itemId)
@@ -147,9 +155,20 @@ UUserData* UMainGameManager::GetUserData()
 	return userData;
 }
 
+void UMainGameManager::SaveDebugData()
+{
+	debugData->Save();
+}
+
+UDebugData* UMainGameManager::GetDebugData()
+{
+	return debugData;
+}
+
 void UMainGameManager::ExitGame()
 {
 	SaveSystemData();
+	SaveDebugData();
 	UKismetSystemLibrary::QuitGame(this, nullptr, EQuitPreference::Quit, true);
 }
 

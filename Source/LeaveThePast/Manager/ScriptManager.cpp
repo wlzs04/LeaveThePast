@@ -9,8 +9,21 @@
 #include "../Action/PlayBGMAction.h"
 #include "../Action/AddItemAction.h"
 #include "../Action/AddActorAction.h"
+#include "../Action/RemoveMoneyAction.h"
 #include "../Action/NewScriptVolumeAction.h"
 #include "../Action/OptionAction.h"
+
+#include "../Action/RemoveActorAction.h"
+#include "../Action/SetActorInfoAction.h"
+#include "../Action/AddCanControlActorAction.h"
+#include "../Action/RemoveCanControlActorAction.h"
+#include "../Action/StartScriptAction.h"
+#include "../Action/SetCanControlAction.h"
+#include "../Action/SetTimeAction.h"
+#include "../Action/SetRainAction.h"
+#include "../Action/SetCloudyAction.h"
+#include "../Action/AddScriptVolumeAction.h"
+#include "../Action/ConditionAction.h"
 
 #include "../Script/Chapter.h"
 #include "Runtime/Core/Public/Misc/Paths.h"
@@ -155,11 +168,24 @@ void UScriptManager::LoadAllIegalAction()
 	AddIegalAction(NewObject<URotateAction>(this));
 	AddIegalAction(NewObject<UChangeCameraActorAction>(this));
 	AddIegalAction(NewObject<UMessageTipAction>(this));
-	AddIegalAction(NewObject<UPlayBGMAction>(this));
+	AddIegalAction(NewObject<UPlayBGMAction>(this)); 
 	AddIegalAction(NewObject<UAddItemAction>(this));
 	AddIegalAction(NewObject<UAddActorAction>(this));
+	AddIegalAction(NewObject<URemoveMoneyAction>(this));
 	AddIegalAction(NewObject<UNewScriptVolumeAction>(this));
 	AddIegalAction(NewObject<UOptionAction>(this));
+
+	AddIegalAction(NewObject<URemoveActorAction>(this));
+	AddIegalAction(NewObject<USetActorInfoAction>(this));
+	AddIegalAction(NewObject<UAddCanControlActorAction>(this));
+	AddIegalAction(NewObject<URemoveCanControlActorAction>(this));
+	AddIegalAction(NewObject<UStartScriptAction>(this));
+	AddIegalAction(NewObject<USetCanControlAction>(this));
+	AddIegalAction(NewObject<USetTimeAction>(this));
+	AddIegalAction(NewObject<USetRainAction>(this));
+	AddIegalAction(NewObject<USetCloudyAction>(this));
+	AddIegalAction(NewObject<UAddScriptVolumeAction>(this));
+	AddIegalAction(NewObject<UConditionAction>(this));
 }
 
 void UScriptManager::AddIegalAction(UActionBase* actionBase)

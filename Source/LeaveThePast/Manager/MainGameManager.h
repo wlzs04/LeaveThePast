@@ -11,6 +11,7 @@
 #include "../Actor/DirectorActor.h"
 #include "../Config/UserData.h"
 #include "../Config/SystemData.h"
+#include "../Config/DebugData.h"
 #include "MainGameManager.generated.h"
 
 UCLASS()
@@ -31,6 +32,10 @@ public:
 	//重新加载用户数据
 	UFUNCTION(BlueprintCallable)
 	void ReloadUserData();
+
+	//重新加载调试数据
+	UFUNCTION(BlueprintCallable)
+	void ReloadDebugData();
 
 	//开始计时
 	UFUNCTION(BlueprintCallable)
@@ -71,6 +76,14 @@ public:
 	//获得用户数据
 	UFUNCTION(BlueprintCallable)
 	UUserData* GetUserData();
+
+	//保存调试数据
+	UFUNCTION(BlueprintCallable)
+	void SaveDebugData();
+
+	//获得调试数据
+	UFUNCTION(BlueprintCallable)
+	UDebugData* GetDebugData();
 
 	//结束游戏
 	UFUNCTION(BlueprintCallable)
@@ -125,6 +138,9 @@ private:
 
 	UPROPERTY()
 	UUserData* userData = nullptr;
+
+	UPROPERTY()
+	UDebugData* debugData = nullptr;
 
 	UPROPERTY()
 	UConfigManager* configManager = nullptr;
