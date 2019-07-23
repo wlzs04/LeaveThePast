@@ -28,7 +28,7 @@ void USetCloudyAction::Update()
 	}
 }
 
-void USetCloudyAction::ExecuteReal()
+FString USetCloudyAction::ExecuteReal()
 {
 	isCompleted = false;
 	AActor* skActor = ALeaveThePastGameModeBase::GetInstance()->GetSkyBPActor();
@@ -37,4 +37,5 @@ void USetCloudyAction::ExecuteReal()
 	{
 		skActor->ProcessEvent(functionSetInfo, &cloudyValue);
 	}
+	return FString();
 }

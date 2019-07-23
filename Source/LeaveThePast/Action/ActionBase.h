@@ -17,14 +17,16 @@ public:
 	int GetActorInfoId();
 	FString GetActionName();
 	virtual void Update() {};
-	void Execute();
+	FString Execute();
+	//xml格式
 	virtual void Load(FXmlNode* xmlNode);
+	//string格式
 	virtual void Load(TArray<FString> paramList);
 	bool GetIsCompleted();
 	AActorBase* GetExecuteActor();
 protected:
 	//加载内容
-	virtual void ExecuteReal() {};
+	virtual FString ExecuteReal() { return FString(TEXT("")); };
 
 	FString actionName = TEXT("未命名指令");//指令名称
 	bool isCompleted = false;//是否完成

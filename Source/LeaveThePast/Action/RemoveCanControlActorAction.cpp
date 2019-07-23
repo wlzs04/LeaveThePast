@@ -29,8 +29,9 @@ void URemoveCanControlActorAction::Update()
 	}
 }
 
-void URemoveCanControlActorAction::ExecuteReal()
+FString URemoveCanControlActorAction::ExecuteReal()
 {
 	isCompleted = false;
 	ADirectorActor::GetInstance()->RemoveCanControlActorByInfoId(actorInfoId);
+	return FString();
 }

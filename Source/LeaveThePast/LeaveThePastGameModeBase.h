@@ -59,6 +59,9 @@ public:
 	//获得剧本体积类
 	UFUNCTION(BlueprintCallable)
 	UClass* GetScriptVolumeBPClass();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void InitDebugCommand();
 private:
 
 	static ALeaveThePastGameModeBase* leaveThePastGameModeBase;

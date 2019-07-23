@@ -5,7 +5,7 @@
 		<Actor id="10002" position="6015,-179,95" rotation="0,0,-85" />
 	</CanControlActorList>
 	<ItemMap>
-		<Item id="10001" number="46" />
+		<Item id="10001" number="246" />
 		<Item id="10002" number="1" />
 		<Item id="10003" number="1" />
 		<Item id="10004" number="1" />

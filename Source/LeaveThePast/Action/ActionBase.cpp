@@ -18,11 +18,11 @@ FString UActionBase::GetActionName()
 	return actionName;
 }
 
-void UActionBase::Execute()
+FString UActionBase::Execute()
 {
 	LogNormal(actionName + TEXT("指令开始执行！"));
 	executeActor = UActorManager::GetInstance()->GetActorByInfoId(actorInfoId);
-	ExecuteReal();
+	return ExecuteReal();
 }
 
 void UActionBase::Load(FXmlNode* xmlNode)

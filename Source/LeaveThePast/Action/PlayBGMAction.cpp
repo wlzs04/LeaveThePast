@@ -33,11 +33,12 @@ void UPlayBGMAction::Update()
 	}
 }
 
-void UPlayBGMAction::ExecuteReal()
+FString UPlayBGMAction::ExecuteReal()
 {
 	isCompleted = false;
 
 	ADirectorActor* directorActor = Cast<ADirectorActor>(GWorld->GetFirstPlayerController()->GetPawn());
 	USoundCue* sound = UAudioManager::GetInstance()->GetAudioById(audioId);
 	directorActor->StartPlayBGMSound(sound);
+	return FString();
 }

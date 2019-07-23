@@ -30,8 +30,9 @@ void USetTimeAction::Update()
 	}
 }
 
-void USetTimeAction::ExecuteReal()
+FString USetTimeAction::ExecuteReal()
 {
 	isCompleted = false;
 	UMainGameManager::GetInstance()->GetUserData()->SetGameTime(timeData.GetHours(), timeData.GetMinutes(), timeData.GetSeconds());
+	return FString();
 }

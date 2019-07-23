@@ -45,11 +45,12 @@ void UMessageTipAction::Update()
 	}
 }
 
-void UMessageTipAction::ExecuteReal()
+FString UMessageTipAction::ExecuteReal()
 {
 	startTime = GWorld->GetTimeSeconds();
 	currentTime = GWorld->GetTimeSeconds();
 	isCompleted = false;
 	UUIManager::GetInstance()->AddMessageTip(text);
+	return FString();
 }
 

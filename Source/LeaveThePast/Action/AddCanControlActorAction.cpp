@@ -29,9 +29,10 @@ void UAddCanControlActorAction::Update()
 	}
 }
 
-void UAddCanControlActorAction::ExecuteReal()
+FString UAddCanControlActorAction::ExecuteReal()
 {
 	isCompleted = false;
 	ADirectorActor::GetInstance()->AddCanControlActorByInfoId(actorInfoId);
+	return FString();
 }
 

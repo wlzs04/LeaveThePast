@@ -11,7 +11,7 @@ class LEAVETHEPAST_API UMultiplyAction : public UActionBase
 public:
 	virtual void Load(FXmlNode* xmlNode) override;
 	virtual void Update() override;
-	virtual void ExecuteReal() override;
+	virtual FString ExecuteReal() override;
 private:
 	TArray<UActionBase*> actionList; 
 	int currentActionIndex = 0;

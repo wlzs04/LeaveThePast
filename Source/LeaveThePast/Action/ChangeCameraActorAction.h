@@ -13,5 +13,5 @@ public:
 protected:
 	virtual void Load(FXmlNode* xmlNode) override;
 	virtual void Update() override;
-	virtual void ExecuteReal() override;
+	virtual FString ExecuteReal() override;
 };

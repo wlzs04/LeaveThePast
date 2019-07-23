@@ -38,10 +38,11 @@ void URotateAction::Update()
 	}
 }
 
-void URotateAction::ExecuteReal()
+FString URotateAction::ExecuteReal()
 {
+	isCompleted = false;
 	startTime = GWorld->GetTimeSeconds();
 	currentTime = GWorld->GetTimeSeconds();
 	lastTime = currentTime;
-	isCompleted = false;
+	return FString();
 }

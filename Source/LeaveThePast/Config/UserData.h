@@ -51,6 +51,25 @@ struct FSaveChapterInfo
 	TMap<int, FSaveSectionInfo> sectionMap;
 };
 
+USTRUCT(BlueprintType)
+struct FScriptRecorderInfo
+{
+	GENERATED_USTRUCT_BODY()
+
+	FScriptRecorderInfo()
+	{
+		sectionId = 0; 
+		paragraphId = 0;
+	}
+
+	UPROPERTY(BlueprintReadWrite)
+	FString chapter;
+	UPROPERTY(BlueprintReadWrite)
+	int sectionId = 0;
+	UPROPERTY(BlueprintReadWrite)
+	int paragraphId = 0;
+};
+
 UCLASS(BlueprintType)
 class LEAVETHEPAST_API UUserData : public UObject
 {

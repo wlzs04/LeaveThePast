@@ -36,8 +36,9 @@ void URemoveMoneyAction::Update()
 	}
 }
 
-void URemoveMoneyAction::ExecuteReal()
+FString URemoveMoneyAction::ExecuteReal()
 {
 	isCompleted = false;
 	UMainGameManager::GetInstance()->GetUserData()->ReduceMoney(number);
+	return FString();
 }

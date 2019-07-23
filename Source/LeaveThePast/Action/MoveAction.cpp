@@ -41,9 +41,10 @@ void UMoveAction::Update()
 	}
 }
 
-void UMoveAction::ExecuteReal()
+FString UMoveAction::ExecuteReal()
 {
+	isCompleted = false;
 	startTime = GWorld->GetTimeSeconds();
 	currentTime = GWorld->GetTimeSeconds();
-	isCompleted = false;
+	return FString();
 }

@@ -14,7 +14,7 @@ protected:
 	virtual void Load(FXmlNode* xmlNode) override;
 	virtual void Load(TArray<FString> paramList) override;
 	virtual void Update() override;
-	virtual void ExecuteReal() override;
+	virtual FString ExecuteReal() override;
 
 private:
 	int itemId = 0;

@@ -29,7 +29,7 @@ public:
 
 	//执行指令
 	UFUNCTION(BlueprintCallable)
-	void ExecuteAction(FString actionValue);
+	FString ExecuteAction(FString actionValue);
 
 	//加载所有剧本
 	void LoadAllScript();

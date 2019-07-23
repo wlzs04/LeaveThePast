@@ -36,8 +36,9 @@ void UStartScriptAction::Update()
 	}
 }
 
-void UStartScriptAction::ExecuteReal()
+FString UStartScriptAction::ExecuteReal()
 {
 	isCompleted = false;
 	UScriptManager::GetInstance()->StartMainScriptByNameIndex(chapterName,sectionId,paragraphId);
+	return FString();
 }

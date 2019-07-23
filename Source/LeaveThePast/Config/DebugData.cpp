@@ -30,10 +30,6 @@ void UDebugData::Load()
 			{
 				showCollision = attributeValue.ToBool();
 			}
-			else if (attributeName == TEXT("showFPS"))
-			{
-				showFPS = attributeValue.ToBool();
-			}
 			else
 			{
 				LogWarning(FString::Printf(TEXT("调试存档中存在未知属性：%s:%s"), *attributeName, *attributeValue));
@@ -70,14 +66,4 @@ bool UDebugData::GetShowCollision()
 void UDebugData::SetShowCollision(bool newShowCollision)
 {
 	showCollision = newShowCollision;
-}
-
-bool UDebugData::GetShowFPS()
-{
-	return showFPS;
-}
-
-void UDebugData::SetShowFPS(bool newShowFPS)
-{
-	showFPS = newShowFPS;
 }

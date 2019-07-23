@@ -20,15 +20,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SetShowCollision(bool newShowCollision);
 
-	UFUNCTION(BlueprintCallable)
-	bool GetShowFPS();
-	UFUNCTION(BlueprintCallable)
-	void SetShowFPS(bool newShowFPS);
-
 private:
 	//保存路径
 	FString savePath;
 
 	bool showCollision = false;
-	bool showFPS = false;
 };

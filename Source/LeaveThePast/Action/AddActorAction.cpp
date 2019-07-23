@@ -21,7 +21,7 @@ void UAddActorAction::Update()
 	}
 }
 
-void UAddActorAction::ExecuteReal()
+FString UAddActorAction::ExecuteReal()
 {
 	isCompleted = false;
 	UActorInfoBase* actorInfo = UActorManager::GetInstance()->GetNewActorInfoByInfoId(sceneActorInfo.actorId);
@@ -30,4 +30,5 @@ void UAddActorAction::ExecuteReal()
 		actorInfo->CoverData(sceneActorInfo);
 		UActorManager::GetInstance()->LoadActorToSceneByActorInfo(actorInfo);
 	}
+	return FString();
 }

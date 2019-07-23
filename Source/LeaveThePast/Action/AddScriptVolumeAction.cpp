@@ -1,5 +1,7 @@
 #include "AddScriptVolumeAction.h"
 #include "../Manager/HelpManager.h"
+#include "../Manager/ActorManager.h"
+#include "../LeaveThePastGameModeBase.h"
 
 UAddScriptVolumeAction::UAddScriptVolumeAction() :UActionBase()
 {
@@ -21,6 +23,18 @@ void UAddScriptVolumeAction::Load(FXmlNode* xmlNode)
 		{
 			position = UHelpManager::ConvertFStringToFVector(attributeValue);
 		}
+		else if (attributeName == TEXT("chapter"))
+		{
+			scriptRecorderIndfo.chapter = attributeValue;
+		}
+		else if (attributeName == TEXT("sectionId"))
+		{
+			scriptRecorderIndfo.sectionId = FCString::Atoi(*attributeValue);
+		}
+		else if (attributeName == TEXT("paragraphId"))
+		{
+			scriptRecorderIndfo.paragraphId = FCString::Atoi(*attributeValue);
+		}
 	}
 }
 
@@ -32,10 +46,20 @@ void UAddScriptVolumeAction::Update()
 	}
 }
 
-void UAddScriptVolumeAction::ExecuteReal()
+FString UAddScriptVolumeAction::ExecuteReal()
 {
 	isCompleted = false;
 
-
+	FActorSpawnParameters actorSpawnParameters;
+	actorSpawnParameters.bAllowDuringConstructionScript = true;
+	actorSpawnParameters.bNoFail = true;
+	AActor* scriptActor = GWorld->SpawnActor<AActor>(ALeaveThePastGameModeBase::GetInstance()->GetScriptVolumeBPClass(),position, FRotator(0,0,0), actorSpawnParameters);
+	
+	UFunction* functionSetInfo = scriptActor->FindFunction(TEXT("SetInfo"));
+	if (functionSetInfo)
+	{
+		scriptActor->ProcessEvent(functionSetInfo, &scriptRecorderIndfo);
+	}
+	return FString();
 }
 

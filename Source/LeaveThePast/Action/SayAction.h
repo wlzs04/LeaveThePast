@@ -13,7 +13,7 @@ public:
 protected:
 	virtual void Load(FXmlNode* xmlNode) override;
 	virtual void Update() override;
-	virtual void ExecuteReal() override;
+	virtual FString ExecuteReal() override;
 
 private:
 	FString text = TEXT("无内容！");

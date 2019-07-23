@@ -59,12 +59,13 @@ void UOptionAction::Update()
 	}
 }
 
-void UOptionAction::ExecuteReal()
+FString UOptionAction::ExecuteReal()
 {
 	isCompleted = false;
 	selectItemIndex = -1;
 
 	UUIManager::GetInstance()->ShowOptionUI(this);
+	return FString();
 }
 
 TArray<UOptionItemAction*> UOptionAction::GetOptionItemList()

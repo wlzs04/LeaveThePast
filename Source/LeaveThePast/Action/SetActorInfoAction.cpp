@@ -20,7 +20,7 @@ void USetActorInfoAction::Update()
 	}
 }
 
-void USetActorInfoAction::ExecuteReal()
+FString USetActorInfoAction::ExecuteReal()
 {
 	isCompleted = false;
 
@@ -36,4 +36,5 @@ void USetActorInfoAction::ExecuteReal()
 	{
 		UActorManager::GetInstance()->GetActorByInfoId(sceneActorInfo.actorId)->SetActorRotation(sceneActorInfo.rotation);
 	}
+	return FString();
 }

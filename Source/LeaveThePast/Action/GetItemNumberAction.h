@@ -2,19 +2,20 @@
 
 #include "CoreMinimal.h"
 #include "Action/ActionBase.h"
-#include "SetRainAction.generated.h"
+#include "GetItemNumberAction.generated.h"
 
 UCLASS()
-class LEAVETHEPAST_API USetRainAction : public UActionBase
+class LEAVETHEPAST_API UGetItemNumberAction : public UActionBase
 {
 	GENERATED_BODY()
 public:
-	USetRainAction();
+	UGetItemNumberAction();
 protected:
 	virtual void Load(FXmlNode* xmlNode) override;
+	virtual void Load(TArray<FString> paramList) override;
 	virtual void Update() override;
 	virtual FString ExecuteReal() override;
 
 private:
-	int rainFallValue = 0;
+	int itemId = 0;
 };

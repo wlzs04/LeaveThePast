@@ -26,7 +26,8 @@ void UChangeCameraActorAction::Update()
 	}
 }
 
-void UChangeCameraActorAction::ExecuteReal()
+FString UChangeCameraActorAction::ExecuteReal()
 {
 	isCompleted = false;
+	return FString();
 }

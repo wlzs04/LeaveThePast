@@ -28,7 +28,7 @@ void USetRainAction::Update()
 	}
 }
 
-void USetRainAction::ExecuteReal()
+FString USetRainAction::ExecuteReal()
 {
 	isCompleted = false;
 	AActor* skActor = ALeaveThePastGameModeBase::GetInstance()->GetSkyBPActor();
@@ -37,4 +37,5 @@ void USetRainAction::ExecuteReal()
 	{
 		skActor->ProcessEvent(functionSetInfo, &rainFallValue);
 	}
+	return FString();
 }

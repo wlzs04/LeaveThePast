@@ -20,6 +20,8 @@ void ALeaveThePastGameModeBase::StartPlay()
 	gameManager = (UMainGameManager*)(GWorld->GetGameInstance());
 	gameManager->InitAll();
 
+	InitDebugCommand();
+
 	scriptVolumeBPClass = LoadClass<AActor>(NULL, TEXT("Actor'/Game/GameContent/WorldObject/Volume/ScriptVolumeBP.ScriptVolumeBP_C'"));
 
 	UClass* skyObj = LoadClass<AActor>(NULL, TEXT("Actor'/Game/GameContent/WorldObject/Sky/SkySphereBP.SkySphereBP_C'"));

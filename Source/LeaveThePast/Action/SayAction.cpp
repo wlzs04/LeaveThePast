@@ -53,7 +53,7 @@ void USayAction::Update()
 	}
 }
 
-void USayAction::ExecuteReal()
+FString USayAction::ExecuteReal()
 {
 	if (GetExecuteActor() != nullptr)
 	{
@@ -63,4 +63,5 @@ void USayAction::ExecuteReal()
 	currentTime = GWorld->GetTimeSeconds();
 	isCompleted = false;
 	UUIManager::GetInstance()->ShowTalkUI(text, GetExecuteActor()->GetActorInfo()->GetActorName(),actionTime, GetExecuteActor()->GetActorInfo()->GetHeadImagePath());
+	return FString();
 }

@@ -10,7 +10,6 @@
 #include "../Action/AddItemAction.h"
 #include "../Action/AddActorAction.h"
 #include "../Action/RemoveMoneyAction.h"
-#include "../Action/NewScriptVolumeAction.h"
 #include "../Action/OptionAction.h"
 
 #include "../Action/RemoveActorAction.h"
@@ -24,6 +23,7 @@
 #include "../Action/SetCloudyAction.h"
 #include "../Action/AddScriptVolumeAction.h"
 #include "../Action/ConditionAction.h"
+#include "../Action/GetItemNumberAction.h"
 
 #include "../Script/Chapter.h"
 #include "Runtime/Core/Public/Misc/Paths.h"
@@ -172,7 +172,6 @@ void UScriptManager::LoadAllIegalAction()
 	AddIegalAction(NewObject<UAddItemAction>(this));
 	AddIegalAction(NewObject<UAddActorAction>(this));
 	AddIegalAction(NewObject<URemoveMoneyAction>(this));
-	AddIegalAction(NewObject<UNewScriptVolumeAction>(this));
 	AddIegalAction(NewObject<UOptionAction>(this));
 
 	AddIegalAction(NewObject<URemoveActorAction>(this));
@@ -183,9 +182,10 @@ void UScriptManager::LoadAllIegalAction()
 	AddIegalAction(NewObject<USetCanControlAction>(this));
 	AddIegalAction(NewObject<USetTimeAction>(this));
 	AddIegalAction(NewObject<USetRainAction>(this));
-	AddIegalAction(NewObject<USetCloudyAction>(this));
+	AddIegalAction(NewObject<USetCloudyAction>(this)); 
 	AddIegalAction(NewObject<UAddScriptVolumeAction>(this));
 	AddIegalAction(NewObject<UConditionAction>(this));
+	AddIegalAction(NewObject<UGetItemNumberAction>(this));
 }
 
 void UScriptManager::AddIegalAction(UActionBase* actionBase)
@@ -202,26 +202,26 @@ UActionBase* UScriptManager::GetIegalActionByName(FString actionName)
 	return nullptr;
 }
 
-void UScriptManager::ExecuteAction(FString actionValue)
+FString UScriptManager::ExecuteAction(FString actionValue)
 {
-	if (actionValue.IsEmpty())
+	if (! actionValue.IsEmpty())
 	{
-		return;
-	}
-	TArray<FString> stringArray;
-	actionValue.ParseIntoArray(stringArray, TEXT(" "));
-	if (stringArray.Num() > 0)
-	{
-		UActionBase* actionBase = GetIegalActionByName(stringArray[0]);
-		if (actionBase != nullptr)
+		TArray<FString> stringArray;
+		actionValue.ParseIntoArray(stringArray, TEXT(" "));
+		if (stringArray.Num() > 0)
 		{
-			UActionBase* actionBase2 = NewObject<UActionBase>(this, actionBase->GetClass());
-			actionBase2->Load(stringArray);
-			actionBase2->Execute();
-		}
-		else
-		{
-			LogError(stringArray[0] + TEXT("指令不合法！"));
+			UActionBase* actionBase = GetIegalActionByName(stringArray[0]);
+			if (actionBase != nullptr)
+			{
+				UActionBase* actionBase2 = NewObject<UActionBase>(this, actionBase->GetClass());
+				actionBase2->Load(stringArray);
+				return actionBase2->Execute();
+			}
+			else
+			{
+				LogError(stringArray[0] + TEXT("指令不合法！"));
+			}
 		}
 	}
+	return FString();
 }

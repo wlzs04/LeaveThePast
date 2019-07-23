@@ -52,10 +52,11 @@ void UMultiplyAction::Update()
 	}
 }
 
-void UMultiplyAction::ExecuteReal()
+FString UMultiplyAction::ExecuteReal()
 {
-	isStart = true;
 	isCompleted = false;
+	isStart = true;
 	currentActionIndex = 0;
 	actionList[currentActionIndex]->Execute();
+	return FString();
 }

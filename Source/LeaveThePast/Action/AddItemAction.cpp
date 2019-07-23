@@ -44,8 +44,9 @@ void UAddItemAction::Update()
 	}
 }
 
-void UAddItemAction::ExecuteReal()
+FString UAddItemAction::ExecuteReal()
 {
 	isCompleted = false;
 	UMainGameManager::GetInstance()->GetUserData()->AddItem(itemId, itemNumber);
+	return FString();
 }

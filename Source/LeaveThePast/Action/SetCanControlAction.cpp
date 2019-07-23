@@ -28,8 +28,9 @@ void USetCanControlAction::Update()
 	}
 }
 
-void USetCanControlAction::ExecuteReal()
+FString USetCanControlAction::ExecuteReal()
 {
 	isCompleted = false;
 	ADirectorActor::GetInstance()->SetCanControl(canControl);
+	return FString();
 }

@@ -29,8 +29,9 @@ void URemoveActorAction::Update()
 	}
 }
 
-void URemoveActorAction::ExecuteReal()
+FString URemoveActorAction::ExecuteReal()
 {
 	isCompleted = false;
 	UActorManager::GetInstance()->RemoveActorByInfoId(actorInfoId);
+	return FString();
 }
