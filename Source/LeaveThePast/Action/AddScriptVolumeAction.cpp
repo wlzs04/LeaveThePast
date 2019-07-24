@@ -1,6 +1,8 @@
 #include "AddScriptVolumeAction.h"
 #include "../Manager/HelpManager.h"
 #include "../Manager/ActorManager.h"
+#include "../Manager/ScriptManager.h"
+#include "../Script/Chapter.h"
 #include "../LeaveThePastGameModeBase.h"
 
 UAddScriptVolumeAction::UAddScriptVolumeAction() :UActionBase()
@@ -55,6 +57,17 @@ FString UAddScriptVolumeAction::ExecuteReal()
 	actorSpawnParameters.bNoFail = true;
 	AActor* scriptActor = GWorld->SpawnActor<AActor>(ALeaveThePastGameModeBase::GetInstance()->GetScriptVolumeBPClass(),position, FRotator(0,0,0), actorSpawnParameters);
 	
+	if (isNext)
+	{
+		UChapter* chapter =  UScriptManager::GetInstance()->GetCurrentChapter();
+		if (chapter != nullptr)
+		{
+			scriptRecorderIndfo.chapter = chapter->GetChapterIndexName();
+			scriptRecorderIndfo.sectionId = chapter->GetCurrentSection()->GetSectionId();
+			scriptRecorderIndfo.paragraphId = chapter->GetCurrentSection()->GetCurrentParagraph()->GetParagraphId()+1;
+		}
+	}
+
 	UFunction* functionSetInfo = scriptActor->FindFunction(TEXT("SetInfo"));
 	if (functionSetInfo)
 	{
@@ -62,4 +75,3 @@ FString UAddScriptVolumeAction::ExecuteReal()
 	}
 	return FString();
 }
-

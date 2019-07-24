@@ -128,6 +128,7 @@ void UUserData::Load()
 			}
 		}
 	}
+	isNewData = false;
 
 	xmlFile->Clear();
 	delete xmlFile;
@@ -395,5 +396,10 @@ void UUserData::ReduceMoney(int money)
 TMap<FString, FSaveChapterInfo> UUserData::GetChapterMap()
 {
 	return chapterMap;
+}
+
+bool UUserData::GetIsNewData()
+{
+	return isNewData;
 }
 

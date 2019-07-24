@@ -28,6 +28,11 @@ bool USection::GetIsCompleted()
 	return isCompleted;
 }
 
+int USection::GetSectionId()
+{
+	return sectionId;
+}
+
 UParagraph* USection::GetCurrentParagraph()
 {
 	return currentParagraph;
@@ -51,6 +56,10 @@ void USection::Load(FXmlNode* xmlNode)
 		if (attribute.GetTag() == TEXT("name"))
 		{
 			sectionName = attribute.GetValue();
+		}
+		else if (attribute.GetTag() == TEXT("sectionId"))
+		{
+			sectionId = FCString::Atoi(*attribute.GetValue());
 		}
 		else if (attribute.GetTag() == TEXT("description"))
 		{

@@ -107,6 +107,11 @@ TMap<FString, UChapter*> UScriptManager::GetSceneChapterMap()
 	return sceneChapterMap;
 }
 
+UChapter* UScriptManager::GetCurrentChapter()
+{
+	return currentScript;
+}
+
 void UScriptManager::LoadMainScript()
 {
 	mainChapterMap.Empty();
@@ -121,7 +126,9 @@ void UScriptManager::LoadMainScript()
 		FString scriptPath = mainScriptMainRootPath + var;
 		UChapter* chapter = NewObject<UChapter>();
 		chapter->Load(scriptPath);
-		mainChapterMap.Add(var.Left(var.Len()-4), chapter);
+		FString chapterIndexName = var.Left(var.Len() - 4);
+		chapter->SetChapterIndexName(chapterIndexName);
+		mainChapterMap.Add(chapterIndexName, chapter);
 	}
 }
 

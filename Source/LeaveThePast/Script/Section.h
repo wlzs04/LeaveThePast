@@ -13,6 +13,7 @@ public:
 	void Update();
 	void Load(FXmlNode* xmlNode);
 	bool GetIsCompleted();
+	int GetSectionId();
 	UParagraph* GetCurrentParagraph();
 	void Start(int paragrapgId);
 private:
@@ -22,4 +23,5 @@ private:
 
 	FString sectionName = TEXT("未命名");
 	FString description = TEXT("无");
+	int sectionId = 0;
 };

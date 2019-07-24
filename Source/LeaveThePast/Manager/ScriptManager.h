@@ -40,6 +40,11 @@ public:
 	TMap<FString, UChapter*> GetSideChapterMap();
 	UFUNCTION(BlueprintCallable)
 	TMap<FString, UChapter*> GetSceneChapterMap();
+
+	//执行指令
+	UFUNCTION(BlueprintCallable)
+	UChapter* GetCurrentChapter();
+
 private:
 	//加载主线剧本
 	void LoadMainScript();

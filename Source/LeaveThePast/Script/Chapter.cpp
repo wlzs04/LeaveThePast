@@ -83,6 +83,16 @@ FString UChapter::GetChapterName()
 	return chapterName;
 }
 
+void UChapter::SetChapterIndexName(FString newChapterIndexName)
+{
+	chapterIndexName = newChapterIndexName;
+}
+
+FString UChapter::GetChapterIndexName()
+{
+	return chapterIndexName;
+}
+
 FString UChapter::GetChapterDescription()
 {
 	return description;

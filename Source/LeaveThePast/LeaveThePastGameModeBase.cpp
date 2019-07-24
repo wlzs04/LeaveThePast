@@ -57,8 +57,11 @@ void ALeaveThePastGameModeBase::StartPlay()
 void ALeaveThePastGameModeBase::Tick(float deltaSeconds)
 {
 	Super::Tick(deltaSeconds);
-	gameManager->Tick(deltaSeconds);
-	
+
+	if (mainGameState == MainGameStateEnum::Normal)
+	{
+		gameManager->Tick(deltaSeconds);
+	}
 }
 
 void ALeaveThePastGameModeBase::InitFinish()
@@ -76,6 +79,11 @@ void ALeaveThePastGameModeBase::StartGame()
 {
 	gameManager->GetUIManager()->ShowMainUI();
 	gameManager->StartTime();
+
+	if (gameManager->GetUserData()->GetIsNewData())
+	{
+		gameManager->GetScriptManager()->StartMainScriptByNameIndex(TEXT("1"), 0, 0);
+	}
 }
 
 void ALeaveThePastGameModeBase::PauseGame()

@@ -41,6 +41,13 @@ void UParagraph::Update()
 void UParagraph::Load(FXmlNode* xmlNode)
 {
 	UScriptManager* scriptManager = UScriptManager::GetInstance();
+	for (FXmlAttribute attribute : xmlNode->GetAttributes())
+	{
+		if (attribute.GetTag() == TEXT("paragraphId"))
+		{
+			paragraphId = FCString::Atoi(*attribute.GetValue());
+		}
+	}
 	for (auto childNode : xmlNode->GetChildrenNodes())
 	{
 		UActionBase* actionBase = scriptManager->GetIegalActionByName(childNode->GetTag());
@@ -61,6 +68,11 @@ void UParagraph::Load(FXmlNode* xmlNode)
 bool UParagraph::GetIsCompleted()
 {
 	return isCompleted;
+}
+
+int UParagraph::GetParagraphId()
+{
+	return paragraphId;
 }
 
 void UParagraph::Start()

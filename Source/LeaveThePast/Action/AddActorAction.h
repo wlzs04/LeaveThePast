@@ -17,5 +17,5 @@ protected:
 	virtual FString ExecuteReal() override;
 private:
 	FSceneActorInfo sceneActorInfo;
-	
+	bool isOnly = false;
 };

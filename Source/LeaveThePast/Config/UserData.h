@@ -149,6 +149,10 @@ public:
 	//获得剧本Map
 	UFUNCTION(BlueprintCallable)
 	TMap<FString, FSaveChapterInfo> GetChapterMap();
+
+	//获得是否为新存档
+	UFUNCTION(BlueprintCallable)
+	bool GetIsNewData();
 protected:
 	//保存路径
 	FString savePath;
@@ -163,6 +167,8 @@ protected:
 
 	TMap<FString, FSaveChapterInfo> chapterMap;//剧本
 
+
+	bool isNewData = true;//是否为新存档
 	//FString chapterName;
 	//int sectionId;
 	//int paragraphId;

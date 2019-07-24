@@ -19,6 +19,10 @@ public:
 	UFUNCTION(BlueprintCallable)
 	FString GetChapterName();
 	UFUNCTION(BlueprintCallable)
+	void SetChapterIndexName(FString newChapterIndexName);
+	UFUNCTION(BlueprintCallable)
+	FString GetChapterIndexName();
+	UFUNCTION(BlueprintCallable)
 	FString GetChapterDescription();
 private:
 	TArray<USection*> sectionList;
@@ -26,6 +30,7 @@ private:
 	USection* currentSection = nullptr;
 
 	FString chapterPath = TEXT("");
+	FString chapterIndexName = TEXT("未命名");
 	FString chapterName = TEXT("未命名");
 	FString description = TEXT("无");
 };
