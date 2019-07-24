@@ -20,6 +20,10 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void StartMainScriptByNameIndex(FString scriptName, int sectionId,int paragrapgId);
 
+	//停止当前剧本，不算完成，一般用于玩家手动停止和某些条件不符被动停止
+	UFUNCTION(BlueprintCallable)
+	void StopCurrentScript();
+
 	UFUNCTION(BlueprintCallable)
 	void Tick();
 
@@ -57,6 +61,9 @@ private:
 	void LoadAllIegalAction();
 	//加载合法指令
 	void AddIegalAction(UActionBase* actionBase);
+
+	//剧本结束
+	void ScriptFinish();
 
 	static UScriptManager* scriptManager;
 

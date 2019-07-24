@@ -307,8 +307,16 @@ void ADirectorActor::InteractedInputFunction()
 			AActorBase* actorBase = (AActorBase*)actor;
 			if (actorBase != nullptr)
 			{
+				//先判断是否有需要执行的剧本
+				if (actorBase->GetInteractedScriptList().Num() != 0)
+				{
+
+					FScriptRecorderInfo scriptRecorderInfo = actorBase->GetInteractedScriptList()[0];
+					UScriptManager::GetInstance()->StartMainScriptByNameIndex(scriptRecorderInfo.chapter,scriptRecorderInfo.sectionId,scriptRecorderInfo.paragraphId);
+					return;
+				}
 				UActorInfoBase* actorInfo = actorBase->GetActorInfo();
-				LogNormal(FString::FromInt(actorInfo->GetActorType()));
+				LogNormal(FString::Printf(TEXT("演员%d，类型%d。"), actorInfo->GetActorId(), actorInfo->GetActorType()));
 				if (actorInfo->GetActorType()==0)
 				{
 					FChat chat = actorInfo->GetRandomChat();

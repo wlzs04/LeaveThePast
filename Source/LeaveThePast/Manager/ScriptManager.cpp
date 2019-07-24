@@ -24,6 +24,8 @@
 #include "../Action/AddScriptVolumeAction.h"
 #include "../Action/ConditionAction.h"
 #include "../Action/GetItemNumberAction.h"
+#include "../Action/GetMoneyAction.h"
+#include "../Action/SetScriptActorAction.h"
 
 #include "../Script/Chapter.h"
 #include "Runtime/Core/Public/Misc/Paths.h"
@@ -51,21 +53,30 @@ void UScriptManager::StartMainScriptByNameIndex(FString scriptName, int sectionI
 		LogError(FString::Printf(TEXT("未知剧本文件：%s"), *scriptName));
 		return;
 	}
-	else if(currentScript!=nullptr && !currentScript->GetIsCompleted())
+	else if(currentScript!=nullptr)
 	{
-		LogError(FString::Printf(TEXT("当前已存在正在运行的剧本")));
+		LogError(FString::Printf(TEXT("当前已存在正在运行的剧本:%s"), *currentScript->GetChapterName()));
 		return;
 	}
 	else
 	{
-		if (currentScript != nullptr)
-		{
-			LogNormal(FString::Printf(TEXT("现在正在进行剧本：无法执行新剧本。")));
-			return;
-		}
+		UUIManager::GetInstance()->HideMainUI();
 		currentScript = mainChapterMap[scriptName];
-		LogNormal(FString::Printf(TEXT("剧本开始：%s"), *scriptName));
+		LogNormal(FString::Printf(TEXT("剧本开始：%s,%d,%d"), *scriptName, sectionId, paragrapgId));
 		currentScript->Start(sectionId, paragrapgId);
+	}
+}
+
+void UScriptManager::StopCurrentScript()
+{
+	if (currentScript != nullptr)
+	{
+		currentScript = nullptr;
+		FString currentScriptName = currentScript->GetChapterName();
+		int currentSectionId = currentScript->GetCurrentSection()->GetSectionId();
+		int currentParagraphId = currentScript->GetCurrentSection()->GetCurrentParagraph()->GetParagraphId();
+		LogNormal(FString::Printf(TEXT("剧本退出：%s,%d,%d"), *currentScriptName, currentSectionId, currentParagraphId));
+		return;
 	}
 }
 
@@ -79,8 +90,7 @@ void UScriptManager::Tick()
 		}
 		else
 		{
-			currentScript = nullptr;
-			return;
+			ScriptFinish();
 		}
 	}
 }
@@ -193,11 +203,19 @@ void UScriptManager::LoadAllIegalAction()
 	AddIegalAction(NewObject<UAddScriptVolumeAction>(this));
 	AddIegalAction(NewObject<UConditionAction>(this));
 	AddIegalAction(NewObject<UGetItemNumberAction>(this));
+	AddIegalAction(NewObject<UGetMoneyAction>(this));
+	AddIegalAction(NewObject<USetScriptActorAction>(this));
 }
 
 void UScriptManager::AddIegalAction(UActionBase* actionBase)
 {
 	legalActionMap.Add(actionBase->GetActionName(), actionBase);
+}
+
+void UScriptManager::ScriptFinish()
+{
+	currentScript = nullptr;
+	UUIManager::GetInstance()->ShowMainUI();
 }
 
 UActionBase* UScriptManager::GetIegalActionByName(FString actionName)

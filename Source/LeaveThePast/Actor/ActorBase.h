@@ -64,6 +64,9 @@ public:
 
 	TArray<AActor*> GetInteractedActor();
 
+	TArray<FScriptRecorderInfo> GetInteractedScriptList();
+	void AddinteractedScriptList(FScriptRecorderInfo scriptRecorder);
+
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	int actorIdForEditor = 0;
 protected:
@@ -90,4 +93,6 @@ private:
 	UAudioComponent* audioComponent = nullptr;
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta = (AllowPrivateAccess = "true"))
 	USphereComponent* interactedComponent = nullptr;
+
+	TArray<FScriptRecorderInfo> interactedScriptList;
 };

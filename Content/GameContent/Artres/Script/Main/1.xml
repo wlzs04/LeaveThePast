@@ -4,22 +4,20 @@
 			<AddActor actorId="10001" isOnly="true" position="3690.0,-3100.0,610"/>
 			<AddCanControlActor actorId="10001"/>
 			<ChangeCameraActor actorId="10001"/>
-			<Say actorId="10001" text="........" voicePath="saysomething.wav" actionTime="3"/>
-			<Say actorId="10001" text="醒了·····还有点不清醒。" voicePath="saysomething.wav" actionTime="3"/>
-			<Say actorId="10001" text="赶紧起来吧，还有人在等。" voicePath="saysomething.wav" actionTime="2"/>
+			<Say actorId="10001" text="........" voicePath="saysomething.wav" actionTime="1"/>
+			<Say actorId="10001" text="醒了·····还有点不清醒。" voicePath="saysomething.wav" actionTime="1"/>
+			<Say actorId="10001" text="赶紧起来吧，还有人在等。" voicePath="saysomething.wav" actionTime="1"/>
 			<AddScriptVolume position="3430.0,-2810.0,70.0" isNext="true"/>
 		</Paragraph>
 		<Paragraph id="1">
 			<AddActor actorId="10002" isOnly="true"/>
-			<Move actorId="10001" actionTime="2" speed="100" direction="1,0,0"/>
+			<Move actorId="10001" actionTime="1" speed="100" direction="1,0,0"/>
 			<Rotate actorId="10001" actionTime="1" value="-90"/>
 			<Say actorId="10001" text="既然想听声音，我就随便说点什么吧！" voicePath="saysomething.wav" actionTime="0.5"/>
 			<Say actorId="10001" text="如果没事的话，我先走了。" voicePath="goaway.wav" actionTime="1"/>
 			<Rotate actorId="10001" actionTime="1" value="90"/>
-			<Move actorId="10001" actionTime="4" speed="100" direction="1,0,0"/>
 			<ChangeCameraActor actorId="10002"/>
 			<Say actorId="10002" text="先别走，我有事找你！" voicePath="saysomething.wav" actionTime="1"/>
-			<Move actorId="10002" actionTime="1" speed="100" direction="1,0,0"/>
 			<Say actorId="10002" text="你带闲钱了吗？" voicePath="saysomething.wav" actionTime="0.5"/>
 			<Say actorId="10001" text="啊？" voicePath="saysomething.wav" actionTime="0.2"/>
 			
@@ -29,6 +27,7 @@
 			
 			<ChangeCameraActor actorId="10001"/>
 			<PlayBGM audioId="10005"/>
+			<SetScriptActor actorId="30003" isNext="true"/>
 		</Paragraph>
 		<Paragraph id="2">
 			<Say actorId="10001" text="多少？" voicePath="saysomething.wav" actionTime="0.5"/>
@@ -52,7 +51,7 @@
 		</Paragraph>
 		<Paragraph id="3">
 			<Say actorId="10001" text="出来了。" voicePath="saysomething.wav" actionTime="1"/>
-			<Condition action="GetItemNumber 10001">
+			<Condition action="GetMoney">
 				<ConditionItem isDefault="true">
 					<Say actorId="10001" text="其实我剩的也不多了。" voicePath="saysomething.wav" actionTime="1"/>
 				</ConditionItem>

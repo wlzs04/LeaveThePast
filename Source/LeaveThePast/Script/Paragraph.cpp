@@ -43,7 +43,7 @@ void UParagraph::Load(FXmlNode* xmlNode)
 	UScriptManager* scriptManager = UScriptManager::GetInstance();
 	for (FXmlAttribute attribute : xmlNode->GetAttributes())
 	{
-		if (attribute.GetTag() == TEXT("paragraphId"))
+		if (attribute.GetTag() == TEXT("id"))
 		{
 			paragraphId = FCString::Atoi(*attribute.GetValue());
 		}

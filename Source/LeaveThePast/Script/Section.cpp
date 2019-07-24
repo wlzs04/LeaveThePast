@@ -57,7 +57,7 @@ void USection::Load(FXmlNode* xmlNode)
 		{
 			sectionName = attribute.GetValue();
 		}
-		else if (attribute.GetTag() == TEXT("sectionId"))
+		else if (attribute.GetTag() == TEXT("id"))
 		{
 			sectionId = FCString::Atoi(*attribute.GetValue());
 		}

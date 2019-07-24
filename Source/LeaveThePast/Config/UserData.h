@@ -167,9 +167,5 @@ protected:
 
 	TMap<FString, FSaveChapterInfo> chapterMap;//剧本
 
-
 	bool isNewData = true;//是否为新存档
-	//FString chapterName;
-	//int sectionId;
-	//int paragraphId;
 };

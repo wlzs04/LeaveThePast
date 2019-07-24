@@ -106,6 +106,16 @@ TArray<AActor*> AActorBase::GetInteractedActor()
 	return overlappingActorList;
 }
 
+TArray<FScriptRecorderInfo> AActorBase::GetInteractedScriptList()
+{
+	return interactedScriptList;
+}
+
+void AActorBase::AddinteractedScriptList(FScriptRecorderInfo scriptRecorder)
+{
+	interactedScriptList.Add(scriptRecorder);
+}
+
 void AActorBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);

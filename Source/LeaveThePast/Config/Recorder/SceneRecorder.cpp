@@ -25,10 +25,6 @@ void FSceneActorInfo::LoadFromXmlNode(FXmlNode* xmlNode)
 		{
 			SetRotation(UHelpManager::ConvertFStringToFRotator(attributeValue));
 		}
-		else
-		{
-			LogWarning(FString::Printf(TEXT("FSceneActorInfoId:%d配置中存在未知属性:%s！"), actorId, *attributeName));
-		}
 	}
 }
 
