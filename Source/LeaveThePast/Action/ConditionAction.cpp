@@ -95,7 +95,7 @@ void UConditionAction::Update()
 	{
 		if (selectConditionItemAction->GetIsCompleted())
 		{
-			isCompleted = true;
+			Finish();
 		}
 		else
 		{

@@ -31,6 +31,8 @@ void UMainGameManager::InitAll()
 		debugData = NewObject<UDebugData>(this);
 		ReloadDebugData();
 
+		gameWorld = GetWorld();
+
 		directorActor = Cast<ADirectorActor>(GetWorld()->GetFirstPlayerController()->GetPawn());
 		
 		haveInited = true;
@@ -77,6 +79,11 @@ void UMainGameManager::EnterScene(int sceneId)
 		directorActor->StartPlayBGMSound(GetAudioManager()->GetAudioById(sceneRecorder->GetBGMId()));
 		GetActorManager()->LoadAllActorBySceneId(sceneId);
 	}
+}
+
+UWorld* UMainGameManager::GetGameWorld()
+{
+	return gameWorld;
 }
 
 void UMainGameManager::InitManager()

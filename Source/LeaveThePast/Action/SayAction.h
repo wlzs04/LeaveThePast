@@ -14,7 +14,7 @@ protected:
 	virtual void Load(FXmlNode* xmlNode) override;
 	virtual void Update() override;
 	virtual FString ExecuteReal() override;
-
+	virtual void Finish() override;
 private:
 	FString text = TEXT("无内容！");
 	FString voicePath = TEXT("");

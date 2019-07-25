@@ -83,7 +83,7 @@ void ADirectorActor::SetControlActorById(int actorId)
 	{
 		return;
 	}
-	UMainGameManager* gameManager = (UMainGameManager*)(GWorld->GetGameInstance());
+	UMainGameManager* gameManager = UMainGameManager::GetInstance();
 	UActorManager* actorManager = gameManager->GetActorManager();
 	AActorBase* actor = actorManager->GetActorById(actorId);
 	SetControlActor(actor);
@@ -106,7 +106,7 @@ void ADirectorActor::SetControlActor(AActorBase* actor)
 		FAttachmentTransformRules attachmentTransform(EAttachmentRule::KeepRelative,true);
 		AttachToActor(currentControlActor, attachmentTransform);
 		SetActorRelativeLocation(FVector(0,0,0));
-		APlayerController* playerController = GWorld->GetFirstPlayerController<APlayerController>();
+		APlayerController* playerController = UMainGameManager::GetInstance()->GetGameWorld()->GetFirstPlayerController<APlayerController>();
 		playerController->SetViewTarget(currentControlActor);
 		currentControlActor->Controller = playerController;
 	}
@@ -379,11 +379,13 @@ void ADirectorActor::PauseInputFunction()
 		inPauseUI = false;
 		canControl = true;
 		UUIManager::GetInstance()->HidePauseUI();
+		UMainGameManager::GetInstance()->StartTime();
 	}
 	else
 	{
 		inPauseUI = true;
 		canControl = false;
-		UUIManager::GetInstance()->ShowPauseUI();
+		UUIManager::GetInstance()->ShowPauseUI(); 
+		UMainGameManager::GetInstance()->StopTime();
 	}
 }

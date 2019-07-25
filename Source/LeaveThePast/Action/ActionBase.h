@@ -18,12 +18,16 @@ public:
 	FString GetActionName();
 	virtual void Update() {};
 	FString Execute();
+	virtual void Finish();
 	//xml格式
 	virtual void Load(FXmlNode* xmlNode);
 	//string格式
 	virtual void Load(TArray<FString> paramList);
 	bool GetIsCompleted();
 	AActorBase* GetExecuteActor();
+
+	//跳过指令
+	virtual bool SkipAction();
 protected:
 	//加载内容
 	virtual FString ExecuteReal() { return FString(TEXT("")); };

@@ -27,8 +27,7 @@ void UParagraph::Update()
 				isStart = false;
 				isCompleted = true;
 
-				APlayerController* playerController = GWorld->GetFirstPlayerController<APlayerController>();
-				((ADirectorActor*)playerController->GetPawn())->EnableInput(playerController);
+				ADirectorActor::GetInstance()->SetCanControl(true);
 
 				return;
 			}
@@ -81,8 +80,21 @@ void UParagraph::Start()
 	isStart = true;
 	isCompleted = false;
 
-	APlayerController* playerController = GWorld->GetFirstPlayerController<APlayerController>();
-	((ADirectorActor*)playerController->GetPawn())->DisableInput(playerController);
+	ADirectorActor::GetInstance()->SetCanControl(false);
 
 	actionList[currentActionIndex]->Execute();
+}
+
+bool UParagraph::SkipScript()
+{
+	LogNormal(TEXT("开始跳过剧情！"));
+	for (; currentActionIndex < actionList.Num(); currentActionIndex++)
+	{
+		if (!actionList[currentActionIndex]->SkipAction())
+		{
+			return false;
+		}
+	}
+	LogError(TEXT("已经跳过可跳过剧情！"));
+	return true;
 }

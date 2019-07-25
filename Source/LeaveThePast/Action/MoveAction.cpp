@@ -36,7 +36,7 @@ void UMoveAction::Update()
 		}
 		else
 		{
-			isCompleted = true;
+			Finish();
 		}
 	}
 }

@@ -32,7 +32,7 @@ void UStartScriptAction::Update()
 {
 	if (isCompleted == false)
 	{
-		isCompleted = true;
+		Finish();
 	}
 }
 

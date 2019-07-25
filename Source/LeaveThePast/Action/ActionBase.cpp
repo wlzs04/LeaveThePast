@@ -25,6 +25,11 @@ FString UActionBase::Execute()
 	return ExecuteReal();
 }
 
+void UActionBase::Finish()
+{
+	isCompleted = true;
+}
+
 void UActionBase::Load(FXmlNode* xmlNode)
 {
 	for(auto item : xmlNode->GetAttributes())
@@ -53,4 +58,11 @@ bool UActionBase::GetIsCompleted()
 AActorBase* UActionBase::GetExecuteActor()
 {
 	return executeActor;
+}
+
+bool UActionBase::SkipAction()
+{
+	Execute();
+	Finish();
+	return true;
 }

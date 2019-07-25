@@ -12,6 +12,7 @@
 #include "../Config/UserData.h"
 #include "../Config/SystemData.h"
 #include "../Config/DebugData.h"
+#include "Engine/World.h"
 #include "MainGameManager.generated.h"
 
 UCLASS()
@@ -121,9 +122,13 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void UseItem(int itemId);
 
-	//使用物品
+	//进入场景
 	UFUNCTION(BlueprintCallable)
 	void EnterScene(int sceneId);
+
+	//获得游戏世界
+	UFUNCTION(BlueprintCallable)
+	UWorld* GetGameWorld();
 private:
 	//初始化管理类
 	void InitManager();
@@ -159,6 +164,9 @@ private:
 
 	UPROPERTY()
 	UAudioManager* audioManager = nullptr;
+
+	UPROPERTY()
+	UWorld* gameWorld = nullptr;
 	
 	//是否已经初始化完成
 	bool haveInited = false;

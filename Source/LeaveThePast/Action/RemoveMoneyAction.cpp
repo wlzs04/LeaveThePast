@@ -32,7 +32,7 @@ void URemoveMoneyAction::Update()
 {
 	if (isCompleted == false)
 	{
-		isCompleted = true;
+		Finish();
 	}
 }
 

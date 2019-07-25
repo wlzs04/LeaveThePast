@@ -122,6 +122,18 @@ UChapter* UScriptManager::GetCurrentChapter()
 	return currentScript;
 }
 
+void UScriptManager::SkipScript()
+{
+	if (currentScript != nullptr)
+	{
+		bool skipResult = currentScript->GetCurrentSection()->GetCurrentParagraph()->SkipScript();
+		if (skipResult)
+		{
+			ScriptFinish();
+		}
+	}
+}
+
 void UScriptManager::LoadMainScript()
 {
 	mainChapterMap.Empty();

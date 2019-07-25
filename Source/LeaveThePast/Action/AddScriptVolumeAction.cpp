@@ -1,6 +1,7 @@
 #include "AddScriptVolumeAction.h"
 #include "../Manager/HelpManager.h"
 #include "../Manager/ActorManager.h"
+#include "../Manager/MainGameManager.h"
 #include "../Manager/ScriptManager.h"
 #include "../Script/Chapter.h"
 #include "../LeaveThePastGameModeBase.h"
@@ -44,7 +45,7 @@ void UAddScriptVolumeAction::Update()
 {
 	if (isCompleted == false)
 	{
-		isCompleted = true;
+		Finish();
 	}
 }
 
@@ -55,7 +56,7 @@ FString UAddScriptVolumeAction::ExecuteReal()
 	FActorSpawnParameters actorSpawnParameters;
 	actorSpawnParameters.bAllowDuringConstructionScript = true;
 	actorSpawnParameters.bNoFail = true;
-	AActor* scriptActor = GWorld->SpawnActor<AActor>(ALeaveThePastGameModeBase::GetInstance()->GetScriptVolumeBPClass(),position, FRotator(0,0,0), actorSpawnParameters);
+	AActor* scriptActor = UMainGameManager::GetInstance()->GetGameWorld()->SpawnActor<AActor>(ALeaveThePastGameModeBase::GetInstance()->GetScriptVolumeBPClass(),position, FRotator(0,0,0), actorSpawnParameters);
 	
 	if (isNext)
 	{

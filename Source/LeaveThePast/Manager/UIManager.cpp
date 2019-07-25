@@ -73,7 +73,7 @@ void UUIManager::ShowTalkUI(FString talkValue, FString actorName, float continue
 
 void UUIManager::ShowMainUI()
 {
-	if (mainUIWidget->GetParent() == nullptr)
+	if (!mainUIWidget->IsInViewport())
 	{
 		mainUIWidget->AddToViewport();
 	}
@@ -93,7 +93,10 @@ void UUIManager::HideMainUI()
 
 void UUIManager::ShowMenuUI()
 {
-	menuUIWidget->AddToViewport();
+	if (!menuUIWidget->IsInViewport())
+	{
+		menuUIWidget->AddToViewport();
+	}
 }
 
 void UUIManager::HideMenuUI()
@@ -103,7 +106,10 @@ void UUIManager::HideMenuUI()
 
 void UUIManager::ShowShopUI(FString shopConfigName)
 {
-	shopUIWidget->AddToViewport();
+	if (!shopUIWidget->IsInViewport())
+	{
+		shopUIWidget->AddToViewport();
+	}
 
 	UFunction* functionSetInfo = shopUIWidget->FindFunction(TEXT("SetInfo"));
 	if (functionSetInfo)
@@ -119,7 +125,10 @@ void UUIManager::HideShopUI()
 
 void UUIManager::ShowDebugUI()
 {
-	debugUIWidget->AddToViewport();
+	if (!debugUIWidget->IsInViewport())
+	{
+		debugUIWidget->AddToViewport();
+	}
 }
 
 void UUIManager::HideDebugUI()
@@ -129,7 +138,10 @@ void UUIManager::HideDebugUI()
 
 void UUIManager::ShowMapUI()
 {
-	mapUIWidget->AddToViewport();
+	if (!mapUIWidget->IsInViewport())
+	{
+		mapUIWidget->AddToViewport();
+	}
 }
 
 void UUIManager::HideMapUI()
@@ -139,7 +151,10 @@ void UUIManager::HideMapUI()
 
 void UUIManager::ShowPauseUI()
 {
-	pauseUIWidget->AddToViewport();
+	if (!pauseUIWidget->IsInViewport())
+	{
+		pauseUIWidget->AddToViewport();
+	}
 }
 
 void UUIManager::HidePauseUI()
@@ -149,7 +164,10 @@ void UUIManager::HidePauseUI()
 
 void UUIManager::ShowOptionUI(UOptionAction* optionAction)
 {
-	optionUIWidget->AddToViewport();
+	if (!optionUIWidget->IsInViewport())
+	{
+		optionUIWidget->AddToViewport();
+	}
 	UFunction* functionSetInfo = optionUIWidget->FindFunction(TEXT("SetInfo"));
 	if (functionSetInfo)
 	{

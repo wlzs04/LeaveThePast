@@ -32,7 +32,7 @@ void URotateAction::Update()
 		}
 		else
 		{
-			isCompleted = true;
+			Finish();
 		}
 		lastTime = currentTime;
 	}

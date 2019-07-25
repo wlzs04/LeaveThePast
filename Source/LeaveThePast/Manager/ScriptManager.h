@@ -45,9 +45,13 @@ public:
 	UFUNCTION(BlueprintCallable)
 	TMap<FString, UChapter*> GetSceneChapterMap();
 
-	//执行指令
+	//获得当前执行章节
 	UFUNCTION(BlueprintCallable)
 	UChapter* GetCurrentChapter();
+
+	//跳过当前执行章节,如果中间有不可跳过的，无法跳过，跳过后当前剧本设置为完成
+	UFUNCTION(BlueprintCallable)
+	void SkipScript();
 
 private:
 	//加载主线剧本

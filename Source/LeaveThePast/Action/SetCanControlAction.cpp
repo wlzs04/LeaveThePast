@@ -24,7 +24,7 @@ void USetCanControlAction::Update()
 {
 	if (isCompleted == false)
 	{
-		isCompleted = true;
+		Finish();
 	}
 }
 

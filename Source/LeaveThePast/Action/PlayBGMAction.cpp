@@ -29,7 +29,7 @@ void UPlayBGMAction::Update()
 {
 	if (isCompleted == false)
 	{
-		isCompleted = true;
+		Finish();
 	}
 }
 
@@ -37,7 +37,7 @@ FString UPlayBGMAction::ExecuteReal()
 {
 	isCompleted = false;
 
-	ADirectorActor* directorActor = Cast<ADirectorActor>(GWorld->GetFirstPlayerController()->GetPawn());
+	ADirectorActor* directorActor = ADirectorActor::GetInstance();
 	USoundCue* sound = UAudioManager::GetInstance()->GetAudioById(audioId);
 	directorActor->StartPlayBGMSound(sound);
 	return FString();

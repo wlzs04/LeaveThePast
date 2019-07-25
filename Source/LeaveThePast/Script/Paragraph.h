@@ -15,6 +15,7 @@ public:
 	bool GetIsCompleted();
 	int GetParagraphId();
 	void Start();
+	bool SkipScript();
 private:
 	TArray<UActionBase*> actionList;
 	bool isCompleted = false;//是否完成

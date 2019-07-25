@@ -32,7 +32,7 @@ void UGetItemNumberAction::Update()
 {
 	if (isCompleted == false)
 	{
-		isCompleted = true;
+		Finish();
 	}
 }
 

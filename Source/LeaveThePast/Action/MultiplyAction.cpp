@@ -28,7 +28,7 @@ void UMultiplyAction::Update()
 		if (currentActionIndex >= actionList.Num())
 		{
 			isStart = false;
-			isCompleted = true;
+			Finish();
 			return;
 		}
 		if (!actionList[currentActionIndex]->GetIsCompleted())
@@ -42,7 +42,7 @@ void UMultiplyAction::Update()
 			if (currentActionIndex >= actionList.Num())
 			{
 				isStart = false;
-				isCompleted = true;
+				Finish();
 
 				return;
 			}

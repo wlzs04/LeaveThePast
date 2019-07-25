@@ -1,5 +1,6 @@
 #include "OptionAction.h"
 #include "../Manager/UIManager.h"
+#include "../Manager/LogManager.h"
 
 UOptionItemAction::UOptionItemAction() :UMultiplyAction()
 {
@@ -50,7 +51,7 @@ void UOptionAction::Update()
 	{
 		if (optionItemList[selectItemIndex]->GetIsCompleted())
 		{
-			isCompleted = true;
+			Finish();
 		}
 		else
 		{
@@ -78,4 +79,10 @@ void UOptionAction::SetSelectItemIndex(int itemIndex)
 	selectItemIndex = itemIndex;
 	UUIManager::GetInstance()->HideOptionUI();
 	optionItemList[selectItemIndex]->Execute();
+}
+
+bool UOptionAction::SkipAction()
+{
+	LogNormal(FString::Printf(TEXT("指令:%s不可跳过！"),*actionName));
+	return false;
 }

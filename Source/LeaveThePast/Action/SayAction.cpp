@@ -44,11 +44,7 @@ void USayAction::Update()
 		}
 		else
 		{
-			if (GetExecuteActor() != nullptr)
-			{
-				GetExecuteActor()->StopTalk();
-			}
-			isCompleted = true;
+			Finish();
 		}
 	}
 }
@@ -64,4 +60,13 @@ FString USayAction::ExecuteReal()
 	isCompleted = false;
 	UUIManager::GetInstance()->ShowTalkUI(text, GetExecuteActor()->GetActorInfo()->GetActorName(),actionTime, GetExecuteActor()->GetActorInfo()->GetHeadImagePath());
 	return FString();
+}
+
+void USayAction::Finish()
+{
+	if (GetExecuteActor() != nullptr)
+	{
+		GetExecuteActor()->StopTalk();
+	}
+	isCompleted = true;
 }

@@ -36,6 +36,8 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	void SetSelectItemIndex(int itemIndex);
+
+	bool SkipAction() override;
 private:
 	TArray<UOptionItemAction*> optionItemList;
 	int selectItemIndex = -1;

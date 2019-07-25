@@ -19,15 +19,13 @@ void UChangeCameraActorAction::Update()
 {
 	if (isCompleted == false)
 	{
-		APlayerController* playerController = GWorld->GetFirstPlayerController<APlayerController>();
-		
-		((ADirectorActor*)playerController->GetPawn())->SetControlActorById(GetExecuteActor()->GetActorId());
-		isCompleted = true;
+		Finish();
 	}
 }
 
 FString UChangeCameraActorAction::ExecuteReal()
 {
 	isCompleted = false;
+	ADirectorActor::GetInstance()->SetControlActorById(GetExecuteActor()->GetActorId());
 	return FString();
 }

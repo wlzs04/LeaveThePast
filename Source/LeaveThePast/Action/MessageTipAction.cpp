@@ -40,7 +40,7 @@ void UMessageTipAction::Update()
 		}
 		else
 		{
-			isCompleted = true;
+			Finish();
 		}
 	}
 }

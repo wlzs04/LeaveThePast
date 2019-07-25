@@ -25,7 +25,7 @@ void URemoveCanControlActorAction::Update()
 {
 	if (isCompleted == false)
 	{
-		isCompleted = true;
+		Finish();
 	}
 }
 
