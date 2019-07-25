@@ -57,6 +57,11 @@ public:
 	bool GetCanControl();
 	UFUNCTION(BlueprintCallable)
 	void SetCanControl(bool newCanControl);
+
+	//添加只可控UI的层数
+	void AddCanOnlyControlUINumber();
+	//减少只可控UI的层数
+	void RemoveCanOnlyControlUINumber();
 protected:
 	virtual void BeginPlay() override;
 
@@ -71,10 +76,11 @@ private:
 	void LookUpInputFunction(float value);
 
 	void ChangeControlActorInputFunction();
-	void SystemInputFunction();
 	void StartAccelerateInputFunction();
 	void StopAccelerateInputFunction();
 	void InteractedInputFunction();
+
+	void SystemInputFunction();
 	void DebugInputFunction();
 	void MapInputFunction();
 	void PauseInputFunction();
@@ -93,10 +99,7 @@ private:
 
 	FVector destinationPosition = FVector(0, 0, 0);
 
-	bool canControl = true;//判断是否可以接受输入，一般用于存在前置UI时禁止玩家控制
+	bool canControl = true;//判断是否可以接受输入，一般用于剧情中禁止玩家输入
 
-	bool inMenuUI = false;
-	bool inDebugUI = false;
-	bool inMapUI = false;
-	bool inPauseUI = false;
+	int canOnlyControlUINumber = 0;//玩家只能控制UI不能控制演员，因为UI可能有多层，所以使用int
 };

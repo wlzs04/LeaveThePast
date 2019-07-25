@@ -1,7 +1,9 @@
 #include "UIManager.h"
 #include "ConfigManager.h"
 #include "LogManager.h"
+#include "MainGameManager.h"
 #include "../Action/OptionAction.h"
+#include "../Actor/DirectorActor.h"
 #include "../Config/Recorder/MessageTipRecorder.h"
 
 UUIManager* UUIManager::uiManager = nullptr;
@@ -58,7 +60,7 @@ void UUIManager::AddMessageTipById(int id)
 
 void UUIManager::ShowTalkUI(FString talkValue, FString actorName, float continueTime, FString headImagePath, bool isLeft)
 {
-	if (talkUIWidget->GetParent() == nullptr)
+	if (!talkUIWidget->IsInViewport())
 	{
 		talkUIWidget->AddToViewport();
 	}
@@ -91,23 +93,39 @@ void UUIManager::HideMainUI()
 	mainUIWidget->RemoveFromParent();
 }
 
+bool UUIManager::IsShowMainUI()
+{
+	return mainUIWidget->IsInViewport();
+}
+
 void UUIManager::ShowMenuUI()
 {
 	if (!menuUIWidget->IsInViewport())
 	{
+		ADirectorActor::GetInstance()->AddCanOnlyControlUINumber();
 		menuUIWidget->AddToViewport();
 	}
 }
 
 void UUIManager::HideMenuUI()
 {
-	menuUIWidget->RemoveFromParent();
+	if (menuUIWidget->IsInViewport())
+	{
+		ADirectorActor::GetInstance()->RemoveCanOnlyControlUINumber();
+		menuUIWidget->RemoveFromParent();
+	}
+}
+
+bool UUIManager::IsShowMenuUI()
+{
+	return menuUIWidget->IsInViewport();
 }
 
 void UUIManager::ShowShopUI(FString shopConfigName)
 {
 	if (!shopUIWidget->IsInViewport())
 	{
+		ADirectorActor::GetInstance()->AddCanOnlyControlUINumber();
 		shopUIWidget->AddToViewport();
 	}
 
@@ -120,52 +138,94 @@ void UUIManager::ShowShopUI(FString shopConfigName)
 
 void UUIManager::HideShopUI()
 {
-	shopUIWidget->AddToViewport();
+	if (shopUIWidget->IsInViewport())
+	{
+		ADirectorActor::GetInstance()->RemoveCanOnlyControlUINumber();
+		shopUIWidget->RemoveFromParent();
+	}
+}
+
+bool UUIManager::IsShowShopUI()
+{
+	return shopUIWidget->IsInViewport();
 }
 
 void UUIManager::ShowDebugUI()
 {
 	if (!debugUIWidget->IsInViewport())
 	{
+		ADirectorActor::GetInstance()->AddCanOnlyControlUINumber();
 		debugUIWidget->AddToViewport();
 	}
 }
 
 void UUIManager::HideDebugUI()
 {
-	debugUIWidget->RemoveFromParent();
+	if (debugUIWidget->IsInViewport())
+	{
+		ADirectorActor::GetInstance()->RemoveCanOnlyControlUINumber();
+		debugUIWidget->RemoveFromParent();
+	}
+}
+
+bool UUIManager::IsShowDebugUI()
+{
+	return debugUIWidget->IsInViewport();
 }
 
 void UUIManager::ShowMapUI()
 {
 	if (!mapUIWidget->IsInViewport())
 	{
+		ADirectorActor::GetInstance()->AddCanOnlyControlUINumber();
 		mapUIWidget->AddToViewport();
 	}
 }
 
 void UUIManager::HideMapUI()
 {
-	mapUIWidget->RemoveFromParent();
+	if (mapUIWidget->IsInViewport())
+	{
+		ADirectorActor::GetInstance()->RemoveCanOnlyControlUINumber();
+		mapUIWidget->RemoveFromParent();
+	}
+}
+
+bool UUIManager::IsShowMapUI()
+{
+	return mapUIWidget->IsInViewport();
 }
 
 void UUIManager::ShowPauseUI()
 {
 	if (!pauseUIWidget->IsInViewport())
 	{
+		ADirectorActor::GetInstance()->AddCanOnlyControlUINumber();
 		pauseUIWidget->AddToViewport();
+		UMainGameManager::GetInstance()->StopTime();
 	}
 }
 
 void UUIManager::HidePauseUI()
 {
-	pauseUIWidget->RemoveFromParent();
+	if (pauseUIWidget->IsInViewport())
+	{
+		ADirectorActor::GetInstance()->RemoveCanOnlyControlUINumber();
+		pauseUIWidget->RemoveFromParent();
+		UMainGameManager::GetInstance()->StartTime();
+	}
+}
+
+bool UUIManager::IsShowPauseUI()
+{
+	return pauseUIWidget->IsInViewport();
 }
 
 void UUIManager::ShowOptionUI(UOptionAction* optionAction)
 {
 	if (!optionUIWidget->IsInViewport())
 	{
+		ADirectorActor::GetInstance()->AddCanOnlyControlUINumber();
 		optionUIWidget->AddToViewport();
 	}
 	UFunction* functionSetInfo = optionUIWidget->FindFunction(TEXT("SetInfo"));
@@ -177,7 +237,16 @@ void UUIManager::ShowOptionUI(UOptionAction* optionAction)
 
 void UUIManager::HideOptionUI()
 {
-	optionUIWidget->RemoveFromParent();
+	if (optionUIWidget->IsInViewport())
+	{
+		ADirectorActor::GetInstance()->RemoveCanOnlyControlUINumber();
+		optionUIWidget->RemoveFromParent();
+	}
+}
+
+bool UUIManager::IsShowOptionUI()
+{
+	return optionUIWidget->IsInViewport();
 }
 
 void UUIManager::InitUI()

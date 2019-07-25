@@ -36,6 +36,10 @@ void UConditionItemAction::Load(FXmlNode* xmlNode)
 		{
 			conditionValue = attributeValue;
 		}
+		else if (attributeName == TEXT("isDefault"))
+		{
+			isDefault = FCString::ToBool(*attributeValue);
+		}
 	}
 	UMultiplyAction::Load(xmlNode);
 }
@@ -121,5 +125,23 @@ FString UConditionAction::ExecuteReal()
 	{
 		return selectConditionItemAction->Execute();
 	}
+	else
+	{
+		LogError(FString::Printf(TEXT("条件指令：%s没有符合项。"),*actionString));
+	}
 	return FString();
+}
+
+bool UConditionAction::SkipAction()
+{
+	bool skipResult = false;
+	if (!isStart)
+	{
+		Execute();
+	}
+	if (selectConditionItemAction == nullptr)
+	{
+		return true;
+	}
+	return selectConditionItemAction->SkipAction();
 }

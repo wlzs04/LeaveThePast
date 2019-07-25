@@ -53,6 +53,10 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SkipScript();
 
+	//判断是否在剧本执行中
+	UFUNCTION(BlueprintCallable)
+	bool IsInScript();
+
 private:
 	//加载主线剧本
 	void LoadMainScript();

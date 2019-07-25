@@ -95,6 +95,9 @@ bool UParagraph::SkipScript()
 			return false;
 		}
 	}
-	LogError(TEXT("已经跳过可跳过剧情！"));
+
+	isCompleted = true;
+	ADirectorActor::GetInstance()->SetCanControl(true);
+	LogNormal(TEXT("已经跳过可跳过剧情！"));
 	return true;
 }

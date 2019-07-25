@@ -51,6 +51,7 @@ void UOptionAction::Update()
 	{
 		if (optionItemList[selectItemIndex]->GetIsCompleted())
 		{
+			selectItemIndex = -1;
 			Finish();
 		}
 		else
@@ -62,7 +63,6 @@ void UOptionAction::Update()
 
 FString UOptionAction::ExecuteReal()
 {
-	isCompleted = false;
 	selectItemIndex = -1;
 
 	UUIManager::GetInstance()->ShowOptionUI(this);
@@ -83,6 +83,21 @@ void UOptionAction::SetSelectItemIndex(int itemIndex)
 
 bool UOptionAction::SkipAction()
 {
-	LogNormal(FString::Printf(TEXT("指令:%s不可跳过！"),*actionName));
-	return false;
+	bool skipResult = false;
+	if (!isStart)
+	{
+		Execute();
+	}
+	else if (isStart && selectItemIndex == -1)
+	{
+	}
+	else
+	{
+		skipResult = optionItemList[selectItemIndex]->SkipAction();
+	}
+	if (!skipResult)
+	{
+		LogNormal(FString::Printf(TEXT("指令:%s不可跳过！"), *actionName));
+	}
+	return skipResult;
 }

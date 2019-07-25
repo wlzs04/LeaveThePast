@@ -35,13 +35,17 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Main|Manager")
 	static UMainGameManager* GetMainGameManager();
 
-	//获得MainGameManager
+	//获得ConfigManager
 	UFUNCTION(BlueprintCallable, Category = "Main|Manager")
 	static UConfigManager* GetConfigManager();
 
-	//获得MainGameManager
+	//获得ScriptManager
 	UFUNCTION(BlueprintCallable, Category = "Main|Manager")
 	static UScriptManager* GetScriptManager();
+
+	//获得MainGameManager
+	UFUNCTION(BlueprintCallable, Category = "Main|Manager")
+	static UUIManager* GetUIManager();
 
 	//加载本地图片
 	UFUNCTION(BlueprintCallable, Category = "Main|Texture")

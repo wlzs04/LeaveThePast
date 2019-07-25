@@ -134,6 +134,11 @@ void UScriptManager::SkipScript()
 	}
 }
 
+bool UScriptManager::IsInScript()
+{
+	return currentScript != nullptr;
+}
+
 void UScriptManager::LoadMainScript()
 {
 	mainChapterMap.Empty();

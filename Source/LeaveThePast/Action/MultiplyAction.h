@@ -12,6 +12,7 @@ public:
 	virtual void Load(FXmlNode* xmlNode) override;
 	virtual void Update() override;
 	virtual FString ExecuteReal() override;
+	bool SkipAction() override;
 private:
 	TArray<UActionBase*> actionList; 
 	int currentActionIndex = 0;

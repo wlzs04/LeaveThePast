@@ -37,6 +37,11 @@ UScriptManager* UCommonBlueprintFunctionLibrary::GetScriptManager()
 	return UScriptManager::GetInstance();
 }
 
+UUIManager* UCommonBlueprintFunctionLibrary::GetUIManager()
+{
+	return UUIManager::GetInstance();
+}
+
 UTexture2D* UCommonBlueprintFunctionLibrary::LoadTexture2D(FString path, bool& isValid, int32& outWidth, int32& outHeight)
 {
 	return UHelpManager::LoadTexture2D(path, isValid, outWidth,outHeight);

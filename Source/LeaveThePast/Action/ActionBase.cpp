@@ -20,6 +20,8 @@ FString UActionBase::GetActionName()
 
 FString UActionBase::Execute()
 {
+	isStart = true;
+	isCompleted = false;
 	LogNormal(actionName + TEXT("指令开始执行！"));
 	executeActor = UActorManager::GetInstance()->GetActorByInfoId(actorInfoId);
 	return ExecuteReal();
@@ -27,6 +29,7 @@ FString UActionBase::Execute()
 
 void UActionBase::Finish()
 {
+	isStart = false;
 	isCompleted = true;
 }
 
@@ -62,7 +65,10 @@ AActorBase* UActionBase::GetExecuteActor()
 
 bool UActionBase::SkipAction()
 {
-	Execute();
+	if (!isStart)
+	{
+		Execute();
+	}
 	Finish();
 	return true;
 }

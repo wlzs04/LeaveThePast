@@ -18,7 +18,7 @@
 			<Rotate actorId="10001" actionTime="1" value="90"/>
 			<ChangeCameraActor actorId="10002"/>
 			<Say actorId="10002" text="先别走，我有事找你！" voicePath="saysomething.wav" actionTime="1"/>
-			<Say actorId="10002" text="你带闲钱了吗？" voicePath="saysomething.wav" actionTime="0.5"/>
+			<Say actorId="10002" text="你带闲钱了吗？" voicePath="saysomething.wav" actionTime="1"/>
 			<Say actorId="10001" text="啊？" voicePath="saysomething.wav" actionTime="0.2"/>
 			
 			<Say actorId="30003" text="这位客官吃饭没带钱。" voicePath="saysomething.wav" actionTime="1"/>
@@ -27,38 +27,62 @@
 			
 			<ChangeCameraActor actorId="10001"/>
 			<PlayBGM audioId="10005"/>
-			<SetScriptActor actorId="30003" isNext="true"/>
+			<!-- <SetScriptActor actorId="30003" isNext="true"/> -->
+			<SetScriptActor actorId="30003" chapter="1" sectionId="0" paragraphId="3" isNext="false"/>
 		</Paragraph>
 		<Paragraph id="2">
-			<Say actorId="10001" text="多少？" voicePath="saysomething.wav" actionTime="0.5"/>
+			<Say actorId="10001" text="多少？" voicePath="saysomething.wav" actionTime="1"/>
 			<SetRain rainFallValue="2000"/>
 			<SetCloudy cloudyValue="1"/>
 			<SetTime time="20:0:0"/>
-			<AddScriptVolume position="0,0,60" chapter="1" sectionId="0" paragraphId="3"/>
-			<Say actorId="10002" text="2钱。" voicePath="saysomething.wav" actionTime="0.5"/>
+			<Say actorId="10002" text="2钱。" voicePath="saysomething.wav" actionTime="1"/>
 			<Option>
 				<OptionItem text="我给。">
-					<Say actorId="10001" text="我给。" voicePath="saysomething.wav" actionTime="2"/>
-					<RemoveMoney number="200"/>
-					<Say actorId="10002" text="好，走吧。" voicePath="saysomething.wav" actionTime="3"/>
+					<Say actorId="10001" text="我给。" voicePath="saysomething.wav" actionTime="1"/>
+					<Condition action="GetMoney">
+						<ConditionItem isDefault="true">
+							<Say actorId="10001" text="???" voicePath="saysomething.wav" actionTime="1"/>
+							<Say actorId="10001" text="不好意思，囊中羞涩，去去就回。" voicePath="saysomething.wav" actionTime="1"/>
+						</ConditionItem>
+						<ConditionItem type="&gt;" value="200">
+							<RemoveMoney number="200"/>
+							<Say actorId="10002" text="好，走吧。" voicePath="saysomething.wav" actionTime="1"/>
+							<Say actorId="10001" text="你这里欠我的要用什么换？（指了指钱包）" voicePath="saysomething.wav" actionTime="1"/>
+							<Say actorId="10002" text="以后再说。" voicePath="saysomething.wav" actionTime="1"/>
+						</ConditionItem>
+					</Condition>
 				</OptionItem>
 				<OptionItem text="回见。">
-					<Say actorId="10001" text="回见。" voicePath="saysomething.wav" actionTime="0.5"/>
+					<Say actorId="10001" text="回见。" voicePath="saysomething.wav" actionTime="1"/>
 					<Move actorId="10001" actionTime="1" speed="100" direction="1,0,0"/>
 					<Say actorId="10002" text="······" voicePath="saysomething.wav" actionTime="1"/>
 				</OptionItem>
 			</Option>
 		</Paragraph>
 		<Paragraph id="3">
-			<Say actorId="10001" text="出来了。" voicePath="saysomething.wav" actionTime="1"/>
-			<Condition action="GetMoney">
-				<ConditionItem isDefault="true">
-					<Say actorId="10001" text="其实我剩的也不多了。" voicePath="saysomething.wav" actionTime="1"/>
-				</ConditionItem>
-				<ConditionItem type="&gt;" value="200">
-					<Say actorId="10001" text="钱够了。" voicePath="saysomething.wav" actionTime="1"/>
-				</ConditionItem>
-			</Condition>
+			<Option>
+				<OptionItem text="1。">
+					<Say actorId="10001" text="我给1。" voicePath="saysomething.wav" actionTime="1"/>
+					<Say actorId="10001" text="我给2。" voicePath="saysomething.wav" actionTime="1"/>
+					<Say actorId="10001" text="我给3。" voicePath="saysomething.wav" actionTime="1"/>
+					<Say actorId="10001" text="我给4。" voicePath="saysomething.wav" actionTime="1"/>
+					<Condition action="GetMoney">
+						<ConditionItem isDefault="true">
+							<Say actorId="10001" text="???" voicePath="saysomething.wav" actionTime="1"/>
+							<Say actorId="10001" text="不好意思，囊中羞涩，去去就回。" voicePath="saysomething.wav" actionTime="1"/>
+						</ConditionItem>
+						<ConditionItem type="&gt;" value="200">
+							<RemoveMoney number="200"/>
+							<Say actorId="10002" text="好，走吧。" voicePath="saysomething.wav" actionTime="1"/>
+							<Say actorId="10001" text="你这里欠我的要用什么换？（指了指钱包）" voicePath="saysomething.wav" actionTime="1"/>
+							<Say actorId="10002" text="以后再说。" voicePath="saysomething.wav" actionTime="1"/>
+						</ConditionItem>
+					</Condition>
+				</OptionItem>
+				<OptionItem text="2。">
+					<Say actorId="10001" text="2222222222222" voicePath="saysomething.wav" actionTime="1"/>
+				</OptionItem>
+			</Option>
 		</Paragraph>
 	</Section>
 </Chapter>

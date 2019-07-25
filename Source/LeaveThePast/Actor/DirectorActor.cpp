@@ -156,6 +156,20 @@ void ADirectorActor::SetCanControl(bool newCanControl)
 	canControl = newCanControl;
 }
 
+void ADirectorActor::AddCanOnlyControlUINumber()
+{
+	canOnlyControlUINumber++;
+}
+
+void ADirectorActor::RemoveCanOnlyControlUINumber()
+{
+	canOnlyControlUINumber--;
+	if (canOnlyControlUINumber<0)
+	{
+		LogError(TEXT("RemoveCanOnlyControlUINumber小于0"));
+	}
+}
+
 void ADirectorActor::BeginPlay()
 {
 	Super::BeginPlay();
@@ -176,10 +190,11 @@ void ADirectorActor::SetupPlayerInputComponent(UInputComponent* playerInputCompo
 	playerInputComponent->BindAxis("LookUp", this, &ADirectorActor::LookUpInputFunction);
 
 	playerInputComponent->BindAction("ChangeControlActor", EInputEvent::IE_Released, this, &ADirectorActor::ChangeControlActorInputFunction);
-	playerInputComponent->BindAction("System", EInputEvent::IE_Released, this, &ADirectorActor::SystemInputFunction);
 	playerInputComponent->BindAction("Accelerate", EInputEvent::IE_Pressed, this, &ADirectorActor::StartAccelerateInputFunction);
 	playerInputComponent->BindAction("Accelerate", EInputEvent::IE_Released, this, &ADirectorActor::StopAccelerateInputFunction);
 	playerInputComponent->BindAction("Interacted", EInputEvent::IE_Pressed, this, &ADirectorActor::InteractedInputFunction);
+
+	playerInputComponent->BindAction("System", EInputEvent::IE_Released, this, &ADirectorActor::SystemInputFunction);
 	playerInputComponent->BindAction("Debug", EInputEvent::IE_Pressed, this, &ADirectorActor::DebugInputFunction);
 	playerInputComponent->BindAction("Map", EInputEvent::IE_Pressed, this, &ADirectorActor::MapInputFunction);
 	playerInputComponent->BindAction("Pause",EInputEvent::IE_Pressed,this, &ADirectorActor::PauseInputFunction);
@@ -187,7 +202,7 @@ void ADirectorActor::SetupPlayerInputComponent(UInputComponent* playerInputCompo
 
 void ADirectorActor::MoveForwardInputFunction(float value)
 {
-	if (!canControl || value == 0)
+	if (!canControl || canOnlyControlUINumber > 0 || value == 0)
 	{
 		return;
 	}
@@ -199,7 +214,7 @@ void ADirectorActor::MoveForwardInputFunction(float value)
 
 void ADirectorActor::MoveRightInputFunction(float value)
 {
-	if (!canControl || value == 0)
+	if (!canControl || canOnlyControlUINumber > 0 || value == 0)
 	{
 		return;
 	}
@@ -211,7 +226,7 @@ void ADirectorActor::MoveRightInputFunction(float value)
 
 void ADirectorActor::TurnInputFunction(float value)
 {
-	if (!canControl || value == 0)
+	if (!canControl || canOnlyControlUINumber > 0 || value == 0)
 	{
 		return;
 	}
@@ -224,7 +239,7 @@ void ADirectorActor::TurnInputFunction(float value)
 
 void ADirectorActor::LookUpInputFunction(float value)
 {
-	if (!canControl || value == 0)
+	if (!canControl || canOnlyControlUINumber > 0 || value == 0)
 	{
 		return;
 	}
@@ -237,7 +252,7 @@ void ADirectorActor::LookUpInputFunction(float value)
 
 void ADirectorActor::ChangeControlActorInputFunction()
 {
-	if (!canControl || canControlActorList.Num() == 0)
+	if (!canControl || canOnlyControlUINumber > 0 || canControlActorList.Num() == 0)
 	{
 		return;
 	}
@@ -249,49 +264,9 @@ void ADirectorActor::ChangeControlActorInputFunction()
 	SetControlActor(canControlActorList[currentControlActorIndex]);
 }
 
-void ADirectorActor::SystemInputFunction()
-{
-	if (inMenuUI)
-	{
-		inMenuUI = false;
-		canControl = true;
-		UUIManager::GetInstance()->HideMenuUI();
-	}
-	else
-	{
-		inMenuUI = true;
-		canControl = false;
-		UUIManager::GetInstance()->ShowMenuUI();
-	}
-}
-
-void ADirectorActor::StartAccelerateInputFunction()
-{
-	if (!canControl)
-	{
-		return;
-	}
-	if (currentControlActor != nullptr)
-	{
-		currentControlActor->SetAccelerate(true);
-	}
-}
-
-void ADirectorActor::StopAccelerateInputFunction()
-{
-	if (!canControl)
-	{
-		return;
-	}
-	if (currentControlActor != nullptr)
-	{
-		currentControlActor->SetAccelerate(false);
-	}
-}
-
 void ADirectorActor::InteractedInputFunction()
 {
-	if (!canControl)
+	if (!canControl || canOnlyControlUINumber > 0)
 	{
 		return;
 	}
@@ -312,12 +287,12 @@ void ADirectorActor::InteractedInputFunction()
 				{
 
 					FScriptRecorderInfo scriptRecorderInfo = actorBase->GetInteractedScriptList()[0];
-					UScriptManager::GetInstance()->StartMainScriptByNameIndex(scriptRecorderInfo.chapter,scriptRecorderInfo.sectionId,scriptRecorderInfo.paragraphId);
+					UScriptManager::GetInstance()->StartMainScriptByNameIndex(scriptRecorderInfo.chapter, scriptRecorderInfo.sectionId, scriptRecorderInfo.paragraphId);
 					return;
 				}
 				UActorInfoBase* actorInfo = actorBase->GetActorInfo();
 				LogNormal(FString::Printf(TEXT("演员%d，类型%d。"), actorInfo->GetActorId(), actorInfo->GetActorType()));
-				if (actorInfo->GetActorType()==0)
+				if (actorInfo->GetActorType() == 0)
 				{
 					FChat chat = actorInfo->GetRandomChat();
 					if (!chat.text.IsEmpty())
@@ -340,52 +315,86 @@ void ADirectorActor::InteractedInputFunction()
 	}
 }
 
+void ADirectorActor::StartAccelerateInputFunction()
+{
+	if (!canControl || canOnlyControlUINumber > 0)
+	{
+		return;
+	}
+	if (currentControlActor != nullptr)
+	{
+		currentControlActor->SetAccelerate(true);
+	}
+}
+
+void ADirectorActor::StopAccelerateInputFunction()
+{
+	if (currentControlActor != nullptr)
+	{
+		currentControlActor->SetAccelerate(false);
+	}
+}
+
+void ADirectorActor::SystemInputFunction()
+{
+	if (UUIManager::GetInstance()->IsShowMenuUI())
+	{
+		UUIManager::GetInstance()->HideMenuUI();
+	}
+	else
+	{
+		if (canOnlyControlUINumber > 0)
+		{
+			return;
+		}
+		UUIManager::GetInstance()->ShowMenuUI();
+	}
+}
+
 void ADirectorActor::DebugInputFunction()
 {
-	if (inDebugUI)
+	if (UUIManager::GetInstance()->IsShowDebugUI())
 	{
-		inDebugUI = false;
-		canControl = true;
 		UUIManager::GetInstance()->HideDebugUI();
 	}
 	else
 	{
-		inDebugUI = true;
-		canControl = false;
+		if (canOnlyControlUINumber > 0)
+		{
+			return;
+		}
 		UUIManager::GetInstance()->ShowDebugUI();
 	}
 }
 
 void ADirectorActor::MapInputFunction()
 {
-	if (inMapUI)
+	if (UUIManager::GetInstance()->IsShowMapUI())
 	{
-		inMapUI = false;
-		canControl = true;
 		UUIManager::GetInstance()->HideMapUI();
 	}
 	else
 	{
-		inMapUI = true;
-		canControl = false;
+		if (canOnlyControlUINumber > 0)
+		{
+			return;
+		}
 		UUIManager::GetInstance()->ShowMapUI();
 	}
 }
 
 void ADirectorActor::PauseInputFunction()
 {
-	if (inPauseUI)
+	if (UUIManager::GetInstance()->IsShowPauseUI())
 	{
-		inPauseUI = false;
-		canControl = true;
 		UUIManager::GetInstance()->HidePauseUI();
-		UMainGameManager::GetInstance()->StartTime();
 	}
 	else
 	{
-		inPauseUI = true;
-		canControl = false;
+		if (canOnlyControlUINumber > 0)
+		{
+			return;
+		}
 		UUIManager::GetInstance()->ShowPauseUI(); 
-		UMainGameManager::GetInstance()->StopTime();
 	}
 }

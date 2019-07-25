@@ -34,6 +34,7 @@ protected:
 
 	FString actionName = TEXT("未命名指令");//指令名称
 	bool isCompleted = false;//是否完成
+	bool isStart = false;//是否开始
 private:
 	//由文件配置的属性
 	int actorInfoId = 0;//执行指令的演员的信息Id

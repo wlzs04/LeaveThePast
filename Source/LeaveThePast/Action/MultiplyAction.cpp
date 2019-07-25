@@ -60,3 +60,17 @@ FString UMultiplyAction::ExecuteReal()
 	actionList[currentActionIndex]->Execute();
 	return FString();
 }
+
+bool UMultiplyAction::SkipAction()
+{
+	for (; currentActionIndex < actionList.Num(); currentActionIndex++)
+	{
+		if (!actionList[currentActionIndex]->SkipAction())
+		{
+			return false;
+		}
+	}
+
+	isCompleted = true;
+	return true;
+}

@@ -44,6 +44,10 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void HideMainUI();
 
+	//当前主界面是否显示
+	UFUNCTION(BlueprintCallable)
+	bool IsShowMainUI();
+
 	//显示菜单界面
 	UFUNCTION(BlueprintCallable)
 	void ShowMenuUI();
@@ -51,6 +55,10 @@ public:
 	//隐藏菜单界面
 	UFUNCTION(BlueprintCallable)
 	void HideMenuUI();
+
+	//当前菜单界面是否显示
+	UFUNCTION(BlueprintCallable)
+	bool IsShowMenuUI();
 
 	//显示商品界面
 	UFUNCTION(BlueprintCallable)
@@ -60,6 +68,10 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void HideShopUI();
 
+	//当前商品界面是否显示
+	UFUNCTION(BlueprintCallable)
+	bool IsShowShopUI();
+
 	//显示调试界面
 	UFUNCTION(BlueprintCallable)
 	void ShowDebugUI();
@@ -68,13 +80,21 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void HideDebugUI();
 
-	//显示调试界面
+	//当前调试界面是否显示
+	UFUNCTION(BlueprintCallable)
+	bool IsShowDebugUI();
+
+	//显示地图界面
 	UFUNCTION(BlueprintCallable)
 	void ShowMapUI();
 
-	//隐藏调试界面
+	//隐藏地图界面
 	UFUNCTION(BlueprintCallable)
 	void HideMapUI();
+
+	//当前地图界面是否显示
+	UFUNCTION(BlueprintCallable)
+	bool IsShowMapUI();
 
 	//显示暂停界面
 	UFUNCTION(BlueprintCallable)
@@ -84,6 +104,10 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void HidePauseUI();
 
+	//当前暂停界面是否显示
+	UFUNCTION(BlueprintCallable)
+	bool IsShowPauseUI();
+
 	//显示选项界面
 	UFUNCTION(BlueprintCallable)
 	void ShowOptionUI(UOptionAction* optionAction);
@@ -91,6 +115,10 @@ public:
 	//隐藏选项界面
 	UFUNCTION(BlueprintCallable)
 	void HideOptionUI();
+
+	//当前选项界面是否显示
+	UFUNCTION(BlueprintCallable)
+	bool IsShowOptionUI();
 	
 private:
 	//初始化常用UI
