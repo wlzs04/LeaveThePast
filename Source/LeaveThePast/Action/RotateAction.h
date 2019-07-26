@@ -4,6 +4,8 @@
 #include "ActionBase.h"
 #include "RotateAction.generated.h"
 
+class AActorBase;
+
 UCLASS()
 class LEAVETHEPAST_API URotateAction : public UActionBase
 {
@@ -14,13 +16,17 @@ protected:
 	virtual void Load(FXmlNode* xmlNode) override;
 	virtual void Update() override;
 	virtual FString ExecuteReal() override;
+	virtual void Finish() override;
 
 private:
+	int actorInfoId = 0;
 	float actionTime = 1;
 	//转身角度，默认Z方向，人正常转身的方向
-	float value = 90;
+	float value = 0;
+	float remainValue = 0;
 
 	float currentTime = 0;
 	float lastTime = 0;
-	float startTime = 0;
+	UPROPERTY()
+	AActorBase* executeActor = nullptr;
 };

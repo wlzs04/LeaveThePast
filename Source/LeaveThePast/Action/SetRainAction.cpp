@@ -8,7 +8,6 @@ USetRainAction::USetRainAction() :UActionBase()
 
 void USetRainAction::Load(FXmlNode* xmlNode)
 {
-	UActionBase::Load(xmlNode);
 	for (auto attribute : xmlNode->GetAttributes())
 	{
 		FString attributeName = attribute.GetTag();
@@ -30,7 +29,6 @@ void USetRainAction::Update()
 
 FString USetRainAction::ExecuteReal()
 {
-	isCompleted = false;
 	AActor* skActor = ALeaveThePastGameModeBase::GetInstance()->GetSkyBPActor();
 	UFunction* functionSetInfo = skActor->FindFunction(TEXT("RefreshRain"));
 	if (functionSetInfo)

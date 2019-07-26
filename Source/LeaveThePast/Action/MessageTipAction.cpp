@@ -13,7 +13,6 @@ UMessageTipAction::UMessageTipAction() :UActionBase()
 
 void UMessageTipAction::Load(FXmlNode* xmlNode)
 {
-	UActionBase::Load(xmlNode);
 	for (auto attribute:xmlNode->GetAttributes())
 	{
 		FString attributeName = attribute.GetTag();
@@ -49,7 +48,6 @@ FString UMessageTipAction::ExecuteReal()
 {
 	startTime = GWorld->GetTimeSeconds();
 	currentTime = GWorld->GetTimeSeconds();
-	isCompleted = false;
 	UUIManager::GetInstance()->AddMessageTip(text);
 	return FString();
 }

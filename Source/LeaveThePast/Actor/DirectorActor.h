@@ -58,6 +58,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SetCanControl(bool newCanControl);
 
+	void SetCanControlMove(bool newCanControlMove);
+	void SetCanControlView(bool newCanControlView);
+
 	//添加只可控UI的层数
 	void AddCanOnlyControlUINumber();
 	//减少只可控UI的层数
@@ -100,6 +103,8 @@ private:
 	FVector destinationPosition = FVector(0, 0, 0);
 
 	bool canControl = true;//判断是否可以接受输入，一般用于剧情中禁止玩家输入
+	bool canControlMove = true;//玩家是否可以控制移动
+	bool canControlView = true;//玩家是否可以控制视角
 
 	int canOnlyControlUINumber = 0;//玩家只能控制UI不能控制演员，因为UI可能有多层，所以使用int
 };

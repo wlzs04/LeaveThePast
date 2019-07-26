@@ -12,7 +12,15 @@ UChangeCameraActorAction::UChangeCameraActorAction()
 
 void UChangeCameraActorAction::Load(FXmlNode* xmlNode)
 {
-	UActionBase::Load(xmlNode);
+	for (auto attribute : xmlNode->GetAttributes())
+	{
+		FString attributeName = attribute.GetTag();
+		FString attributeValue = attribute.GetValue();
+		if (attributeName == TEXT("actorId"))
+		{
+			actorInfoId = FCString::Atoi(*attributeValue);
+		}
+	}
 }
 
 void UChangeCameraActorAction::Update()
@@ -25,7 +33,14 @@ void UChangeCameraActorAction::Update()
 
 FString UChangeCameraActorAction::ExecuteReal()
 {
-	isCompleted = false;
-	ADirectorActor::GetInstance()->SetControlActorById(GetExecuteActor()->GetActorId());
+	AActorBase* executeActor = UActorManager::GetInstance()->GetActorByInfoId(actorInfoId);
+	if (executeActor != nullptr)
+	{
+		ADirectorActor::GetInstance()->SetControlActorById(executeActor->GetActorId());
+	}
+	else
+	{
+		LogError(FString::Printf(TEXT("指令：ChangeCameraActor没有找到演员InfoId：%d"), actorInfoId));
+	}
 	return FString();
 }

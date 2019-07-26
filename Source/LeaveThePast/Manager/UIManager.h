@@ -36,6 +36,10 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void ShowTalkUI(FString talkValue, FString actorName, float continueTime, FString headImagePath, bool isLeft = true);
 
+	//隐藏谈话界面
+	UFUNCTION(BlueprintCallable)
+	void HideTalkUI();
+
 	//显示主界面
 	UFUNCTION(BlueprintCallable)
 	void ShowMainUI();

@@ -1,5 +1,8 @@
 #include "RotateAction.h"
 #include "..\Actor\ActorBase.h"
+#include "..\Manager\ActorManager.h"
+#include "..\Manager\ScriptManager.h"
+#include "..\Manager\LogManager.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/Pawn.h"
 #include "Engine/World.h"
@@ -11,24 +14,38 @@ URotateAction::URotateAction()
 
 void URotateAction::Load(FXmlNode* xmlNode)
 {
-	UActionBase::Load(xmlNode);
-
-	FString actionTimeString = xmlNode->GetAttribute(TEXT("actionTime"));
-	actionTime = FCString::Atof(*actionTimeString);
-
-	FString valueString = xmlNode->GetAttribute(TEXT("value"));
-	value = FCString::Atof(*valueString);
+	for (auto attribute : xmlNode->GetAttributes())
+	{
+		FString attributeName = attribute.GetTag();
+		FString attributeValue = attribute.GetValue();
+		if (attributeName == TEXT("actorId"))
+		{
+			actorInfoId = FCString::Atoi(*attributeValue);
+		}
+		else if (attributeName == TEXT("value"))
+		{
+			value = FCString::Atof(*attributeValue);
+		}
+		else if (attributeName == TEXT("actionTime"))
+		{
+			actionTime = FCString::Atof(*attributeValue);
+		}
+	}
 }
 
 void URotateAction::Update()
 {
-	if (isCompleted == false && GetExecuteActor() != nullptr)
+	if (isCompleted == false)
 	{
-		currentTime = GWorld->GetTimeSeconds();
-		if (currentTime - startTime < actionTime)
+		currentTime += UScriptManager::GetInstance()->GetScriptTickTime();
+		if (currentTime < actionTime)
 		{
-			float speed = (value/ actionTime)* (currentTime - lastTime);
-			GetExecuteActor()->AddActorLocalRotation(FRotator(0, speed, 0));
+			if (executeActor != nullptr)
+			{
+				float speed = (value / actionTime) * (currentTime - lastTime);
+				executeActor->AddActorLocalRotation(FRotator(0, speed, 0));
+				remainValue -= speed;
+			}
 		}
 		else
 		{
@@ -40,9 +57,24 @@ void URotateAction::Update()
 
 FString URotateAction::ExecuteReal()
 {
-	isCompleted = false;
-	startTime = GWorld->GetTimeSeconds();
-	currentTime = GWorld->GetTimeSeconds();
-	lastTime = currentTime;
+	executeActor = UActorManager::GetInstance()->GetActorByInfoId(actorInfoId);
+	if (executeActor == nullptr)
+	{
+		LogError(FString::Printf(TEXT("指令：Rotate未找到actorInId：%d"), actorInfoId));
+	}
+	currentTime = 0;
+	lastTime = 0;
+	remainValue = value;
 	return FString();
+}
+
+void URotateAction::Finish()
+{
+	UActionBase::Finish();
+	if (executeActor != nullptr)
+	{
+		executeActor->AddActorLocalRotation(FRotator(0, remainValue, 0));
+		executeActor = nullptr;
+		remainValue = 0;
+	}
 }

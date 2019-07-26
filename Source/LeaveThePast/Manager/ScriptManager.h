@@ -57,6 +57,17 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool IsInScript();
 
+	//设置剧本执行速度
+	UFUNCTION(BlueprintCallable)
+	void SetScriptExecuteSpeed(float newScriptExecuteSpeed);
+
+	//获得剧本执行速度
+	UFUNCTION(BlueprintCallable)
+	float GetScriptExecuteSpeed();
+
+	//获得剧本一帧的时间
+	UFUNCTION(BlueprintCallable)
+	float GetScriptTickTime();
 private:
 	//加载主线剧本
 	void LoadMainScript();
@@ -86,4 +97,7 @@ private:
 	TMap<FString, UChapter*> sceneChapterMap;
 
 	UChapter* currentScript = nullptr;
+
+	float scriptExecuteSpeed = 1;//剧本执行速度
+	float scriptTickTime = 0;
 };

@@ -27,7 +27,8 @@ void UParagraph::Update()
 				isStart = false;
 				isCompleted = true;
 
-				ADirectorActor::GetInstance()->SetCanControl(true);
+				ADirectorActor::GetInstance()->SetCanControlMove(true);
+				ADirectorActor::GetInstance()->SetCanControlView(true);
 
 				return;
 			}
@@ -45,6 +46,14 @@ void UParagraph::Load(FXmlNode* xmlNode)
 		if (attribute.GetTag() == TEXT("id"))
 		{
 			paragraphId = FCString::Atoi(*attribute.GetValue());
+		}
+		else if (attribute.GetTag() == TEXT("canControlMove"))
+		{
+			canControlMove = FCString::ToBool(*attribute.GetValue());
+		}
+		else if (attribute.GetTag() == TEXT("canControlView"))
+		{
+			canControlView = FCString::ToBool(*attribute.GetValue());
 		}
 	}
 	for (auto childNode : xmlNode->GetChildrenNodes())
@@ -80,7 +89,8 @@ void UParagraph::Start()
 	isStart = true;
 	isCompleted = false;
 
-	ADirectorActor::GetInstance()->SetCanControl(false);
+	ADirectorActor::GetInstance()->SetCanControlMove(canControlMove);
+	ADirectorActor::GetInstance()->SetCanControlView(canControlView);
 
 	actionList[currentActionIndex]->Execute();
 }
@@ -95,9 +105,10 @@ bool UParagraph::SkipScript()
 			return false;
 		}
 	}
-
+	isStart = false;
 	isCompleted = true;
-	ADirectorActor::GetInstance()->SetCanControl(true);
+	ADirectorActor::GetInstance()->SetCanControlMove(true);
+	ADirectorActor::GetInstance()->SetCanControlView(true);
 	LogNormal(TEXT("已经跳过可跳过剧情！"));
 	return true;
 }

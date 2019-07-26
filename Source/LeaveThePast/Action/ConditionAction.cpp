@@ -72,7 +72,6 @@ UConditionAction::UConditionAction() :UActionBase()
 
 void UConditionAction::Load(FXmlNode* xmlNode)
 {
-	UActionBase::Load(xmlNode);
 	for (auto attribute : xmlNode->GetAttributes())
 	{
 		FString attributeName = attribute.GetTag();
@@ -110,8 +109,6 @@ void UConditionAction::Update()
 
 FString UConditionAction::ExecuteReal()
 {
-	isCompleted = false;
-	
 	FString conditionValue = UScriptManager::GetInstance()->ExecuteAction(actionString);
 
 	for(UConditionItemAction* conditionItem : conditionItemList)

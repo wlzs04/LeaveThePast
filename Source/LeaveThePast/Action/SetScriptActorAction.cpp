@@ -11,7 +11,6 @@ USetScriptActorAction::USetScriptActorAction() :UActionBase()
 
 void USetScriptActorAction::Load(FXmlNode* xmlNode)
 {
-	UActionBase::Load(xmlNode);
 	for (auto attribute : xmlNode->GetAttributes())
 	{
 		FString attributeName = attribute.GetTag();
@@ -49,8 +48,6 @@ void USetScriptActorAction::Update()
 
 FString USetScriptActorAction::ExecuteReal()
 {
-	isCompleted = false;
-
 	AActorBase* actor =  UActorManager::GetInstance()->GetActorByInfoId(actorInfoId);
 
 	if (actor == nullptr)

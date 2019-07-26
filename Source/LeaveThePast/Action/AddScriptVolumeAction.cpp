@@ -13,7 +13,6 @@ UAddScriptVolumeAction::UAddScriptVolumeAction() :UActionBase()
 
 void UAddScriptVolumeAction::Load(FXmlNode* xmlNode)
 {
-	UActionBase::Load(xmlNode);
 	for (auto attribute : xmlNode->GetAttributes())
 	{
 		FString attributeName = attribute.GetTag();
@@ -51,8 +50,6 @@ void UAddScriptVolumeAction::Update()
 
 FString UAddScriptVolumeAction::ExecuteReal()
 {
-	isCompleted = false;
-
 	FActorSpawnParameters actorSpawnParameters;
 	actorSpawnParameters.bAllowDuringConstructionScript = true;
 	actorSpawnParameters.bNoFail = true;

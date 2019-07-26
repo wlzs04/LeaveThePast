@@ -2,18 +2,19 @@
 
 #include "CoreMinimal.h"
 #include "Action/ActionBase.h"
-#include "MultiplyAction.generated.h"
+#include "SetCanControlMoveAction.generated.h"
 
 UCLASS()
-class LEAVETHEPAST_API UMultiplyAction : public UActionBase
+class LEAVETHEPAST_API USetCanControlMoveAction : public UActionBase
 {
 	GENERATED_BODY()
 public:
+	USetCanControlMoveAction();
+protected:
 	virtual void Load(FXmlNode* xmlNode) override;
 	virtual void Update() override;
 	virtual FString ExecuteReal() override;
-	bool SkipAction() override;
+
 private:
-	TArray<UActionBase*> actionList; 
-	int currentActionIndex = 0;
+	bool canControlMove = true;
 };

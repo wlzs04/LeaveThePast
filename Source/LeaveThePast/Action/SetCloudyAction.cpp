@@ -8,7 +8,6 @@ USetCloudyAction::USetCloudyAction() :UActionBase()
 
 void USetCloudyAction::Load(FXmlNode* xmlNode)
 {
-	UActionBase::Load(xmlNode);
 	for (auto attribute : xmlNode->GetAttributes())
 	{
 		FString attributeName = attribute.GetTag();
@@ -30,7 +29,6 @@ void USetCloudyAction::Update()
 
 FString USetCloudyAction::ExecuteReal()
 {
-	isCompleted = false;
 	AActor* skActor = ALeaveThePastGameModeBase::GetInstance()->GetSkyBPActor();
 	UFunction* functionSetInfo = skActor->FindFunction(TEXT("RefreshCloudy"));
 	if (functionSetInfo)

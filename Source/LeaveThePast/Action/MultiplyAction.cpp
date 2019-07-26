@@ -27,7 +27,6 @@ void UMultiplyAction::Update()
 	{
 		if (currentActionIndex >= actionList.Num())
 		{
-			isStart = false;
 			Finish();
 			return;
 		}
@@ -41,7 +40,6 @@ void UMultiplyAction::Update()
 			currentActionIndex++;
 			if (currentActionIndex >= actionList.Num())
 			{
-				isStart = false;
 				Finish();
 
 				return;
@@ -54,8 +52,6 @@ void UMultiplyAction::Update()
 
 FString UMultiplyAction::ExecuteReal()
 {
-	isCompleted = false;
-	isStart = true;
 	currentActionIndex = 0;
 	actionList[currentActionIndex]->Execute();
 	return FString();
@@ -70,7 +66,6 @@ bool UMultiplyAction::SkipAction()
 			return false;
 		}
 	}
-
-	isCompleted = true;
+	Finish();
 	return true;
 }

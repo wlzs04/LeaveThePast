@@ -8,8 +8,6 @@ UAddCanControlActorAction::UAddCanControlActorAction() :UActionBase()
 
 void UAddCanControlActorAction::Load(FXmlNode* xmlNode)
 {
-	UActionBase::Load(xmlNode);
-
 	for (auto attribute : xmlNode->GetAttributes())
 	{
 		FString attributeName = attribute.GetTag();
@@ -31,7 +29,6 @@ void UAddCanControlActorAction::Update()
 
 FString UAddCanControlActorAction::ExecuteReal()
 {
-	isCompleted = false;
 	ADirectorActor::GetInstance()->AddCanControlActorByInfoId(actorInfoId);
 	return FString();
 }

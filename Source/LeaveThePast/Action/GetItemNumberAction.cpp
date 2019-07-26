@@ -8,7 +8,6 @@ UGetItemNumberAction::UGetItemNumberAction() :UActionBase()
 
 void UGetItemNumberAction::Load(FXmlNode* xmlNode)
 {
-	UActionBase::Load(xmlNode);
 	for (auto attribute : xmlNode->GetAttributes())
 	{
 		FString attributeName = attribute.GetTag();
@@ -38,7 +37,6 @@ void UGetItemNumberAction::Update()
 
 FString UGetItemNumberAction::ExecuteReal()
 {
-	isCompleted = false;
 	int itemNumber = UMainGameManager::GetInstance()->GetUserData()->GetItemNumberById(itemId);
 	return FString::FromInt(itemNumber);
 }

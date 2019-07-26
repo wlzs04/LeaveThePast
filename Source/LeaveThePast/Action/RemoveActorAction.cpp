@@ -8,8 +8,6 @@ URemoveActorAction::URemoveActorAction() :UActionBase()
 
 void URemoveActorAction::Load(FXmlNode* xmlNode)
 {
-	UActionBase::Load(xmlNode);
-
 	for(auto attribute : xmlNode->GetAttributes())
 	{
 		FString attributeName = attribute.GetTag();
@@ -31,7 +29,6 @@ void URemoveActorAction::Update()
 
 FString URemoveActorAction::ExecuteReal()
 {
-	isCompleted = false;
 	UActorManager::GetInstance()->RemoveActorByInfoId(actorInfoId);
 	return FString();
 }

@@ -8,7 +8,6 @@ URemoveMoneyAction::URemoveMoneyAction() :UActionBase()
 
 void URemoveMoneyAction::Load(FXmlNode* xmlNode)
 {
-	UActionBase::Load(xmlNode);
 	for (auto attribute : xmlNode->GetAttributes())
 	{
 		FString attributeName = attribute.GetTag();
@@ -38,7 +37,6 @@ void URemoveMoneyAction::Update()
 
 FString URemoveMoneyAction::ExecuteReal()
 {
-	isCompleted = false;
 	UMainGameManager::GetInstance()->GetUserData()->ReduceMoney(number);
 	return FString();
 }

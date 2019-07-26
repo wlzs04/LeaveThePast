@@ -9,8 +9,6 @@ UAddActorAction::UAddActorAction() :UActionBase()
 
 void UAddActorAction::Load(FXmlNode* xmlNode)
 {
-	UActionBase::Load(xmlNode);
-
 	sceneActorInfo.LoadFromXmlNode(xmlNode);
 
 	FString isOnlyString = xmlNode->GetAttribute(TEXT("isOnly"));
@@ -30,7 +28,6 @@ void UAddActorAction::Update()
 
 FString UAddActorAction::ExecuteReal()
 {
-	isCompleted = false;
 	if (isOnly)
 	{
 		if(UActorManager::GetInstance()->GetActorByInfoId(sceneActorInfo.actorId)!=nullptr)

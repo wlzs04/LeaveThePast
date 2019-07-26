@@ -9,7 +9,6 @@ USetTimeAction::USetTimeAction() :UActionBase()
 
 void USetTimeAction::Load(FXmlNode* xmlNode)
 {
-	UActionBase::Load(xmlNode);
 	for (auto attribute : xmlNode->GetAttributes())
 	{
 		FString attributeName = attribute.GetTag();
@@ -32,7 +31,6 @@ void USetTimeAction::Update()
 
 FString USetTimeAction::ExecuteReal()
 {
-	isCompleted = false;
 	UMainGameManager::GetInstance()->GetUserData()->SetGameTime(timeData.GetHours(), timeData.GetMinutes(), timeData.GetSeconds());
 	return FString();
 }

@@ -1,6 +1,6 @@
 <Chapter name="第一章" description="准备出发">
 	<Section id="0" name="第一节" description="在客栈汇合">
-		<Paragraph id="0">
+		<Paragraph id="0" canControlMove="true" canControlView="true">
 			<AddActor actorId="10001" isOnly="true" position="3690.0,-3100.0,610"/>
 			<AddCanControlActor actorId="10001"/>
 			<ChangeCameraActor actorId="10001"/>
@@ -9,7 +9,7 @@
 			<Say actorId="10001" text="赶紧起来吧，还有人在等。" voicePath="saysomething.wav" actionTime="1"/>
 			<AddScriptVolume position="3430.0,-2810.0,70.0" isNext="true"/>
 		</Paragraph>
-		<Paragraph id="1">
+		<Paragraph id="1" canControlView="true">
 			<AddActor actorId="10002" isOnly="true"/>
 			<Move actorId="10001" actionTime="1" speed="100" direction="1,0,0"/>
 			<Rotate actorId="10001" actionTime="1" value="-90"/>
@@ -19,7 +19,7 @@
 			<ChangeCameraActor actorId="10002"/>
 			<Say actorId="10002" text="先别走，我有事找你！" voicePath="saysomething.wav" actionTime="1"/>
 			<Say actorId="10002" text="你带闲钱了吗？" voicePath="saysomething.wav" actionTime="1"/>
-			<Say actorId="10001" text="啊？" voicePath="saysomething.wav" actionTime="0.2"/>
+			<Say actorId="10001" text="啊？" voicePath="saysomething.wav" actionTime="1"/>
 			
 			<Say actorId="30003" text="这位客官吃饭没带钱。" voicePath="saysomething.wav" actionTime="1"/>
 			<ChangeCameraActor actorId="30003"/>
@@ -62,6 +62,7 @@
 		<Paragraph id="3">
 			<Option>
 				<OptionItem text="1。">
+					<SetScriptExecuteSpeed value="5"/>
 					<Say actorId="10001" text="我给1。" voicePath="saysomething.wav" actionTime="1"/>
 					<Say actorId="10001" text="我给2。" voicePath="saysomething.wav" actionTime="1"/>
 					<Say actorId="10001" text="我给3。" voicePath="saysomething.wav" actionTime="1"/>
@@ -78,11 +79,13 @@
 							<Say actorId="10002" text="以后再说。" voicePath="saysomething.wav" actionTime="1"/>
 						</ConditionItem>
 					</Condition>
+					<SetScriptExecuteSpeed value="1"/>
 				</OptionItem>
 				<OptionItem text="2。">
 					<Say actorId="10001" text="2222222222222" voicePath="saysomething.wav" actionTime="1"/>
 				</OptionItem>
 			</Option>
+			<Say actorId="10001" text="我给123。" voicePath="saysomething.wav" actionTime="1"/>
 		</Paragraph>
 	</Section>
 </Chapter>

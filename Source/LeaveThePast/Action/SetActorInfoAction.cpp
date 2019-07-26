@@ -8,7 +8,6 @@ USetActorInfoAction::USetActorInfoAction() :UActionBase()
 
 void USetActorInfoAction::Load(FXmlNode* xmlNode)
 {
-	UActionBase::Load(xmlNode);
 	sceneActorInfo.LoadFromXmlNode(xmlNode);
 }
 
@@ -22,8 +21,6 @@ void USetActorInfoAction::Update()
 
 FString USetActorInfoAction::ExecuteReal()
 {
-	isCompleted = false;
-
 	if (sceneActorInfo.needReplaceActorName)
 	{
 		UActorManager::GetInstance()->GetActorByInfoId(sceneActorInfo.actorId)->GetActorInfo()->SetActorName(sceneActorInfo.actorName);

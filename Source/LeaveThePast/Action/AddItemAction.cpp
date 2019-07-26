@@ -8,7 +8,6 @@ UAddItemAction::UAddItemAction() :UActionBase()
 
 void UAddItemAction::Load(FXmlNode* xmlNode)
 {
-	UActionBase::Load(xmlNode);
 	for (auto attribute : xmlNode->GetAttributes())
 	{
 		FString attributeName = attribute.GetTag();
@@ -46,7 +45,6 @@ void UAddItemAction::Update()
 
 FString UAddItemAction::ExecuteReal()
 {
-	isCompleted = false;
 	UMainGameManager::GetInstance()->GetUserData()->AddItem(itemId, itemNumber);
 	return FString();
 }

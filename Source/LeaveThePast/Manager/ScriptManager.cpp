@@ -1,5 +1,4 @@
 #include "ScriptManager.h"
-#include "Engine/World.h"
 
 #include "../Action/MoveAction.h"
 #include "../Action/SayAction.h"
@@ -26,6 +25,9 @@
 #include "../Action/GetItemNumberAction.h"
 #include "../Action/GetMoneyAction.h"
 #include "../Action/SetScriptActorAction.h"
+#include "../Action/SetCanControlMoveAction.h"
+#include "../Action/SetCanControlViewAction.h"
+#include "../Action/SetScriptExecuteSpeedAction.h"
 
 #include "../Script/Chapter.h"
 #include "Runtime/Core/Public/Misc/Paths.h"
@@ -82,6 +84,7 @@ void UScriptManager::StopCurrentScript()
 
 void UScriptManager::Tick()
 {
+	scriptTickTime = GetWorld()->DeltaTimeSeconds * scriptExecuteSpeed;
 	if (currentScript != nullptr)
 	{
 		if (currentScript->GetCurrentSection())
@@ -137,6 +140,21 @@ void UScriptManager::SkipScript()
 bool UScriptManager::IsInScript()
 {
 	return currentScript != nullptr;
+}
+
+void UScriptManager::SetScriptExecuteSpeed(float newScriptExecuteSpeed)
+{
+	scriptExecuteSpeed = newScriptExecuteSpeed;
+}
+
+float UScriptManager::GetScriptExecuteSpeed()
+{
+	return scriptExecuteSpeed;
+}
+
+float UScriptManager::GetScriptTickTime()
+{
+	return scriptTickTime;
 }
 
 void UScriptManager::LoadMainScript()
@@ -221,7 +239,10 @@ void UScriptManager::LoadAllIegalAction()
 	AddIegalAction(NewObject<UConditionAction>(this));
 	AddIegalAction(NewObject<UGetItemNumberAction>(this));
 	AddIegalAction(NewObject<UGetMoneyAction>(this));
-	AddIegalAction(NewObject<USetScriptActorAction>(this));
+	AddIegalAction(NewObject<USetScriptActorAction>(this)); 
+	AddIegalAction(NewObject<USetCanControlMoveAction>(this));
+	AddIegalAction(NewObject<USetCanControlViewAction>(this));
+	AddIegalAction(NewObject<USetScriptExecuteSpeedAction>(this));
 }
 
 void UScriptManager::AddIegalAction(UActionBase* actionBase)

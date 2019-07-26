@@ -8,8 +8,6 @@ URemoveCanControlActorAction::URemoveCanControlActorAction() :UActionBase()
 
 void URemoveCanControlActorAction::Load(FXmlNode* xmlNode)
 {
-	UActionBase::Load(xmlNode);
-
 	for (auto attribute : xmlNode->GetAttributes())
 	{
 		FString attributeName = attribute.GetTag();
@@ -31,7 +29,6 @@ void URemoveCanControlActorAction::Update()
 
 FString URemoveCanControlActorAction::ExecuteReal()
 {
-	isCompleted = false;
 	ADirectorActor::GetInstance()->RemoveCanControlActorByInfoId(actorInfoId);
 	return FString();
 }

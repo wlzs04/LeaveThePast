@@ -13,7 +13,6 @@ UPlayBGMAction::UPlayBGMAction() :UActionBase()
 
 void UPlayBGMAction::Load(FXmlNode* xmlNode)
 {
-	UActionBase::Load(xmlNode);
 	for (auto attribute : xmlNode->GetAttributes())
 	{
 		FString attributeName = attribute.GetTag();
@@ -35,8 +34,6 @@ void UPlayBGMAction::Update()
 
 FString UPlayBGMAction::ExecuteReal()
 {
-	isCompleted = false;
-
 	ADirectorActor* directorActor = ADirectorActor::GetInstance();
 	USoundCue* sound = UAudioManager::GetInstance()->GetAudioById(audioId);
 	directorActor->StartPlayBGMSound(sound);

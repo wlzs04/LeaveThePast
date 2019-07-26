@@ -14,4 +14,6 @@ protected:
 	virtual void Load(FXmlNode* xmlNode) override;
 	virtual void Update() override;
 	virtual FString ExecuteReal() override;
+private:
+	int actorInfoId = 0;
 };

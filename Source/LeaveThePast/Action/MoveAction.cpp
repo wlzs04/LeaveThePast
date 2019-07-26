@@ -1,5 +1,9 @@
 #include "MoveAction.h"
 #include "..\Actor\ActorBase.h"
+#include "..\Manager\ActorManager.h"
+#include "..\Manager\ScriptManager.h"
+#include "..\Manager\HelpManager.h"
+#include "..\Manager\LogManager.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/Pawn.h"
 #include "Engine/World.h"
@@ -11,28 +15,42 @@ UMoveAction::UMoveAction() :UActionBase()
 
 void UMoveAction::Load(FXmlNode* xmlNode)
 {
-	UActionBase::Load(xmlNode);
-
-	FString directionString = xmlNode->GetAttribute(TEXT("direction"));
-	TArray<FString> directionStringArray;
-	directionString.ParseIntoArray(directionStringArray, TEXT(","));
-	direction = FVector(FCString::Atof(*directionStringArray[0]), FCString::Atof(*directionStringArray[1]), FCString::Atof(*directionStringArray[2]));
-
-	FString speedString = xmlNode->GetAttribute(TEXT("speed"));
-	speed = FCString::Atof(*speedString);
-
-	FString actionTimeString = xmlNode->GetAttribute(TEXT("actionTime"));
-	actionTime = FCString::Atof(*actionTimeString);
+	for (auto attribute : xmlNode->GetAttributes())
+	{
+		FString attributeName = attribute.GetTag();
+		FString attributeValue = attribute.GetValue();
+		if (attributeName == TEXT("actorId"))
+		{
+			actorInfoId = FCString::Atoi(*attributeValue);
+		}
+		else if(attributeName == TEXT("direction"))
+		{
+			direction = UHelpManager::ConvertFStringToFVector(attributeValue);
+		}
+		else if (attributeName == TEXT("speed"))
+		{
+			speed = FCString::Atof(*attributeValue);
+		}
+		else if (attributeName == TEXT("actionTime"))
+		{
+			actionTime = FCString::Atof(*attributeValue);
+		}
+	}
 }
 
 void UMoveAction::Update()
 {
-	if (isCompleted==false && GetExecuteActor() != nullptr)
+	if (isCompleted==false)
 	{
-		currentTime = GWorld->GetTimeSeconds();
-		if (currentTime - startTime < actionTime)
+		currentTime += UScriptManager::GetInstance()->GetScriptTickTime();
+		if (currentTime < actionTime)
 		{
-			GetExecuteActor()->AddMovementInput(direction * speed, GWorld->DeltaTimeSeconds);
+			if (executeActor != nullptr)
+			{
+				FVector moveValue = direction * speed * GWorld->DeltaTimeSeconds;
+				executeActor->AddMovementInput(direction * speed, GWorld->DeltaTimeSeconds);
+				remainValue -= moveValue;
+			}
 		}
 		else
 		{
@@ -43,8 +61,23 @@ void UMoveAction::Update()
 
 FString UMoveAction::ExecuteReal()
 {
-	isCompleted = false;
-	startTime = GWorld->GetTimeSeconds();
-	currentTime = GWorld->GetTimeSeconds();
+	executeActor = UActorManager::GetInstance()->GetActorByInfoId(actorInfoId);
+	if (executeActor == nullptr)
+	{
+		LogError(FString::Printf(TEXT("指令：Move未找到actorInId：%d"), actorInfoId));
+	}
+	currentTime = 0;
+	remainValue = direction * speed;
 	return FString();
+}
+
+void UMoveAction::Finish()
+{
+	UActionBase::Finish();
+	if (executeActor != nullptr)
+	{
+		executeActor->AddActorWorldOffset(remainValue);
+		executeActor = nullptr;
+		remainValue = FVector::ZeroVector;
+	}
 }

@@ -1,6 +1,8 @@
 #include "SayAction.h"
 #include "../Actor/ActorBase.h"
-#include "../Manager/MainGameManager.h"
+#include "..\Manager\ActorManager.h"
+#include "..\Manager\LogManager.h"
+#include "..\Manager\ScriptManager.h"
 #include "../Manager/UIManager.h"
 #include "Kismet/GameplayStatics.h"
 #include "Engine/Engine.h"
@@ -13,12 +15,15 @@ USayAction::USayAction() :UActionBase()
 
 void USayAction::Load(FXmlNode* xmlNode)
 {
-	UActionBase::Load(xmlNode);
 	for (auto attribute : xmlNode->GetAttributes())
 	{
 		FString attributeName = attribute.GetTag();
 		FString attributeValue = attribute.GetValue();
-		if (attributeName == TEXT("text"))
+		if (attributeName == TEXT("actorId"))
+		{
+			actorInfoId = FCString::Atoi(*attributeValue);
+		}
+		else if (attributeName == TEXT("text"))
 		{
 			text = attributeValue;
 		}
@@ -35,10 +40,10 @@ void USayAction::Load(FXmlNode* xmlNode)
 
 void USayAction::Update()
 {
-	if (isCompleted == false && GetExecuteActor() != nullptr)
+	if (isCompleted == false)
 	{
-		currentTime += GWorld->DeltaTimeSeconds;
-		if (currentTime - startTime < actionTime)
+		currentTime += UScriptManager::GetInstance()->GetScriptTickTime();
+		if (currentTime < actionTime)
 		{
 			
 		}
@@ -51,22 +56,27 @@ void USayAction::Update()
 
 FString USayAction::ExecuteReal()
 {
-	if (GetExecuteActor() != nullptr)
+	executeActor = UActorManager::GetInstance()->GetActorByInfoId(actorInfoId);
+	if (executeActor == nullptr)
 	{
-		GetExecuteActor()->StartTalk();
+		LogError(FString::Printf(TEXT("指令：Rotat未找到actorInId：%d"), actorInfoId));
 	}
-	startTime = GWorld->GetTimeSeconds();
-	currentTime = GWorld->GetTimeSeconds();
-	isCompleted = false;
-	UUIManager::GetInstance()->ShowTalkUI(text, GetExecuteActor()->GetActorInfo()->GetActorName(),actionTime, GetExecuteActor()->GetActorInfo()->GetHeadImagePath());
+	else
+	{
+		executeActor->StartTalk();
+		UUIManager::GetInstance()->ShowTalkUI(text, executeActor->GetActorInfo()->GetActorName(), actionTime, executeActor->GetActorInfo()->GetHeadImagePath());
+	}
+	currentTime = 0;
 	return FString();
 }
 
 void USayAction::Finish()
 {
-	if (GetExecuteActor() != nullptr)
+	UActionBase::Finish();
+	if (executeActor != nullptr)
 	{
-		GetExecuteActor()->StopTalk();
+		UUIManager::GetInstance()->HideTalkUI();
+		executeActor->StopTalk();
+		executeActor = nullptr;
 	}
-	isCompleted = true;
 }

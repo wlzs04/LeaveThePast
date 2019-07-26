@@ -4,6 +4,8 @@
 #include "ActionBase.h"
 #include "SayAction.generated.h"
 
+class AActorBase;
+
 UCLASS()
 class LEAVETHEPAST_API USayAction : public UActionBase
 {
@@ -16,10 +18,12 @@ protected:
 	virtual FString ExecuteReal() override;
 	virtual void Finish() override;
 private:
+	int actorInfoId = 0;
 	FString text = TEXT("无内容！");
 	FString voicePath = TEXT("");
 	float actionTime = 1;
 
 	float currentTime = 0;
-	float startTime = 0;
+	UPROPERTY()
+	AActorBase* executeActor = nullptr;
 };

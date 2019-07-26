@@ -33,7 +33,6 @@ UOptionAction::UOptionAction() :UActionBase()
 
 void UOptionAction::Load(FXmlNode* xmlNode)
 {
-	UActionBase::Load(xmlNode);
 	for (auto childNode : xmlNode->GetChildrenNodes())
 	{
 		if (childNode->GetTag() == TEXT("OptionItem"))

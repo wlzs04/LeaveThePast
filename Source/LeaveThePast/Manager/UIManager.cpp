@@ -73,6 +73,14 @@ void UUIManager::ShowTalkUI(FString talkValue, FString actorName, float continue
 	}
 }
 
+void UUIManager::HideTalkUI()
+{
+	if (talkUIWidget->IsInViewport())
+	{
+		talkUIWidget->RemoveFromParent();
+	}
+}
+
 void UUIManager::ShowMainUI()
 {
 	if (!mainUIWidget->IsInViewport())

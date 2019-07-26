@@ -156,6 +156,16 @@ void ADirectorActor::SetCanControl(bool newCanControl)
 	canControl = newCanControl;
 }
 
+void ADirectorActor::SetCanControlMove(bool newCanControlMove)
+{
+	canControlMove = newCanControlMove;
+}
+
+void ADirectorActor::SetCanControlView(bool newCanControlView)
+{
+	canControlView = newCanControlView;
+}
+
 void ADirectorActor::AddCanOnlyControlUINumber()
 {
 	canOnlyControlUINumber++;
@@ -202,7 +212,7 @@ void ADirectorActor::SetupPlayerInputComponent(UInputComponent* playerInputCompo
 
 void ADirectorActor::MoveForwardInputFunction(float value)
 {
-	if (!canControl || canOnlyControlUINumber > 0 || value == 0)
+	if (!canControl || !canControlMove || canOnlyControlUINumber > 0 || value == 0)
 	{
 		return;
 	}
@@ -214,7 +224,7 @@ void ADirectorActor::MoveForwardInputFunction(float value)
 
 void ADirectorActor::MoveRightInputFunction(float value)
 {
-	if (!canControl || canOnlyControlUINumber > 0 || value == 0)
+	if (!canControl || !canControlMove || canOnlyControlUINumber > 0 || value == 0)
 	{
 		return;
 	}
@@ -226,7 +236,7 @@ void ADirectorActor::MoveRightInputFunction(float value)
 
 void ADirectorActor::TurnInputFunction(float value)
 {
-	if (!canControl || canOnlyControlUINumber > 0 || value == 0)
+	if (!canControl || !canControlView || canOnlyControlUINumber > 0 || value == 0)
 	{
 		return;
 	}
@@ -239,7 +249,7 @@ void ADirectorActor::TurnInputFunction(float value)
 
 void ADirectorActor::LookUpInputFunction(float value)
 {
-	if (!canControl || canOnlyControlUINumber > 0 || value == 0)
+	if (!canControl || !canControlView || canOnlyControlUINumber > 0 || value == 0)
 	{
 		return;
 	}

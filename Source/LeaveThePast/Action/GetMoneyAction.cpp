@@ -8,7 +8,6 @@ UGetMoneyAction::UGetMoneyAction() :UActionBase()
 
 void UGetMoneyAction::Load(FXmlNode* xmlNode)
 {
-	UActionBase::Load(xmlNode);
 }
 
 void UGetMoneyAction::Load(TArray<FString> paramList)
@@ -26,7 +25,6 @@ void UGetMoneyAction::Update()
 
 FString UGetMoneyAction::ExecuteReal()
 {
-	isCompleted = false;
 	int moneyNumber = UMainGameManager::GetInstance()->GetUserData()->GetMoney();
 	return FString::FromInt(moneyNumber);
 }

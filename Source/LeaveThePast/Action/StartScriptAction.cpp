@@ -8,7 +8,6 @@ UStartScriptAction::UStartScriptAction() :UActionBase()
 
 void UStartScriptAction::Load(FXmlNode* xmlNode)
 {
-	UActionBase::Load(xmlNode);
 	for (auto attribute : xmlNode->GetAttributes())
 	{
 		FString attributeName = attribute.GetTag();
@@ -38,7 +37,6 @@ void UStartScriptAction::Update()
 
 FString UStartScriptAction::ExecuteReal()
 {
-	isCompleted = false;
 	UScriptManager::GetInstance()->StartMainScriptByNameIndex(chapterName,sectionId,paragraphId);
 	return FString();
 }
