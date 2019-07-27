@@ -40,13 +40,9 @@ UParagraph* USection::GetCurrentParagraph()
 
 void USection::Start(int paragrapgId)
 {
-	if (!paragraphList[paragrapgId]->GetIsCompleted())
-	{
-		paragraphList[paragrapgId]->Start();
-		currentParagraph = paragraphList[paragrapgId];
-		return;
-	}
-	isCompleted = true;
+	isCompleted = false;
+	currentParagraph = paragraphList[paragrapgId];
+	currentParagraph->Start();
 }
 
 void USection::Load(FXmlNode* xmlNode)
@@ -73,5 +69,3 @@ void USection::Load(FXmlNode* xmlNode)
 		paragraphList.Add(paragraph);
 	}
 }
-
-

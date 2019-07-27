@@ -6,8 +6,10 @@
 #include "../Actor/MainActorInfo.h"
 #include "../Actor/MinorActorInfo.h"
 #include "../Actor/MassActorInfo.h"
+#include "../Volume/VolumeBase.h"
 #include "ActorManager.generated.h"
 
+//管理演员和体积
 UCLASS()
 class LEAVETHEPAST_API UActorManager : public UObject
 {
@@ -16,10 +18,6 @@ public:
 	static UActorManager* GetInstance();
 
 	void Init();
-
-	//从场景中加载演员，一般用于测试阶段调整演员位置。
-	//UFUNCTION(BlueprintCallable)
-	//void LoadAllActorFromScene();
 
 	//从场景配置中中加载演员到场景中
 	UFUNCTION(BlueprintCallable)
@@ -74,6 +72,9 @@ private:
 	TMap<int, AActorBase*> actorBaseByIdMap;
 	//通过actorInfoId
 	TMap<int, AActorBase*> actorBaseByInfoIdMap;
+
+	//体积map
+	TArray<AVolumeBase*> volumeBaseList;
 
 	int actorIdUnique = 0;//唯一的演员Id
 };

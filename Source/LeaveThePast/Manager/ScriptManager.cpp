@@ -28,6 +28,8 @@
 #include "../Action/SetCanControlMoveAction.h"
 #include "../Action/SetCanControlViewAction.h"
 #include "../Action/SetScriptExecuteSpeedAction.h"
+#include "../Action/RemoveScriptVolumeAction.h"
+#include "../Action/ClearScriptActorAction.h"
 
 #include "../Script/Chapter.h"
 #include "Runtime/Core/Public/Misc/Paths.h"
@@ -243,6 +245,8 @@ void UScriptManager::LoadAllIegalAction()
 	AddIegalAction(NewObject<USetCanControlMoveAction>(this));
 	AddIegalAction(NewObject<USetCanControlViewAction>(this));
 	AddIegalAction(NewObject<USetScriptExecuteSpeedAction>(this));
+	AddIegalAction(NewObject<URemoveScriptVolumeAction>(this));
+	AddIegalAction(NewObject<UClearScriptActorAction>(this));
 }
 
 void UScriptManager::AddIegalAction(UActionBase* actionBase)

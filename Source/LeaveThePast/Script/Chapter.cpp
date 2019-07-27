@@ -68,14 +68,9 @@ USection* UChapter::GetCurrentSection()
 
 void UChapter::Start(int sectionId, int paragrapgId)
 {
-	if (!sectionList[sectionId]->GetIsCompleted())
-	{
-		sectionList[sectionId]->Start(paragrapgId);
-		currentSection = sectionList[sectionId];
-		return;
-	}
-	
-	isCompleted = true;
+	isCompleted = false;
+	currentSection = sectionList[sectionId];
+	currentSection->Start(paragrapgId);
 }
 
 FString UChapter::GetChapterName()

@@ -1,27 +1,31 @@
-#include "SetScriptActorAction.h"
+#include "ClearScriptActorAction.h"
 #include "../Manager/ActorManager.h"
-#include "../Manager/ScriptManager.h"
 #include "../Manager/LogManager.h"
+#include "../Manager/ScriptManager.h"
 #include "../Script/Chapter.h"
 
-USetScriptActorAction::USetScriptActorAction() :UActionBase()
+UClearScriptActorAction::UClearScriptActorAction() :UActionBase()
 {
-	actionName = TEXT("SetScriptActor");
+	actionName = TEXT("ClearScriptActor");
 }
 
-void USetScriptActorAction::Load(FXmlNode* xmlNode)
+void UClearScriptActorAction::Load(FXmlNode* xmlNode)
 {
 	for (auto attribute : xmlNode->GetAttributes())
 	{
 		FString attributeName = attribute.GetTag();
 		FString attributeValue = attribute.GetValue();
-		if (attributeName == TEXT("isNext"))
-		{
-			isNext = FCString::ToBool(*attributeValue);
-		}
-		else if (attributeName == TEXT("actorId"))
+		if (attributeName == TEXT("actorId"))
 		{
 			actorInfoId = FCString::Atoi(*attributeValue);
+		}
+		else if (attributeName == TEXT("isCurrent"))
+		{
+			isCurrent = FCString::ToBool(*attributeValue);
+		}
+		else if (attributeName == TEXT("chapter"))
+		{
+			scriptRecorderIndfo.chapter = attributeValue;
 		}
 		else if (attributeName == TEXT("chapter"))
 		{
@@ -38,7 +42,7 @@ void USetScriptActorAction::Load(FXmlNode* xmlNode)
 	}
 }
 
-void USetScriptActorAction::Update()
+void UClearScriptActorAction::Update()
 {
 	if (isCompleted == false)
 	{
@@ -46,27 +50,26 @@ void USetScriptActorAction::Update()
 	}
 }
 
-FString USetScriptActorAction::ExecuteReal()
+FString UClearScriptActorAction::ExecuteReal()
 {
-	AActorBase* actor =  UActorManager::GetInstance()->GetActorByInfoId(actorInfoId);
+	AActorBase* actor = UActorManager::GetInstance()->GetActorByInfoId(actorInfoId);
 
 	if (actor == nullptr)
 	{
 		LogError(FString::Printf(TEXT("指令：SetScriptActor，场景中不存在演员：%d"), actorInfoId));
 		return FString();
 	}
-	if (isNext)
+	if (isCurrent)
 	{
 		UChapter* chapter = UScriptManager::GetInstance()->GetCurrentChapter();
 		if (chapter != nullptr)
 		{
 			scriptRecorderIndfo.chapter = chapter->GetChapterIndexName();
 			scriptRecorderIndfo.sectionId = chapter->GetCurrentSection()->GetSectionId();
-			scriptRecorderIndfo.paragraphId = chapter->GetCurrentSection()->GetCurrentParagraph()->GetParagraphId() + 1;
+			scriptRecorderIndfo.paragraphId = chapter->GetCurrentSection()->GetCurrentParagraph()->GetParagraphId();
 		}
 	}
-	actor->AddInteractedScriptList(scriptRecorderIndfo);
+	actor->RemoveInteractedScriptList(scriptRecorderIndfo);
 
 	return FString();
 }
-

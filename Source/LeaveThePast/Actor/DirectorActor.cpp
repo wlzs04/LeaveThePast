@@ -207,7 +207,6 @@ void ADirectorActor::SetupPlayerInputComponent(UInputComponent* playerInputCompo
 	playerInputComponent->BindAction("System", EInputEvent::IE_Released, this, &ADirectorActor::SystemInputFunction);
 	playerInputComponent->BindAction("Debug", EInputEvent::IE_Pressed, this, &ADirectorActor::DebugInputFunction);
 	playerInputComponent->BindAction("Map", EInputEvent::IE_Pressed, this, &ADirectorActor::MapInputFunction);
-	playerInputComponent->BindAction("Pause",EInputEvent::IE_Pressed,this, &ADirectorActor::PauseInputFunction);
 }
 
 void ADirectorActor::MoveForwardInputFunction(float value)
@@ -347,17 +346,35 @@ void ADirectorActor::StopAccelerateInputFunction()
 
 void ADirectorActor::SystemInputFunction()
 {
-	if (UUIManager::GetInstance()->IsShowMenuUI())
+	if (UScriptManager::GetInstance()->IsInScript())
 	{
-		UUIManager::GetInstance()->HideMenuUI();
+		if (UUIManager::GetInstance()->IsShowPauseUI())
+		{
+			UUIManager::GetInstance()->HidePauseUI();
+		}
+		else
+		{
+			if (canOnlyControlUINumber > 0)
+			{
+				return;
+			}
+			UUIManager::GetInstance()->ShowPauseUI();
+		}
 	}
 	else
 	{
-		if (canOnlyControlUINumber > 0)
+		if (UUIManager::GetInstance()->IsShowMenuUI())
 		{
-			return;
+			UUIManager::GetInstance()->HideMenuUI();
 		}
-		UUIManager::GetInstance()->ShowMenuUI();
+		else
+		{
+			if (canOnlyControlUINumber > 0)
+			{
+				return;
+			}
+			UUIManager::GetInstance()->ShowMenuUI();
+		}
 	}
 }
 
@@ -390,21 +407,5 @@ void ADirectorActor::MapInputFunction()
 			return;
 		}
 		UUIManager::GetInstance()->ShowMapUI();
-	}
-}
-
-void ADirectorActor::PauseInputFunction()
-{
-	if (UUIManager::GetInstance()->IsShowPauseUI())
-	{
-		UUIManager::GetInstance()->HidePauseUI();
-	}
-	else
-	{
-		if (canOnlyControlUINumber > 0)
-		{
-			return;
-		}
-		UUIManager::GetInstance()->ShowPauseUI(); 
 	}
 }

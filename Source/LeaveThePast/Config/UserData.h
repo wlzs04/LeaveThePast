@@ -61,12 +61,17 @@ struct FScriptRecorderInfo
 		sectionId = 0; 
 		paragraphId = 0;
 	}
-
-	UPROPERTY(BlueprintReadWrite)
+	bool operator == (const FScriptRecorderInfo& anotherRecorderInfo)
+	{
+		return (chapter == anotherRecorderInfo.chapter) &&
+			sectionId == anotherRecorderInfo.sectionId &&
+			paragraphId == anotherRecorderInfo.paragraphId;
+	}
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	FString chapter;
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	int sectionId = 0;
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	int paragraphId = 0;
 };
 

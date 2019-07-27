@@ -86,7 +86,6 @@ private:
 	void SystemInputFunction();
 	void DebugInputFunction();
 	void MapInputFunction();
-	void PauseInputFunction();
 
 	static ADirectorActor* directorActor;
 	

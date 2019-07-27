@@ -22,7 +22,7 @@ void ALeaveThePastGameModeBase::StartPlay()
 
 	InitDebugCommand();
 
-	scriptVolumeBPClass = LoadClass<AActor>(NULL, TEXT("Actor'/Game/GameContent/WorldObject/Volume/ScriptVolumeBP.ScriptVolumeBP_C'"));
+	//scriptVolumeBPClass = LoadClass<AActor>(NULL, TEXT("Actor'/Game/GameContent/WorldObject/Volume/ScriptVolumeBP.ScriptVolumeBP_C'"));
 
 	UClass* skyObj = LoadClass<AActor>(NULL, TEXT("Actor'/Game/GameContent/WorldObject/Sky/SkySphereBP.SkySphereBP_C'"));
 
@@ -123,7 +123,7 @@ void ALeaveThePastGameModeBase::RefreshSky()
 	}
 }
 
-UClass* ALeaveThePastGameModeBase::GetScriptVolumeBPClass()
-{
-	return scriptVolumeBPClass;
-}
+//UClass* ALeaveThePastGameModeBase::GetScriptVolumeBPClass()
+//{
+//	return scriptVolumeBPClass;
+//}

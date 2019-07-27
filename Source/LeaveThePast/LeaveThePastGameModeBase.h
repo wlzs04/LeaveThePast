@@ -57,8 +57,8 @@ public:
 	void RefreshSky();
 
 	//获得剧本体积类
-	UFUNCTION(BlueprintCallable)
-	UClass* GetScriptVolumeBPClass();
+	//UFUNCTION(BlueprintCallable)
+	//UClass* GetScriptVolumeBPClass();
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void InitDebugCommand();
@@ -75,8 +75,8 @@ private:
 	MainGameStateEnum  mainGameState = MainGameStateEnum::Init;
 
 	//剧本体积类
-	UPROPERTY()
-	UClass* scriptVolumeBPClass = nullptr;
+	//UPROPERTY()
+	//UClass* scriptVolumeBPClass = nullptr;
 
 	//天空球
 	UPROPERTY()

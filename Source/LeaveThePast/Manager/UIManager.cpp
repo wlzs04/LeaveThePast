@@ -86,6 +86,7 @@ void UUIManager::ShowMainUI()
 	if (!mainUIWidget->IsInViewport())
 	{
 		mainUIWidget->AddToViewport();
+		UMainGameManager::GetInstance()->StopTime();
 	}
 
 	FOutputDeviceNull outputDeviceNull;
@@ -98,7 +99,11 @@ void UUIManager::ShowMainUI()
 
 void UUIManager::HideMainUI()
 {
-	mainUIWidget->RemoveFromParent();
+	if (mainUIWidget->IsInViewport())
+	{
+		mainUIWidget->RemoveFromParent();
+		UMainGameManager::GetInstance()->StartTime();
+	}
 }
 
 bool UUIManager::IsShowMainUI()

@@ -24,20 +24,6 @@ void UActorManager::Init()
 	LoadMassActorInfo();
 }
 
-//void UActorManager::LoadAllActorFromScene()
-//{
-//	LogNormal(TEXT("初始化场景中已存在的演员信息"));
-//	TActorIterator<AActorBase> actorItr = TActorIterator<AActorBase>(GetWorld(), AActorBase::StaticClass());
-//	for (actorItr; actorItr; ++actorItr)
-//	{
-//		AActorBase* actorBase = *actorItr;
-//		if (actorBase != nullptr && actorBase->actorIdForEditor != 0)
-//		{
-//			actorBase->SetActorInfo(GetActorInfoById(actorBase->actorIdForEditor));
-//		}
-//	}
-//}
-
 void UActorManager::LoadAllActorBySceneId(int sceneId)
 {
 	USceneRecorder* sceneRecorder = (USceneRecorder*)UConfigManager::GetInstance()->GetConfigByNameId(USceneRecorder::StaticClass(), TEXT("Scene"), sceneId);
@@ -143,6 +129,7 @@ void UActorManager::RemoveActorById(int actorId)
 	if (actorBaseByIdMap.Contains(actorId))
 	{
 		int actorInfoId = actorBaseByIdMap[actorId]->GetActorInfo()->GetActorId();
+		actorBaseByIdMap[actorId]->Destroy();
 		actorBaseByIdMap.Remove(actorId);
 		if (actorBaseByInfoIdMap.Contains(actorInfoId))
 		{
@@ -169,6 +156,7 @@ int UActorManager::RemoveActorByInfoId(int actorInfoId)
 			if (actor.Value->GetActorInfo()->GetActorId() == actorInfoId)
 			{
 				removeNumber++;
+				actorBaseByIdMap[actor.Key]->Destroy();
 				actorBaseByIdMap.Remove(actor.Key);
 			}
 		}

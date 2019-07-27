@@ -4,6 +4,7 @@
 #include "../Manager/MainGameManager.h"
 #include "../Manager/ScriptManager.h"
 #include "../Script/Chapter.h"
+#include "../Volume/ScriptVolume.h"
 #include "../LeaveThePastGameModeBase.h"
 
 UAddScriptVolumeAction::UAddScriptVolumeAction() :UActionBase()
@@ -53,7 +54,7 @@ FString UAddScriptVolumeAction::ExecuteReal()
 	FActorSpawnParameters actorSpawnParameters;
 	actorSpawnParameters.bAllowDuringConstructionScript = true;
 	actorSpawnParameters.bNoFail = true;
-	AActor* scriptActor = UMainGameManager::GetInstance()->GetGameWorld()->SpawnActor<AActor>(ALeaveThePastGameModeBase::GetInstance()->GetScriptVolumeBPClass(),position, FRotator(0,0,0), actorSpawnParameters);
+	AScriptVolume* scriptVolume = UMainGameManager::GetInstance()->GetGameWorld()->SpawnActor<AScriptVolume>(AScriptVolume::StaticClass(),position, FRotator(0,0,0), actorSpawnParameters);
 	
 	if (isNext)
 	{
@@ -66,10 +67,6 @@ FString UAddScriptVolumeAction::ExecuteReal()
 		}
 	}
 
-	UFunction* functionSetInfo = scriptActor->FindFunction(TEXT("SetInfo"));
-	if (functionSetInfo)
-	{
-		scriptActor->ProcessEvent(functionSetInfo, &scriptRecorderIndfo);
-	}
+	scriptVolume->SetInfo(scriptRecorderIndfo);
 	return FString();
 }

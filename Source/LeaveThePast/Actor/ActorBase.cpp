@@ -111,9 +111,14 @@ TArray<FScriptRecorderInfo> AActorBase::GetInteractedScriptList()
 	return interactedScriptList;
 }
 
-void AActorBase::AddinteractedScriptList(FScriptRecorderInfo scriptRecorder)
+void AActorBase::AddInteractedScriptList(FScriptRecorderInfo scriptRecorder)
 {
 	interactedScriptList.Add(scriptRecorder);
+}
+
+void AActorBase::RemoveInteractedScriptList(FScriptRecorderInfo scriptRecorder)
+{
+	interactedScriptList.Remove(scriptRecorder);
 }
 
 void AActorBase::Tick(float DeltaTime)
