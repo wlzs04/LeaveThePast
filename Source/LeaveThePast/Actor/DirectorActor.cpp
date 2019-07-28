@@ -34,14 +34,17 @@ void ADirectorActor::InitActor()
 
 	for (FSaveActorInfo saveActorInfo: saveList)
 	{
-		UActorInfoBase* actorInfo = actorManager->GetNewActorInfoByInfoId(saveActorInfo.actorId);
-		if (actorInfo!=nullptr)
+		if (actorManager->GetActorByInfoId(saveActorInfo.actorId) == nullptr)
 		{
-			actorInfo->CoverData(saveActorInfo);
-			AActorBase* actor = actorManager->LoadActorToSceneByActorInfo(actorInfo);
-			for (FScriptRecorderInfo scriptRecorderInfo : saveActorInfo.scriptRecorderList)
+			UActorInfoBase* actorInfo = actorManager->GetNewActorInfoByInfoId(saveActorInfo.actorId);
+			if (actorInfo != nullptr)
 			{
-				actor->AddInteractedScript(scriptRecorderInfo);
+				actorInfo->CoverData(saveActorInfo);
+				AActorBase* actor = actorManager->LoadActorToSceneByActorInfo(actorInfo);
+				for (FScriptRecorderInfo scriptRecorderInfo : saveActorInfo.scriptRecorderList)
+				{
+					actor->AddInteractedScript(scriptRecorderInfo);
+				}
 			}
 		}
 	}
@@ -96,13 +99,13 @@ void ADirectorActor::RemoveCanControlActorByInfoId(int actorInfoId)
 
 void ADirectorActor::SetControlActorById(int actorId)
 {
-	if (currentControlActor != nullptr && currentControlActor->GetActorId() == actorId)
+	if (currentControlActor != nullptr && currentControlActor->GetActorInfo()->GetActorId() == actorId)
 	{
 		return;
 	}
 	UMainGameManager* gameManager = UMainGameManager::GetInstance();
 	UActorManager* actorManager = gameManager->GetActorManager();
-	AActorBase* actor = actorManager->GetActorById(actorId);
+	AActorBase* actor = actorManager->GetActorByInfoId(actorId);
 	SetControlActor(actor);
 }
 
@@ -110,7 +113,7 @@ void ADirectorActor::SetControlActor(AActorBase* actor)
 {
 	if (actor != nullptr)
 	{
-		if (currentControlActor != nullptr && currentControlActor->GetActorId() == actor->GetActorId())
+		if (currentControlActor != nullptr && currentControlActor->GetActorInfo()->GetActorId() == actor->GetActorInfo()->GetActorId())
 		{
 			return;
 		}
@@ -129,7 +132,7 @@ void ADirectorActor::SetControlActor(AActorBase* actor)
 	}
 	for (int i = 0; i < canControlActorList.Num(); i++)
 	{
-		if (canControlActorList[i]->GetActorId() == actor->GetActorId())
+		if (canControlActorList[i]->GetActorInfo()->GetActorId() == actor->GetActorInfo()->GetActorId())
 		{
 			currentControlActorIndex = i;
 		}

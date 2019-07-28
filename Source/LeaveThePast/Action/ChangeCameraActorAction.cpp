@@ -36,7 +36,7 @@ FString UChangeCameraActorAction::ExecuteReal()
 	AActorBase* executeActor = UActorManager::GetInstance()->GetActorByInfoId(actorInfoId);
 	if (executeActor != nullptr)
 	{
-		ADirectorActor::GetInstance()->SetControlActorById(executeActor->GetActorId());
+		ADirectorActor::GetInstance()->SetControlActorById(executeActor->GetActorInfo()->GetActorId());
 	}
 	else
 	{

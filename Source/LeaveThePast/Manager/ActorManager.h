@@ -27,10 +27,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	AActorBase* LoadActorToSceneByActorInfo(UActorInfoBase* actorInfo);
 
-	//通过演员Id获得演员
-	UFUNCTION(BlueprintCallable)
-	AActorBase* GetActorById(int actorId);
-
 	//通过演员InfoId获得演员，如果找到多个，则返回第一个
 	UFUNCTION(BlueprintCallable)
 	AActorBase* GetActorByInfoId(int actorInfoId);
@@ -42,10 +38,6 @@ public:
 	//通过演员Id获得新的演员信息，一般用于新建演员
 	UFUNCTION(BlueprintCallable)
 	UActorInfoBase* GetNewActorInfoByInfoId(int actorInfoId);
-
-	//通过演员Id移除演员
-	UFUNCTION(BlueprintCallable)
-	void RemoveActorById(int actorId);
 
 	//通过演员信息Id移除演员
 	UFUNCTION(BlueprintCallable)
@@ -70,14 +62,6 @@ private:
 	TMap<int, UMainActorInfo*> mainActorInfoMap;
 	TMap<int, UMinorActorInfo*> minorActorInfoMap;
 	TMap<int, UMassActorInfo*> massActorInfoMap;
-
-	//通过actorId
-	TMap<int, AActorBase*> actorBaseByIdMap;
 	//通过actorInfoId
 	TMap<int, AActorBase*> actorBaseByInfoIdMap;
-
-	//体积map
-	TArray<AVolumeBase*> volumeBaseList;
-
-	int actorIdUnique = 0;//唯一的演员Id
 };

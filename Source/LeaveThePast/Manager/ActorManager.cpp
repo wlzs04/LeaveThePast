@@ -34,11 +34,14 @@ void UActorManager::LoadAllActorBySceneId(int sceneId)
 	}
 	for (FSceneActorInfo sceneActorInfo : sceneRecorder->GetSceneActorList())
 	{
-		UActorInfoBase* actorInfo = GetNewActorInfoByInfoId(sceneActorInfo.actorId);
-		if (actorInfo != nullptr)
+		if (GetActorByInfoId(sceneActorInfo.actorId) == nullptr)
 		{
-			actorInfo->CoverData(sceneActorInfo);
-			AActorBase* actorBase = LoadActorToSceneByActorInfo(actorInfo);
+			UActorInfoBase* actorInfo = GetNewActorInfoByInfoId(sceneActorInfo.actorId);
+			if (actorInfo != nullptr)
+			{
+				actorInfo->CoverData(sceneActorInfo);
+				AActorBase* actorBase = LoadActorToSceneByActorInfo(actorInfo);
+			}
 		}
 	}
 }
@@ -55,9 +58,6 @@ AActorBase* UActorManager::LoadActorToSceneByActorInfo(UActorInfoBase* actorInfo
 		{
 			actor->SetActorInfo(actorInfo);
 			actor->InitByActorInfo();
-			actorIdUnique++;
-			actor->SetActorId(actorIdUnique);
-			actorBaseByIdMap.Add(actorIdUnique, actor);
 			actorBaseByInfoIdMap.Add(actorInfo->GetActorId(), actor);
 			return actor;
 		}
@@ -69,15 +69,6 @@ AActorBase* UActorManager::LoadActorToSceneByActorInfo(UActorInfoBase* actorInfo
 	else
 	{
 		LogError(TEXT("LoadActorToSceneByInfoId中actorInfo为null。"));
-	}
-	return nullptr;
-}
-
-AActorBase* UActorManager::GetActorById(int actorId)
-{
-	if (actorBaseByIdMap.Contains(actorId))
-	{
-		return actorBaseByIdMap[actorId];
 	}
 	return nullptr;
 }
@@ -124,42 +115,12 @@ UActorInfoBase* UActorManager::GetNewActorInfoByInfoId(int actorInfoId)
 	return nullptr;
 }
 
-void UActorManager::RemoveActorById(int actorId)
-{
-	if (actorBaseByIdMap.Contains(actorId))
-	{
-		int actorInfoId = actorBaseByIdMap[actorId]->GetActorInfo()->GetActorId();
-		actorBaseByIdMap[actorId]->Destroy();
-		actorBaseByIdMap.Remove(actorId);
-		if (actorBaseByInfoIdMap.Contains(actorInfoId))
-		{
-			for (auto actor : actorBaseByIdMap)
-			{
-				if (actor.Value->GetActorInfo()->GetActorId() == actorInfoId)
-				{
-					actorBaseByInfoIdMap[actorInfoId] = actor.Value;
-					return;
-				}
-			}
-		}
-	}
-}
-
 int UActorManager::RemoveActorByInfoId(int actorInfoId)
 {
 	int removeNumber = 0;
 	if (actorBaseByInfoIdMap.Contains(actorInfoId))
 	{
 		actorBaseByInfoIdMap.Remove(actorInfoId);
-		for (auto actor : actorBaseByIdMap)
-		{
-			if (actor.Value->GetActorInfo()->GetActorId() == actorInfoId)
-			{
-				removeNumber++;
-				actorBaseByIdMap[actor.Key]->Destroy();
-				actorBaseByIdMap.Remove(actor.Key);
-			}
-		}
 	}
 	return removeNumber;
 }

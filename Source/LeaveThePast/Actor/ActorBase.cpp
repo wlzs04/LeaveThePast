@@ -130,7 +130,7 @@ void AActorBase::Execute(UActionBase* action)
 {
 	if (actionList.Contains(action))
 	{
-		LogError(FString::Printf(TEXT("演员Id:%d已经拥有指令:%s"), actorId, *action->GetActionName()));
+		LogError(FString::Printf(TEXT("演员Id:%d已经拥有指令:%s"), actorInfo->GetActorId(), *action->GetActionName()));
 		return;
 	}
 	actionList.Add(action);
@@ -184,23 +184,6 @@ void AActorBase::LoadModel()
 	{
 		LogError(FString::Printf(TEXT("演员信息Id:%d模型路径为空"), actorInfo->GetActorId()));
 	}
-}
-
-void AActorBase::SetActorId(int newActorId)
-{
-	if (actorId == 0)
-	{
-		actorId = newActorId;
-	}
-	else
-	{
-		LogError(FString::Printf(TEXT("演员Id重复设置:%d:%d"), actorId, newActorId));
-	}
-}
-
-int AActorBase::GetActorId()
-{
-	return actorId;
 }
 
 bool AActorBase::IsInTalking()

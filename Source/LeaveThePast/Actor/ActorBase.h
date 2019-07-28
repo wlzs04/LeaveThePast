@@ -36,10 +36,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	UActorInfoBase* GetActorInfo();
 
-	//演员Id，唯一标志，只能设置一次
-	void SetActorId(int newActorId);
-	int GetActorId();
-
 	UFUNCTION(BlueprintCallable)
 	bool IsInTalking();
 
@@ -83,7 +79,6 @@ private:
 	TArray<UActionBase*> actionList;
 
 	bool isInTalking = false;//在谈话中
-	int actorId = 0;//演员唯一Id
 
 	//摄像机组件
 	UPROPERTY()

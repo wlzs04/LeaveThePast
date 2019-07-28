@@ -10,12 +10,6 @@ UAddActorAction::UAddActorAction() :UActionBase()
 void UAddActorAction::Load(FXmlNode* xmlNode)
 {
 	sceneActorInfo.LoadFromXmlNode(xmlNode);
-
-	FString isOnlyString = xmlNode->GetAttribute(TEXT("isOnly"));
-	if (!isOnlyString.IsEmpty())
-	{
-		isOnly = isOnlyString.ToBool();
-	}
 }
 
 void UAddActorAction::Update()
@@ -28,19 +22,14 @@ void UAddActorAction::Update()
 
 FString UAddActorAction::ExecuteReal()
 {
-	if (isOnly)
+	if (UActorManager::GetInstance()->GetActorByInfoId(sceneActorInfo.actorId) == nullptr)
 	{
-		if(UActorManager::GetInstance()->GetActorByInfoId(sceneActorInfo.actorId)!=nullptr)
+		UActorInfoBase* actorInfo = UActorManager::GetInstance()->GetNewActorInfoByInfoId(sceneActorInfo.actorId);
+		if (actorInfo != nullptr)
 		{
-			LogWarning(FString::Printf(TEXT("指令AddActor失败，演员InfoId:%d已在场景中。"), sceneActorInfo.actorId));
-			return FString();
+			actorInfo->CoverData(sceneActorInfo);
+			UActorManager::GetInstance()->LoadActorToSceneByActorInfo(actorInfo);
 		}
-	}
-	UActorInfoBase* actorInfo = UActorManager::GetInstance()->GetNewActorInfoByInfoId(sceneActorInfo.actorId);
-	if (actorInfo != nullptr)
-	{
-		actorInfo->CoverData(sceneActorInfo);
-		UActorManager::GetInstance()->LoadActorToSceneByActorInfo(actorInfo);
 	}
 	return FString();
 }
