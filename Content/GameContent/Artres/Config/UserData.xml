@@ -1,11 +1,26 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<UserData time="9:3:54" isFixedTime="false" gameAndRealTimeRate="1.0" sceneId="10001">
+<UserData time="9:0:14" isFixedTime="false" gameAndRealTimeRate="1.0" sceneId="10002" >
 	<CanControlActorList>
-		<Actor id="10001" position="4477,-2867,90" rotation="0,0,-172" />
-		<Actor id="10002" position="6015,-179,95" rotation="0,0,-85" />
+		<Actor id="10001" />
 	</CanControlActorList>
+	<SceneActorList>
+		<Actor id="10001" position="3396,-2951,105" rotation="0,0,-129" >
+		</Actor>
+		<Actor id="30004" position="4900,390,90" rotation="0,0,-89" >
+		</Actor>
+		<Actor id="30005" position="4320,-560,90" rotation="0,0,89" >
+		</Actor>
+		<Actor id="30006" position="4690,-450,90" rotation="0,0,89" >
+		</Actor>
+		<Actor id="30007" position="5160,-420,90" rotation="0,0,89" >
+		</Actor>
+		<Actor id="30003" position="3280,-3110,105" rotation="0,0,0" >
+			<ScriptRecorderInfo chapter="1" sectionId="0" paragraphId="2" />
+		</Actor>
+		<Actor id="10002" position="3590,-3140,105" rotation="0,0,89" >
+		</Actor>
+	</SceneActorList>
 	<ItemMap>
-		<Item id="10001" number="246" />
+		<Item id="10001" number="50" />
 		<Item id="10002" number="1" />
 		<Item id="10003" number="1" />
 		<Item id="10004" number="1" />
@@ -13,8 +28,6 @@
 		<Item id="20001" number="10" />
 		<Item id="20002" number="3" />
 		<Item id="40004" number="1" />
-		<Item id="40005" number="1" />
-		<Item id="30003" number="2" />
 	</ItemMap>
 	<Script>
 		<Chapter name="1" state="1">
@@ -24,4 +37,7 @@
 			</Section>
 		</Chapter>
 	</Script>
+	<NextScript>
+		<!-- <ScriptRecorderInfo chapter="1" sectionId="0" paragraphId="2"/> -->
+	</NextScript>
 </UserData>

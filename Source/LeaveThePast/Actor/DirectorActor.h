@@ -16,8 +16,8 @@ public:
 
 	static ADirectorActor* GetInstance();
 
-	//初始化可控演员，从用户存档内读取
-	void InitCanControlActor();
+	//初始化场景演员和可控演员，从用户存档内读取
+	void InitActor();
 
 	//添加演员到可控演员列表中
 	UFUNCTION(BlueprintCallable)

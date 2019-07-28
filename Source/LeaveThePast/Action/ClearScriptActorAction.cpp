@@ -69,7 +69,7 @@ FString UClearScriptActorAction::ExecuteReal()
 			scriptRecorderIndfo.paragraphId = chapter->GetCurrentSection()->GetCurrentParagraph()->GetParagraphId();
 		}
 	}
-	actor->RemoveInteractedScriptList(scriptRecorderIndfo);
+	actor->RemoveInteractedScript(scriptRecorderIndfo);
 
 	return FString();
 }

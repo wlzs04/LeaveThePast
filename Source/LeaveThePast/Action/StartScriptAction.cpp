@@ -37,6 +37,6 @@ void UStartScriptAction::Update()
 
 FString UStartScriptAction::ExecuteReal()
 {
-	UScriptManager::GetInstance()->StartMainScriptByNameIndex(chapterName,sectionId,paragraphId);
+	UScriptManager::GetInstance()->StartScript(chapterName,sectionId,paragraphId);
 	return FString();
 }

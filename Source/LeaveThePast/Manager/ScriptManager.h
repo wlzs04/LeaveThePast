@@ -18,7 +18,11 @@ public:
 
 	//开始执行任务
 	UFUNCTION(BlueprintCallable)
-	void StartMainScriptByNameIndex(FString scriptName, int sectionId,int paragrapgId);
+	void StartScript(FString scriptName, int sectionId,int paragrapgId);
+
+	//开始执行需要运行的脚本
+	UFUNCTION(BlueprintCallable)
+	void StartNextScript();
 
 	//停止当前剧本，不算完成，一般用于玩家手动停止和某些条件不符被动停止
 	UFUNCTION(BlueprintCallable)

@@ -50,6 +50,9 @@ public:
 	//通过演员信息Id移除演员
 	UFUNCTION(BlueprintCallable)
 	int RemoveActorByInfoId(int actorInfoId);
+
+	//获得场景中石油演员
+	TMap<int, AActorBase*> GetAllActor();
 private:
 	//加载主演
 	void LoadMainActorInfo();

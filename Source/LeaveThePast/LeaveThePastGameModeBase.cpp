@@ -22,8 +22,6 @@ void ALeaveThePastGameModeBase::StartPlay()
 
 	InitDebugCommand();
 
-	//scriptVolumeBPClass = LoadClass<AActor>(NULL, TEXT("Actor'/Game/GameContent/WorldObject/Volume/ScriptVolumeBP.ScriptVolumeBP_C'"));
-
 	UClass* skyObj = LoadClass<AActor>(NULL, TEXT("Actor'/Game/GameContent/WorldObject/Sky/SkySphereBP.SkySphereBP_C'"));
 
 	TActorIterator<AActor> actorItr = TActorIterator<AActor>(GetWorld(), skyObj);
@@ -42,7 +40,7 @@ void ALeaveThePastGameModeBase::StartPlay()
 	directorActor = Cast<ADirectorActor>(GWorld->GetFirstPlayerController()->GetPawn());
 	directorActor->SetCanControl(false); 
 	
-	directorActor->InitCanControlActor();
+	directorActor->InitActor();
 
 	if (gameManager->GetSystemData()->GetShowInitUI())
 	{
@@ -80,10 +78,8 @@ void ALeaveThePastGameModeBase::StartGame()
 	gameManager->GetUIManager()->ShowMainUI();
 	gameManager->StartTime();
 
-	if (gameManager->GetUserData()->GetIsNewData())
-	{
-		gameManager->GetScriptManager()->StartMainScriptByNameIndex(TEXT("1"), 0, 0);
-	}
+	//判断是否有需要在游戏开始后运行的脚本
+	gameManager->GetScriptManager()->StartNextScript();
 }
 
 void ALeaveThePastGameModeBase::PauseGame()
@@ -122,8 +118,3 @@ void ALeaveThePastGameModeBase::RefreshSky()
 		skyBPActor->ProcessEvent(functionSetInfo, nullptr);
 	}
 }
-
-//UClass* ALeaveThePastGameModeBase::GetScriptVolumeBPClass()
-//{
-//	return scriptVolumeBPClass;
-//}

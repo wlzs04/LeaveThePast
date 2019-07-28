@@ -65,8 +65,8 @@ public:
 	TArray<AActor*> GetInteractedActor();
 
 	TArray<FScriptRecorderInfo> GetInteractedScriptList();
-	void AddInteractedScriptList(FScriptRecorderInfo scriptRecorder);
-	void RemoveInteractedScriptList(FScriptRecorderInfo scriptRecorder);
+	void AddInteractedScript(FScriptRecorderInfo scriptRecorder);
+	void RemoveInteractedScript(FScriptRecorderInfo scriptRecorder);
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	int actorIdForEditor = 0;

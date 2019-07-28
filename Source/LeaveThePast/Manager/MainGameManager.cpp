@@ -77,7 +77,7 @@ void UMainGameManager::EnterScene(int sceneId)
 	{
 		userData->SetSceneId(sceneId);
 		directorActor->StartPlayBGMSound(GetAudioManager()->GetAudioById(sceneRecorder->GetBGMId()));
-		GetActorManager()->LoadAllActorBySceneId(sceneId);
+		//GetActorManager()->LoadAllActorBySceneId(sceneId);
 	}
 }
 

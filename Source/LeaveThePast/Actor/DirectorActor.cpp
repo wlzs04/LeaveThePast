@@ -26,11 +26,11 @@ ADirectorActor* ADirectorActor::GetInstance()
 	return directorActor;
 }
 
-void ADirectorActor::InitCanControlActor()
+void ADirectorActor::InitActor()
 {
 	UMainGameManager* gameManager = UMainGameManager::GetInstance();
 	UActorManager* actorManager = gameManager->GetActorManager();
-	TArray<FSaveActorInfo> saveList = gameManager->GetUserData()->GetCanControlActorList();
+	TArray<FSaveActorInfo> saveList = gameManager->GetUserData()->GetSceneActorList();
 
 	for (FSaveActorInfo saveActorInfo: saveList)
 	{
@@ -39,7 +39,24 @@ void ADirectorActor::InitCanControlActor()
 		{
 			actorInfo->CoverData(saveActorInfo);
 			AActorBase* actor = actorManager->LoadActorToSceneByActorInfo(actorInfo);
+			for (FScriptRecorderInfo scriptRecorderInfo : saveActorInfo.scriptRecorderList)
+			{
+				actor->AddInteractedScript(scriptRecorderInfo);
+			}
+		}
+	}
+
+	TArray<int> canControlActorSaveList = gameManager->GetUserData()->GetCanControlActorList();
+	for (int canControlActorSaveActorInfoId : canControlActorSaveList)
+	{
+		AActorBase* actor = actorManager->GetActorByInfoId(canControlActorSaveActorInfoId);
+		if (actor != nullptr)
+		{
 			canControlActorList.Add(actor);
+		}
+		else
+		{
+			LogError(FString::Printf(TEXT("初始化可控演员时未找到actorInfoId：%d"), canControlActorSaveActorInfoId));
 		}
 	}
 	if (canControlActorList.Num() > 0)
@@ -294,9 +311,8 @@ void ADirectorActor::InteractedInputFunction()
 				//先判断是否有需要执行的剧本
 				if (actorBase->GetInteractedScriptList().Num() != 0)
 				{
-
 					FScriptRecorderInfo scriptRecorderInfo = actorBase->GetInteractedScriptList()[0];
-					UScriptManager::GetInstance()->StartMainScriptByNameIndex(scriptRecorderInfo.chapter, scriptRecorderInfo.sectionId, scriptRecorderInfo.paragraphId);
+					UScriptManager::GetInstance()->StartScript(scriptRecorderInfo.chapter, scriptRecorderInfo.sectionId, scriptRecorderInfo.paragraphId);
 					return;
 				}
 				UActorInfoBase* actorInfo = actorBase->GetActorInfo();

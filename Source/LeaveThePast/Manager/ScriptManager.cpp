@@ -50,7 +50,7 @@ void UScriptManager::Init()
 	LoadAllScript();
 }
 
-void UScriptManager::StartMainScriptByNameIndex(FString scriptName, int sectionId, int paragrapgId)
+void UScriptManager::StartScript(FString scriptName, int sectionId, int paragrapgId)
 {
 	if (!mainChapterMap.Contains(scriptName))
 	{
@@ -68,6 +68,17 @@ void UScriptManager::StartMainScriptByNameIndex(FString scriptName, int sectionI
 		currentScript = mainChapterMap[scriptName];
 		LogNormal(FString::Printf(TEXT("剧本开始：%s,%d,%d"), *scriptName, sectionId, paragrapgId));
 		currentScript->Start(sectionId, paragrapgId);
+	}
+}
+
+void UScriptManager::StartNextScript()
+{
+	UUserData* userData = UMainGameManager::GetInstance()->GetUserData();
+	if (userData->GetNextScriptList().Num() > 0)
+	{
+		FScriptRecorderInfo scriptRecorderInfo = userData->GetNextScriptList()[0];
+		userData->RemoveNextScript(scriptRecorderInfo);
+		StartScript(scriptRecorderInfo.chapter, scriptRecorderInfo.sectionId, scriptRecorderInfo.paragraphId);
 	}
 }
 

@@ -5,6 +5,8 @@
 #include "TimeData.h"
 #include "UserData.generated.h"
 
+class FXmlNode;
+
 USTRUCT(BlueprintType)
 struct FSaveActorInfo
 {
@@ -15,9 +17,13 @@ struct FSaveActorInfo
 		actorId = 0;
 	}
 
+	void LoadFromXmlNode(FXmlNode* xmlNode);
+
 	int actorId;
 	FVector position;
 	FRotator rotation;
+
+	TArray<FScriptRecorderInfo> scriptRecorderList;
 };
 
 USTRUCT(BlueprintType)
@@ -61,12 +67,23 @@ struct FScriptRecorderInfo
 		sectionId = 0; 
 		paragraphId = 0;
 	}
+
+	FScriptRecorderInfo(FString newChapter, int newSectionId, int newParagraphId)
+	{
+		chapter = newChapter;
+		sectionId = newSectionId;
+		paragraphId = newParagraphId;
+	}
+
 	bool operator == (const FScriptRecorderInfo& anotherRecorderInfo)
 	{
 		return (chapter == anotherRecorderInfo.chapter) &&
 			sectionId == anotherRecorderInfo.sectionId &&
 			paragraphId == anotherRecorderInfo.paragraphId;
 	}
+
+	void LoadFromXmlNode(FXmlNode* xmlNode);
+
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	FString chapter;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
@@ -115,13 +132,16 @@ public:
 	int GetSceneId();
 
 	//可控演员列表
-	TArray<FSaveActorInfo> GetCanControlActorList();
+	TArray<int> GetCanControlActorList();
 
 	//添加可控演员
-	void AddControlActor(int actorInfoId,FVector position,FRotator rotation);
+	void AddControlActor(int actorInfoId);
 
 	//移除可控演员
 	void RemoveControlActor(int actorInfoId);
+
+	//场景演员列表
+	TArray<FSaveActorInfo> GetSceneActorList();
 	
 	//获得物品map
 	UFUNCTION(BlueprintCallable)
@@ -155,9 +175,17 @@ public:
 	UFUNCTION(BlueprintCallable)
 	TMap<FString, FSaveChapterInfo> GetChapterMap();
 
-	//获得是否为新存档
+	//获得玩家即将运行的剧本列表
 	UFUNCTION(BlueprintCallable)
-	bool GetIsNewData();
+	TArray<FScriptRecorderInfo> GetNextScriptList();
+
+	//添加玩家即将运行的剧本
+	UFUNCTION(BlueprintCallable)
+	void AddNextScript(FScriptRecorderInfo newScriptRecorderInfo);
+
+	//移除玩家即将运行的剧本
+	UFUNCTION(BlueprintCallable)
+	void RemoveNextScript(FScriptRecorderInfo newScriptRecorderInfo);
 protected:
 	//保存路径
 	FString savePath;
@@ -167,10 +195,12 @@ protected:
 	bool isFixedTime = false;//是否固定时间
 	float gameAndRealTimeRate = 1;
 	int sceneId = 10001;//角色所在场景Id
-	TArray<FSaveActorInfo> canControlActorList;//可控演员列表
+	TArray<int> canControlActorList;//可控演员列表
+	TArray<FSaveActorInfo> sceneActorList;//场景演员列表
+	
 	TMap<int, int> itemMap;
 
-	TMap<FString, FSaveChapterInfo> chapterMap;//剧本
+	TMap<FString, FSaveChapterInfo> chapterMap;//剧本状态
 
-	bool isNewData = true;//是否为新存档
+	TArray<FScriptRecorderInfo> nextScriptList;//玩家即将运行的剧本列表，在游戏开始后立即执行
 };

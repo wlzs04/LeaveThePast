@@ -16,6 +16,6 @@ void AScriptVolume::VolumeBeginOverlapEventReal(UPrimitiveComponent* OverlappedC
 {
 	if (OtherActor == ADirectorActor::GetInstance())
 	{
-		UScriptManager::GetInstance()->StartMainScriptByNameIndex(scriptRecorderIndfo.chapter, scriptRecorderIndfo.sectionId, scriptRecorderIndfo.paragraphId);
+		UScriptManager::GetInstance()->StartScript(scriptRecorderIndfo.chapter, scriptRecorderIndfo.sectionId, scriptRecorderIndfo.paragraphId);
 	}
 }

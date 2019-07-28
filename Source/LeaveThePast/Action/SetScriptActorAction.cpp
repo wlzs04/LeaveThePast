@@ -65,7 +65,7 @@ FString USetScriptActorAction::ExecuteReal()
 			scriptRecorderIndfo.paragraphId = chapter->GetCurrentSection()->GetCurrentParagraph()->GetParagraphId() + 1;
 		}
 	}
-	actor->AddInteractedScriptList(scriptRecorderIndfo);
+	actor->AddInteractedScript(scriptRecorderIndfo);
 
 	return FString();
 }

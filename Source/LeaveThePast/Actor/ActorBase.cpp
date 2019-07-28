@@ -111,12 +111,12 @@ TArray<FScriptRecorderInfo> AActorBase::GetInteractedScriptList()
 	return interactedScriptList;
 }
 
-void AActorBase::AddInteractedScriptList(FScriptRecorderInfo scriptRecorder)
+void AActorBase::AddInteractedScript(FScriptRecorderInfo scriptRecorder)
 {
 	interactedScriptList.Add(scriptRecorder);
 }
 
-void AActorBase::RemoveInteractedScriptList(FScriptRecorderInfo scriptRecorder)
+void AActorBase::RemoveInteractedScript(FScriptRecorderInfo scriptRecorder)
 {
 	interactedScriptList.Remove(scriptRecorder);
 }

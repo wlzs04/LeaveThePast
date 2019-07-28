@@ -5,6 +5,57 @@
 #include "XmlParser/Public/XmlFile.h"
 #include "Engine/World.h"
 
+void FSaveActorInfo::LoadFromXmlNode(FXmlNode* xmlNode)
+{
+	for (FXmlAttribute attribute : xmlNode->GetAttributes())
+	{
+		FString attributeName = attribute.GetTag();
+		FString attributeValue = attribute.GetValue();
+
+		if (attributeName == TEXT("id"))
+		{
+			actorId = FCString::Atoi(*attributeValue);
+		}
+		else if (attributeName == TEXT("position"))
+		{
+			position = UHelpManager::ConvertFStringToFVector(attributeValue);
+		}
+		else if (attributeName == TEXT("rotation"))
+		{
+			rotation = UHelpManager::ConvertFStringToFRotator(attributeValue);
+		}
+	}
+
+	for (FXmlNode* childNode : xmlNode->GetChildrenNodes())
+	{
+		FScriptRecorderInfo scriptRecorderInfo;
+		scriptRecorderInfo.LoadFromXmlNode(childNode);
+		scriptRecorderList.Add(scriptRecorderInfo);
+	}
+}
+
+void FScriptRecorderInfo::LoadFromXmlNode(FXmlNode* xmlNode)
+{
+	for (FXmlAttribute attribute : xmlNode->GetAttributes())
+	{
+		FString attributeName = attribute.GetTag();
+		FString attributeValue = attribute.GetValue();
+
+		if (attributeName == TEXT("chapter"))
+		{
+			chapter = attributeValue;
+		}
+		else if (attributeName == TEXT("sectionId"))
+		{
+			sectionId = FCString::Atoi(*attributeValue);
+		}
+		else if (attributeName == TEXT("paragraphId"))
+		{
+			paragraphId = FCString::Atoi(*attributeValue);
+		}
+	}
+}
+
 UUserData::UUserData() :UObject()
 {
 	savePath = FPaths::ProjectContentDir() + TEXT("GameContent/Artres/Config/UserData.xml");
@@ -60,25 +111,22 @@ void UUserData::Load()
 			canControlActorList.Empty();
 			for (FXmlNode* itemNode : xmlNode->GetChildrenNodes())
 			{
-				FSaveActorInfo saveActorInfo;
-				int actorId = 0;
-				int number = 0;
 				FString idString = itemNode->GetAttribute(TEXT("id"));
 				if (!idString.IsEmpty())
 				{
-					saveActorInfo.actorId = (FCString::Atoi(*idString));
+					canControlActorList.Add(FCString::Atoi(*idString));
 				}
-				FString positionString = itemNode->GetAttribute(TEXT("position"));
-				if (!positionString.IsEmpty())
-				{
-					saveActorInfo.position = (UHelpManager::ConvertFStringToFVector(positionString));
-				}
-				FString rotationString = itemNode->GetAttribute(TEXT("rotation"));
-				if (!rotationString.IsEmpty())
-				{
-					saveActorInfo.rotation = (UHelpManager::ConvertFStringToFRotator(rotationString));
-				}
-				canControlActorList.Add(saveActorInfo);
+			}
+		}
+		//加载场景演员列表
+		if (xmlNode->GetTag() == TEXT("SceneActorList"))
+		{
+			sceneActorList.Empty();
+			for (FXmlNode* childNode : xmlNode->GetChildrenNodes())
+			{
+				FSaveActorInfo saveActorInfo;
+				saveActorInfo.LoadFromXmlNode(childNode);
+				sceneActorList.Add(saveActorInfo);
 			}
 		}
 		//加载物品
@@ -127,8 +175,34 @@ void UUserData::Load()
 				chapterMap.Add(chaterInfo.name,chaterInfo);
 			}
 		}
+		//即将运行的剧本
+		if (xmlNode->GetTag() == TEXT("NextScript"))
+		{
+			nextScriptList.Empty();
+			for (FXmlNode* scriptNode : xmlNode->GetChildrenNodes())
+			{
+				FScriptRecorderInfo scriptRecorderInfo;
+				for (FXmlAttribute attribute : scriptNode->GetAttributes())
+				{
+					FString attributeName = attribute.GetTag();
+					FString attributeValue = attribute.GetValue();
+					if (attributeName == TEXT("chapter"))
+					{
+						scriptRecorderInfo.chapter = attributeValue;
+					}
+					else if (attributeName == TEXT("sectionId"))
+					{
+						scriptRecorderInfo.sectionId = FCString::Atoi(*attributeValue);
+					}
+					else if (attributeName == TEXT("paragraphId"))
+					{
+						scriptRecorderInfo.paragraphId = FCString::Atoi(*attributeValue);
+					}
+				}
+				nextScriptList.Add(scriptRecorderInfo);
+			}
+		}
 	}
-	isNewData = false;
 
 	xmlFile->Clear();
 	delete xmlFile;
@@ -137,8 +211,9 @@ void UUserData::Load()
 
 void UUserData::Save()
 {
-	UMainGameManager* gameManager = Cast<UMainGameManager>(GetWorld()->GetGameInstance());
-	ADirectorActor* directorActor = Cast<ADirectorActor>(GetWorld()->GetFirstPlayerController()->GetPawn());
+	UMainGameManager* gameManager = UMainGameManager::GetInstance();
+	UActorManager* actorManager = UActorManager::GetInstance();
+	ADirectorActor* directorActor = ADirectorActor::GetInstance();
 	
 	FString xmlContent = TEXT("<UserData ");
 	//start 添加基础信息
@@ -155,12 +230,33 @@ void UUserData::Save()
 	{
 		xmlContent.Append(TEXT("\t\t<Actor "));
 		xmlContent.Append(TEXT("id=\"") + FString::FromInt(actor->GetActorInfo()->GetActorId()) + TEXT("\" "));
-		xmlContent.Append(TEXT("position=\"") + UHelpManager::ConvertToFString(actor->GetActorLocation()) + TEXT("\" "));
-		xmlContent.Append(TEXT("rotation=\"") + UHelpManager::ConvertToFString(actor->GetActorRotation()) + TEXT("\" "));
 		xmlContent.Append(TEXT("/>\n"));
 	}
 	xmlContent.Append(TEXT("\t</CanControlActorList>\n"));
 	//end 添加可控演员列表
+	//start 添加场景演员列表
+	xmlContent.Append(TEXT("\t<SceneActorList>\n"));
+	for (auto actorPair : actorManager->GetAllActor())
+	{
+		xmlContent.Append(TEXT("\t\t<Actor "));
+		xmlContent.Append(TEXT("id=\"") + FString::FromInt(actorPair.Value->GetActorInfo()->GetActorId()) + TEXT("\" "));
+		xmlContent.Append(TEXT("position=\"") + UHelpManager::ConvertToFString(actorPair.Value->GetActorLocation()) + TEXT("\" "));
+		xmlContent.Append(TEXT("rotation=\"") + UHelpManager::ConvertToFString(actorPair.Value->GetActorRotation()) + TEXT("\" "));
+		xmlContent.Append(TEXT(">\n"));
+	
+		for (FScriptRecorderInfo scriptRecorder : actorPair.Value->GetInteractedScriptList())
+		{
+			xmlContent.Append(TEXT("\t\t\t<ScriptRecorderInfo "));
+			xmlContent.Append(TEXT("chapter=\"") + scriptRecorder.chapter + TEXT("\" "));
+			xmlContent.Append(TEXT("sectionId=\"") + FString::FromInt(scriptRecorder.sectionId) + TEXT("\" "));
+			xmlContent.Append(TEXT("paragraphId=\"") + FString::FromInt(scriptRecorder.paragraphId) + TEXT("\" "));
+			xmlContent.Append(TEXT("/>\n"));
+		}
+
+		xmlContent.Append(TEXT("\t\t</Actor>\n"));
+	}
+	xmlContent.Append(TEXT("\t</SceneActorList>\n"));
+	//end 添加场景演员列表
 	//start 添加物品map
 	xmlContent.Append(TEXT("\t<ItemMap>\n"));
 	for (auto var : itemMap)
@@ -202,6 +298,18 @@ void UUserData::Save()
 	}
 	xmlContent.Append(TEXT("\t</Script>\n"));
 	//end 添加剧本信息
+	//start 添加即将运行的剧本信息
+	xmlContent.Append(TEXT("\t<NextScript>\n"));
+	for (FScriptRecorderInfo scriptRecorderInfo : nextScriptList)
+	{
+		xmlContent.Append(TEXT("\t\t<ScriptRecorderInfo "));
+		xmlContent.Append(TEXT("chapter=\"") + scriptRecorderInfo.chapter + TEXT("\" "));
+		xmlContent.Append(TEXT("sectionId=\"") + FString::FromInt(scriptRecorderInfo.sectionId) + TEXT("\" "));
+		xmlContent.Append(TEXT("paragraphId=\"") + FString::FromInt(scriptRecorderInfo.paragraphId) + TEXT("\" "));
+		xmlContent.Append(TEXT(">\n"));
+	}
+	xmlContent.Append(TEXT("\t</NextScript>\n"));
+	//end 添加剧本信息
 	xmlContent.Append(TEXT("</UserData>"));
 
 	FXmlFile* xmlFile = new FXmlFile(xmlContent, EConstructMethod::ConstructFromBuffer);
@@ -223,7 +331,7 @@ void UUserData::SetInitData()
 	AddItem(20002, 3);
 	AddItem(40004, 1);
 
-	//AddControlActor(10001,FVector(3705.0, -3075.0, 570.0), FRotator(0, 0, 0));
+	AddNextScript(FScriptRecorderInfo(TEXT("1"),0,0));
 }
 
 FTimeData UUserData::GetGameTimeData()
@@ -274,39 +382,40 @@ int UUserData::GetSceneId()
 	return sceneId;
 }
 
-TArray<FSaveActorInfo> UUserData::GetCanControlActorList()
+TArray<int> UUserData::GetCanControlActorList()
 {
 	return canControlActorList;
 }
 
-void UUserData::AddControlActor(int actorInfoId, FVector position, FRotator rotation)
+void UUserData::AddControlActor(int actorInfoId)
 {
-	for (auto saveActorInfo:canControlActorList)
+	for (int canControlActorId :canControlActorList)
 	{
-		if (saveActorInfo.actorId == actorInfoId)
+		if (canControlActorId == actorInfoId)
 		{
 			LogError(FString::Printf(TEXT("在向存档中添加可控演员时重复infoId:%d"), actorInfoId));
 			return;
 		}
 
 	}
-	FSaveActorInfo saveActorInfo;
-	saveActorInfo.actorId = actorInfoId;
-	saveActorInfo.position = position;
-	saveActorInfo.rotation = rotation;
-	canControlActorList.Add(saveActorInfo);
+	canControlActorList.Add(actorInfoId);
 }
 
 void UUserData::RemoveControlActor(int actorInfoId)
 {
 	for (int i = 0;i<canControlActorList.Num();i++)
 	{
-		if (canControlActorList[i].actorId == actorInfoId)
+		if (canControlActorList[i] == actorInfoId)
 		{
 			canControlActorList.RemoveAt(i);
 			return;
 		}
 	}
+}
+
+TArray<FSaveActorInfo> UUserData::GetSceneActorList()
+{
+	return sceneActorList;
 }
 
 TMap<int, int> UUserData::GetItemMap()
@@ -398,8 +507,17 @@ TMap<FString, FSaveChapterInfo> UUserData::GetChapterMap()
 	return chapterMap;
 }
 
-bool UUserData::GetIsNewData()
+TArray<FScriptRecorderInfo> UUserData::GetNextScriptList()
 {
-	return isNewData;
+	return nextScriptList;
 }
 
+void UUserData::AddNextScript(FScriptRecorderInfo newScriptRecorderInfo)
+{
+	nextScriptList.Add(newScriptRecorderInfo);
+}
+
+void UUserData::RemoveNextScript(FScriptRecorderInfo newScriptRecorderInfo)
+{
+	nextScriptList.Remove(newScriptRecorderInfo);
+}

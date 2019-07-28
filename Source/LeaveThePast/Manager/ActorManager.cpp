@@ -164,6 +164,11 @@ int UActorManager::RemoveActorByInfoId(int actorInfoId)
 	return removeNumber;
 }
 
+TMap<int, AActorBase*> UActorManager::GetAllActor()
+{
+	return actorBaseByInfoIdMap;
+}
+
 void UActorManager::LoadMainActorInfo()
 {
 	FString mainActorPath = FPaths::ProjectContentDir() + mainActorRelativePath;
