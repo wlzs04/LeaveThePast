@@ -59,6 +59,8 @@ void ALeaveThePastGameModeBase::Tick(float deltaSeconds)
 	if (mainGameState == MainGameStateEnum::Normal)
 	{
 		gameManager->Tick(deltaSeconds);
+		
+		skyBPActor->SetActorRelativeLocation(directorActor->GetActorLocation()+FVector(0,0,500));
 	}
 }
 
