@@ -86,7 +86,7 @@ private:
 	void SystemInputFunction();
 	void DebugInputFunction();
 	void MapInputFunction();
-
+	
 	static ADirectorActor* directorActor;
 	
 	UPROPERTY()
@@ -95,7 +95,9 @@ private:
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta = (AllowPrivateAccess = "true"))
 	USphereComponent* interactedComponent = nullptr;
 
+	UPROPERTY()
 	TArray<AActorBase*> canControlActorList;
+	UPROPERTY()
 	AActorBase* currentControlActor = nullptr;
 	int currentControlActorIndex = 0;
 

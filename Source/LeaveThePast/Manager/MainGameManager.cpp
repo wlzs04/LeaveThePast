@@ -22,6 +22,8 @@ void UMainGameManager::InitAll()
 		UMainGameManager::gameManager = this;
 		InitManager();
 
+		gameWorld = GetWorld();
+
 		systemData = NewObject<USystemData>(this);
 		ReloadSystemData();
 
@@ -30,8 +32,6 @@ void UMainGameManager::InitAll()
 
 		debugData = NewObject<UDebugData>(this);
 		ReloadDebugData();
-
-		gameWorld = GetWorld();
 
 		directorActor = Cast<ADirectorActor>(GetWorld()->GetFirstPlayerController()->GetPawn());
 		
@@ -110,11 +110,13 @@ void UMainGameManager::InitManager()
 void UMainGameManager::StartTime()
 {
 	startTime = true;
+	LogNormal(TEXT("游戏时间开始。"));
 }
 
 void UMainGameManager::StopTime()
 {
 	startTime = false;
+	LogNormal(TEXT("游戏时间停止。"));
 }
 
 bool UMainGameManager::IsStartTime()

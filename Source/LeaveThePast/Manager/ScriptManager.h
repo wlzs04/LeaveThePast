@@ -90,16 +90,21 @@ private:
 
 	static UScriptManager* scriptManager;
 
+	UPROPERTY()
 	TMap<FString, UActionBase*> legalActionMap;
 
 	FString mainScriptRelativePath = TEXT("GameContent/Artres/Script/Main/");
 	FString sideScriptRelativePath = TEXT("GameContent/Artres/Script/Side/");
 	FString sceneScriptRelativePath = TEXT("GameContent/Artres/Script/Scene/");
 
+	UPROPERTY()
 	TMap<FString, UChapter*> mainChapterMap;
+	UPROPERTY()
 	TMap<FString, UChapter*> sideChapterMap;
+	UPROPERTY()
 	TMap<FString, UChapter*> sceneChapterMap;
 
+	UPROPERTY()
 	UChapter* currentScript = nullptr;
 
 	float scriptExecuteSpeed = 1;//剧本执行速度

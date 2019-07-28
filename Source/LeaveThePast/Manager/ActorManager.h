@@ -59,9 +59,13 @@ private:
 	FString minorActorRelativePath = TEXT("GameContent/Artres/Actor/MinorActor.xml");
 	FString massActorRelativePath = TEXT("GameContent/Artres/Actor/MassActor.xml");
 
+	UPROPERTY()
 	TMap<int, UMainActorInfo*> mainActorInfoMap;
+	UPROPERTY()
 	TMap<int, UMinorActorInfo*> minorActorInfoMap;
+	UPROPERTY()
 	TMap<int, UMassActorInfo*> massActorInfoMap;
-	//通过actorInfoId
+
+	UPROPERTY()
 	TMap<int, AActorBase*> actorBaseByInfoIdMap;
 };

@@ -86,7 +86,6 @@ void UUIManager::ShowMainUI()
 	if (!mainUIWidget->IsInViewport())
 	{
 		mainUIWidget->AddToViewport();
-		UMainGameManager::GetInstance()->StopTime();
 	}
 
 	FOutputDeviceNull outputDeviceNull;
@@ -102,7 +101,6 @@ void UUIManager::HideMainUI()
 	if (mainUIWidget->IsInViewport())
 	{
 		mainUIWidget->RemoveFromParent();
-		UMainGameManager::GetInstance()->StartTime();
 	}
 }
 
@@ -117,6 +115,7 @@ void UUIManager::ShowMenuUI()
 	{
 		ADirectorActor::GetInstance()->AddCanOnlyControlUINumber();
 		menuUIWidget->AddToViewport();
+		UMainGameManager::GetInstance()->StopTime();
 	}
 }
 
@@ -126,6 +125,7 @@ void UUIManager::HideMenuUI()
 	{
 		ADirectorActor::GetInstance()->RemoveCanOnlyControlUINumber();
 		menuUIWidget->RemoveFromParent();
+		UMainGameManager::GetInstance()->StartTime();
 	}
 }
 
