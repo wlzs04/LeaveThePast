@@ -246,21 +246,21 @@ void UUserData::Save()
 	UActorManager* actorManager = UActorManager::GetInstance();
 	ADirectorActor* directorActor = ADirectorActor::GetInstance();
 	
-	FString xmlContent = TEXT("<UserData ");
+	FString xmlContent = TEXT("<UserData");
 	//start 添加基础信息
-	xmlContent.Append(TEXT("time=\"") + UHelpManager::ConvertToFString(gameTimeData.GetTimespan()) + TEXT("\" "));
+	xmlContent.Append(TEXT(" time=\"") + UHelpManager::ConvertToFString(gameTimeData.GetTimespan()) + TEXT("\""));
 	FString isFixedTimeString = (isFixedTime ? TEXT("true") : TEXT("false"));
-	xmlContent.Append(TEXT("isFixedTime=\"") + isFixedTimeString + TEXT("\" "));
-	xmlContent.Append(TEXT("gameAndRealTimeRate=\"") + FString::SanitizeFloat(gameAndRealTimeRate) + TEXT("\" "));
-	xmlContent.Append(TEXT("sceneId=\"") + FString::FromInt(sceneId) + TEXT("\" "));
+	xmlContent.Append(TEXT(" isFixedTime=\"") + isFixedTimeString + TEXT("\""));
+	xmlContent.Append(TEXT(" gameAndRealTimeRate=\"") + FString::SanitizeFloat(gameAndRealTimeRate) + TEXT("\""));
+	xmlContent.Append(TEXT(" sceneId=\"") + FString::FromInt(sceneId) + TEXT("\""));
 	//end 添加基础信息
 	xmlContent.Append(TEXT(">\n"));
 	//start 添加可控演员列表
 	xmlContent.Append(TEXT("\t<CanControlActorList>\n"));
 	for (AActorBase* actor : directorActor->GetCanControlActorList())
 	{
-		xmlContent.Append(TEXT("\t\t<Actor "));
-		xmlContent.Append(TEXT("id=\"") + FString::FromInt(actor->GetActorInfo()->GetActorId()) + TEXT("\" "));
+		xmlContent.Append(TEXT("\t\t<Actor"));
+		xmlContent.Append(TEXT(" id=\"") + FString::FromInt(actor->GetActorInfo()->GetActorId()) + TEXT("\""));
 		xmlContent.Append(TEXT("/>\n"));
 	}
 	xmlContent.Append(TEXT("\t</CanControlActorList>\n"));
@@ -269,18 +269,18 @@ void UUserData::Save()
 	xmlContent.Append(TEXT("\t<SceneActorList>\n"));
 	for (auto actorPair : actorManager->GetAllActor())
 	{
-		xmlContent.Append(TEXT("\t\t<Actor "));
-		xmlContent.Append(TEXT("id=\"") + FString::FromInt(actorPair.Value->GetActorInfo()->GetActorId()) + TEXT("\" "));
-		xmlContent.Append(TEXT("position=\"") + UHelpManager::ConvertToFString(actorPair.Value->GetActorLocation()) + TEXT("\" "));
-		xmlContent.Append(TEXT("rotation=\"") + UHelpManager::ConvertToFString(actorPair.Value->GetActorRotation()) + TEXT("\" "));
+		xmlContent.Append(TEXT("\t\t<Actor"));
+		xmlContent.Append(TEXT(" id=\"") + FString::FromInt(actorPair.Value->GetActorInfo()->GetActorId()) + TEXT("\""));
+		xmlContent.Append(TEXT(" position=\"") + UHelpManager::ConvertToFString(actorPair.Value->GetActorLocation()) + TEXT("\""));
+		xmlContent.Append(TEXT(" rotation=\"") + UHelpManager::ConvertToFString(actorPair.Value->GetActorRotation()) + TEXT("\""));
 		xmlContent.Append(TEXT(">\n"));
 	
 		for (FScriptRecorderInfo scriptRecorder : actorPair.Value->GetInteractedScriptList())
 		{
-			xmlContent.Append(TEXT("\t\t\t<ScriptRecorderInfo "));
-			xmlContent.Append(TEXT("chapter=\"") + scriptRecorder.chapter + TEXT("\" "));
-			xmlContent.Append(TEXT("sectionId=\"") + FString::FromInt(scriptRecorder.sectionId) + TEXT("\" "));
-			xmlContent.Append(TEXT("paragraphId=\"") + FString::FromInt(scriptRecorder.paragraphId) + TEXT("\" "));
+			xmlContent.Append(TEXT("\t\t\t<ScriptRecorderInfo"));
+			xmlContent.Append(TEXT(" chapter=\"") + scriptRecorder.chapter + TEXT("\""));
+			xmlContent.Append(TEXT(" sectionId=\"") + FString::FromInt(scriptRecorder.sectionId) + TEXT("\""));
+			xmlContent.Append(TEXT(" paragraphId=\"") + FString::FromInt(scriptRecorder.paragraphId) + TEXT("\""));
 			xmlContent.Append(TEXT("/>\n"));
 		}
 
@@ -309,9 +309,9 @@ void UUserData::Save()
 	{
 		if (var.Value != 0)
 		{
-			xmlContent.Append(TEXT("\t\t<Item "));
-			xmlContent.Append(TEXT("id=\"") + FString::FromInt(var.Key) + TEXT("\" "));
-			xmlContent.Append(TEXT("number=\"") + FString::FromInt(var.Value) + TEXT("\" "));
+			xmlContent.Append(TEXT("\t\t<Item"));
+			xmlContent.Append(TEXT(" id=\"") + FString::FromInt(var.Key) + TEXT("\""));
+			xmlContent.Append(TEXT(" number=\"") + FString::FromInt(var.Value) + TEXT("\""));
 			xmlContent.Append(TEXT("/>\n"));
 		}
 	}
@@ -321,21 +321,21 @@ void UUserData::Save()
 	xmlContent.Append(TEXT("\t<Script>\n"));
 	for (auto chapterInfo : chapterMap)
 	{
-		xmlContent.Append(TEXT("\t\t<Chapter "));
-		xmlContent.Append(TEXT("name=\"") + chapterInfo.Value.name + TEXT("\" "));
-		xmlContent.Append(TEXT("state=\"") + FString::FromInt(chapterInfo.Value.state) + TEXT("\" "));
+		xmlContent.Append(TEXT("\t\t<Chapter"));
+		xmlContent.Append(TEXT(" name=\"") + chapterInfo.Value.name + TEXT("\""));
+		xmlContent.Append(TEXT(" state=\"") + FString::FromInt(chapterInfo.Value.state) + TEXT("\""));
 		xmlContent.Append(TEXT(">\n"));
 		for (auto sectionInfo : chapterInfo.Value.sectionMap)
 		{
-			xmlContent.Append(TEXT("\t\t\t<Section "));
-			xmlContent.Append(TEXT("id=\"") + FString::FromInt(sectionInfo.Value.id) + TEXT("\" "));
-			xmlContent.Append(TEXT("state=\"") + FString::FromInt(sectionInfo.Value.state) + TEXT("\" "));
+			xmlContent.Append(TEXT("\t\t\t<Section"));
+			xmlContent.Append(TEXT(" id=\"") + FString::FromInt(sectionInfo.Value.id) + TEXT("\""));
+			xmlContent.Append(TEXT(" state=\"") + FString::FromInt(sectionInfo.Value.state) + TEXT("\""));
 			xmlContent.Append(TEXT(">\n"));
 			for (auto paragraphInfo : sectionInfo.Value.paragraphMap)
 			{
-				xmlContent.Append(TEXT("\t\t\t\t<Paragraph "));
-				xmlContent.Append(TEXT("id=\"") + FString::FromInt(paragraphInfo.Key) + TEXT("\" "));
-				xmlContent.Append(TEXT("state=\"") + FString::FromInt(paragraphInfo.Value) + TEXT("\" "));
+				xmlContent.Append(TEXT("\t\t\t\t<Paragraph"));
+				xmlContent.Append(TEXT(" id=\"") + FString::FromInt(paragraphInfo.Key) + TEXT("\""));
+				xmlContent.Append(TEXT(" state=\"") + FString::FromInt(paragraphInfo.Value) + TEXT("\""));
 				xmlContent.Append(TEXT("/>\n"));
 			}
 			xmlContent.Append(TEXT("\t\t\t</Section>\n"));
@@ -348,10 +348,10 @@ void UUserData::Save()
 	xmlContent.Append(TEXT("\t<NextScript>\n"));
 	for (FScriptRecorderInfo scriptRecorderInfo : nextScriptList)
 	{
-		xmlContent.Append(TEXT("\t\t<ScriptRecorderInfo "));
-		xmlContent.Append(TEXT("chapter=\"") + scriptRecorderInfo.chapter + TEXT("\" "));
-		xmlContent.Append(TEXT("sectionId=\"") + FString::FromInt(scriptRecorderInfo.sectionId) + TEXT("\" "));
-		xmlContent.Append(TEXT("paragraphId=\"") + FString::FromInt(scriptRecorderInfo.paragraphId) + TEXT("\" "));
+		xmlContent.Append(TEXT("\t\t<ScriptRecorderInfo"));
+		xmlContent.Append(TEXT(" chapter=\"") + scriptRecorderInfo.chapter + TEXT("\""));
+		xmlContent.Append(TEXT(" sectionId=\"") + FString::FromInt(scriptRecorderInfo.sectionId) + TEXT("\""));
+		xmlContent.Append(TEXT(" paragraphId=\"") + FString::FromInt(scriptRecorderInfo.paragraphId) + TEXT("\""));
 		xmlContent.Append(TEXT(">\n"));
 	}
 	xmlContent.Append(TEXT("\t</NextScript>\n"));

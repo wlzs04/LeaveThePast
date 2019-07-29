@@ -19,25 +19,20 @@ void UClearScriptActorAction::Load(FXmlNode* xmlNode)
 		{
 			actorInfoId = FCString::Atoi(*attributeValue);
 		}
-		else if (attributeName == TEXT("isCurrent"))
-		{
-			isCurrent = FCString::ToBool(*attributeValue);
-		}
 		else if (attributeName == TEXT("chapter"))
 		{
 			scriptRecorderIndfo.chapter = attributeValue;
-		}
-		else if (attributeName == TEXT("chapter"))
-		{
-			scriptRecorderIndfo.chapter = attributeValue;
+			isCurrent = false;
 		}
 		else if (attributeName == TEXT("sectionId"))
 		{
 			scriptRecorderIndfo.sectionId = FCString::Atoi(*attributeValue);
+			isCurrent = false;
 		}
 		else if (attributeName == TEXT("paragraphId"))
 		{
 			scriptRecorderIndfo.paragraphId = FCString::Atoi(*attributeValue);
+			isCurrent = false;
 		}
 	}
 }

@@ -1,18 +1,18 @@
 <Chapter name="第一章" description="准备出发">
 	<Section id="0" name="第一节" description="在客栈汇合">
 		<Paragraph id="0" canControlMove="true" canControlView="true">
-			<AddActor actorId="10001" isOnly="true" position="3690.0,-3100.0,610"/>
+			<AddActor actorId="10001" position="3690.0,-3100.0,610"/>
 			<AddCanControlActor actorId="10001"/>
 			<ChangeCameraActor actorId="10001"/>
 			<Say actorId="10001" text="........" voicePath="saysomething.wav" actionTime="1"/>
 			<Say actorId="10001" text="醒了·····还有点不清醒。" voicePath="saysomething.wav" actionTime="1"/>
 			<Say actorId="10001" text="赶紧起来吧，还有人在等。" voicePath="saysomething.wav" actionTime="1"/>
-			<AddScriptVolume position="3430.0,-2810.0,70.0" isNext="true"/>
+			<AddScriptVolume position="3430.0,-2810.0,70.0"/>
 			<SetParagraphState state="2"/>
 		</Paragraph>
 		<Paragraph id="1" canControlView="true">
-			<RemoveScriptVolume isCurrent="true"/>
-			<AddActor actorId="10002" isOnly="true"/>
+			<RemoveScriptVolume/>
+			<AddActor actorId="10002"/>
 			<Move actorId="10001" actionTime="1" speed="100" direction="1,0,0"/>
 			<Rotate actorId="10001" actionTime="1" value="-90"/>
 			<Say actorId="10001" text="既然想听声音，我就随便说点什么吧！" voicePath="saysomething.wav" actionTime="0.5"/>
@@ -29,7 +29,7 @@
 			
 			<ChangeCameraActor actorId="10001"/>
 			<PlayBGM audioId="10005"/>
-			<SetScriptActor actorId="30003" isNext="true"/>
+			<SetScriptActor actorId="30003"/>
 			<SetParagraphState state="2"/>
 		</Paragraph>
 		<Paragraph id="2">
@@ -48,7 +48,7 @@
 						</ConditionItem>
 						<ConditionItem type="&gt;" value="200">
 							<RemoveMoney number="200"/>
-							<ClearScriptActor actorId="30003" isCurrent="true"/>
+							<ClearScriptActor actorId="30003"/>
 							<Say actorId="10002" text="好，走吧。" voicePath="saysomething.wav" actionTime="1"/>
 							<Say actorId="10001" text="你这里欠我的要用什么换？（指了指钱包）" voicePath="saysomething.wav" actionTime="1"/>
 							<Say actorId="10002" text="以后再说。" voicePath="saysomething.wav" actionTime="1"/>

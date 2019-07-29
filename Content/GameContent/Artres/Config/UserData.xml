@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<UserData time="9:0:15" isFixedTime="false" gameAndRealTimeRate="1.0" sceneId="10002">
+<UserData time="9:0:38" isFixedTime="false" gameAndRealTimeRate="1.0" sceneId="10002">
 	<CanControlActorList>
 		<Actor id="10001" />
 	</CanControlActorList>
 	<SceneActorList>
-		<Actor id="10001" position="3043,-2859,268" rotation="0,0,9" />
+		<Actor id="10001" position="3069,-2821,248" rotation="0,0,-13" />
 		<Actor id="30004" position="4900,390,90" rotation="0,0,-89" />
 		<Actor id="30005" position="4320,-560,90" rotation="0,0,89" />
 		<Actor id="30006" position="4690,-450,90" rotation="0,0,89" />

@@ -46,7 +46,7 @@ void UActorManager::LoadAllActorBySceneId(int sceneId)
 			if (actorInfo != nullptr)
 			{
 				actorInfo->CoverData(sceneActorInfo);
-				AActorBase* actorBase = LoadActorToSceneByActorInfo(actorInfo);
+				LoadActorToSceneByActorInfo(actorInfo);
 			}
 		}
 	}

@@ -15,25 +15,24 @@ void USetScriptActorAction::Load(FXmlNode* xmlNode)
 	{
 		FString attributeName = attribute.GetTag();
 		FString attributeValue = attribute.GetValue();
-		if (attributeName == TEXT("isNext"))
-		{
-			isNext = FCString::ToBool(*attributeValue);
-		}
-		else if (attributeName == TEXT("actorId"))
+		if (attributeName == TEXT("actorId"))
 		{
 			actorInfoId = FCString::Atoi(*attributeValue);
 		}
 		else if (attributeName == TEXT("chapter"))
 		{
 			scriptRecorderIndfo.chapter = attributeValue;
+			isNext = false;
 		}
 		else if (attributeName == TEXT("sectionId"))
 		{
 			scriptRecorderIndfo.sectionId = FCString::Atoi(*attributeValue);
+			isNext = false;
 		}
 		else if (attributeName == TEXT("paragraphId"))
 		{
 			scriptRecorderIndfo.paragraphId = FCString::Atoi(*attributeValue);
+			isNext = false;
 		}
 	}
 }
