@@ -1,5 +1,6 @@
 #include "GetItemNumberAction.h"
 #include "../Manager/MainGameManager.h"
+#include "../Manager/LogManager.h"
 
 UGetItemNumberAction::UGetItemNumberAction() :UActionBase()
 {
@@ -15,6 +16,10 @@ void UGetItemNumberAction::Load(FXmlNode* xmlNode)
 		if (attributeName == TEXT("itemId"))
 		{
 			itemId = FCString::Atoi(*attributeValue);
+		}
+		else
+		{
+			LogWarning(FString::Printf(TEXT("%s指令中存在未知属性:%s：%s！"), *actionName, *attributeName, *attributeValue));
 		}
 	}
 }

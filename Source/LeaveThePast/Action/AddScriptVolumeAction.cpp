@@ -2,6 +2,7 @@
 #include "../Manager/HelpManager.h"
 #include "../Manager/ActorManager.h"
 #include "../Manager/MainGameManager.h"
+#include "../Manager/LogManager.h"
 #include "../Manager/ScriptManager.h"
 #include "../Script/Chapter.h"
 #include "../Volume/ScriptVolume.h"
@@ -36,6 +37,10 @@ void UAddScriptVolumeAction::Load(FXmlNode* xmlNode)
 		{
 			scriptRecorderIndfo.paragraphId = FCString::Atoi(*attributeValue);
 			isNext = false;
+		}
+		else
+		{
+			LogWarning(FString::Printf(TEXT("%s指令中存在未知属性:%s：%s！"), *actionName, *attributeName, *attributeValue));
 		}
 	}
 }

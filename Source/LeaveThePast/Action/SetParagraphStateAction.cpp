@@ -1,5 +1,6 @@
 #include "SetParagraphStateAction.h"
 #include "../Manager/MainGameManager.h"
+#include "../Manager/LogManager.h"
 #include "../Script/Chapter.h"
 
 USetParagraphStateAction::USetParagraphStateAction() :UActionBase()
@@ -31,6 +32,10 @@ void USetParagraphStateAction::Load(FXmlNode* xmlNode)
 		{
 			paragraphId = FCString::Atoi(*attributeValue);
 			isCurrent = false;
+		}
+		else
+		{
+			LogWarning(FString::Printf(TEXT("%s指令中存在未知属性:%s：%s！"), *actionName, *attributeName, *attributeValue));
 		}
 	}
 }

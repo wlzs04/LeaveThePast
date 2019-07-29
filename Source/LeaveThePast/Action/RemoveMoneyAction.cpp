@@ -1,5 +1,6 @@
 #include "RemoveMoneyAction.h"
 #include "../Manager/MainGameManager.h"
+#include "../Manager/LogManager.h"
 
 URemoveMoneyAction::URemoveMoneyAction() :UActionBase()
 {
@@ -15,6 +16,10 @@ void URemoveMoneyAction::Load(FXmlNode* xmlNode)
 		if (attributeName == TEXT("number"))
 		{
 			number = FCString::Atoi(*attributeValue);
+		}
+		else
+		{
+			LogWarning(FString::Printf(TEXT("%s指令中存在未知属性:%s：%s！"), *actionName, *attributeName, *attributeValue));
 		}
 	}
 }

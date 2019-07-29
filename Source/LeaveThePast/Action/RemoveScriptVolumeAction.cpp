@@ -35,6 +35,10 @@ void URemoveScriptVolumeAction::Load(FXmlNode* xmlNode)
 			scriptRecorderInfo.paragraphId = FCString::Atoi(*attributeValue);
 			isCurrent = false;
 		}
+		else
+		{
+			LogWarning(FString::Printf(TEXT("%s指令中存在未知属性:%s：%s！"), *actionName, *attributeName, *attributeValue));
+		}
 	}
 }
 

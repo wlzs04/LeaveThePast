@@ -1,5 +1,6 @@
 #include "SetCanControlViewAction.h"
 #include "../Actor/DirectorActor.h"
+#include "../Manager/LogManager.h"
 
 USetCanControlViewAction::USetCanControlViewAction() :UActionBase()
 {
@@ -15,6 +16,10 @@ void USetCanControlViewAction::Load(FXmlNode* xmlNode)
 		if (attributeName == TEXT("canControlView"))
 		{
 			canControlView = FCString::ToBool(*attributeValue);
+		}
+		else
+		{
+			LogWarning(FString::Printf(TEXT("%s指令中存在未知属性:%s：%s！"), *actionName, *attributeName, *attributeValue));
 		}
 	}
 }

@@ -1,6 +1,7 @@
 #include "ConditionAction.h"
 #include "../Manager/LogManager.h"
 #include "../Manager/ScriptManager.h"
+#include "XmlParser/Public/XmlFile.h"
 
 UConditionItemAction::UConditionItemAction() :UMultiplyAction()
 {
@@ -39,6 +40,10 @@ void UConditionItemAction::Load(FXmlNode* xmlNode)
 		else if (attributeName == TEXT("isDefault"))
 		{
 			isDefault = FCString::ToBool(*attributeValue);
+		}
+		else
+		{
+			LogWarning(FString::Printf(TEXT("%s指令中存在未知属性:%s：%s！"), *actionName, *attributeName, *attributeValue));
 		}
 	}
 	UMultiplyAction::Load(xmlNode);
@@ -79,6 +84,10 @@ void UConditionAction::Load(FXmlNode* xmlNode)
 		if (attributeName == TEXT("action"))
 		{
 			actionString = attributeValue;
+		}
+		else
+		{
+			LogWarning(FString::Printf(TEXT("%s指令中存在未知属性:%s：%s！"), *actionName, *attributeName, *attributeValue));
 		}
 	}
 	for (auto childNode : xmlNode->GetChildrenNodes())

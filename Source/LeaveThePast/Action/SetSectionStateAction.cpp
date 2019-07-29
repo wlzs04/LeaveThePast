@@ -1,5 +1,6 @@
 #include "SetSectionStateAction.h"
 #include "../Manager/MainGameManager.h"
+#include "../Manager/LogManager.h"
 #include "../Script/Chapter.h"
 
 USetSectionStateAction::USetSectionStateAction() :UActionBase()
@@ -26,6 +27,10 @@ void USetSectionStateAction::Load(FXmlNode* xmlNode)
 		{
 			sectionId = FCString::Atoi(*attributeValue);
 			isCurrent = false;
+		}
+		else
+		{
+			LogWarning(FString::Printf(TEXT("%s指令中存在未知属性:%s：%s！"), *actionName, *attributeName, *attributeValue));
 		}
 	}
 }

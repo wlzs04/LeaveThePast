@@ -1,6 +1,7 @@
 #include "SetTimeAction.h"
 #include "../Manager/HelpManager.h"
 #include "../Manager/MainGameManager.h"
+#include "../Manager/LogManager.h"
 
 USetTimeAction::USetTimeAction() :UActionBase()
 {
@@ -17,6 +18,10 @@ void USetTimeAction::Load(FXmlNode* xmlNode)
 		{
 			FTimespan timespan = UHelpManager::ConvertFStringToFTimespan(attributeValue);
 			timeData.SetTime(timespan.GetHours(), timespan.GetMinutes(), timespan.GetSeconds());
+		}
+		else
+		{
+			LogWarning(FString::Printf(TEXT("%s指令中存在未知属性:%s：%s！"), *actionName, *attributeName, *attributeValue));
 		}
 	}
 }

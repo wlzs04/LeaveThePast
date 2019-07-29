@@ -1,5 +1,7 @@
 #include "SetCloudyAction.h"
 #include "../LeaveThePastGameModeBase.h"
+#include "../Manager/LogManager.h"
+#include "XmlParser/Public/XmlFile.h"
 
 USetCloudyAction::USetCloudyAction() :UActionBase()
 {
@@ -15,6 +17,10 @@ void USetCloudyAction::Load(FXmlNode* xmlNode)
 		if (attributeName == TEXT("cloudyValue"))
 		{
 			cloudyValue = FCString::Atof(*attributeValue);
+		}
+		else
+		{
+			LogWarning(FString::Printf(TEXT("%s指令中存在未知属性:%s：%s！"), *actionName, *attributeName, *attributeValue));
 		}
 	}
 }

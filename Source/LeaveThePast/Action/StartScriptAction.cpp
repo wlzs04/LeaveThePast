@@ -1,5 +1,7 @@
 #include "StartScriptAction.h"
 #include "../Manager/ScriptManager.h"
+#include "../Manager/LogManager.h"
+#include "XmlParser/Public/XmlFile.h"
 
 UStartScriptAction::UStartScriptAction() :UActionBase()
 {
@@ -23,6 +25,10 @@ void UStartScriptAction::Load(FXmlNode* xmlNode)
 		else if (attributeName == TEXT("paragraphId"))
 		{
 			paragraphId = FCString::Atoi(*attributeValue);
+		}
+		else
+		{
+			LogWarning(FString::Printf(TEXT("%s指令中存在未知属性:%s：%s！"), *actionName, *attributeName, *attributeValue));
 		}
 	}
 }

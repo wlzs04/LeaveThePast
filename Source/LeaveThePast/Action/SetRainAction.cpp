@@ -1,5 +1,7 @@
 #include "SetRainAction.h"
 #include "../LeaveThePastGameModeBase.h"
+#include "../Manager/LogManager.h"
+#include "XmlParser/Public/XmlFile.h"
 
 USetRainAction::USetRainAction() :UActionBase()
 {
@@ -15,6 +17,10 @@ void USetRainAction::Load(FXmlNode* xmlNode)
 		if (attributeName == TEXT("rainFallValue"))
 		{
 			rainFallValue = FCString::Atoi(*attributeValue);
+		}
+		else
+		{
+			LogWarning(FString::Printf(TEXT("%s指令中存在未知属性:%s：%s！"), *actionName, *attributeName, *attributeValue));
 		}
 	}
 }

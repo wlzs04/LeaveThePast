@@ -1,5 +1,7 @@
 #include "Paragraph.h"
 #include "../Manager/MainGameManager.h"
+#include "../Manager/LogManager.h"
+#include "XmlParser/Public/XmlFile.h"
 #include "../Actor/DirectorActor.h"
 #include "Engine/World.h"
 #include "GameFramework/PlayerController.h"
@@ -43,17 +45,23 @@ void UParagraph::Load(FXmlNode* xmlNode)
 	UScriptManager* scriptManager = UScriptManager::GetInstance();
 	for (FXmlAttribute attribute : xmlNode->GetAttributes())
 	{
-		if (attribute.GetTag() == TEXT("id"))
+		FString attributeName = attribute.GetTag();
+		FString attributeValue = attribute.GetValue();
+		if (attributeName == TEXT("id"))
 		{
-			paragraphId = FCString::Atoi(*attribute.GetValue());
+			paragraphId = FCString::Atoi(*attributeValue);
 		}
-		else if (attribute.GetTag() == TEXT("canControlMove"))
+		else if (attributeName == TEXT("canControlMove"))
 		{
-			canControlMove = FCString::ToBool(*attribute.GetValue());
+			canControlMove = FCString::ToBool(*attributeValue);
 		}
-		else if (attribute.GetTag() == TEXT("canControlView"))
+		else if (attributeName == TEXT("canControlView"))
 		{
-			canControlView = FCString::ToBool(*attribute.GetValue());
+			canControlView = FCString::ToBool(*attributeValue);
+		}
+		else
+		{
+			LogWarning(FString::Printf(TEXT("Paragraph:%d中存在未知属性:%s：%s！"), paragraphId, *attributeName, *attributeValue));
 		}
 	}
 	for (auto childNode : xmlNode->GetChildrenNodes())
@@ -68,7 +76,7 @@ void UParagraph::Load(FXmlNode* xmlNode)
 		}
 		else
 		{
-			UE_LOG(LogLoad, Error, TEXT("未知指令：%s"), *childNode->GetTag());
+			LogError(FString::Printf(TEXT("未知指令：%s"), *childNode->GetTag()));
 		}
 	}
 }

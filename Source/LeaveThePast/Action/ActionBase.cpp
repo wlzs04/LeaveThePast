@@ -1,12 +1,8 @@
 #include "ActionBase.h"
 #include "../Actor/ActorBase.h"
 #include "../Manager/MainGameManager.h"
+#include "../Manager/LogManager.h"
 #include "Engine/World.h"
-
-void UActionBase::Init()
-{
-	isCompleted = false;
-}
 
 FString UActionBase::GetActionName()
 {
@@ -25,16 +21,18 @@ void UActionBase::Finish()
 {
 	isStart = false;
 	isCompleted = true;
+	LogNormal(actionName + TEXT("指令开始结束！"));
+	FinishReal();
 }
 
 void UActionBase::Load(FXmlNode* xmlNode)
 {
-	LogWarning(TEXT("指令：") + actionName + TEXT("无法从Xml中加载信息，需要重写加载方法。"));
+	LogError(FString::Printf(TEXT("%s指令无法从Xml中加载信息，需要重写加载方法。"), *actionName));
 }
 
 void UActionBase::Load(TArray<FString> paramList)
 {
-	LogWarning(TEXT("指令：") + actionName + TEXT("无法从String中加载信息，需要重写加载方法。"));
+	LogError(FString::Printf(TEXT("%s指令无法从String中加载信息，需要重写加载方法。"), *actionName));
 }
 
 bool UActionBase::GetIsCompleted()
@@ -50,4 +48,15 @@ bool UActionBase::SkipAction()
 	}
 	Finish();
 	return true;
+}
+
+FString UActionBase::ExecuteReal()
+{
+	LogError(FString::Printf(TEXT("指令%s未重写ExecuteReal方法。"), *actionName));
+	return FString();
+}
+
+void UActionBase::FinishReal()
+{
+	
 }

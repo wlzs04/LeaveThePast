@@ -1,5 +1,7 @@
 #include "MultiplyAction.h"
 #include "../Manager/ScriptManager.h"
+#include "../Manager/LogManager.h"
+#include "XmlParser/Public/XmlFile.h"
 
 void UMultiplyAction::Load(FXmlNode* xmlNode)
 {
@@ -16,7 +18,7 @@ void UMultiplyAction::Load(FXmlNode* xmlNode)
 		}
 		else
 		{
-			UE_LOG(LogLoad, Error, TEXT("未知指令：%s"), *childNode->GetTag());
+			LogError(FString::Printf(TEXT("未知指令：%s"), *childNode->GetTag()));
 		}
 	}
 }

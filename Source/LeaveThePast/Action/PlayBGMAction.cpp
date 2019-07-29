@@ -5,6 +5,7 @@
 #include "Engine/Engine.h"
 #include "GameFramework/PlayerController.h"
 #include "Sound/SoundCue.h"
+#include "../Manager/LogManager.h"
 
 UPlayBGMAction::UPlayBGMAction() :UActionBase()
 {
@@ -20,6 +21,10 @@ void UPlayBGMAction::Load(FXmlNode* xmlNode)
 		if (attributeName == TEXT("audioId"))
 		{
 			audioId = FCString::Atoi(*attributeValue);
+		}
+		else
+		{
+			LogWarning(FString::Printf(TEXT("%s指令中存在未知属性:%s：%s！"), *actionName, *attributeName, *attributeValue));
 		}
 	}
 }

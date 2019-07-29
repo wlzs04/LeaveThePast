@@ -1,5 +1,6 @@
 #include "RemoveActorAction.h"
 #include "../Manager/ActorManager.h"
+#include "../Manager/LogManager.h"
 
 URemoveActorAction::URemoveActorAction() :UActionBase()
 {
@@ -15,6 +16,10 @@ void URemoveActorAction::Load(FXmlNode* xmlNode)
 		if (attributeName == TEXT("actorId"))
 		{
 			actorInfoId = FCString::Atoi(*attributeValue);
+		}
+		else
+		{
+			LogWarning(FString::Printf(TEXT("%s指令中存在未知属性:%s：%s！"), *actionName, *attributeName, *attributeValue));
 		}
 	}
 }

@@ -1,5 +1,6 @@
 #include "AddCanControlActorAction.h"
 #include "../Actor/DirectorActor.h"
+#include "../Manager/LogManager.h"
 
 UAddCanControlActorAction::UAddCanControlActorAction() :UActionBase()
 {
@@ -15,6 +16,10 @@ void UAddCanControlActorAction::Load(FXmlNode* xmlNode)
 		if (attributeName == TEXT("actorId"))
 		{
 			actorInfoId = FCString::Atoi(*attributeValue);
+		}
+		else
+		{
+			LogWarning(FString::Printf(TEXT("%s指令中存在未知属性:%s：%s！"), *actionName, *attributeName, *attributeValue));
 		}
 	}
 }

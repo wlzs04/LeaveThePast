@@ -1,5 +1,7 @@
 #include "SetScriptExecuteSpeedAction.h"
-#include "..\Manager\ScriptManager.h"
+#include "../Manager/ScriptManager.h"
+#include "../Manager/LogManager.h"
+#include "XmlParser/Public/XmlFile.h"
 
 USetScriptExecuteSpeedAction::USetScriptExecuteSpeedAction() :UActionBase()
 {
@@ -15,6 +17,10 @@ void USetScriptExecuteSpeedAction::Load(FXmlNode* xmlNode)
 		if (attributeName == TEXT("value"))
 		{
 			scriptExecuteSpeed = FCString::Atof(*attributeValue);
+		}
+		else
+		{
+			LogWarning(FString::Printf(TEXT("%s指令中存在未知属性:%s：%s！"), *actionName, *attributeName, *attributeValue));
 		}
 	}
 }

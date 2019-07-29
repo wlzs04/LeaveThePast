@@ -2,22 +2,20 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
-#include "XmlParser/Public/XmlFile.h"
 #include "ActionBase.generated.h"
 
 class AActorBase;
+class FXmlNode;
 
 UCLASS(BlueprintType)
 class LEAVETHEPAST_API UActionBase : public UObject
 {
 	GENERATED_BODY()
 public:
-	//初始化，清空已完成等状态
-	void Init();
 	FString GetActionName();
 	virtual void Update() {};
 	FString Execute();
-	virtual void Finish();
+	void Finish();
 	//xml格式
 	virtual void Load(FXmlNode* xmlNode);
 	//string格式
@@ -27,11 +25,12 @@ public:
 	//跳过指令
 	virtual bool SkipAction();
 protected:
-	//加载内容
-	virtual FString ExecuteReal() { return FString(TEXT("")); };
+	//子类重写执行方法
+	virtual FString ExecuteReal();
+	//子类重写指令完成方法
+	virtual void FinishReal();
 
 	FString actionName = TEXT("未命名指令");//指令名称
 	bool isCompleted = false;//是否完成
 	bool isStart = false;//是否开始
-private:
 };

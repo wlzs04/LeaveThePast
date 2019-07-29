@@ -1,5 +1,6 @@
 #include "RemoveCanControlActorAction.h"
 #include "../Actor/DirectorActor.h"
+#include "../Manager/LogManager.h"
 
 URemoveCanControlActorAction::URemoveCanControlActorAction() :UActionBase()
 {
@@ -15,6 +16,10 @@ void URemoveCanControlActorAction::Load(FXmlNode* xmlNode)
 		if (attributeName == TEXT("actorId"))
 		{
 			actorInfoId = FCString::Atoi(*attributeValue);
+		}
+		else
+		{
+			LogWarning(FString::Printf(TEXT("%s指令中存在未知属性:%s：%s！"), *actionName, *attributeName, *attributeValue));
 		}
 	}
 }

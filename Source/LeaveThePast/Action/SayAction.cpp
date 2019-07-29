@@ -35,6 +35,10 @@ void USayAction::Load(FXmlNode* xmlNode)
 		{
 			actionTime = FCString::Atof(*attributeValue);
 		}
+		else
+		{
+			LogWarning(FString::Printf(TEXT("%s指令中存在未知属性:%s：%s！"), *actionName, *attributeName, *attributeValue));
+		}
 	}
 }
 
@@ -70,9 +74,8 @@ FString USayAction::ExecuteReal()
 	return FString();
 }
 
-void USayAction::Finish()
+void USayAction::FinishReal()
 {
-	UActionBase::Finish();
 	if (executeActor != nullptr)
 	{
 		UUIManager::GetInstance()->HideTalkUI();

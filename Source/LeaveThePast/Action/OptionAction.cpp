@@ -1,6 +1,7 @@
 #include "OptionAction.h"
 #include "../Manager/UIManager.h"
 #include "../Manager/LogManager.h"
+#include "XmlParser/Public/XmlFile.h"
 
 UOptionItemAction::UOptionItemAction() :UMultiplyAction()
 {
@@ -16,6 +17,10 @@ void UOptionItemAction::Load(FXmlNode* xmlNode)
 		if (attributeName == TEXT("text"))
 		{
 			optionText = attributeValue;
+		}
+		else
+		{
+			LogWarning(FString::Printf(TEXT("%s指令中存在未知属性:%s：%s！"), *actionName, *attributeName, *attributeValue));
 		}
 	}
 	UMultiplyAction::Load(xmlNode);

@@ -1,6 +1,7 @@
 #include "MessageTipAction.h"
 #include "../Actor/ActorBase.h"
 #include "../Manager/MainGameManager.h"
+#include "../Manager/LogManager.h"
 #include "../Manager/UIManager.h"
 #include "Kismet/GameplayStatics.h"
 #include "Engine/Engine.h"
@@ -24,6 +25,10 @@ void UMessageTipAction::Load(FXmlNode* xmlNode)
 		else if(attributeName == TEXT("actionTime"))
 		{
 			actionTime = FCString::Atof(*attributeValue);
+		}
+		else
+		{
+			LogWarning(FString::Printf(TEXT("%s指令中存在未知属性:%s：%s！"), *actionName, *attributeName, *attributeValue));
 		}
 	}
 }

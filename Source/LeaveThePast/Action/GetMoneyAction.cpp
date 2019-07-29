@@ -1,5 +1,6 @@
 #include "GetMoneyAction.h"
 #include "../Manager/MainGameManager.h"
+#include "../Manager/LogManager.h"
 
 UGetMoneyAction::UGetMoneyAction() :UActionBase()
 {

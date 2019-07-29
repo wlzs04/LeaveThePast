@@ -16,7 +16,7 @@ protected:
 	virtual void Load(FXmlNode* xmlNode) override;
 	virtual void Update() override;
 	virtual FString ExecuteReal() override;
-	virtual void Finish() override;
+	virtual void FinishReal() override;
 private:
 	int actorInfoId = 0;
 	FString text = TEXT("无内容！");

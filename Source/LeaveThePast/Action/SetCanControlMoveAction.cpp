@@ -1,5 +1,6 @@
 #include "SetCanControlMoveAction.h"
 #include "../Actor/DirectorActor.h"
+#include "../Manager/LogManager.h"
 
 USetCanControlMoveAction::USetCanControlMoveAction() :UActionBase()
 {
@@ -15,6 +16,10 @@ void USetCanControlMoveAction::Load(FXmlNode* xmlNode)
 		if (attributeName == TEXT("canControlMove"))
 		{
 			canControlMove = FCString::ToBool(*attributeValue);
+		}
+		else
+		{
+			LogWarning(FString::Printf(TEXT("%s指令中存在未知属性:%s：%s！"), *actionName, *attributeName, *attributeValue));
 		}
 	}
 }

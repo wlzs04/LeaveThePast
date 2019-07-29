@@ -1,6 +1,7 @@
 #include "SetChapterStateAction.h"
 #include "../Manager/MainGameManager.h"
 #include "../Script/Chapter.h"
+#include "../Manager/LogManager.h"
 
 USetChapterStateAction::USetChapterStateAction() :UActionBase()
 {
@@ -21,6 +22,10 @@ void USetChapterStateAction::Load(FXmlNode* xmlNode)
 		{
 			chapter = attributeValue;
 			isCurrent = false;
+		}
+		else
+		{
+			LogWarning(FString::Printf(TEXT("%s指令中存在未知属性:%s：%s！"), *actionName, *attributeName, *attributeValue));
 		}
 	}
 }

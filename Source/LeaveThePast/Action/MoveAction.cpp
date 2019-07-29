@@ -35,6 +35,10 @@ void UMoveAction::Load(FXmlNode* xmlNode)
 		{
 			actionTime = FCString::Atof(*attributeValue);
 		}
+		else
+		{
+			LogWarning(FString::Printf(TEXT("%s指令中存在未知属性:%s：%s！"), *actionName, *attributeName, *attributeValue));
+		}
 	}
 }
 
@@ -71,9 +75,8 @@ FString UMoveAction::ExecuteReal()
 	return FString();
 }
 
-void UMoveAction::Finish()
+void UMoveAction::FinishReal()
 {
-	UActionBase::Finish();
 	if (executeActor != nullptr)
 	{
 		executeActor->AddActorWorldOffset(remainValue);

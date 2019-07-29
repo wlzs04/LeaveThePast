@@ -34,6 +34,10 @@ void USetScriptActorAction::Load(FXmlNode* xmlNode)
 			scriptRecorderIndfo.paragraphId = FCString::Atoi(*attributeValue);
 			isNext = false;
 		}
+		else
+		{
+			LogWarning(FString::Printf(TEXT("%s指令中存在未知属性:%s：%s！"), *actionName, *attributeName, *attributeValue));
+		}
 	}
 }
 

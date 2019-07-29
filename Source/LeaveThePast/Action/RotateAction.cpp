@@ -30,6 +30,10 @@ void URotateAction::Load(FXmlNode* xmlNode)
 		{
 			actionTime = FCString::Atof(*attributeValue);
 		}
+		else
+		{
+			LogWarning(FString::Printf(TEXT("%s指令中存在未知属性:%s：%s！"), *actionName, *attributeName, *attributeValue));
+		}
 	}
 }
 
@@ -68,9 +72,8 @@ FString URotateAction::ExecuteReal()
 	return FString();
 }
 
-void URotateAction::Finish()
+void URotateAction::FinishReal()
 {
-	UActionBase::Finish();
 	if (executeActor != nullptr)
 	{
 		executeActor->AddActorLocalRotation(FRotator(0, remainValue, 0));
