@@ -18,7 +18,6 @@ FString UActionBase::Execute()
 	isStart = true;
 	isCompleted = false;
 	LogNormal(actionName + TEXT("指令开始执行！"));
-	//executeActor = UActorManager::GetInstance()->GetActorByInfoId(actorInfoId);
 	return ExecuteReal();
 }
 

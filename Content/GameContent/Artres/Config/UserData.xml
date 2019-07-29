@@ -1,24 +1,19 @@
-<UserData time="9:0:14" isFixedTime="false" gameAndRealTimeRate="1.0" sceneId="10002" >
+<?xml version="1.0" encoding="UTF-8"?>
+<UserData time="9:0:15" isFixedTime="false" gameAndRealTimeRate="1.0" sceneId="10002">
 	<CanControlActorList>
 		<Actor id="10001" />
 	</CanControlActorList>
 	<SceneActorList>
-		<Actor id="10001" position="3396,-2951,105" rotation="0,0,-129" >
-		</Actor>
-		<Actor id="30004" position="4900,390,90" rotation="0,0,-89" >
-		</Actor>
-		<Actor id="30005" position="4320,-560,90" rotation="0,0,89" >
-		</Actor>
-		<Actor id="30006" position="4690,-450,90" rotation="0,0,89" >
-		</Actor>
-		<Actor id="30007" position="5160,-420,90" rotation="0,0,89" >
-		</Actor>
-		<Actor id="30003" position="3280,-3110,105" rotation="0,0,0" >
-			<ScriptRecorderInfo chapter="1" sectionId="0" paragraphId="2" />
-		</Actor>
-		<Actor id="10002" position="3590,-3140,105" rotation="0,0,89" >
-		</Actor>
+		<Actor id="10001" position="3043,-2859,268" rotation="0,0,9" />
+		<Actor id="30004" position="4900,390,90" rotation="0,0,-89" />
+		<Actor id="30005" position="4320,-560,90" rotation="0,0,89" />
+		<Actor id="30006" position="4690,-450,90" rotation="0,0,89" />
+		<Actor id="30007" position="5160,-420,90" rotation="0,0,89" />
+		<Actor id="30003" position="3280,-3110,105" rotation="0,0,0" />
 	</SceneActorList>
+	<SceneVolumeList>
+		<Script position="3430,-2810,70" value="1 0 1" />
+	</SceneVolumeList>
 	<ItemMap>
 		<Item id="10001" number="50" />
 		<Item id="10002" number="1" />
@@ -31,13 +26,10 @@
 	</ItemMap>
 	<Script>
 		<Chapter name="1" state="1">
-			<Section id="1" state="1">
+			<Section id="0" state="1">
 				<Paragraph id="0" state="2" />
-				<Paragraph id="1" state="1" />
 			</Section>
 		</Chapter>
 	</Script>
-	<NextScript>
-		<!-- <ScriptRecorderInfo chapter="1" sectionId="0" paragraphId="2"/> -->
-	</NextScript>
+	<NextScript />
 </UserData>

@@ -1,4 +1,5 @@
 #include "VolumeBase.h"
+#include "../Manager/LogManager.h"
 
 AVolumeBase::AVolumeBase()
 {
@@ -7,6 +8,27 @@ AVolumeBase::AVolumeBase()
 	interactedComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("Interacted"));
 	interactedComponent->SetupAttachment(RootComponent);
 	interactedComponent->OnComponentBeginOverlap.AddDynamic(this, &AVolumeBase::VolumeBeginOverlapEvent);
+}
+
+FString AVolumeBase::GetVolumeName()
+{
+	return volumeName;
+}
+
+bool AVolumeBase::GetCanSave()
+{
+	return canSave;
+}
+
+void AVolumeBase::LoadFromString(FString volumeValueString)
+{
+	LogError(FString::Printf(TEXT("%s体积未实现方法LoadFromString。"), *volumeName));
+}
+
+FString AVolumeBase::GetVolumeValue()
+{
+	LogError(FString::Printf(TEXT("%s体积未实现方法GetVolumeValue。"), *volumeName));
+	return FString();
 }
 
 void AVolumeBase::BeginPlay()

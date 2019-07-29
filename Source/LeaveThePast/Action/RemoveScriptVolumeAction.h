@@ -18,5 +18,5 @@ protected:
 private:
 
 	bool isCurrent = true;//是否移除当前脚本
-	FScriptRecorderInfo scriptRecorderIndfo;
+	FScriptRecorderInfo scriptRecorderInfo;
 };

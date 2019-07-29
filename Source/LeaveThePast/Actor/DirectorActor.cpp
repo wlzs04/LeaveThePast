@@ -30,9 +30,9 @@ void ADirectorActor::InitActor()
 {
 	UMainGameManager* gameManager = UMainGameManager::GetInstance();
 	UActorManager* actorManager = gameManager->GetActorManager();
-	TArray<FSaveActorInfo> saveList = gameManager->GetUserData()->GetSceneActorList();
+	TArray<FSaveActorInfo> saveActorList = gameManager->GetUserData()->GetSceneActorList();
 
-	for (FSaveActorInfo saveActorInfo: saveList)
+	for (FSaveActorInfo saveActorInfo: saveActorList)
 	{
 		if (actorManager->GetActorByInfoId(saveActorInfo.actorId) == nullptr)
 		{
@@ -65,6 +65,17 @@ void ADirectorActor::InitActor()
 	if (canControlActorList.Num() > 0)
 	{
 		SetControlActor(canControlActorList[0]);
+	}
+
+	TArray<FSaveVolumeInfo> saveVolumeList = gameManager->GetUserData()->GetSceneVolumeList();
+
+	for (FSaveVolumeInfo saveVolumeInfo : saveVolumeList)
+	{
+		AVolumeBase* volume = actorManager->AddVolumeToSceneByVolumeInfo(saveVolumeInfo.volumeType, saveVolumeInfo.position);
+		if (volume != nullptr)
+		{
+			volume->LoadFromString(saveVolumeInfo.value);
+		}
 	}
 }
 

@@ -27,6 +27,20 @@ struct FSaveActorInfo
 };
 
 USTRUCT(BlueprintType)
+struct FSaveVolumeInfo
+{
+	GENERATED_USTRUCT_BODY()
+
+	FSaveVolumeInfo(){}
+
+	void LoadFromXmlNode(FXmlNode* xmlNode);
+
+	FString volumeType;
+	FVector position;
+	FString value;
+};
+
+USTRUCT(BlueprintType)
 struct FSaveSectionInfo
 {
 	GENERATED_USTRUCT_BODY()
@@ -142,6 +156,9 @@ public:
 
 	//场景演员列表
 	TArray<FSaveActorInfo> GetSceneActorList();
+
+	//场景体积列表
+	TArray<FSaveVolumeInfo> GetSceneVolumeList();
 	
 	//获得物品map
 	UFUNCTION(BlueprintCallable)
@@ -175,6 +192,10 @@ public:
 	UFUNCTION(BlueprintCallable)
 	TMap<FString, FSaveChapterInfo> GetChapterMap();
 
+	void SetChapterState(FString scriptName, int state);
+	void SetSectionState(FString scriptName, int sectionId, int state);
+	void SetParagraphState(FString scriptName, int sectionId, int paragrapgId, int state);
+
 	//获得玩家即将运行的剧本列表
 	UFUNCTION(BlueprintCallable)
 	TArray<FScriptRecorderInfo> GetNextScriptList();
@@ -197,6 +218,7 @@ protected:
 	int sceneId = 10001;//角色所在场景Id
 	TArray<int> canControlActorList;//可控演员列表
 	TArray<FSaveActorInfo> sceneActorList;//场景演员列表
+	TArray<FSaveVolumeInfo> sceneVolumeList;//场景体积列表
 	
 	TMap<int, int> itemMap;
 

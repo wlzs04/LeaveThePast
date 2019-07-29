@@ -51,10 +51,7 @@ void UAddScriptVolumeAction::Update()
 
 FString UAddScriptVolumeAction::ExecuteReal()
 {
-	FActorSpawnParameters actorSpawnParameters;
-	actorSpawnParameters.bAllowDuringConstructionScript = true;
-	actorSpawnParameters.bNoFail = true;
-	AScriptVolume* scriptVolume = UMainGameManager::GetInstance()->GetGameWorld()->SpawnActor<AScriptVolume>(AScriptVolume::StaticClass(),position, FRotator(0,0,0), actorSpawnParameters);
+	AScriptVolume* scriptVolume = (AScriptVolume*)UActorManager::GetInstance()->AddVolumeToSceneByVolumeInfo(TEXT("Script"), position);
 	
 	if (isNext)
 	{

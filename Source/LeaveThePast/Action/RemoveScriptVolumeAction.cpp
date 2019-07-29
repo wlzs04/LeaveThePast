@@ -20,21 +20,20 @@ void URemoveScriptVolumeAction::Load(FXmlNode* xmlNode)
 	{
 		FString attributeName = attribute.GetTag();
 		FString attributeValue = attribute.GetValue();
-		if (attributeName == TEXT("isCurrent"))
-		{
-			isCurrent = FCString::ToBool(*attributeValue);
-		}
 		if (attributeName == TEXT("chapter"))
 		{
-			scriptRecorderIndfo.chapter = attributeValue;
+			scriptRecorderInfo.chapter = attributeValue;
+			isCurrent = false;
 		}
 		else if (attributeName == TEXT("sectionId"))
 		{
-			scriptRecorderIndfo.sectionId = FCString::Atoi(*attributeValue);
+			scriptRecorderInfo.sectionId = FCString::Atoi(*attributeValue);
+			isCurrent = false;
 		}
 		else if (attributeName == TEXT("paragraphId"))
 		{
-			scriptRecorderIndfo.paragraphId = FCString::Atoi(*attributeValue);
+			scriptRecorderInfo.paragraphId = FCString::Atoi(*attributeValue);
+			isCurrent = false;
 		}
 	}
 }
@@ -54,20 +53,16 @@ FString URemoveScriptVolumeAction::ExecuteReal()
 		UChapter* chapter = UScriptManager::GetInstance()->GetCurrentChapter();
 		if (chapter != nullptr)
 		{
-			scriptRecorderIndfo.chapter = chapter->GetChapterIndexName();
-			scriptRecorderIndfo.sectionId = chapter->GetCurrentSection()->GetSectionId();
-			scriptRecorderIndfo.paragraphId = chapter->GetCurrentSection()->GetCurrentParagraph()->GetParagraphId();
+			scriptRecorderInfo.chapter = chapter->GetChapterIndexName();
+			scriptRecorderInfo.sectionId = chapter->GetCurrentSection()->GetSectionId();
+			scriptRecorderInfo.paragraphId = chapter->GetCurrentSection()->GetCurrentParagraph()->GetParagraphId();
 		}
 	}
-	TActorIterator<AScriptVolume> actorItr = TActorIterator<AScriptVolume>(UMainGameManager::GetInstance()->GetGameWorld(), AScriptVolume::StaticClass());
-	for (actorItr; actorItr; ++actorItr)
-	{
-		AScriptVolume* volume = *actorItr;
-		if (volume->GetScriptInfo()==scriptRecorderIndfo)
-		{
-			volume->Destroy();
-		}
-	}
+	FString volumeValue; 
+	volumeValue.Append(scriptRecorderInfo.chapter + TEXT(" "));
+	volumeValue.Append(FString::FromInt(scriptRecorderInfo.sectionId) + TEXT(" "));
+	volumeValue.Append(FString::FromInt(scriptRecorderInfo.paragraphId));
+	UActorManager::GetInstance()->RemoveVolumeByVolumeValue(volumeValue);
 
 	return FString();
 }

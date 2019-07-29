@@ -1,6 +1,7 @@
 #include "UserData.h"
 #include "../Manager/MainGameManager.h"
 #include "../Manager/HelpManager.h"
+#include "../Volume/VolumeBase.h"
 #include "Paths.h"
 #include "XmlParser/Public/XmlFile.h"
 #include "Engine/World.h"
@@ -31,6 +32,25 @@ void FSaveActorInfo::LoadFromXmlNode(FXmlNode* xmlNode)
 		FScriptRecorderInfo scriptRecorderInfo;
 		scriptRecorderInfo.LoadFromXmlNode(childNode);
 		scriptRecorderList.Add(scriptRecorderInfo);
+	}
+}
+
+void FSaveVolumeInfo::LoadFromXmlNode(FXmlNode* xmlNode)
+{
+	volumeType = xmlNode->GetTag();
+	for (FXmlAttribute attribute : xmlNode->GetAttributes())
+	{
+		FString attributeName = attribute.GetTag();
+		FString attributeValue = attribute.GetValue();
+
+		if (attributeName == TEXT("position"))
+		{
+			position = UHelpManager::ConvertFStringToFVector(attributeValue);
+		}
+		else if (attributeName == TEXT("value"))
+		{
+			value = attributeValue;
+		}
 	}
 }
 
@@ -127,6 +147,17 @@ void UUserData::Load()
 				FSaveActorInfo saveActorInfo;
 				saveActorInfo.LoadFromXmlNode(childNode);
 				sceneActorList.Add(saveActorInfo);
+			}
+		}
+		//加载场景演员列表
+		if (xmlNode->GetTag() == TEXT("SceneVolumeList"))
+		{
+			sceneVolumeList.Empty();
+			for (FXmlNode* childNode : xmlNode->GetChildrenNodes())
+			{
+				FSaveVolumeInfo saveVolumeInfo;
+				saveVolumeInfo.LoadFromXmlNode(childNode);
+				sceneVolumeList.Add(saveVolumeInfo);
 			}
 		}
 		//加载物品
@@ -257,6 +288,21 @@ void UUserData::Save()
 	}
 	xmlContent.Append(TEXT("\t</SceneActorList>\n"));
 	//end 添加场景演员列表
+	//start 添加场景体积列表
+	xmlContent.Append(TEXT("\t<SceneVolumeList>\n"));
+	for (auto volume : actorManager->GetAllVolume())
+	{
+		if (volume->GetCanSave())
+		{
+			xmlContent.Append(TEXT("\t\t<"));
+			xmlContent.Append(volume->GetVolumeName());
+			xmlContent.Append(TEXT(" position=\"") + UHelpManager::ConvertToFString(volume->GetActorLocation()) + TEXT("\""));
+			xmlContent.Append(TEXT(" value=\"") + volume->GetVolumeValue() + TEXT("\""));
+			xmlContent.Append(TEXT("/>\n"));
+		}
+	}
+	xmlContent.Append(TEXT("\t</SceneVolumeList>\n"));
+	//end 添加场景体积列表
 	//start 添加物品map
 	xmlContent.Append(TEXT("\t<ItemMap>\n"));
 	for (auto var : itemMap)
@@ -418,6 +464,11 @@ TArray<FSaveActorInfo> UUserData::GetSceneActorList()
 	return sceneActorList;
 }
 
+TArray<FSaveVolumeInfo> UUserData::GetSceneVolumeList()
+{
+	return sceneVolumeList;
+}
+
 TMap<int, int> UUserData::GetItemMap()
 {
 	return itemMap;
@@ -505,6 +556,56 @@ void UUserData::ReduceMoney(int money)
 TMap<FString, FSaveChapterInfo> UUserData::GetChapterMap()
 {
 	return chapterMap;
+}
+
+void UUserData::SetChapterState(FString scriptName, int state)
+{
+	if (!chapterMap.Contains(scriptName))
+	{
+		chapterMap.Add(scriptName, FSaveChapterInfo());
+	}
+	chapterMap[scriptName].name = scriptName;
+	chapterMap[scriptName].state = state;
+}
+
+void UUserData::SetSectionState(FString scriptName, int sectionId, int state)
+{
+	if (!chapterMap.Contains(scriptName))
+	{
+		chapterMap.Add(scriptName, FSaveChapterInfo());
+		chapterMap[scriptName].state = 1;
+	}
+	chapterMap[scriptName].name = scriptName;
+	if (!chapterMap[scriptName].sectionMap.Contains(sectionId))
+	{
+		chapterMap[scriptName].sectionMap.Add(sectionId, FSaveSectionInfo());
+	}
+	chapterMap[scriptName].sectionMap[sectionId].id = sectionId;
+	chapterMap[scriptName].sectionMap[sectionId].state = state;
+}
+
+void UUserData::SetParagraphState(FString scriptName, int sectionId, int paragrapgId, int state)
+{
+	if (!chapterMap.Contains(scriptName))
+	{
+		chapterMap.Add(scriptName, FSaveChapterInfo());
+		chapterMap[scriptName].state = 1;
+	}
+	chapterMap[scriptName].name = scriptName;
+	if (!chapterMap[scriptName].sectionMap.Contains(sectionId))
+	{
+		chapterMap[scriptName].sectionMap.Add(sectionId, FSaveSectionInfo());
+		chapterMap[scriptName].sectionMap[sectionId].state = 1;
+	}
+	chapterMap[scriptName].sectionMap[sectionId].id = sectionId;
+	if (!chapterMap[scriptName].sectionMap[sectionId].paragraphMap.Contains(paragrapgId))
+	{
+		chapterMap[scriptName].sectionMap[sectionId].paragraphMap.Add(paragrapgId, state);
+	}
+	else
+	{
+		chapterMap[scriptName].sectionMap[sectionId].paragraphMap[paragrapgId] = state;
+	}
 }
 
 TArray<FScriptRecorderInfo> UUserData::GetNextScriptList()

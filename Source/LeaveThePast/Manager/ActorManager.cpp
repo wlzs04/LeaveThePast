@@ -1,5 +1,6 @@
 #include "ActorManager.h"
 #include "ConfigManager.h"
+#include "MainGameManager.h"
 #include "LogManager.h"
 #include "../Config/Recorder/SceneRecorder.h"
 #include "Engine/World.h"
@@ -8,6 +9,9 @@
 #include "XmlParser/Public/XmlFile.h"
 #include "Engine/Level.h"
 #include "EngineUtils.h"
+
+#include "../Volume/ScriptVolume.h"
+#include "../Volume/SceneVolume.h"
 
 UActorManager* UActorManager::actorManager = nullptr;
 
@@ -22,6 +26,8 @@ void UActorManager::Init()
 	LoadMainActorInfo();
 	LoadMinorActorInfo();
 	LoadMassActorInfo();
+
+	LoadAllIegalVolume();
 }
 
 void UActorManager::LoadAllActorBySceneId(int sceneId)
@@ -130,6 +136,42 @@ TMap<int, AActorBase*> UActorManager::GetAllActor()
 	return actorBaseByInfoIdMap;
 }
 
+TArray<AVolumeBase*> UActorManager::GetAllVolume()
+{
+	return volumeList;
+}
+
+AVolumeBase* UActorManager::AddVolumeToSceneByVolumeInfo(FString volumeName, FVector position)
+{
+	if (legalVolumeMap.Contains(volumeName))
+	{
+		FActorSpawnParameters actorSpawnParameters;
+		actorSpawnParameters.bAllowDuringConstructionScript = true;
+		actorSpawnParameters.bNoFail = true;
+
+		AVolumeBase* volume = UMainGameManager::GetInstance()->GetGameWorld()->SpawnActor<AScriptVolume>(legalVolumeMap[volumeName]->GetClass(), position, FRotator(0, 0, 0), actorSpawnParameters);
+		volumeList.Add(volume);
+		return volume;
+	}
+	else
+	{
+		LogError(FString::Printf(TEXT("未知体积类型%s，无法生成。"),*volumeName));
+	}
+	return nullptr;
+}
+
+void UActorManager::RemoveVolumeByVolumeValue(FString volumeValue)
+{
+	for (int i = volumeList.Num() - 1; i >= 0; i--)
+	{
+		if (volumeList[i]->GetVolumeValue() == volumeValue)
+		{
+			volumeList[i]->Destroy();
+			volumeList.RemoveAt(i);
+		}
+	}
+}
+
 void UActorManager::LoadMainActorInfo()
 {
 	FString mainActorPath = FPaths::ProjectContentDir() + mainActorRelativePath;
@@ -194,4 +236,15 @@ void UActorManager::LoadMassActorInfo()
 	xmlFile->Clear();
 	delete xmlFile;
 	LogNormal(FString::Printf(TEXT("MassActor文件加载完成：%s"), *massActorPath));
+}
+
+void UActorManager::LoadAllIegalVolume()
+{
+	AddIegalVolume(NewObject<AScriptVolume>(this));
+	AddIegalVolume(NewObject<ASceneVolume>(this));
+}
+
+void UActorManager::AddIegalVolume(AVolumeBase* volumeBase)
+{
+	legalVolumeMap.Add(volumeBase->GetVolumeName(), volumeBase);
 }

@@ -16,7 +16,7 @@ public:
 
 	static ADirectorActor* GetInstance();
 
-	//初始化场景演员和可控演员，从用户存档内读取
+	//初始化场景演员、可控演员和体积，从用户存档内读取
 	void InitActor();
 
 	//添加演员到可控演员列表中

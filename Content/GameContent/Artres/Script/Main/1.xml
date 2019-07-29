@@ -8,6 +8,7 @@
 			<Say actorId="10001" text="醒了·····还有点不清醒。" voicePath="saysomething.wav" actionTime="1"/>
 			<Say actorId="10001" text="赶紧起来吧，还有人在等。" voicePath="saysomething.wav" actionTime="1"/>
 			<AddScriptVolume position="3430.0,-2810.0,70.0" isNext="true"/>
+			<SetParagraphState state="2"/>
 		</Paragraph>
 		<Paragraph id="1" canControlView="true">
 			<RemoveScriptVolume isCurrent="true"/>
@@ -29,6 +30,7 @@
 			<ChangeCameraActor actorId="10001"/>
 			<PlayBGM audioId="10005"/>
 			<SetScriptActor actorId="30003" isNext="true"/>
+			<SetParagraphState state="2"/>
 		</Paragraph>
 		<Paragraph id="2">
 			<Say actorId="10001" text="多少？" voicePath="saysomething.wav" actionTime="1"/>
@@ -51,6 +53,7 @@
 							<Say actorId="10001" text="你这里欠我的要用什么换？（指了指钱包）" voicePath="saysomething.wav" actionTime="1"/>
 							<Say actorId="10002" text="以后再说。" voicePath="saysomething.wav" actionTime="1"/>
 							<AddCanControlActor actorId="10002"/>
+							<SetParagraphState state="2"/>
 						</ConditionItem>
 					</Condition>
 				</OptionItem>

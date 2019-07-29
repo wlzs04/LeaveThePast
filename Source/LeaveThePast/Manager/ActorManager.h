@@ -43,8 +43,19 @@ public:
 	UFUNCTION(BlueprintCallable)
 	int RemoveActorByInfoId(int actorInfoId);
 
-	//获得场景中石油演员
+	//获得场景中所有演员
 	TMap<int, AActorBase*> GetAllActor();
+
+	//获得场景中所有体积，只包括由管理类管理的体积，有一些在编辑场景中已存在的体积不会获得
+	TArray<AVolumeBase*> GetAllVolume();
+
+	//将体积加载到场景中
+	UFUNCTION(BlueprintCallable)
+	AVolumeBase* AddVolumeToSceneByVolumeInfo(FString volumeName,FVector position);
+
+	//按体积的值移除体积
+	UFUNCTION(BlueprintCallable)
+	void RemoveVolumeByVolumeValue(FString volumeValue);
 private:
 	//加载主演
 	void LoadMainActorInfo();
@@ -52,6 +63,11 @@ private:
 	void LoadMinorActorInfo();
 	//加载群演
 	void LoadMassActorInfo();
+
+	//加载所有合法体积
+	void LoadAllIegalVolume();
+	//加载合法指令
+	void AddIegalVolume(AVolumeBase* volumeBase);
 
 	static UActorManager* actorManager;
 
@@ -68,4 +84,9 @@ private:
 
 	UPROPERTY()
 	TMap<int, AActorBase*> actorBaseByInfoIdMap;
+
+	UPROPERTY()
+	TMap<FString, AVolumeBase*> legalVolumeMap;
+	UPROPERTY()
+	TArray<AVolumeBase*> volumeList;
 };
