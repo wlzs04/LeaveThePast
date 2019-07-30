@@ -1,10 +1,11 @@
 #include "AddScriptVolumeAction.h"
 #include "../Manager/HelpManager.h"
 #include "../Manager/ActorManager.h"
-#include "../Manager/MainGameManager.h"
 #include "../Manager/LogManager.h"
 #include "../Manager/ScriptManager.h"
 #include "../Script/Chapter.h"
+#include "../Script/Section.h"
+#include "../Script/Paragraph.h"
 #include "../Volume/ScriptVolume.h"
 #include "../LeaveThePastGameModeBase.h"
 

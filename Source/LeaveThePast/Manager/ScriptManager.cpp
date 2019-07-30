@@ -35,9 +35,14 @@
 #include "../Action/SetParagraphStateAction.h"
 
 #include "../Script/Chapter.h"
+#include "../Script/Section.h"
+#include "../Script/Paragraph.h"
+#include "MainGameManager.h"
+#include "LogManager.h"
+#include "UIManager.h"
+
 #include "Runtime/Core/Public/Misc/Paths.h"
 #include "Runtime/Core/Public/HAL/FileManager.h"
-#include "MainGameManager.h"
 
 UScriptManager* UScriptManager::scriptManager = nullptr;
 

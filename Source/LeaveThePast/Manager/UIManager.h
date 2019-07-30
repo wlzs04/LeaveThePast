@@ -2,10 +2,10 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
-#include <UMG.h>
 #include "UIManager.generated.h"
 
 class UOptionAction;
+class UUserWidget;
 
 UCLASS(BlueprintType, Blueprintable)
 class LEAVETHEPAST_API UUIManager : public UObject

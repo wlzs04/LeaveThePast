@@ -1,6 +1,13 @@
 #include "CommonBlueprintFunctionLibrary.h"
 #include "Engine/World.h"
+#include "../LeaveThePastGameModeBase.h"
+#include "../Manager/MainGameManager.h"
+#include "../Manager/ScriptManager.h"
+#include "../Manager/ConfigManager.h"
+#include "../Manager/LogManager.h"
+#include "../Manager/UIManager.h"
 #include "../Manager/HelpManager.h"
+#include "Kismet/GameplayStatics.h"
 
 int UCommonBlueprintFunctionLibrary::GetHours(FTimeData time)
 {
@@ -19,7 +26,7 @@ int UCommonBlueprintFunctionLibrary::GetSeconds(FTimeData time)
 
 ALeaveThePastGameModeBase* UCommonBlueprintFunctionLibrary::GetMainGameMode()
 {
-	return GWorld->GetAuthGameMode<ALeaveThePastGameModeBase>();
+	return ALeaveThePastGameModeBase::GetInstance();
 }
 
 UMainGameManager* UCommonBlueprintFunctionLibrary::GetMainGameManager()

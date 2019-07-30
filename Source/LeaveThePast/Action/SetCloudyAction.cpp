@@ -1,7 +1,6 @@
 #include "SetCloudyAction.h"
 #include "../LeaveThePastGameModeBase.h"
 #include "../Manager/LogManager.h"
-#include "XmlParser/Public/XmlFile.h"
 
 USetCloudyAction::USetCloudyAction() :UActionBase()
 {

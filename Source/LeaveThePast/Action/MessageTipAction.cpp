@@ -1,11 +1,6 @@
 #include "MessageTipAction.h"
-#include "../Actor/ActorBase.h"
-#include "../Manager/MainGameManager.h"
 #include "../Manager/LogManager.h"
 #include "../Manager/UIManager.h"
-#include "Kismet/GameplayStatics.h"
-#include "Engine/Engine.h"
-#include "Engine/World.h"
 
 UMessageTipAction::UMessageTipAction() :UActionBase()
 {

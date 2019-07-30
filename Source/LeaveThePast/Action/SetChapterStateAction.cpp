@@ -1,7 +1,9 @@
 #include "SetChapterStateAction.h"
 #include "../Manager/MainGameManager.h"
-#include "../Script/Chapter.h"
+#include "../Manager/ScriptManager.h"
 #include "../Manager/LogManager.h"
+#include "../Config/UserData.h"
+#include "../Script/Chapter.h"
 
 USetChapterStateAction::USetChapterStateAction() :UActionBase()
 {

@@ -1,8 +1,13 @@
 #include "LeaveThePastGameModeBase.h"
 #include "Manager/MainGameManager.h"
+#include "Manager/LogManager.h"
+#include "Manager/UIManager.h"
+#include "Manager/ScriptManager.h"
+#include "Config/SystemData.h"
 #include "Actor/DirectorActor.h"
 #include "Engine/World.h"
 #include "Engine/Level.h"
+#include "Engine/Public/EngineUtils.h"
 
 ALeaveThePastGameModeBase* ALeaveThePastGameModeBase::leaveThePastGameModeBase = nullptr;
 

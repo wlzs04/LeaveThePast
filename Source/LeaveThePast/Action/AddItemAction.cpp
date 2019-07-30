@@ -1,6 +1,7 @@
 #include "AddItemAction.h"
 #include "../Manager/MainGameManager.h"
 #include "../Manager/LogManager.h"
+#include "../Config/UserData.h"
 
 UAddItemAction::UAddItemAction() :UActionBase()
 {

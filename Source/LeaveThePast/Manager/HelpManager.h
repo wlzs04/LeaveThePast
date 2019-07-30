@@ -2,8 +2,9 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
-#include "Engine/Texture2D.h"
 #include "HelpManager.generated.h"
+
+class UTexture2D;
 
 UCLASS()
 class LEAVETHEPAST_API UHelpManager : public UObject

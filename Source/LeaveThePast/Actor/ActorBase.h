@@ -1,18 +1,17 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "XmlParser/Public/XmlFile.h"
 #include "GameFramework/Character.h"
-#include "GameFramework/SpringArmComponent.h"
-#include "Camera/CameraComponent.h"
-#include "Components/AudioComponent.h"
-#include "Components/SphereComponent.h"
-#include "Sound/SoundCue.h"
+#include "../Config/UserData.h"
 #include "ActorInfoBase.h"
 #include "ActorBase.generated.h"
 
 class UActionBase;
-class USoundBase;
+class USoundCue;
+class UAudioComponent;
+class USphereComponent;
+class USpringArmComponent;
+class UCameraComponent;
 
 UCLASS()
 class LEAVETHEPAST_API AActorBase : public ACharacter
@@ -24,10 +23,6 @@ public:
 	void InitByActorInfo();
 
 	virtual void Tick(float DeltaTime) override;
-
-	//执行指令
-	UFUNCTION(BlueprintCallable)
-	virtual void Execute(UActionBase* action);
 
 	//设置角色信息
 	void SetActorInfo(UActorInfoBase* newActorInfo);
@@ -76,7 +71,6 @@ private:
 
 	UPROPERTY()
 	UActorInfoBase* actorInfo = nullptr;
-	TArray<UActionBase*> actionList;
 
 	bool isInTalking = false;//在谈话中
 

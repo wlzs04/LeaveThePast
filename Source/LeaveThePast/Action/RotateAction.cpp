@@ -3,9 +3,6 @@
 #include "..\Manager\ActorManager.h"
 #include "..\Manager\ScriptManager.h"
 #include "..\Manager\LogManager.h"
-#include "Kismet/GameplayStatics.h"
-#include "GameFramework/Pawn.h"
-#include "Engine/World.h"
 
 URotateAction::URotateAction()
 {

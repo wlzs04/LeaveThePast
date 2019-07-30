@@ -1,5 +1,6 @@
 #include "AddActorAction.h"
 #include "../Manager/ActorManager.h"
+#include "../Actor/ActorInfoBase.h"
 #include "../Manager/LogManager.h"
 
 UAddActorAction::UAddActorAction() :UActionBase()

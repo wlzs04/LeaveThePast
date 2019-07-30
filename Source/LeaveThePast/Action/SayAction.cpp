@@ -1,12 +1,9 @@
 #include "SayAction.h"
 #include "../Actor/ActorBase.h"
-#include "..\Manager\ActorManager.h"
-#include "..\Manager\LogManager.h"
-#include "..\Manager\ScriptManager.h"
+#include "../Manager/ActorManager.h"
+#include "../Manager/LogManager.h"
+#include "../Manager/ScriptManager.h"
 #include "../Manager/UIManager.h"
-#include "Kismet/GameplayStatics.h"
-#include "Engine/Engine.h"
-#include "Engine/World.h"
 
 USayAction::USayAction() :UActionBase()
 {

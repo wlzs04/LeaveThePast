@@ -2,18 +2,22 @@
 
 #include "CoreMinimal.h"
 #include "Engine/GameInstance.h"
-#include "ConfigManager.h"
-#include "ScriptManager.h"
-#include "ActorManager.h"
-#include "LogManager.h"
-#include "UIManager.h"
-#include "AudioManager.h"
-#include "../Actor/DirectorActor.h"
-#include "../Config/UserData.h"
-#include "../Config/SystemData.h"
-#include "../Config/DebugData.h"
-#include "Engine/World.h"
+#include "../Config/TimeData.h"
 #include "MainGameManager.generated.h"
+
+class UWorld;
+class USystemData;
+class UUserData;
+class UDebugData;
+
+class ADirectorActor;
+
+class UConfigManager;
+class UScriptManager;
+class UActorManager;
+class ULogManager;
+class UUIManager;
+class UAudioManager;
 
 UCLASS()
 class LEAVETHEPAST_API UMainGameManager : public UGameInstance
@@ -173,8 +177,4 @@ private:
 	bool startTime = false;
 
 	FTimeData realTimeData;
-
-	AActorBase* mainActor = nullptr;
-	AActorBase* mainActor2 = nullptr;
-	AActorBase* cameraActor = nullptr;
 };

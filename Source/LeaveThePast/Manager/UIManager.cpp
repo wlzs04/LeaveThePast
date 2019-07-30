@@ -1,4 +1,5 @@
 #include "UIManager.h"
+#include <UMG.h>
 #include "ConfigManager.h"
 #include "LogManager.h"
 #include "MainGameManager.h"

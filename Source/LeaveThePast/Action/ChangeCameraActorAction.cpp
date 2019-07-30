@@ -1,10 +1,8 @@
 #include "ChangeCameraActorAction.h"
-#include "..\Manager\MainGameManager.h"
-#include "..\Actor\DirectorActor.h"
-#include "GameFramework/PlayerController.h"
+#include "../Manager/ActorManager.h"
 #include "../Manager/LogManager.h"
-#include "Engine/World.h"
-
+#include "../Actor/DirectorActor.h"
+#include "../Actor/ActorBase.h"
 
 UChangeCameraActorAction::UChangeCameraActorAction()
 {

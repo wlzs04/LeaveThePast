@@ -2,7 +2,10 @@
 #include "../Manager/ActorManager.h"
 #include "../Manager/ScriptManager.h"
 #include "../Manager/LogManager.h"
+#include "../Actor/ActorBase.h"
 #include "../Script/Chapter.h"
+#include "../Script/Section.h"
+#include "../Script/Paragraph.h"
 
 USetScriptActorAction::USetScriptActorAction() :UActionBase()
 {

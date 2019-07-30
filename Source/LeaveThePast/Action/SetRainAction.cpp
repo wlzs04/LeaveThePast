@@ -1,7 +1,6 @@
 #include "SetRainAction.h"
 #include "../LeaveThePastGameModeBase.h"
 #include "../Manager/LogManager.h"
-#include "XmlParser/Public/XmlFile.h"
 
 USetRainAction::USetRainAction() :UActionBase()
 {

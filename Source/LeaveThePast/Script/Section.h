@@ -2,8 +2,10 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
-#include "Script/Paragraph.h"
 #include "Section.generated.h"
+
+class UParagraph;
+class FXmlNode;
 
 UCLASS()
 class LEAVETHEPAST_API USection : public UObject

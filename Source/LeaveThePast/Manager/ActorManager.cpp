@@ -10,6 +10,11 @@
 #include "Engine/Level.h"
 #include "EngineUtils.h"
 
+#include "../Actor/ActorBase.h"
+#include "../Actor/MainActorInfo.h"
+#include "../Actor/MinorActorInfo.h"
+#include "../Actor/MassActorInfo.h"
+#include "../Volume/VolumeBase.h"
 #include "../Volume/ScriptVolume.h"
 #include "../Volume/SceneVolume.h"
 

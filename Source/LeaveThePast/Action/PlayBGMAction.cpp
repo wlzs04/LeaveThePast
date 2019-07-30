@@ -1,9 +1,6 @@
 #include "PlayBGMAction.h"
-#include "Engine/World.h"
 #include "../Actor/DirectorActor.h"
 #include "../Manager/AudioManager.h"
-#include "Engine/Engine.h"
-#include "GameFramework/PlayerController.h"
 #include "Sound/SoundCue.h"
 #include "../Manager/LogManager.h"
 

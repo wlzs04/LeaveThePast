@@ -1,4 +1,6 @@
 #include "Chapter.h"
+#include "Section.h"
+#include "XmlParser/Public/XmlFile.h"
 #include "../Manager/LogManager.h"
 
 void UChapter::Update()

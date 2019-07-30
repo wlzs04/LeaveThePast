@@ -2,12 +2,13 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
-#include "../Actor/ActorBase.h"
-#include "../Actor/MainActorInfo.h"
-#include "../Actor/MinorActorInfo.h"
-#include "../Actor/MassActorInfo.h"
-#include "../Volume/VolumeBase.h"
 #include "ActorManager.generated.h"
+
+class AActorBase;
+class UMainActorInfo;
+class UMinorActorInfo;
+class UMassActorInfo;
+class AVolumeBase;
 
 //管理演员和体积
 UCLASS()

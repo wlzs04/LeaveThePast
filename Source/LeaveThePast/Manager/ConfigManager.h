@@ -2,8 +2,9 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
-#include "../Config/RecorderBase.h"
 #include "ConfigManager.generated.h"
+
+class URecorderBase;
 
 UCLASS()
 class LEAVETHEPAST_API UConfigManager : public UObject

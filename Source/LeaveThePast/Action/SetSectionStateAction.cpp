@@ -1,7 +1,10 @@
 #include "SetSectionStateAction.h"
 #include "../Manager/MainGameManager.h"
+#include "../Manager/ScriptManager.h"
 #include "../Manager/LogManager.h"
 #include "../Script/Chapter.h"
+#include "../Script/Section.h"
+#include "../Config/UserData.h"
 
 USetSectionStateAction::USetSectionStateAction() :UActionBase()
 {

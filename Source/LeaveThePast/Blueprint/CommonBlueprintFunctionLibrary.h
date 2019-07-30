@@ -3,12 +3,14 @@
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "../Config/TimeData.h"
-#include "../Manager/MainGameManager.h"
-#include "../Manager/ScriptManager.h"
-#include "../Manager/ConfigManager.h"
-#include "../Manager/LogManager.h"
-#include "../LeaveThePastGameModeBase.h"
 #include "CommonBlueprintFunctionLibrary.generated.h"
+
+class ALeaveThePastGameModeBase;
+class UMainGameManager;
+class UConfigManager;
+class UScriptManager;
+class UUIManager;
+class UTexture2D;
 
 UCLASS()
 class LEAVETHEPAST_API UCommonBlueprintFunctionLibrary : public UBlueprintFunctionLibrary

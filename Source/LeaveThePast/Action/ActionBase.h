@@ -2,10 +2,8 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
+#include "XmlParser/Public/XmlFile.h"
 #include "ActionBase.generated.h"
-
-class AActorBase;
-class FXmlNode;
 
 UCLASS(BlueprintType)
 class LEAVETHEPAST_API UActionBase : public UObject

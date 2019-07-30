@@ -1,4 +1,6 @@
 #include "Section.h"
+#include "Paragraph.h"
+#include "XmlParser/Public/XmlFile.h"
 
 void USection::Update()
 {

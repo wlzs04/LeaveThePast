@@ -1,8 +1,19 @@
 #include "DirectorActor.h"
 #include "Components/InputComponent.h"
+#include "Components/AudioComponent.h"
+#include "Components/SphereComponent.h"
 #include "../Manager/MainGameManager.h"
+#include "../Manager/LogManager.h"
+#include "../Manager/ActorManager.h"
+#include "../Manager/AudioManager.h"
+#include "../Manager/ScriptManager.h"
+#include "../Manager/UIManager.h"
+#include "../Volume/VolumeBase.h"
+#include "ActorBase.h"
+#include "Sound/SoundCue.h"
 #include "GameFramework/PlayerController.h"
 #include "Engine/World.h"
+#include "XmlParser/Public/XmlFile.h"
 
 ADirectorActor* ADirectorActor::directorActor = nullptr;
 

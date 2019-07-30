@@ -1,7 +1,6 @@
 #include "SetScriptExecuteSpeedAction.h"
 #include "../Manager/ScriptManager.h"
 #include "../Manager/LogManager.h"
-#include "XmlParser/Public/XmlFile.h"
 
 USetScriptExecuteSpeedAction::USetScriptExecuteSpeedAction() :UActionBase()
 {

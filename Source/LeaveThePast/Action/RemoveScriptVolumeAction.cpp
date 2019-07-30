@@ -4,6 +4,8 @@
 #include "../Manager/ScriptManager.h"
 #include "../Manager/MainGameManager.h"
 #include "../Script/Chapter.h"
+#include "../Script/Section.h"
+#include "../Script/Paragraph.h"
 #include "../Volume/ScriptVolume.h"
 #include "Engine/Level.h"
 #include "Engine/World.h"

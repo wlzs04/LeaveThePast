@@ -2,7 +2,6 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
-#include "XmlParser/Public/XmlFile.h"
 #include "ActorInfoBase.h"
 #include "MassActorInfo.generated.h"
 
@@ -11,5 +10,4 @@ class LEAVETHEPAST_API UMassActorInfo : public UActorInfoBase
 {
 	GENERATED_BODY()
 public:
-	//virtual void Load(FXmlNode* xmlNode);
 };

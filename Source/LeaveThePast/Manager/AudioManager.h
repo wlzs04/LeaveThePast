@@ -2,11 +2,11 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
-#include "Sound/SoundCue.h"
 #include "AudioManager.generated.h"
 
 class USoundClass;
 class USoundMix;
+class USoundCue;
 
 UCLASS()
 class LEAVETHEPAST_API UAudioManager : public UObject
@@ -33,10 +33,6 @@ public:
 	USoundClass* GetVoiceSoundClass();
 
 	USoundClass* GetEffectSoundClass();
-
-	//获得指定名称的声音
-	/*UFUNCTION(BlueprintCallable)
-	USoundBase* GetAudioByName(FString audioName);*/
 
 	//获得指定Id的声音
 	UFUNCTION(BlueprintCallable)

@@ -1,7 +1,6 @@
 #include "OptionAction.h"
 #include "../Manager/UIManager.h"
 #include "../Manager/LogManager.h"
-#include "XmlParser/Public/XmlFile.h"
 
 UOptionItemAction::UOptionItemAction() :UMultiplyAction()
 {

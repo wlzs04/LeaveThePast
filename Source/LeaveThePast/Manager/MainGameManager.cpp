@@ -1,12 +1,25 @@
 #include "MainGameManager.h"
+#include "Engine/World.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include "Misc/Paths.h"
 
 #include "FileHelper.h"
 #include "LogMacros.h"
 #include "Engine/World.h"
 #include "GameFramework/PlayerController.h"
 
+#include "../Config/UserData.h"
+#include "../Config/SystemData.h"
+#include "../Config/DebugData.h"
+#include "../Config/Recorder/SceneRecorder.h"
 #include "../Actor/DirectorActor.h"
+
+#include "ConfigManager.h"
+#include "ScriptManager.h"
+#include "ActorManager.h"
+#include "LogManager.h"
+#include "UIManager.h"
+#include "AudioManager.h"
 
 UMainGameManager* UMainGameManager::gameManager = nullptr;
 
@@ -33,7 +46,7 @@ void UMainGameManager::InitAll()
 		debugData = NewObject<UDebugData>(this);
 		ReloadDebugData();
 
-		directorActor = Cast<ADirectorActor>(GetWorld()->GetFirstPlayerController()->GetPawn());
+		directorActor = ADirectorActor::GetInstance();
 		
 		haveInited = true;
 	}

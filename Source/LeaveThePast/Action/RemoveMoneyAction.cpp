@@ -1,5 +1,6 @@
 #include "RemoveMoneyAction.h"
 #include "../Manager/MainGameManager.h"
+#include "../Config/UserData.h"
 #include "../Manager/LogManager.h"
 
 URemoveMoneyAction::URemoveMoneyAction() :UActionBase()

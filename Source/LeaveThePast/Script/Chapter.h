@@ -2,8 +2,9 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
-#include "Section.h"
 #include "Chapter.generated.h"
+
+class USection;
 
 UCLASS(BlueprintType)
 class LEAVETHEPAST_API UChapter : public UObject

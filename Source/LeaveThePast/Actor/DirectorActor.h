@@ -2,9 +2,12 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
-#include "ActorBase.h"
-#include "Sound/SoundCue.h"
 #include "DirectorActor.generated.h"
+
+class AActorBase;
+class USoundCue;
+class UAudioComponent;
+class USphereComponent;
 
 UCLASS()
 class LEAVETHEPAST_API ADirectorActor : public APawn

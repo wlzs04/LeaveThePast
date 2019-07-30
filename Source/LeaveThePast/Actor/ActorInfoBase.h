@@ -2,10 +2,11 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
-#include "XmlParser/Public/XmlFile.h"
-#include "../Config/Recorder/SceneRecorder.h"
 #include "../Config/UserData.h"
+#include "../Config/Recorder/SceneRecorder.h"
 #include "ActorInfoBase.generated.h"
+
+class FXmlNode;
 
 USTRUCT()
 struct FChat

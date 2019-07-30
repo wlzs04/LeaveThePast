@@ -5,6 +5,7 @@
 #include "Runtime/ImageWrapper/Public/IImageWrapper.h" 
 #include "Runtime/ImageWrapper/Public/IImageWrapperModule.h"
 #include "ModuleManager.h"
+#include "Engine/Texture2D.h"
 
 UHelpManager* UHelpManager::helpManager = nullptr;
 

@@ -1,10 +1,10 @@
 #include "Paragraph.h"
 #include "../Manager/MainGameManager.h"
+#include "../Manager/ScriptManager.h"
+#include "../Action/ActionBase.h"
 #include "../Manager/LogManager.h"
 #include "XmlParser/Public/XmlFile.h"
 #include "../Actor/DirectorActor.h"
-#include "Engine/World.h"
-#include "GameFramework/PlayerController.h"
 
 void UParagraph::Update()
 {
@@ -117,6 +117,6 @@ bool UParagraph::SkipScript()
 	isCompleted = true;
 	ADirectorActor::GetInstance()->SetCanControlMove(true);
 	ADirectorActor::GetInstance()->SetCanControlView(true);
-	LogNormal(TEXT("已经跳过可跳过剧情！"));
+	LogNormal(TEXT("已经跳过剧情！"));
 	return true;
 }

@@ -17,5 +17,4 @@ protected:
 	virtual FString ExecuteReal() override;
 
 private:
-	
 };

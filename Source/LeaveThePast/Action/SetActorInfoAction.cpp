@@ -1,6 +1,7 @@
 #include "SetActorInfoAction.h"
 #include "../Manager/ActorManager.h"
 #include "../Manager/LogManager.h"
+#include "../Actor/ActorBase.h"
 
 USetActorInfoAction::USetActorInfoAction() :UActionBase()
 {

@@ -1,7 +1,6 @@
 #include "MultiplyAction.h"
 #include "../Manager/ScriptManager.h"
 #include "../Manager/LogManager.h"
-#include "XmlParser/Public/XmlFile.h"
 
 void UMultiplyAction::Load(FXmlNode* xmlNode)
 {

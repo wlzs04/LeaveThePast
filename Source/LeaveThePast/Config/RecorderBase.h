@@ -5,6 +5,7 @@
 #include "XmlParser/Public/XmlFile.h"
 #include "RecorderBase.generated.h"
 
+
 UCLASS(BlueprintType)
 class LEAVETHEPAST_API URecorderBase : public UObject
 {
@@ -16,13 +17,12 @@ public:
 
 	//获得Id
 	UFUNCTION(BlueprintCallable)
-		int GetId();
+	int GetId();
 
 	//获得指定名称的值
 	UFUNCTION(BlueprintCallable)
-		FString GetValueByName(FString name);
+	FString GetValueByName(FString name);
 protected:
-
 	int id;
 	TMap<FString, FString> valueMap;
 };

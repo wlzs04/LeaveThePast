@@ -2,14 +2,18 @@
 #include "..\Action\ActionBase.h"
 #include "..\Manager\LogManager.h"
 #include "..\Manager\AudioManager.h"
-#include "GameFramework/Controller.h"
 #include "Engine/Engine.h"
 #include "GameFramework/PlayerController.h"
 #include "Components/InputComponent.h"
 #include "Animation/AnimBlueprintGeneratedClass.h"
 #include "GameFramework/PlayerInput.h"
-#include "Components/SkeletalMeshComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Components/SkeletalMeshComponent.h"
+#include "GameFramework/SpringArmComponent.h"
+#include "Camera/CameraComponent.h"
+#include "Components/AudioComponent.h"
+#include "Components/SphereComponent.h"
+#include "Sound/SoundCue.h"
 
 AActorBase::AActorBase()
 {
@@ -124,16 +128,6 @@ void AActorBase::RemoveInteractedScript(FScriptRecorderInfo scriptRecorder)
 void AActorBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-}
-
-void AActorBase::Execute(UActionBase* action)
-{
-	if (actionList.Contains(action))
-	{
-		LogError(FString::Printf(TEXT("演员Id:%d已经拥有指令:%s"), actorInfo->GetActorId(), *action->GetActionName()));
-		return;
-	}
-	actionList.Add(action);
 }
 
 void AActorBase::SetActorInfo(UActorInfoBase* newActorInfo)

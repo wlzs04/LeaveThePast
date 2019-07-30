@@ -1,4 +1,5 @@
 #include "ConfigManager.h"
+#include "../Config/RecorderBase.h"
 #include "LogManager.h"
 #include "Runtime/XmlParser/Public/XmlParser.h"
 #include "Runtime/XmlParser/Public/FastXml.h" 
