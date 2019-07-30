@@ -10,7 +10,7 @@
 			<AddScriptVolume position="3430.0,-2810.0,70.0"/>
 			<SetParagraphState state="2"/>
 		</Paragraph>
-		<Paragraph id="1" canControlView="true">
+		<Paragraph id="1" canControlView="true" autoHideMainUI="false">
 			<RemoveScriptVolume/>
 			<AddActor actorId="10002"/>
 			<Move actorId="10001" actionTime="1" speed="100" direction="1,0,0"/>

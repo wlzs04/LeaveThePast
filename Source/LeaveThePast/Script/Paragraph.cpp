@@ -1,6 +1,7 @@
 #include "Paragraph.h"
 #include "../Manager/MainGameManager.h"
 #include "../Manager/ScriptManager.h"
+#include "../Manager/UIManager.h"
 #include "../Action/ActionBase.h"
 #include "../Manager/LogManager.h"
 #include "XmlParser/Public/XmlFile.h"
@@ -12,8 +13,7 @@ void UParagraph::Update()
 	{
 		if (currentActionIndex >= actionList.Num())
 		{
-			isStart = false;
-			isCompleted = true;
+			Finish();
 			return;
 		}
 		if (!actionList[currentActionIndex]->GetIsCompleted())
@@ -26,12 +26,7 @@ void UParagraph::Update()
 			currentActionIndex++;
 			if (currentActionIndex >= actionList.Num())
 			{
-				isStart = false;
-				isCompleted = true;
-
-				ADirectorActor::GetInstance()->SetCanControlMove(true);
-				ADirectorActor::GetInstance()->SetCanControlView(true);
-
+				Finish();
 				return;
 			}
 			actionList[currentActionIndex]->Execute();
@@ -58,6 +53,10 @@ void UParagraph::Load(FXmlNode* xmlNode)
 		else if (attributeName == TEXT("canControlView"))
 		{
 			canControlView = FCString::ToBool(*attributeValue);
+		}
+		else if (attributeName == TEXT("autoHideMainUI"))
+		{
+			autoHideMainUI = FCString::ToBool(*attributeValue);
 		}
 		else
 		{
@@ -100,7 +99,23 @@ void UParagraph::Start()
 	ADirectorActor::GetInstance()->SetCanControlMove(canControlMove);
 	ADirectorActor::GetInstance()->SetCanControlView(canControlView);
 
+	if (autoHideMainUI)
+	{
+		UUIManager::GetInstance()->HideMainUI();
+	}
+
 	actionList[currentActionIndex]->Execute();
+}
+
+void UParagraph::Finish()
+{
+	isStart = false;
+	isCompleted = true;
+
+	ADirectorActor::GetInstance()->SetCanControlMove(true);
+	ADirectorActor::GetInstance()->SetCanControlView(true);
+
+	UUIManager::GetInstance()->ShowMainUI();
 }
 
 bool UParagraph::SkipScript()
@@ -113,10 +128,7 @@ bool UParagraph::SkipScript()
 			return false;
 		}
 	}
-	isStart = false;
-	isCompleted = true;
-	ADirectorActor::GetInstance()->SetCanControlMove(true);
-	ADirectorActor::GetInstance()->SetCanControlView(true);
+	Finish();
 	LogNormal(TEXT("已经跳过剧情！"));
 	return true;
 }

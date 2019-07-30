@@ -33,6 +33,7 @@
 #include "../Action/SetChapterStateAction.h"
 #include "../Action/SetSectionStateAction.h"
 #include "../Action/SetParagraphStateAction.h"
+#include "../Action/SetMainUIStateAction.h"
 
 #include "../Script/Chapter.h"
 #include "../Script/Section.h"
@@ -75,7 +76,6 @@ void UScriptManager::StartScript(FString scriptName, int sectionId, int paragrap
 	}
 	else
 	{
-		UUIManager::GetInstance()->HideMainUI();
 		currentScript = mainChapterMap[scriptName];
 		LogNormal(FString::Printf(TEXT("剧本开始：%s,%d,%d"), *scriptName, sectionId, paragrapgId));
 		UUserData* userData = UMainGameManager::GetInstance()->GetUserData();
@@ -271,9 +271,10 @@ void UScriptManager::LoadAllIegalAction()
 	AddIegalAction(NewObject<USetScriptExecuteSpeedAction>(this));
 	AddIegalAction(NewObject<URemoveScriptVolumeAction>(this));
 	AddIegalAction(NewObject<UClearScriptActorAction>(this));
-	AddIegalAction(NewObject<USetChapterStateAction>(this));
+	AddIegalAction(NewObject<USetChapterStateAction>(this)); 
 	AddIegalAction(NewObject<USetSectionStateAction>(this));
 	AddIegalAction(NewObject<USetParagraphStateAction>(this));
+	AddIegalAction(NewObject<USetMainUIStateAction>(this));
 }
 
 void UScriptManager::AddIegalAction(UActionBase* actionBase)
@@ -291,7 +292,6 @@ void UScriptManager::ScriptFinish()
 	{
 		LogError(TEXT("UScriptManager::ScriptFinish currentScript为空。"));
 	}
-	UUIManager::GetInstance()->ShowMainUI();
 }
 
 UActionBase* UScriptManager::GetIegalActionByName(FString actionName)

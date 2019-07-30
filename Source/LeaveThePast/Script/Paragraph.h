@@ -17,6 +17,7 @@ public:
 	bool GetIsCompleted();
 	int GetParagraphId();
 	void Start();
+	void Finish();
 	bool SkipScript();
 private:
 	TArray<UActionBase*> actionList;
@@ -24,6 +25,7 @@ private:
 	bool isStart = false;//是否开始
 	bool canControlMove = false;//在剧本执行中，玩家是否可控制角色移动
 	bool canControlView = false;//在剧本执行中，玩家是否可控制角色视野
+	bool autoHideMainUI = true;//在剧本执行中，是否自动隐藏主界面
 	int paragraphId = 0;
 	int currentActionIndex = 0;
 };
