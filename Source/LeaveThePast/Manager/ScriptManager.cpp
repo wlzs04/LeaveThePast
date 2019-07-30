@@ -37,9 +37,12 @@
 #include "../Script/Chapter.h"
 #include "../Script/Section.h"
 #include "../Script/Paragraph.h"
+#include "../Config/UserData.h"
 #include "MainGameManager.h"
 #include "LogManager.h"
 #include "UIManager.h"
+
+#include "Engine/World.h"
 
 #include "Runtime/Core/Public/Misc/Paths.h"
 #include "Runtime/Core/Public/HAL/FileManager.h"
@@ -86,9 +89,9 @@ void UScriptManager::StartNextScript()
 	UUserData* userData = UMainGameManager::GetInstance()->GetUserData();
 	if (userData->GetNextScriptList().Num() > 0)
 	{
-		FScriptRecorderInfo scriptRecorderInfo = userData->GetNextScriptList()[0];
-		userData->RemoveNextScript(scriptRecorderInfo);
-		StartScript(scriptRecorderInfo.chapter, scriptRecorderInfo.sectionId, scriptRecorderInfo.paragraphId);
+		FScriptItemData scriptItemData = userData->GetNextScriptList()[0];
+		userData->RemoveNextScript(scriptItemData);
+		StartScript(scriptItemData.chapter, scriptItemData.sectionId, scriptItemData.paragraphId);
 	}
 }
 

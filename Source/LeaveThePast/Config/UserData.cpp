@@ -6,79 +6,11 @@
 #include "../Actor/DirectorActor.h"
 #include "../Actor/ActorBase.h"
 #include "../Volume/VolumeBase.h"
+#include "ScriptData.h"
+#include "SceneData.h"
 #include "Paths.h"
 #include "XmlParser/Public/XmlFile.h"
 #include "Engine/World.h"
-
-void FSaveActorInfo::LoadFromXmlNode(FXmlNode* xmlNode)
-{
-	for (FXmlAttribute attribute : xmlNode->GetAttributes())
-	{
-		FString attributeName = attribute.GetTag();
-		FString attributeValue = attribute.GetValue();
-
-		if (attributeName == TEXT("id"))
-		{
-			actorId = FCString::Atoi(*attributeValue);
-		}
-		else if (attributeName == TEXT("position"))
-		{
-			position = UHelpManager::ConvertFStringToFVector(attributeValue);
-		}
-		else if (attributeName == TEXT("rotation"))
-		{
-			rotation = UHelpManager::ConvertFStringToFRotator(attributeValue);
-		}
-	}
-
-	for (FXmlNode* childNode : xmlNode->GetChildrenNodes())
-	{
-		FScriptRecorderInfo scriptRecorderInfo;
-		scriptRecorderInfo.LoadFromXmlNode(childNode);
-		scriptRecorderList.Add(scriptRecorderInfo);
-	}
-}
-
-void FSaveVolumeInfo::LoadFromXmlNode(FXmlNode* xmlNode)
-{
-	volumeType = xmlNode->GetTag();
-	for (FXmlAttribute attribute : xmlNode->GetAttributes())
-	{
-		FString attributeName = attribute.GetTag();
-		FString attributeValue = attribute.GetValue();
-
-		if (attributeName == TEXT("position"))
-		{
-			position = UHelpManager::ConvertFStringToFVector(attributeValue);
-		}
-		else if (attributeName == TEXT("value"))
-		{
-			value = attributeValue;
-		}
-	}
-}
-
-void FScriptRecorderInfo::LoadFromXmlNode(FXmlNode* xmlNode)
-{
-	for (FXmlAttribute attribute : xmlNode->GetAttributes())
-	{
-		FString attributeName = attribute.GetTag();
-		FString attributeValue = attribute.GetValue();
-
-		if (attributeName == TEXT("chapter"))
-		{
-			chapter = attributeValue;
-		}
-		else if (attributeName == TEXT("sectionId"))
-		{
-			sectionId = FCString::Atoi(*attributeValue);
-		}
-		else if (attributeName == TEXT("paragraphId"))
-		{
-			paragraphId = FCString::Atoi(*attributeValue);
-		}
-	}
-}
 
 UUserData::UUserData() :UObject()
 {
@@ -148,9 +80,9 @@ void UUserData::Load()
 			sceneActorList.Empty();
 			for (FXmlNode* childNode : xmlNode->GetChildrenNodes())
 			{
-				FSaveActorInfo saveActorInfo;
-				saveActorInfo.LoadFromXmlNode(childNode);
-				sceneActorList.Add(saveActorInfo);
+				USceneActorData* sceneActorInfo = NewObject<USceneActorData>();
+				sceneActorInfo->LoadFromXmlNode(childNode);
+				sceneActorList.Add(sceneActorInfo);
 			}
 		}
 		//加载场景演员列表
@@ -159,9 +91,9 @@ void UUserData::Load()
 			sceneVolumeList.Empty();
 			for (FXmlNode* childNode : xmlNode->GetChildrenNodes())
 			{
-				FSaveVolumeInfo saveVolumeInfo;
-				saveVolumeInfo.LoadFromXmlNode(childNode);
-				sceneVolumeList.Add(saveVolumeInfo);
+				USceneVolumeData* sceneVolumeInfo = NewObject<USceneVolumeData>();
+				sceneVolumeInfo->LoadFromXmlNode(childNode);
+				sceneVolumeList.Add(sceneVolumeInfo);
 			}
 		}
 		//加载物品
@@ -191,23 +123,23 @@ void UUserData::Load()
 			chapterMap.Empty();
 			for (FXmlNode* chapterNode : xmlNode->GetChildrenNodes())
 			{
-				FSaveChapterInfo chaterInfo;
-				chaterInfo.name = chapterNode->GetAttribute(TEXT("name"));
-				chaterInfo.state = FCString::Atoi(*chapterNode->GetAttribute(TEXT("state")));
+				UChapterData* chaterData = NewObject<UChapterData>();
+				chaterData->chapterName = chapterNode->GetAttribute(TEXT("name"));
+				chaterData->state = FCString::Atoi(*chapterNode->GetAttribute(TEXT("state")));
 				for (FXmlNode* sectionNode : chapterNode->GetChildrenNodes())
 				{
-					FSaveSectionInfo sectionInfo;
-					sectionInfo.id = FCString::Atoi(*sectionNode->GetAttribute(TEXT("id")));
-					sectionInfo.state = FCString::Atoi(*sectionNode->GetAttribute(TEXT("state")));
+					USectionData* sectionData = NewObject<USectionData>();
+					sectionData->sectionId = FCString::Atoi(*sectionNode->GetAttribute(TEXT("id")));
+					sectionData->state = FCString::Atoi(*sectionNode->GetAttribute(TEXT("state")));
 					for (FXmlNode* paragraphNode : sectionNode->GetChildrenNodes())
 					{
 						int paragraphId = FCString::Atoi(*paragraphNode->GetAttribute(TEXT("id")));
 						int paragraphState = FCString::Atoi(*paragraphNode->GetAttribute(TEXT("state")));
-						sectionInfo.paragraphMap.Add(paragraphId, paragraphState);
+						sectionData->paragraphMap.Add(paragraphId, paragraphState);
 					}
-					chaterInfo.sectionMap.Add(sectionInfo.id,sectionInfo);
+					chaterData->sectionMap.Add(sectionData->sectionId, sectionData);
 				}
-				chapterMap.Add(chaterInfo.name,chaterInfo);
+				chapterMap.Add(chaterData->chapterName, chaterData);
 			}
 		}
 		//即将运行的剧本
@@ -216,25 +148,25 @@ void UUserData::Load()
 			nextScriptList.Empty();
 			for (FXmlNode* scriptNode : xmlNode->GetChildrenNodes())
 			{
-				FScriptRecorderInfo scriptRecorderInfo;
+				FScriptItemData scriptItemData;
 				for (FXmlAttribute attribute : scriptNode->GetAttributes())
 				{
 					FString attributeName = attribute.GetTag();
 					FString attributeValue = attribute.GetValue();
 					if (attributeName == TEXT("chapter"))
 					{
-						scriptRecorderInfo.chapter = attributeValue;
+						scriptItemData.chapter = attributeValue;
 					}
 					else if (attributeName == TEXT("sectionId"))
 					{
-						scriptRecorderInfo.sectionId = FCString::Atoi(*attributeValue);
+						scriptItemData.sectionId = FCString::Atoi(*attributeValue);
 					}
 					else if (attributeName == TEXT("paragraphId"))
 					{
-						scriptRecorderInfo.paragraphId = FCString::Atoi(*attributeValue);
+						scriptItemData.paragraphId = FCString::Atoi(*attributeValue);
 					}
 				}
-				nextScriptList.Add(scriptRecorderInfo);
+				nextScriptList.Add(scriptItemData);
 			}
 		}
 	}
@@ -279,12 +211,12 @@ void UUserData::Save()
 		xmlContent.Append(TEXT(" rotation=\"") + UHelpManager::ConvertToFString(actorPair.Value->GetActorRotation()) + TEXT("\""));
 		xmlContent.Append(TEXT(">\n"));
 	
-		for (FScriptRecorderInfo scriptRecorder : actorPair.Value->GetInteractedScriptList())
+		for (FScriptItemData scriptItemData : actorPair.Value->GetInteractedScriptList())
 		{
 			xmlContent.Append(TEXT("\t\t\t<ScriptRecorderInfo"));
-			xmlContent.Append(TEXT(" chapter=\"") + scriptRecorder.chapter + TEXT("\""));
-			xmlContent.Append(TEXT(" sectionId=\"") + FString::FromInt(scriptRecorder.sectionId) + TEXT("\""));
-			xmlContent.Append(TEXT(" paragraphId=\"") + FString::FromInt(scriptRecorder.paragraphId) + TEXT("\""));
+			xmlContent.Append(TEXT(" chapter=\"") + scriptItemData.chapter + TEXT("\""));
+			xmlContent.Append(TEXT(" sectionId=\"") + FString::FromInt(scriptItemData.sectionId) + TEXT("\""));
+			xmlContent.Append(TEXT(" paragraphId=\"") + FString::FromInt(scriptItemData.paragraphId) + TEXT("\""));
 			xmlContent.Append(TEXT("/>\n"));
 		}
 
@@ -326,16 +258,16 @@ void UUserData::Save()
 	for (auto chapterInfo : chapterMap)
 	{
 		xmlContent.Append(TEXT("\t\t<Chapter"));
-		xmlContent.Append(TEXT(" name=\"") + chapterInfo.Value.name + TEXT("\""));
-		xmlContent.Append(TEXT(" state=\"") + FString::FromInt(chapterInfo.Value.state) + TEXT("\""));
+		xmlContent.Append(TEXT(" name=\"") + chapterInfo.Value->chapterName + TEXT("\""));
+		xmlContent.Append(TEXT(" state=\"") + FString::FromInt(chapterInfo.Value->state) + TEXT("\""));
 		xmlContent.Append(TEXT(">\n"));
-		for (auto sectionInfo : chapterInfo.Value.sectionMap)
+		for (auto sectionInfo : chapterInfo.Value->sectionMap)
 		{
 			xmlContent.Append(TEXT("\t\t\t<Section"));
-			xmlContent.Append(TEXT(" id=\"") + FString::FromInt(sectionInfo.Value.id) + TEXT("\""));
-			xmlContent.Append(TEXT(" state=\"") + FString::FromInt(sectionInfo.Value.state) + TEXT("\""));
+			xmlContent.Append(TEXT(" id=\"") + FString::FromInt(sectionInfo.Value->sectionId) + TEXT("\""));
+			xmlContent.Append(TEXT(" state=\"") + FString::FromInt(sectionInfo.Value->state) + TEXT("\""));
 			xmlContent.Append(TEXT(">\n"));
-			for (auto paragraphInfo : sectionInfo.Value.paragraphMap)
+			for (auto paragraphInfo : sectionInfo.Value->paragraphMap)
 			{
 				xmlContent.Append(TEXT("\t\t\t\t<Paragraph"));
 				xmlContent.Append(TEXT(" id=\"") + FString::FromInt(paragraphInfo.Key) + TEXT("\""));
@@ -350,12 +282,12 @@ void UUserData::Save()
 	//end 添加剧本信息
 	//start 添加即将运行的剧本信息
 	xmlContent.Append(TEXT("\t<NextScript>\n"));
-	for (FScriptRecorderInfo scriptRecorderInfo : nextScriptList)
+	for (FScriptItemData scriptItemData : nextScriptList)
 	{
 		xmlContent.Append(TEXT("\t\t<ScriptRecorderInfo"));
-		xmlContent.Append(TEXT(" chapter=\"") + scriptRecorderInfo.chapter + TEXT("\""));
-		xmlContent.Append(TEXT(" sectionId=\"") + FString::FromInt(scriptRecorderInfo.sectionId) + TEXT("\""));
-		xmlContent.Append(TEXT(" paragraphId=\"") + FString::FromInt(scriptRecorderInfo.paragraphId) + TEXT("\""));
+		xmlContent.Append(TEXT(" chapter=\"") + scriptItemData.chapter + TEXT("\""));
+		xmlContent.Append(TEXT(" sectionId=\"") + FString::FromInt(scriptItemData.sectionId) + TEXT("\""));
+		xmlContent.Append(TEXT(" paragraphId=\"") + FString::FromInt(scriptItemData.paragraphId) + TEXT("\""));
 		xmlContent.Append(TEXT(">\n"));
 	}
 	xmlContent.Append(TEXT("\t</NextScript>\n"));
@@ -381,7 +313,7 @@ void UUserData::SetInitData()
 	AddItem(20002, 3);
 	AddItem(40004, 1);
 
-	AddNextScript(FScriptRecorderInfo(TEXT("1"),0,0));
+	AddNextScript(FScriptItemData(TEXT("1"),0,0));
 }
 
 FTimeData UUserData::GetGameTimeData()
@@ -463,12 +395,12 @@ void UUserData::RemoveControlActor(int actorInfoId)
 	}
 }
 
-TArray<FSaveActorInfo> UUserData::GetSceneActorList()
+TArray<USceneActorData*> UUserData::GetSceneActorList()
 {
 	return sceneActorList;
 }
 
-TArray<FSaveVolumeInfo> UUserData::GetSceneVolumeList()
+TArray<USceneVolumeData*> UUserData::GetSceneVolumeList()
 {
 	return sceneVolumeList;
 }
@@ -557,7 +489,7 @@ void UUserData::ReduceMoney(int money)
 	ReduceItem(10001, money);
 }
 
-TMap<FString, FSaveChapterInfo> UUserData::GetChapterMap()
+TMap<FString, UChapterData*> UUserData::GetChapterMap()
 {
 	return chapterMap;
 }
@@ -566,63 +498,63 @@ void UUserData::SetChapterState(FString scriptName, int state)
 {
 	if (!chapterMap.Contains(scriptName))
 	{
-		chapterMap.Add(scriptName, FSaveChapterInfo());
+		chapterMap.Add(scriptName, NewObject<UChapterData>());
 	}
-	chapterMap[scriptName].name = scriptName;
-	chapterMap[scriptName].state = state;
+	chapterMap[scriptName]->chapterName = scriptName;
+	chapterMap[scriptName]->state = state;
 }
 
 void UUserData::SetSectionState(FString scriptName, int sectionId, int state)
 {
 	if (!chapterMap.Contains(scriptName))
 	{
-		chapterMap.Add(scriptName, FSaveChapterInfo());
-		chapterMap[scriptName].state = 1;
+		chapterMap.Add(scriptName, NewObject<UChapterData>());
+		chapterMap[scriptName]->state = 1;
 	}
-	chapterMap[scriptName].name = scriptName;
-	if (!chapterMap[scriptName].sectionMap.Contains(sectionId))
+	chapterMap[scriptName]->chapterName = scriptName;
+	if (!chapterMap[scriptName]->sectionMap.Contains(sectionId))
 	{
-		chapterMap[scriptName].sectionMap.Add(sectionId, FSaveSectionInfo());
+		chapterMap[scriptName]->sectionMap.Add(sectionId, NewObject<USectionData>());
 	}
-	chapterMap[scriptName].sectionMap[sectionId].id = sectionId;
-	chapterMap[scriptName].sectionMap[sectionId].state = state;
+	chapterMap[scriptName]->sectionMap[sectionId]->sectionId = sectionId;
+	chapterMap[scriptName]->sectionMap[sectionId]->state = state;
 }
 
 void UUserData::SetParagraphState(FString scriptName, int sectionId, int paragrapgId, int state)
 {
 	if (!chapterMap.Contains(scriptName))
 	{
-		chapterMap.Add(scriptName, FSaveChapterInfo());
-		chapterMap[scriptName].state = 1;
+		chapterMap.Add(scriptName, NewObject<UChapterData>());
+		chapterMap[scriptName]->state = 1;
 	}
-	chapterMap[scriptName].name = scriptName;
-	if (!chapterMap[scriptName].sectionMap.Contains(sectionId))
+	chapterMap[scriptName]->chapterName = scriptName;
+	if (!chapterMap[scriptName]->sectionMap.Contains(sectionId))
 	{
-		chapterMap[scriptName].sectionMap.Add(sectionId, FSaveSectionInfo());
-		chapterMap[scriptName].sectionMap[sectionId].state = 1;
+		chapterMap[scriptName]->sectionMap.Add(sectionId, NewObject<USectionData>());
+		chapterMap[scriptName]->sectionMap[sectionId]->state = 1;
 	}
-	chapterMap[scriptName].sectionMap[sectionId].id = sectionId;
-	if (!chapterMap[scriptName].sectionMap[sectionId].paragraphMap.Contains(paragrapgId))
+	chapterMap[scriptName]->sectionMap[sectionId]->sectionId = sectionId;
+	if (!chapterMap[scriptName]->sectionMap[sectionId]->paragraphMap.Contains(paragrapgId))
 	{
-		chapterMap[scriptName].sectionMap[sectionId].paragraphMap.Add(paragrapgId, state);
+		chapterMap[scriptName]->sectionMap[sectionId]->paragraphMap.Add(paragrapgId, state);
 	}
 	else
 	{
-		chapterMap[scriptName].sectionMap[sectionId].paragraphMap[paragrapgId] = state;
+		chapterMap[scriptName]->sectionMap[sectionId]->paragraphMap[paragrapgId] = state;
 	}
 }
 
-TArray<FScriptRecorderInfo> UUserData::GetNextScriptList()
+TArray<FScriptItemData> UUserData::GetNextScriptList()
 {
 	return nextScriptList;
 }
 
-void UUserData::AddNextScript(FScriptRecorderInfo newScriptRecorderInfo)
+void UUserData::AddNextScript(FScriptItemData newScriptItemData)
 {
-	nextScriptList.Add(newScriptRecorderInfo);
+	nextScriptList.Add(newScriptItemData);
 }
 
-void UUserData::RemoveNextScript(FScriptRecorderInfo newScriptRecorderInfo)
+void UUserData::RemoveNextScript(FScriptItemData newScriptItemData)
 {
-	nextScriptList.Remove(newScriptRecorderInfo);
+	nextScriptList.Remove(newScriptItemData);
 }

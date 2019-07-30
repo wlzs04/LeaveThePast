@@ -1,6 +1,7 @@
 #include "ActorInfoBase.h"
 #include "../Manager/LogManager.h"
 #include "../Manager/HelpManager.h"
+#include "../Config/SceneData.h"
 
 void UActorInfoBase::Load(FXmlNode* xmlNode)
 {
@@ -151,12 +152,12 @@ void UActorInfoBase::CoverData(FSceneActorInfo sceneActorInfo)
 	}
 }
 
-void UActorInfoBase::CoverData(FSaveActorInfo saveActorInfo)
+void UActorInfoBase::CoverData(USceneActorData* sceneActorData)
 {
-	if (saveActorInfo.actorId == actorId)
+	if (sceneActorData->actorId == actorId)
 	{
-		defaultPosition = saveActorInfo.position;
-		defaultRotation = saveActorInfo.rotation;
+		defaultPosition = sceneActorData->position;
+		defaultRotation = sceneActorData->rotation;
 	}
 	else
 	{

@@ -15,9 +15,9 @@ void AScriptVolume::LoadFromString(FString volumeValueString)
 	volumeValueString.ParseIntoArray(stringArray, TEXT(" "));
 	if (stringArray.Num() == 3)
 	{
-		scriptRecorderInfo.chapter = stringArray[0];
-		scriptRecorderInfo.sectionId = FCString::Atoi(*stringArray[1]);
-		scriptRecorderInfo.paragraphId = FCString::Atoi(*stringArray[2]);
+		scriptItemData.chapter = stringArray[0];
+		scriptItemData.sectionId = FCString::Atoi(*stringArray[1]);
+		scriptItemData.paragraphId = FCString::Atoi(*stringArray[2]);
 	}
 	else
 	{
@@ -28,27 +28,27 @@ void AScriptVolume::LoadFromString(FString volumeValueString)
 FString AScriptVolume::GetVolumeValue()
 {
 	FString volumeValue;
-	volumeValue.Append(scriptRecorderInfo.chapter+TEXT(" "));
-	volumeValue.Append(FString::FromInt(scriptRecorderInfo.sectionId) + TEXT(" "));
-	volumeValue.Append(FString::FromInt(scriptRecorderInfo.paragraphId));
+	volumeValue.Append(scriptItemData.chapter+TEXT(" "));
+	volumeValue.Append(FString::FromInt(scriptItemData.sectionId) + TEXT(" "));
+	volumeValue.Append(FString::FromInt(scriptItemData.paragraphId));
 
 	return volumeValue;
 }
 
-void AScriptVolume::SetInfo(FScriptRecorderInfo newScriptRecorderInfo)
+void AScriptVolume::SetInfo(FScriptItemData newScriptItemData)
 {
-	scriptRecorderInfo = newScriptRecorderInfo;
+	scriptItemData = newScriptItemData;
 }
 
-FScriptRecorderInfo AScriptVolume::GetScriptInfo()
+FScriptItemData AScriptVolume::GetScriptItemData()
 {
-	return scriptRecorderInfo;
+	return scriptItemData;
 }
 
 void AScriptVolume::VolumeBeginOverlapEventReal(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	if (OtherActor == ADirectorActor::GetInstance())
 	{
-		UScriptManager::GetInstance()->StartScript(scriptRecorderInfo.chapter, scriptRecorderInfo.sectionId, scriptRecorderInfo.paragraphId);
+		UScriptManager::GetInstance()->StartScript(scriptItemData.chapter, scriptItemData.sectionId, scriptItemData.paragraphId);
 	}
 }

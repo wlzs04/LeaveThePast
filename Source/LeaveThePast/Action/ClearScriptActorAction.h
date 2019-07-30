@@ -2,7 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "Action/ActionBase.h"
-#include "../Config/UserData.h"
+#include "../Config/ScriptItemData.h"
 #include "ClearScriptActorAction.generated.h"
 
 UCLASS()
@@ -19,5 +19,5 @@ private:
 
 	int actorInfoId = 0;
 	bool isCurrent = true;//是否让演员移除当前脚本
-	FScriptRecorderInfo scriptRecorderIndfo;
+	FScriptItemData scriptItemData;
 };

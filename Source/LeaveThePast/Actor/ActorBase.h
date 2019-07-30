@@ -55,9 +55,9 @@ public:
 
 	TArray<AActor*> GetInteractedActor();
 
-	TArray<FScriptRecorderInfo> GetInteractedScriptList();
-	void AddInteractedScript(FScriptRecorderInfo scriptRecorder);
-	void RemoveInteractedScript(FScriptRecorderInfo scriptRecorder);
+	TArray<FScriptItemData> GetInteractedScriptList();
+	void AddInteractedScript(FScriptItemData scriptItemData);
+	void RemoveInteractedScript(FScriptItemData scriptItemData);
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	int actorIdForEditor = 0;
@@ -84,5 +84,5 @@ private:
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta = (AllowPrivateAccess = "true"))
 	USphereComponent* interactedComponent = nullptr;
 
-	TArray<FScriptRecorderInfo> interactedScriptList;
+	TArray<FScriptItemData> interactedScriptList;
 };

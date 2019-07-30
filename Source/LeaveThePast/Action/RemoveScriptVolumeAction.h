@@ -2,7 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "Action/ActionBase.h"
-#include "../Config/UserData.h"
+#include "../Config/ScriptItemData.h"
 #include "RemoveScriptVolumeAction.generated.h"
 
 UCLASS()
@@ -18,5 +18,5 @@ protected:
 private:
 
 	bool isCurrent = true;//是否移除当前脚本
-	FScriptRecorderInfo scriptRecorderInfo;
+	FScriptItemData scriptItemData;
 };

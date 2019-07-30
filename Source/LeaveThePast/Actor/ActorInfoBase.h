@@ -7,6 +7,7 @@
 #include "ActorInfoBase.generated.h"
 
 class FXmlNode;
+class USceneActorData;
 
 USTRUCT()
 struct FChat
@@ -72,7 +73,7 @@ public:
 
 	//从场景演员信息中覆盖信息
 	void CoverData(FSceneActorInfo sceneActorInfo);
-	void CoverData(FSaveActorInfo saveActorInfo);
+	void CoverData(USceneActorData* sceneActorData);
 	
 	int GetActorId();
 

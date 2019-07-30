@@ -2,7 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "VolumeBase.h"
-#include "../Config/UserData.h"
+#include "../Config/ScriptItemData.h"
 #include "ScriptVolume.generated.h"
 
 UCLASS()
@@ -16,10 +16,10 @@ public:
 
 	virtual FString GetVolumeValue() override;
 
-	void SetInfo(FScriptRecorderInfo newScriptRecorderIndfo);
-	FScriptRecorderInfo GetScriptInfo();
+	void SetInfo(FScriptItemData newScriptItemData);
+	FScriptItemData GetScriptItemData();
 private:
 	virtual void VolumeBeginOverlapEventReal(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (AllowPrivateAccess = "true"))
-	FScriptRecorderInfo scriptRecorderInfo;
+	FScriptItemData scriptItemData;
 };

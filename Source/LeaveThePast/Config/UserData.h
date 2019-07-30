@@ -3,108 +3,13 @@
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
 #include "TimeData.h"
+#include "ScriptItemData.h"
 #include "UserData.generated.h"
 
 class FXmlNode;
-
-USTRUCT(BlueprintType)
-struct FSaveActorInfo
-{
-	GENERATED_USTRUCT_BODY()
-
-	FSaveActorInfo()
-	{
-		actorId = 0;
-	}
-
-	void LoadFromXmlNode(FXmlNode* xmlNode);
-
-	int actorId;
-	FVector position;
-	FRotator rotation;
-
-	TArray<FScriptRecorderInfo> scriptRecorderList;
-};
-
-USTRUCT(BlueprintType)
-struct FSaveVolumeInfo
-{
-	GENERATED_USTRUCT_BODY()
-
-	FSaveVolumeInfo(){}
-
-	void LoadFromXmlNode(FXmlNode* xmlNode);
-
-	FString volumeType;
-	FVector position;
-	FString value;
-};
-
-USTRUCT(BlueprintType)
-struct FSaveSectionInfo
-{
-	GENERATED_USTRUCT_BODY()
-
-	FSaveSectionInfo()
-	{
-		id = 0;
-		state = 0;
-	}
-
-	int id;
-	int state;//0 未开始 1 进行中 2 完成 3 失败
-	TMap<int, int> paragraphMap;
-};
-
-USTRUCT(BlueprintType)
-struct FSaveChapterInfo
-{
-	GENERATED_USTRUCT_BODY()
-
-	FSaveChapterInfo()
-	{
-		state = 0;
-	}
-
-	FString name;
-	int state;//0 未开始 1 进行中 2 完成 3 失败
-	TMap<int, FSaveSectionInfo> sectionMap;
-};
-
-USTRUCT(BlueprintType)
-struct FScriptRecorderInfo
-{
-	GENERATED_USTRUCT_BODY()
-
-	FScriptRecorderInfo()
-	{
-		sectionId = 0; 
-		paragraphId = 0;
-	}
-
-	FScriptRecorderInfo(FString newChapter, int newSectionId, int newParagraphId)
-	{
-		chapter = newChapter;
-		sectionId = newSectionId;
-		paragraphId = newParagraphId;
-	}
-
-	bool operator == (const FScriptRecorderInfo& anotherRecorderInfo)
-	{
-		return (chapter == anotherRecorderInfo.chapter) &&
-			sectionId == anotherRecorderInfo.sectionId &&
-			paragraphId == anotherRecorderInfo.paragraphId;
-	}
-
-	void LoadFromXmlNode(FXmlNode* xmlNode);
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	FString chapter;
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	int sectionId = 0;
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	int paragraphId = 0;
-};
+class UChapterData;
+class USceneActorData;
+class USceneVolumeData;
 
 UCLASS(BlueprintType)
 class LEAVETHEPAST_API UUserData : public UObject
@@ -155,10 +60,10 @@ public:
 	void RemoveControlActor(int actorInfoId);
 
 	//场景演员列表
-	TArray<FSaveActorInfo> GetSceneActorList();
+	TArray<USceneActorData*> GetSceneActorList();
 
 	//场景体积列表
-	TArray<FSaveVolumeInfo> GetSceneVolumeList();
+	TArray<USceneVolumeData*> GetSceneVolumeList();
 	
 	//获得物品map
 	UFUNCTION(BlueprintCallable)
@@ -190,7 +95,7 @@ public:
 
 	//获得剧本Map
 	UFUNCTION(BlueprintCallable)
-	TMap<FString, FSaveChapterInfo> GetChapterMap();
+	TMap<FString, UChapterData*> GetChapterMap();
 
 	void SetChapterState(FString scriptName, int state);
 	void SetSectionState(FString scriptName, int sectionId, int state);
@@ -198,15 +103,15 @@ public:
 
 	//获得玩家即将运行的剧本列表
 	UFUNCTION(BlueprintCallable)
-	TArray<FScriptRecorderInfo> GetNextScriptList();
+	TArray<FScriptItemData> GetNextScriptList();
 
 	//添加玩家即将运行的剧本
 	UFUNCTION(BlueprintCallable)
-	void AddNextScript(FScriptRecorderInfo newScriptRecorderInfo);
+	void AddNextScript(FScriptItemData newScriptItemData);
 
 	//移除玩家即将运行的剧本
 	UFUNCTION(BlueprintCallable)
-	void RemoveNextScript(FScriptRecorderInfo newScriptRecorderInfo);
+	void RemoveNextScript(FScriptItemData newScriptItemData);
 protected:
 	//保存路径
 	FString savePath;
@@ -217,12 +122,15 @@ protected:
 	float gameAndRealTimeRate = 1;
 	int sceneId = 10001;//角色所在场景Id
 	TArray<int> canControlActorList;//可控演员列表
-	TArray<FSaveActorInfo> sceneActorList;//场景演员列表
-	TArray<FSaveVolumeInfo> sceneVolumeList;//场景体积列表
+	UPROPERTY()
+	TArray<USceneActorData*> sceneActorList;//场景演员列表
+	UPROPERTY()
+	TArray<USceneVolumeData*> sceneVolumeList;//场景体积列表
 	
 	TMap<int, int> itemMap;
 
-	TMap<FString, FSaveChapterInfo> chapterMap;//剧本状态
+	UPROPERTY()
+	TMap<FString, UChapterData*> chapterMap;//剧本状态
 
-	TArray<FScriptRecorderInfo> nextScriptList;//玩家即将运行的剧本列表，在游戏开始后立即执行
+	TArray<FScriptItemData> nextScriptList;//玩家即将运行的剧本列表，在游戏开始后立即执行
 };

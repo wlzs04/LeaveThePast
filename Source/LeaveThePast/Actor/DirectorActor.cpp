@@ -9,6 +9,7 @@
 #include "../Manager/ScriptManager.h"
 #include "../Manager/UIManager.h"
 #include "../Volume/VolumeBase.h"
+#include "../Config/SceneData.h"
 #include "ActorBase.h"
 #include "Sound/SoundCue.h"
 #include "GameFramework/PlayerController.h"
@@ -41,20 +42,20 @@ void ADirectorActor::InitActor()
 {
 	UMainGameManager* gameManager = UMainGameManager::GetInstance();
 	UActorManager* actorManager = gameManager->GetActorManager();
-	TArray<FSaveActorInfo> saveActorList = gameManager->GetUserData()->GetSceneActorList();
+	TArray<USceneActorData*> sceneActorList = gameManager->GetUserData()->GetSceneActorList();
 
-	for (FSaveActorInfo saveActorInfo: saveActorList)
+	for (USceneActorData* sceneActorInfo: sceneActorList)
 	{
-		if (actorManager->GetActorByInfoId(saveActorInfo.actorId) == nullptr)
+		if (actorManager->GetActorByInfoId(sceneActorInfo->actorId) == nullptr)
 		{
-			UActorInfoBase* actorInfo = actorManager->GetNewActorInfoByInfoId(saveActorInfo.actorId);
+			UActorInfoBase* actorInfo = actorManager->GetNewActorInfoByInfoId(sceneActorInfo->actorId);
 			if (actorInfo != nullptr)
 			{
-				actorInfo->CoverData(saveActorInfo);
+				actorInfo->CoverData(sceneActorInfo);
 				AActorBase* actor = actorManager->LoadActorToSceneByActorInfo(actorInfo);
-				for (FScriptRecorderInfo scriptRecorderInfo : saveActorInfo.scriptRecorderList)
+				for (FScriptItemData scriptItemData : sceneActorInfo->scriptItemDataList)
 				{
-					actor->AddInteractedScript(scriptRecorderInfo);
+					actor->AddInteractedScript(scriptItemData);
 				}
 			}
 		}
@@ -78,14 +79,14 @@ void ADirectorActor::InitActor()
 		SetControlActor(canControlActorList[0]);
 	}
 
-	TArray<FSaveVolumeInfo> saveVolumeList = gameManager->GetUserData()->GetSceneVolumeList();
+	TArray<USceneVolumeData*> sceneVolumeList = gameManager->GetUserData()->GetSceneVolumeList();
 
-	for (FSaveVolumeInfo saveVolumeInfo : saveVolumeList)
+	for (USceneVolumeData* sceneVolumeInfo : sceneVolumeList)
 	{
-		AVolumeBase* volume = actorManager->AddVolumeToSceneByVolumeInfo(saveVolumeInfo.volumeType, saveVolumeInfo.position);
+		AVolumeBase* volume = actorManager->AddVolumeToSceneByVolumeInfo(sceneVolumeInfo->volumeType, sceneVolumeInfo->position);
 		if (volume != nullptr)
 		{
-			volume->LoadFromString(saveVolumeInfo.value);
+			volume->LoadFromString(sceneVolumeInfo->value);
 		}
 	}
 }
@@ -336,8 +337,8 @@ void ADirectorActor::InteractedInputFunction()
 				//先判断是否有需要执行的剧本
 				if (actorBase->GetInteractedScriptList().Num() != 0)
 				{
-					FScriptRecorderInfo scriptRecorderInfo = actorBase->GetInteractedScriptList()[0];
-					UScriptManager::GetInstance()->StartScript(scriptRecorderInfo.chapter, scriptRecorderInfo.sectionId, scriptRecorderInfo.paragraphId);
+					FScriptItemData scriptItemData = actorBase->GetInteractedScriptList()[0];
+					UScriptManager::GetInstance()->StartScript(scriptItemData.chapter, scriptItemData.sectionId, scriptItemData.paragraphId);
 					return;
 				}
 				UActorInfoBase* actorInfo = actorBase->GetActorInfo();

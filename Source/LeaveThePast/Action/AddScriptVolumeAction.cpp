@@ -26,17 +26,17 @@ void UAddScriptVolumeAction::Load(FXmlNode* xmlNode)
 		}
 		else if (attributeName == TEXT("chapter"))
 		{
-			scriptRecorderIndfo.chapter = attributeValue;
+			scriptItemData.chapter = attributeValue;
 			isNext = false;
 		}
 		else if (attributeName == TEXT("sectionId"))
 		{
-			scriptRecorderIndfo.sectionId = FCString::Atoi(*attributeValue);
+			scriptItemData.sectionId = FCString::Atoi(*attributeValue);
 			isNext = false;
 		}
 		else if (attributeName == TEXT("paragraphId"))
 		{
-			scriptRecorderIndfo.paragraphId = FCString::Atoi(*attributeValue);
+			scriptItemData.paragraphId = FCString::Atoi(*attributeValue);
 			isNext = false;
 		}
 		else
@@ -63,12 +63,12 @@ FString UAddScriptVolumeAction::ExecuteReal()
 		UChapter* chapter =  UScriptManager::GetInstance()->GetCurrentChapter();
 		if (chapter != nullptr)
 		{
-			scriptRecorderIndfo.chapter = chapter->GetChapterIndexName();
-			scriptRecorderIndfo.sectionId = chapter->GetCurrentSection()->GetSectionId();
-			scriptRecorderIndfo.paragraphId = chapter->GetCurrentSection()->GetCurrentParagraph()->GetParagraphId()+1;
+			scriptItemData.chapter = chapter->GetChapterIndexName();
+			scriptItemData.sectionId = chapter->GetCurrentSection()->GetSectionId();
+			scriptItemData.paragraphId = chapter->GetCurrentSection()->GetCurrentParagraph()->GetParagraphId()+1;
 		}
 	}
 
-	scriptVolume->SetInfo(scriptRecorderIndfo);
+	scriptVolume->SetInfo(scriptItemData);
 	return FString();
 }

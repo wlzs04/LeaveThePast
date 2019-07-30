@@ -24,17 +24,17 @@ void UClearScriptActorAction::Load(FXmlNode* xmlNode)
 		}
 		else if (attributeName == TEXT("chapter"))
 		{
-			scriptRecorderIndfo.chapter = attributeValue;
+			scriptItemData.chapter = attributeValue;
 			isCurrent = false;
 		}
 		else if (attributeName == TEXT("sectionId"))
 		{
-			scriptRecorderIndfo.sectionId = FCString::Atoi(*attributeValue);
+			scriptItemData.sectionId = FCString::Atoi(*attributeValue);
 			isCurrent = false;
 		}
 		else if (attributeName == TEXT("paragraphId"))
 		{
-			scriptRecorderIndfo.paragraphId = FCString::Atoi(*attributeValue);
+			scriptItemData.paragraphId = FCString::Atoi(*attributeValue);
 			isCurrent = false;
 		}
 		else
@@ -66,12 +66,12 @@ FString UClearScriptActorAction::ExecuteReal()
 		UChapter* chapter = UScriptManager::GetInstance()->GetCurrentChapter();
 		if (chapter != nullptr)
 		{
-			scriptRecorderIndfo.chapter = chapter->GetChapterIndexName();
-			scriptRecorderIndfo.sectionId = chapter->GetCurrentSection()->GetSectionId();
-			scriptRecorderIndfo.paragraphId = chapter->GetCurrentSection()->GetCurrentParagraph()->GetParagraphId();
+			scriptItemData.chapter = chapter->GetChapterIndexName();
+			scriptItemData.sectionId = chapter->GetCurrentSection()->GetSectionId();
+			scriptItemData.paragraphId = chapter->GetCurrentSection()->GetCurrentParagraph()->GetParagraphId();
 		}
 	}
-	actor->RemoveInteractedScript(scriptRecorderIndfo);
+	actor->RemoveInteractedScript(scriptItemData);
 
 	return FString();
 }

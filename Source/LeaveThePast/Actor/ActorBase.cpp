@@ -110,19 +110,19 @@ TArray<AActor*> AActorBase::GetInteractedActor()
 	return overlappingActorList;
 }
 
-TArray<FScriptRecorderInfo> AActorBase::GetInteractedScriptList()
+TArray<FScriptItemData> AActorBase::GetInteractedScriptList()
 {
 	return interactedScriptList;
 }
 
-void AActorBase::AddInteractedScript(FScriptRecorderInfo scriptRecorder)
+void AActorBase::AddInteractedScript(FScriptItemData scriptItemData)
 {
-	interactedScriptList.Add(scriptRecorder);
+	interactedScriptList.Add(scriptItemData);
 }
 
-void AActorBase::RemoveInteractedScript(FScriptRecorderInfo scriptRecorder)
+void AActorBase::RemoveInteractedScript(FScriptItemData scriptItemData)
 {
-	interactedScriptList.Remove(scriptRecorder);
+	interactedScriptList.Remove(scriptItemData);
 }
 
 void AActorBase::Tick(float DeltaTime)
