@@ -5,11 +5,6 @@
 #include "..\Manager\HelpManager.h"
 #include "..\Manager\LogManager.h"
 
-UMoveAction::UMoveAction() :UActionBase()
-{
-	actionName = TEXT("Move");
-}
-
 void UMoveAction::Load(FXmlNode* xmlNode)
 {
 	for (auto attribute : xmlNode->GetAttributes())
@@ -43,13 +38,14 @@ void UMoveAction::Update()
 {
 	if (isCompleted==false)
 	{
-		currentTime += UScriptManager::GetInstance()->GetScriptTickTime();
+		float tickTime = UScriptManager::GetInstance()->GetScriptTickTime();
+		currentTime += tickTime;
 		if (currentTime < actionTime)
 		{
 			if (executeActor != nullptr)
 			{
-				FVector moveValue = direction * speed * GWorld->DeltaTimeSeconds;
-				executeActor->AddMovementInput(direction * speed, GWorld->DeltaTimeSeconds);
+				FVector moveValue = direction * speed * tickTime;
+				executeActor->AddMovementInput(direction * speed, tickTime);
 				remainValue -= moveValue;
 			}
 		}

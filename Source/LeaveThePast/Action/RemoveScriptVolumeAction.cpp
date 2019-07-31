@@ -11,11 +11,6 @@
 #include "Engine/World.h"
 #include "Engine/Public/EngineUtils.h"
 
-URemoveScriptVolumeAction::URemoveScriptVolumeAction() :UActionBase()
-{
-	actionName = TEXT("RemoveScriptVolume");
-}
-
 void URemoveScriptVolumeAction::Load(FXmlNode* xmlNode)
 {
 	for (auto attribute : xmlNode->GetAttributes())

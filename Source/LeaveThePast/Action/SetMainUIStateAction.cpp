@@ -2,11 +2,6 @@
 #include "../Manager/LogManager.h"
 #include "../Manager/UIManager.h"
 
-USetMainUIStateAction::USetMainUIStateAction() :UActionBase()
-{
-	actionName = TEXT("SetMainUIState");
-}
-
 void USetMainUIStateAction::Load(FXmlNode* xmlNode)
 {
 	for (auto attribute : xmlNode->GetAttributes())

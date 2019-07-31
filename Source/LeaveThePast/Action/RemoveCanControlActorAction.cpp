@@ -2,11 +2,6 @@
 #include "../Actor/DirectorActor.h"
 #include "../Manager/LogManager.h"
 
-URemoveCanControlActorAction::URemoveCanControlActorAction() :UActionBase()
-{
-	actionName = TEXT("RemoveCanControlActor");
-}
-
 void URemoveCanControlActorAction::Load(FXmlNode* xmlNode)
 {
 	for (auto attribute : xmlNode->GetAttributes())

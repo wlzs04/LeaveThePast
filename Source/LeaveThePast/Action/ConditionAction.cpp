@@ -2,11 +2,6 @@
 #include "../Manager/LogManager.h"
 #include "../Manager/ScriptManager.h"
 
-UConditionItemAction::UConditionItemAction() :UMultiplyAction()
-{
-	actionName = TEXT("ConditionItem");
-}
-
 void UConditionItemAction::Load(FXmlNode* xmlNode)
 {
 	for (auto attribute : xmlNode->GetAttributes())
@@ -67,11 +62,6 @@ bool UConditionItemAction::CheckCondition(FString checkConditionValue)
 		break;
 	}
 	return returnValue || isDefault;
-}
-
-UConditionAction::UConditionAction() :UActionBase()
-{
-	actionName = TEXT("Condition");
 }
 
 void UConditionAction::Load(FXmlNode* xmlNode)

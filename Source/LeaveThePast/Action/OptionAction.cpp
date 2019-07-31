@@ -2,11 +2,6 @@
 #include "../Manager/UIManager.h"
 #include "../Manager/LogManager.h"
 
-UOptionItemAction::UOptionItemAction() :UMultiplyAction()
-{
-	actionName = TEXT("OptionItem");
-}
-
 void UOptionItemAction::Load(FXmlNode* xmlNode)
 {
 	for (auto attribute : xmlNode->GetAttributes())
@@ -28,11 +23,6 @@ void UOptionItemAction::Load(FXmlNode* xmlNode)
 FString UOptionItemAction::GetOptionText()
 {
 	return optionText;
-}
-
-UOptionAction::UOptionAction() :UActionBase()
-{
-	actionName = TEXT("Option");
 }
 
 void UOptionAction::Load(FXmlNode* xmlNode)

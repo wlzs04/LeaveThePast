@@ -2,18 +2,15 @@
 
 #include "CoreMinimal.h"
 #include "Action/ActionBase.h"
-#include "SetCanControlViewAction.generated.h"
+#include "StopScriptAction.generated.h"
 
-//指令：设置玩家是否可以控制视角
+//指令：停止当前执行的剧本
 UCLASS()
-class LEAVETHEPAST_API USetCanControlViewAction : public UActionBase
+class LEAVETHEPAST_API UStopScriptAction : public UActionBase
 {
 	GENERATED_BODY()
 protected:
 	virtual void Load(FXmlNode* xmlNode) override;
 	virtual void Update() override;
 	virtual FString ExecuteReal() override;
-
-private:
-	bool canControlView = true;
 };

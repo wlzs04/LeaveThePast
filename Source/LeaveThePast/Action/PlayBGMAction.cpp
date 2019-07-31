@@ -4,11 +4,6 @@
 #include "Sound/SoundCue.h"
 #include "../Manager/LogManager.h"
 
-UPlayBGMAction::UPlayBGMAction() :UActionBase()
-{
-	actionName = TEXT("PlayBGM");
-}
-
 void UPlayBGMAction::Load(FXmlNode* xmlNode)
 {
 	for (auto attribute : xmlNode->GetAttributes())

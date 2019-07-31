@@ -3,7 +3,7 @@
 #include "../Action/MoveAction.h"
 #include "../Action/SayAction.h"
 #include "../Action/RotateAction.h"
-#include "../Action/ChangeCameraActorAction.h"
+#include "../Action/ChangeControlActorAction.h"
 #include "../Action/MessageTipAction.h"
 #include "../Action/PlayBGMAction.h"
 #include "../Action/AddItemAction.h"
@@ -15,7 +15,7 @@
 #include "../Action/SetActorInfoAction.h"
 #include "../Action/AddCanControlActorAction.h"
 #include "../Action/RemoveCanControlActorAction.h"
-#include "../Action/StartScriptAction.h"
+#include "../Action/AddNextScriptAction.h"
 #include "../Action/SetCanControlAction.h"
 #include "../Action/SetTimeAction.h"
 #include "../Action/SetRainAction.h"
@@ -34,6 +34,8 @@
 #include "../Action/SetSectionStateAction.h"
 #include "../Action/SetParagraphStateAction.h"
 #include "../Action/SetMainUIStateAction.h"
+#include "../Action/StopScriptAction.h"
+#include "../Action/RemoveNextScriptAction.h"
 
 #include "../Script/Chapter.h"
 #include "../Script/Section.h"
@@ -99,11 +101,12 @@ void UScriptManager::StopCurrentScript()
 {
 	if (currentScript != nullptr)
 	{
-		currentScript = nullptr;
 		FString currentScriptName = currentScript->GetChapterName();
 		int currentSectionId = currentScript->GetCurrentSection()->GetSectionId();
 		int currentParagraphId = currentScript->GetCurrentSection()->GetCurrentParagraph()->GetParagraphId();
+		currentScript->GetCurrentSection()->GetCurrentParagraph()->Finish();
 		LogNormal(FString::Printf(TEXT("剧本退出：%s,%d,%d"), *currentScriptName, currentSectionId, currentParagraphId));
+		currentScript = nullptr;
 		return;
 	}
 }
@@ -244,7 +247,7 @@ void UScriptManager::LoadAllIegalAction()
 	AddIegalAction(NewObject<UMoveAction>(this));
 	AddIegalAction(NewObject<USayAction>(this));
 	AddIegalAction(NewObject<URotateAction>(this));
-	AddIegalAction(NewObject<UChangeCameraActorAction>(this));
+	AddIegalAction(NewObject<UChangeControlActorAction>(this));
 	AddIegalAction(NewObject<UMessageTipAction>(this));
 	AddIegalAction(NewObject<UPlayBGMAction>(this)); 
 	AddIegalAction(NewObject<UAddItemAction>(this));
@@ -256,7 +259,7 @@ void UScriptManager::LoadAllIegalAction()
 	AddIegalAction(NewObject<USetActorInfoAction>(this));
 	AddIegalAction(NewObject<UAddCanControlActorAction>(this));
 	AddIegalAction(NewObject<URemoveCanControlActorAction>(this));
-	AddIegalAction(NewObject<UStartScriptAction>(this));
+	AddIegalAction(NewObject<UAddNextScriptAction>(this));
 	AddIegalAction(NewObject<USetCanControlAction>(this));
 	AddIegalAction(NewObject<USetTimeAction>(this));
 	AddIegalAction(NewObject<USetRainAction>(this));
@@ -272,9 +275,11 @@ void UScriptManager::LoadAllIegalAction()
 	AddIegalAction(NewObject<URemoveScriptVolumeAction>(this));
 	AddIegalAction(NewObject<UClearScriptActorAction>(this));
 	AddIegalAction(NewObject<USetChapterStateAction>(this)); 
-	AddIegalAction(NewObject<USetSectionStateAction>(this));
+	AddIegalAction(NewObject<USetSectionStateAction>(this)); 
 	AddIegalAction(NewObject<USetParagraphStateAction>(this));
 	AddIegalAction(NewObject<USetMainUIStateAction>(this));
+	AddIegalAction(NewObject<UStopScriptAction>(this));
+	AddIegalAction(NewObject<URemoveNextScriptAction>(this));
 }
 
 void UScriptManager::AddIegalAction(UActionBase* actionBase)

@@ -4,12 +4,11 @@
 #include "ActionBase.h"
 #include "MessageTipAction.generated.h"
 
+//指令：显示提示界面
 UCLASS()
 class LEAVETHEPAST_API UMessageTipAction : public UActionBase
 {
 	GENERATED_BODY()
-public:
-	UMessageTipAction();
 protected:
 	virtual void Load(FXmlNode* xmlNode) override;
 	virtual void Update() override;

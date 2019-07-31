@@ -7,11 +7,6 @@
 #include "../Script/Section.h"
 #include "../Script/Paragraph.h"
 
-USetScriptActorAction::USetScriptActorAction() :UActionBase()
-{
-	actionName = TEXT("SetScriptActor");
-}
-
 void USetScriptActorAction::Load(FXmlNode* xmlNode)
 {
 	for (auto attribute : xmlNode->GetAttributes())

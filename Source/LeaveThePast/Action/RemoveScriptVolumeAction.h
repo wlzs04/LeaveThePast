@@ -5,12 +5,11 @@
 #include "../Config/ScriptItemData.h"
 #include "RemoveScriptVolumeAction.generated.h"
 
+//指令：移除场景中符合条件的脚本体积
 UCLASS()
 class LEAVETHEPAST_API URemoveScriptVolumeAction : public UActionBase
 {
 	GENERATED_BODY()
-public:
-	URemoveScriptVolumeAction();
 protected:
 	virtual void Load(FXmlNode* xmlNode) override;
 	virtual void Update() override;

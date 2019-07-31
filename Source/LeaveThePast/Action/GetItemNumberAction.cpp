@@ -3,11 +3,6 @@
 #include "../Manager/LogManager.h"
 #include "../Config/UserData.h"
 
-UGetItemNumberAction::UGetItemNumberAction() :UActionBase()
-{
-	actionName = TEXT("GetItemNumber");
-}
-
 void UGetItemNumberAction::Load(FXmlNode* xmlNode)
 {
 	for (auto attribute : xmlNode->GetAttributes())

@@ -11,6 +11,7 @@
 #include "Paths.h"
 #include "XmlParser/Public/XmlFile.h"
 #include "Engine/World.h"
+#include "FileHelper.h"
 
 UUserData::UUserData() :UObject()
 {
@@ -288,16 +289,13 @@ void UUserData::Save()
 		xmlContent.Append(TEXT(" chapter=\"") + scriptItemData.chapter + TEXT("\""));
 		xmlContent.Append(TEXT(" sectionId=\"") + FString::FromInt(scriptItemData.sectionId) + TEXT("\""));
 		xmlContent.Append(TEXT(" paragraphId=\"") + FString::FromInt(scriptItemData.paragraphId) + TEXT("\""));
-		xmlContent.Append(TEXT(">\n"));
+		xmlContent.Append(TEXT("/>\n"));
 	}
 	xmlContent.Append(TEXT("\t</NextScript>\n"));
 	//end 添加剧本信息
 	xmlContent.Append(TEXT("</UserData>"));
 
-	FXmlFile* xmlFile = new FXmlFile(xmlContent, EConstructMethod::ConstructFromBuffer);
-	xmlFile->Save(savePath);
-	xmlFile->Clear();
-	delete xmlFile;
+	FFileHelper::SaveStringToFile(xmlContent, *savePath);
 }
 
 void UUserData::SetInitData()

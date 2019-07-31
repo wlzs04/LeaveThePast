@@ -4,12 +4,11 @@
 #include "Action/ActionBase.h"
 #include "AddItemAction.generated.h"
 
+//指令：添加物品
 UCLASS()
 class LEAVETHEPAST_API UAddItemAction : public UActionBase
 {
 	GENERATED_BODY()
-public:
-	UAddItemAction();
 protected:
 	virtual void Load(FXmlNode* xmlNode) override;
 	virtual void Load(TArray<FString> paramList) override;

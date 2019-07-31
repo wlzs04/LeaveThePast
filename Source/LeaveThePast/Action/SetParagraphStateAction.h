@@ -4,12 +4,11 @@
 #include "Action/ActionBase.h"
 #include "SetParagraphStateAction.generated.h"
 
+//指令：设置剧情中指定段的状态，一般用于标记此段是否完成
 UCLASS()
 class LEAVETHEPAST_API USetParagraphStateAction : public UActionBase
 {
 	GENERATED_BODY()
-public:
-	USetParagraphStateAction();
 protected:
 	virtual void Load(FXmlNode* xmlNode) override;
 	virtual void Update() override;

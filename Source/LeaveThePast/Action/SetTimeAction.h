@@ -5,12 +5,11 @@
 #include "../Config/TimeData.h"
 #include "SetTimeAction.generated.h"
 
+//指令：设置当前时间
 UCLASS()
 class LEAVETHEPAST_API USetTimeAction : public UActionBase
 {
 	GENERATED_BODY()
-public:
-	USetTimeAction();
 protected:
 	virtual void Load(FXmlNode* xmlNode) override;
 	virtual void Update() override;

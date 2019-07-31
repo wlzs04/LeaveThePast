@@ -4,12 +4,11 @@
 #include "Action/ActionBase.h"
 #include "SetCloudyAction.generated.h"
 
+//指令：设置天空中云的程度
 UCLASS()
 class LEAVETHEPAST_API USetCloudyAction : public UActionBase
 {
 	GENERATED_BODY()
-public:
-	USetCloudyAction();
 protected:
 	virtual void Load(FXmlNode* xmlNode) override;
 	virtual void Update() override;

@@ -2,11 +2,6 @@
 #include "../Manager/LogManager.h"
 #include "../Manager/UIManager.h"
 
-UMessageTipAction::UMessageTipAction() :UActionBase()
-{
-	actionName = TEXT("MessageTip");
-}
-
 void UMessageTipAction::Load(FXmlNode* xmlNode)
 {
 	for (auto attribute:xmlNode->GetAttributes())

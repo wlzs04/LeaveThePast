@@ -3,11 +3,6 @@
 #include "../Config/UserData.h"
 #include "../Manager/LogManager.h"
 
-URemoveMoneyAction::URemoveMoneyAction() :UActionBase()
-{
-	actionName = TEXT("RemoveMoney");
-}
-
 void URemoveMoneyAction::Load(FXmlNode* xmlNode)
 {
 	for (auto attribute : xmlNode->GetAttributes())

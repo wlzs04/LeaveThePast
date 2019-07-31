@@ -5,11 +5,6 @@
 #include "../Manager/ScriptManager.h"
 #include "../Manager/UIManager.h"
 
-USayAction::USayAction() :UActionBase()
-{
-	actionName = TEXT("Say");
-}
-
 void USayAction::Load(FXmlNode* xmlNode)
 {
 	for (auto attribute : xmlNode->GetAttributes())

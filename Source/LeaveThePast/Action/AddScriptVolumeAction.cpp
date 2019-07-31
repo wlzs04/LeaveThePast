@@ -9,11 +9,6 @@
 #include "../Volume/ScriptVolume.h"
 #include "../LeaveThePastGameModeBase.h"
 
-UAddScriptVolumeAction::UAddScriptVolumeAction() :UActionBase()
-{
-	actionName = TEXT("AddScriptVolume");
-}
-
 void UAddScriptVolumeAction::Load(FXmlNode* xmlNode)
 {
 	for (auto attribute : xmlNode->GetAttributes())

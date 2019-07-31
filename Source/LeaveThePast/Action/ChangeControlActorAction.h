@@ -2,14 +2,13 @@
 
 #include "CoreMinimal.h"
 #include "ActionBase.h"
-#include "ChangeCameraActorAction.generated.h"
+#include "ChangeControlActorAction.generated.h"
 
+//指令：改变玩家控制的演员
 UCLASS()
-class LEAVETHEPAST_API UChangeCameraActorAction : public UActionBase
+class LEAVETHEPAST_API UChangeControlActorAction : public UActionBase
 {
 	GENERATED_BODY()
-public:
-	UChangeCameraActorAction();
 protected:
 	virtual void Load(FXmlNode* xmlNode) override;
 	virtual void Update() override;

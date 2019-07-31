@@ -3,11 +3,6 @@
 #include "../Manager/LogManager.h"
 #include "../Actor/ActorBase.h"
 
-USetActorInfoAction::USetActorInfoAction() :UActionBase()
-{
-	actionName = TEXT("SetActorInfo");
-}
-
 void USetActorInfoAction::Load(FXmlNode* xmlNode)
 {
 	sceneActorInfo.LoadFromXmlNode(xmlNode);

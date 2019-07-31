@@ -1,6 +1,11 @@
 #include "ActionBase.h"
 #include "../Manager/LogManager.h"
 
+UActionBase::UActionBase()
+{
+	actionName = GetClass()->GetName().Left(GetClass()->GetName().Len() - 6);
+}
+
 FString UActionBase::GetActionName()
 {
 	return actionName;

@@ -3,7 +3,7 @@
 		<Paragraph id="0" canControlMove="true" canControlView="true">
 			<AddActor actorId="10001" position="3690.0,-3100.0,610"/>
 			<AddCanControlActor actorId="10001"/>
-			<ChangeCameraActor actorId="10001"/>
+			<ChangeControlActor actorId="10001"/>
 			<Say actorId="10001" text="........" voicePath="saysomething.wav" actionTime="1"/>
 			<Say actorId="10001" text="醒了·····还有点不清醒。" voicePath="saysomething.wav" actionTime="1"/>
 			<Say actorId="10001" text="赶紧起来吧，还有人在等。" voicePath="saysomething.wav" actionTime="1"/>
@@ -18,16 +18,18 @@
 			<Say actorId="10001" text="既然想听声音，我就随便说点什么吧！" voicePath="saysomething.wav" actionTime="0.5"/>
 			<Say actorId="10001" text="如果没事的话，我先走了。" voicePath="goaway.wav" actionTime="1"/>
 			<Rotate actorId="10001" actionTime="1" value="90"/>
-			<ChangeCameraActor actorId="10002"/>
+			<ChangeControlActor actorId="10002"/>
 			<Say actorId="10002" text="先别走，我有事找你！" voicePath="saysomething.wav" actionTime="1"/>
+			<AddNextScript chapter="1" sectionId="0" paragraphId="2"/>
+			<RemoveNextScript chapter="1" sectionId="0" paragraphId="2"/>
 			<Say actorId="10002" text="你带闲钱了吗？" voicePath="saysomething.wav" actionTime="1"/>
 			<Say actorId="10001" text="啊？" voicePath="saysomething.wav" actionTime="1"/>
 			
 			<Say actorId="30003" text="这位客官吃饭没带钱。" voicePath="saysomething.wav" actionTime="1"/>
-			<ChangeCameraActor actorId="30003"/>
+			<ChangeControlActor actorId="30003"/>
 			<Move actorId="30003" actionTime="1" speed="100" direction="1,0,0"/>
 			
-			<ChangeCameraActor actorId="10001"/>
+			<ChangeControlActor actorId="10001"/>
 			<PlayBGM audioId="10005"/>
 			<SetScriptActor actorId="30003"/>
 			<SetParagraphState state="2"/>
@@ -49,6 +51,7 @@
 						<ConditionItem type="&gt;" value="200">
 							<RemoveMoney number="200"/>
 							<ClearScriptActor actorId="30003"/>
+							<RemoveActor actorId="30003"/>
 							<Say actorId="10002" text="好，走吧。" voicePath="saysomething.wav" actionTime="1"/>
 							<Say actorId="10001" text="你这里欠我的要用什么换？（指了指钱包）" voicePath="saysomething.wav" actionTime="1"/>
 							<Say actorId="10002" text="以后再说。" voicePath="saysomething.wav" actionTime="1"/>

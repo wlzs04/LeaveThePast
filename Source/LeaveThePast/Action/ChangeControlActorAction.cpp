@@ -1,15 +1,10 @@
-#include "ChangeCameraActorAction.h"
+#include "ChangeControlActorAction.h"
 #include "../Manager/ActorManager.h"
 #include "../Manager/LogManager.h"
 #include "../Actor/DirectorActor.h"
 #include "../Actor/ActorBase.h"
 
-UChangeCameraActorAction::UChangeCameraActorAction()
-{
-	actionName = TEXT("ChangeCameraActor");
-}
-
-void UChangeCameraActorAction::Load(FXmlNode* xmlNode)
+void UChangeControlActorAction::Load(FXmlNode* xmlNode)
 {
 	for (auto attribute : xmlNode->GetAttributes())
 	{
@@ -26,7 +21,7 @@ void UChangeCameraActorAction::Load(FXmlNode* xmlNode)
 	}
 }
 
-void UChangeCameraActorAction::Update()
+void UChangeControlActorAction::Update()
 {
 	if (isCompleted == false)
 	{
@@ -34,7 +29,7 @@ void UChangeCameraActorAction::Update()
 	}
 }
 
-FString UChangeCameraActorAction::ExecuteReal()
+FString UChangeControlActorAction::ExecuteReal()
 {
 	AActorBase* executeActor = UActorManager::GetInstance()->GetActorByInfoId(actorInfoId);
 	if (executeActor != nullptr)

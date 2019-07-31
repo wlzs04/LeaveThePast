@@ -42,7 +42,7 @@ public:
 
 	//通过演员信息Id移除演员
 	UFUNCTION(BlueprintCallable)
-	int RemoveActorByInfoId(int actorInfoId);
+	void RemoveActorByInfoId(int actorInfoId);
 
 	//获得场景中所有演员
 	TMap<int, AActorBase*> GetAllActor();

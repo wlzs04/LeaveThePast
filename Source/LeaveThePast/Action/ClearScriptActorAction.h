@@ -5,12 +5,11 @@
 #include "../Config/ScriptItemData.h"
 #include "ClearScriptActorAction.generated.h"
 
+//指令：清除演员挂载的脚本
 UCLASS()
 class LEAVETHEPAST_API UClearScriptActorAction : public UActionBase
 {
 	GENERATED_BODY()
-public:
-	UClearScriptActorAction();
 protected:
 	virtual void Load(FXmlNode* xmlNode) override;
 	virtual void Update() override;

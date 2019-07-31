@@ -6,12 +6,11 @@
 
 class AActorBase;
 
+//指令：控制演员旋转
 UCLASS()
 class LEAVETHEPAST_API URotateAction : public UActionBase
 {
 	GENERATED_BODY()
-public:
-	URotateAction();
 protected:
 	virtual void Load(FXmlNode* xmlNode) override;
 	virtual void Update() override;

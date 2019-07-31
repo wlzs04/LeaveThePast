@@ -3,11 +3,6 @@
 #include "../Manager/LogManager.h"
 #include "../Config/UserData.h"
 
-UAddItemAction::UAddItemAction() :UActionBase()
-{
-	actionName = TEXT("AddItem");
-}
-
 void UAddItemAction::Load(FXmlNode* xmlNode)
 {
 	for (auto attribute : xmlNode->GetAttributes())

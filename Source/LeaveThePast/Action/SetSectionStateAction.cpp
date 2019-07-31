@@ -6,11 +6,6 @@
 #include "../Script/Section.h"
 #include "../Config/UserData.h"
 
-USetSectionStateAction::USetSectionStateAction() :UActionBase()
-{
-	actionName = TEXT("SetSectionState");
-}
-
 void USetSectionStateAction::Load(FXmlNode* xmlNode)
 {
 	for (auto attribute : xmlNode->GetAttributes())

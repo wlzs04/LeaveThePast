@@ -4,12 +4,11 @@
 #include "Action/ActionBase.h"
 #include "RemoveCanControlActorAction.generated.h"
 
+//指令：移除可控演员，将其设置为不可控，不是从场景中移除
 UCLASS()
 class LEAVETHEPAST_API URemoveCanControlActorAction : public UActionBase
 {
 	GENERATED_BODY()
-public:
-	URemoveCanControlActorAction();
 protected:
 	virtual void Load(FXmlNode* xmlNode) override;
 	virtual void Update() override;

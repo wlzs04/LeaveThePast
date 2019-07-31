@@ -7,11 +7,6 @@
 #include "../Script/Paragraph.h"
 #include "../Config/UserData.h"
 
-USetParagraphStateAction::USetParagraphStateAction() :UActionBase()
-{
-	actionName = TEXT("SetParagraphState");
-}
-
 void USetParagraphStateAction::Load(FXmlNode* xmlNode)
 {
 	for (auto attribute : xmlNode->GetAttributes())

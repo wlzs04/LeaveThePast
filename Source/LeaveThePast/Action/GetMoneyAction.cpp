@@ -2,11 +2,6 @@
 #include "../Manager/MainGameManager.h"
 #include "../Config/UserData.h"
 
-UGetMoneyAction::UGetMoneyAction() :UActionBase()
-{
-	actionName = TEXT("GetMoney");
-}
-
 void UGetMoneyAction::Load(FXmlNode* xmlNode)
 {
 }

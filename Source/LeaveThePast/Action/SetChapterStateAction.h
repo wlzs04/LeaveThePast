@@ -4,12 +4,11 @@
 #include "Action/ActionBase.h"
 #include "SetChapterStateAction.generated.h"
 
+//指令：设置剧情中指定章的状态，一般用于标记此章是否完成
 UCLASS()
 class LEAVETHEPAST_API USetChapterStateAction : public UActionBase
 {
 	GENERATED_BODY()
-public:
-	USetChapterStateAction();
 protected:
 	virtual void Load(FXmlNode* xmlNode) override;
 	virtual void Update() override;

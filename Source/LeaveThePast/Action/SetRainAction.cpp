@@ -2,11 +2,6 @@
 #include "../LeaveThePastGameModeBase.h"
 #include "../Manager/LogManager.h"
 
-USetRainAction::USetRainAction() :UActionBase()
-{
-	actionName = TEXT("SetRain");
-}
-
 void USetRainAction::Load(FXmlNode* xmlNode)
 {
 	for (auto attribute : xmlNode->GetAttributes())

@@ -1,19 +1,16 @@
-#include "StartScriptAction.h"
+#include "RemoveNextScriptAction.h"
 #include "../Manager/ScriptManager.h"
+#include "../Manager/MainGameManager.h"
+#include "../Config/UserData.h"
 #include "../Manager/LogManager.h"
 
-UStartScriptAction::UStartScriptAction() :UActionBase()
-{
-	actionName = TEXT("StartScript");
-}
-
-void UStartScriptAction::Load(FXmlNode* xmlNode)
+void URemoveNextScriptAction::Load(FXmlNode* xmlNode)
 {
 	for (auto attribute : xmlNode->GetAttributes())
 	{
 		FString attributeName = attribute.GetTag();
 		FString attributeValue = attribute.GetValue();
-		if (attributeName == TEXT("chapterName"))
+		if (attributeName == TEXT("chapter"))
 		{
 			chapterName = attributeValue;
 		}
@@ -32,7 +29,7 @@ void UStartScriptAction::Load(FXmlNode* xmlNode)
 	}
 }
 
-void UStartScriptAction::Update()
+void URemoveNextScriptAction::Update()
 {
 	if (isCompleted == false)
 	{
@@ -40,8 +37,8 @@ void UStartScriptAction::Update()
 	}
 }
 
-FString UStartScriptAction::ExecuteReal()
+FString URemoveNextScriptAction::ExecuteReal()
 {
-	UScriptManager::GetInstance()->StartScript(chapterName,sectionId,paragraphId);
+	UMainGameManager::GetInstance()->GetUserData()->RemoveNextScript(FScriptItemData(chapterName, sectionId, paragraphId));
 	return FString();
 }

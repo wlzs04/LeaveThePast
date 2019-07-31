@@ -6,12 +6,11 @@
 
 class AActorBase;
 
+//指令：演员说话，显示谈话界面
 UCLASS()
 class LEAVETHEPAST_API USayAction : public UActionBase
 {
 	GENERATED_BODY()
-public:
-	USayAction();
 protected:
 	virtual void Load(FXmlNode* xmlNode) override;
 	virtual void Update() override;

@@ -5,11 +5,6 @@
 #include "../Config/UserData.h"
 #include "../Script/Chapter.h"
 
-USetChapterStateAction::USetChapterStateAction() :UActionBase()
-{
-	actionName = TEXT("SetChapterState");
-}
-
 void USetChapterStateAction::Load(FXmlNode* xmlNode)
 {
 	for (auto attribute : xmlNode->GetAttributes())

@@ -4,12 +4,11 @@
 #include "Action/ActionBase.h"
 #include "AddCanControlActorAction.generated.h"
 
+//指令：添加可控演员
 UCLASS()
 class LEAVETHEPAST_API UAddCanControlActorAction : public UActionBase
 {
 	GENERATED_BODY()
-public:
-	UAddCanControlActorAction();
 protected:
 	virtual void Load(FXmlNode* xmlNode) override;
 	virtual void Update() override;

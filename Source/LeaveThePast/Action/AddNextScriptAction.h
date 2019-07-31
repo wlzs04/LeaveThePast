@@ -2,14 +2,13 @@
 
 #include "CoreMinimal.h"
 #include "Action/ActionBase.h"
-#include "StartScriptAction.generated.h"
+#include "AddNextScriptAction.generated.h"
 
+//指令：添加指定章节段的剧本到即将开启的剧本列表中
 UCLASS()
-class LEAVETHEPAST_API UStartScriptAction : public UActionBase
+class LEAVETHEPAST_API UAddNextScriptAction : public UActionBase
 {
 	GENERATED_BODY()
-public:
-	UStartScriptAction();
 protected:
 	virtual void Load(FXmlNode* xmlNode) override;
 	virtual void Update() override;

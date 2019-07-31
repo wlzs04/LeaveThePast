@@ -4,6 +4,7 @@
 #include "Action/ActionBase.h"
 #include "MultiplyAction.generated.h"
 
+//指令：拥有多个指令，一般用于被继承，不会直接使用
 UCLASS()
 class LEAVETHEPAST_API UMultiplyAction : public UActionBase
 {

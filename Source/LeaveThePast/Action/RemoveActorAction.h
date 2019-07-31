@@ -4,12 +4,11 @@
 #include "Action/ActionBase.h"
 #include "RemoveActorAction.generated.h"
 
+//指令：从场景中移除演员
 UCLASS()
 class LEAVETHEPAST_API URemoveActorAction : public UActionBase
 {
 	GENERATED_BODY()
-public:
-	URemoveActorAction();
 protected:
 	virtual void Load(FXmlNode* xmlNode) override;
 	virtual void Update() override;

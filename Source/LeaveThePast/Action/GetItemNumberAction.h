@@ -4,12 +4,11 @@
 #include "Action/ActionBase.h"
 #include "GetItemNumberAction.generated.h"
 
+//指令：获得指定物品的数量
 UCLASS()
 class LEAVETHEPAST_API UGetItemNumberAction : public UActionBase
 {
 	GENERATED_BODY()
-public:
-	UGetItemNumberAction();
 protected:
 	virtual void Load(FXmlNode* xmlNode) override;
 	virtual void Load(TArray<FString> paramList) override;

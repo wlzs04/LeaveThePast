@@ -4,12 +4,11 @@
 #include "Action/ActionBase.h"
 #include "SetRainAction.generated.h"
 
+//指令：设置天空中雨的程度
 UCLASS()
 class LEAVETHEPAST_API USetRainAction : public UActionBase
 {
 	GENERATED_BODY()
-public:
-	USetRainAction();
 protected:
 	virtual void Load(FXmlNode* xmlNode) override;
 	virtual void Update() override;

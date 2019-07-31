@@ -2,11 +2,6 @@
 #include "../Actor/DirectorActor.h"
 #include "../Manager/LogManager.h"
 
-UAddCanControlActorAction::UAddCanControlActorAction() :UActionBase()
-{
-	actionName = TEXT("AddCanControlActor");
-}
-
 void UAddCanControlActorAction::Load(FXmlNode* xmlNode)
 {
 	for (auto attribute : xmlNode->GetAttributes())

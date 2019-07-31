@@ -4,12 +4,11 @@
 #include "Action/ActionBase.h"
 #include "GetMoneyAction.generated.h"
 
+//指令：获得钱的数量
 UCLASS()
 class LEAVETHEPAST_API UGetMoneyAction : public UActionBase
 {
 	GENERATED_BODY()
-public:
-	UGetMoneyAction();
 protected:
 	virtual void Load(FXmlNode* xmlNode) override;
 	virtual void Load(TArray<FString> paramList) override;

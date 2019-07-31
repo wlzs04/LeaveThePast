@@ -4,11 +4,6 @@
 #include "..\Manager\ScriptManager.h"
 #include "..\Manager\LogManager.h"
 
-URotateAction::URotateAction()
-{
-	actionName = TEXT("Rotate");
-}
-
 void URotateAction::Load(FXmlNode* xmlNode)
 {
 	for (auto attribute : xmlNode->GetAttributes())

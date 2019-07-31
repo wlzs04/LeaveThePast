@@ -2,11 +2,6 @@
 #include "../LeaveThePastGameModeBase.h"
 #include "../Manager/LogManager.h"
 
-USetCloudyAction::USetCloudyAction() :UActionBase()
-{
-	actionName = TEXT("SetCloudy");
-}
-
 void USetCloudyAction::Load(FXmlNode* xmlNode)
 {
 	for (auto attribute : xmlNode->GetAttributes())

@@ -126,14 +126,13 @@ UActorInfoBase* UActorManager::GetNewActorInfoByInfoId(int actorInfoId)
 	return nullptr;
 }
 
-int UActorManager::RemoveActorByInfoId(int actorInfoId)
+void UActorManager::RemoveActorByInfoId(int actorInfoId)
 {
-	int removeNumber = 0;
 	if (actorBaseByInfoIdMap.Contains(actorInfoId))
 	{
+		actorBaseByInfoIdMap[actorInfoId]->Destroy();
 		actorBaseByInfoIdMap.Remove(actorInfoId);
 	}
-	return removeNumber;
 }
 
 TMap<int, AActorBase*> UActorManager::GetAllActor()

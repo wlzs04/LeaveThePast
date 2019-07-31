@@ -4,12 +4,11 @@
 #include "Action/ActionBase.h"
 #include "SetCanControlMoveAction.generated.h"
 
+//指令：设置玩家是否可以控制演员移动
 UCLASS()
 class LEAVETHEPAST_API USetCanControlMoveAction : public UActionBase
 {
 	GENERATED_BODY()
-public:
-	USetCanControlMoveAction();
 protected:
 	virtual void Load(FXmlNode* xmlNode) override;
 	virtual void Update() override;

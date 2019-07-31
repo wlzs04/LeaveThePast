@@ -2,11 +2,6 @@
 #include "../Manager/ActorManager.h"
 #include "../Manager/LogManager.h"
 
-URemoveActorAction::URemoveActorAction() :UActionBase()
-{
-	actionName = TEXT("NewActor");
-}
-
 void URemoveActorAction::Load(FXmlNode* xmlNode)
 {
 	for(auto attribute : xmlNode->GetAttributes())

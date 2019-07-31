@@ -6,12 +6,11 @@
 
 class AActorBase;
 
+//指令：控制演员移动
 UCLASS()
 class LEAVETHEPAST_API UMoveAction : public UActionBase
 {
 	GENERATED_BODY()
-public:
-	UMoveAction();
 protected:
 	virtual void Load(FXmlNode* xmlNode) override;
 	virtual void Update() override;

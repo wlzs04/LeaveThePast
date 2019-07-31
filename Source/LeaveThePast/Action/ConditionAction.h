@@ -12,12 +12,12 @@ enum class ConditionType :uint8
 	Less UMETA(DisplayName = "小于"),
 };
 
+//指令：如果条件符合,则执行此选项下的一系列指令，仅在条件(Condition)指令节点下存在
 UCLASS()
 class LEAVETHEPAST_API UConditionItemAction : public UMultiplyAction
 {
 	GENERATED_BODY()
 public:
-	UConditionItemAction();
 	virtual void Load(FXmlNode* xmlNode) override;
 	bool CheckCondition(FString checkConditionValue);
 private:
@@ -26,12 +26,11 @@ private:
 	FString conditionValue;
 };
 
+//指令：根据条件执行指令
 UCLASS()
 class LEAVETHEPAST_API UConditionAction : public UActionBase
 {
 	GENERATED_BODY()
-public:
-	UConditionAction();
 protected:
 	virtual void Load(FXmlNode* xmlNode) override;
 	virtual void Update() override;

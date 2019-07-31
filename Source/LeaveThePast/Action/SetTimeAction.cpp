@@ -4,11 +4,6 @@
 #include "../Manager/LogManager.h"
 #include "../Config/UserData.h"
 
-USetTimeAction::USetTimeAction() :UActionBase()
-{
-	actionName = TEXT("SetTime");
-}
-
 void USetTimeAction::Load(FXmlNode* xmlNode)
 {
 	for (auto attribute : xmlNode->GetAttributes())

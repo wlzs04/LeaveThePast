@@ -2,11 +2,6 @@
 #include "../Manager/ScriptManager.h"
 #include "../Manager/LogManager.h"
 
-USetScriptExecuteSpeedAction::USetScriptExecuteSpeedAction() :UActionBase()
-{
-	actionName = TEXT("SetScriptExecuteSpeed");
-}
-
 void USetScriptExecuteSpeedAction::Load(FXmlNode* xmlNode)
 {
 	for (auto attribute : xmlNode->GetAttributes())

@@ -5,11 +5,13 @@
 #include "XmlParser/Public/XmlFile.h"
 #include "ActionBase.generated.h"
 
+//指令基类
 UCLASS(BlueprintType)
 class LEAVETHEPAST_API UActionBase : public UObject
 {
 	GENERATED_BODY()
 public:
+	UActionBase();
 	FString GetActionName();
 	virtual void Update() {};
 	FString Execute();

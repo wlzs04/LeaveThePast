@@ -5,12 +5,11 @@
 #include "../Config/ScriptItemData.h"
 #include "SetScriptActorAction.generated.h"
 
+//指令：设置一个交互开启指定剧情事件到指定演员身上
 UCLASS()
 class LEAVETHEPAST_API USetScriptActorAction : public UActionBase
 {
 	GENERATED_BODY()
-public:
-	USetScriptActorAction();
 protected:
 	virtual void Load(FXmlNode* xmlNode) override;
 	virtual void Update() override;
