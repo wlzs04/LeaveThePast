@@ -7,6 +7,7 @@
 class UParagraph;
 class FXmlNode;
 
+//节
 UCLASS()
 class LEAVETHEPAST_API USection : public UObject
 {

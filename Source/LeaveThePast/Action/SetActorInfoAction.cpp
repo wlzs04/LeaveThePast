@@ -2,10 +2,34 @@
 #include "../Manager/ActorManager.h"
 #include "../Manager/LogManager.h"
 #include "../Actor/ActorBase.h"
+#include "../Manager/HelpManager.h"
 
 void USetActorInfoAction::Load(FXmlNode* xmlNode)
 {
-	sceneActorInfo.LoadFromXmlNode(xmlNode);
+	for (FXmlAttribute attribute : xmlNode->GetAttributes())
+	{
+		FString attributeName = attribute.GetTag();
+		FString attributeValue = attribute.GetValue();
+
+		if (attributeName == TEXT("actorId"))
+		{
+			actorId = FCString::Atoi(*attributeValue);
+		}
+		else if (attributeName == TEXT("position"))
+		{
+			position = UHelpManager::ConvertFStringToFVector(attributeValue);
+			needReplacePosition = true;
+		}
+		else if (attributeName == TEXT("rotation"))
+		{
+			rotation = UHelpManager::ConvertFStringToFRotator(attributeValue);
+			needReplaceRotation = true;
+		}
+		else
+		{
+			LogWarning(FString::Printf(TEXT("指令:%s配置中存在未知属性:%s！"), *actionName, *attributeName));
+		}
+	}
 }
 
 void USetActorInfoAction::Update()
@@ -18,17 +42,22 @@ void USetActorInfoAction::Update()
 
 FString USetActorInfoAction::ExecuteReal()
 {
-	if (sceneActorInfo.needReplaceActorName)
+	AActorBase* actor = UActorManager::GetInstance()->GetActorByInfoId(actorId);
+	if (actor != nullptr)
 	{
-		UActorManager::GetInstance()->GetActorByInfoId(sceneActorInfo.actorId)->GetActorInfo()->SetActorName(sceneActorInfo.actorName);
+		if (needReplacePosition)
+		{
+			actor->SetActorLocation(position);
+		}
+		if (needReplaceRotation)
+		{
+			actor->SetActorRotation(rotation);
+		}
 	}
-	if (sceneActorInfo.needReplacePosition)
+	else
 	{
-		UActorManager::GetInstance()->GetActorByInfoId(sceneActorInfo.actorId)->SetActorLocation(sceneActorInfo.position);
+		LogError(FString::Printf(TEXT("指令：%s场景中不存在指定演员%d。"), *actionName, actorId));
 	}
-	if (sceneActorInfo.needReplaceRotation)
-	{
-		UActorManager::GetInstance()->GetActorByInfoId(sceneActorInfo.actorId)->SetActorRotation(sceneActorInfo.rotation);
-	}
+	
 	return FString();
 }

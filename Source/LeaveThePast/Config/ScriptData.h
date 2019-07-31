@@ -4,6 +4,7 @@
 #include "UObject/NoExportTypes.h"
 #include "ScriptData.generated.h"
 
+//节数据，保存段的状态信息
 UCLASS(BlueprintType)
 class USectionData : public UObject
 {
@@ -15,6 +16,7 @@ public:
 	TMap<int, int> paragraphMap;
 };
 
+//章数据，保存节的状态信息
 UCLASS(BlueprintType)
 class UChapterData : public UObject
 {

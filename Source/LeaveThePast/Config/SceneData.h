@@ -7,6 +7,7 @@
 
 class FXmlNode;
 
+//场景中演员数据，一般用于保存读取场景中的演员信息
 UCLASS(BlueprintType)
 class USceneActorData : public UObject
 {
@@ -21,6 +22,7 @@ public:
 	TArray<FScriptItemData> scriptItemDataList;
 };
 
+//场景中体积数据，一般用于保存读取场景中的体积信息
 UCLASS(BlueprintType)
 class USceneVolumeData : public UObject
 {

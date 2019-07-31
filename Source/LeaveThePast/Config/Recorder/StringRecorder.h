@@ -4,6 +4,7 @@
 #include "Config/RecorderBase.h"
 #include "StringRecorder.generated.h"
 
+//字符串
 UCLASS()
 class LEAVETHEPAST_API UStringRecorder : public URecorderBase
 {

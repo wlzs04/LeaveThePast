@@ -9,6 +9,7 @@
 class FXmlNode;
 class USceneActorData;
 
+//说话结构体
 USTRUCT()
 struct FChat
 {
@@ -30,6 +31,7 @@ struct FChat
 	}
 };
 
+//演员属性类型
 UENUM(BlueprintType)
 enum class PropertyEnum :uint8
 {
@@ -41,6 +43,7 @@ enum class PropertyEnum :uint8
 	Power UMETA(DisplayName = "能力值"),
 };
 
+//演员属性结构体
 USTRUCT(BlueprintType)
 struct FPropertyBase
 {
@@ -61,6 +64,7 @@ struct FPropertyBase
 	float propertyValue;
 };
 
+//演员信息基类
 UCLASS()
 class LEAVETHEPAST_API UActorInfoBase : public UObject
 {
@@ -72,7 +76,6 @@ public:
 	void CopyData(UActorInfoBase* actorInfo);
 
 	//从场景演员信息中覆盖信息
-	void CoverData(FSceneActorInfo sceneActorInfo);
 	void CoverData(USceneActorData* sceneActorData);
 	
 	int GetActorId();

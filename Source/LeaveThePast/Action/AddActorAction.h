@@ -15,5 +15,9 @@ protected:
 	virtual void Update() override;
 	virtual FString ExecuteReal() override;
 private:
-	FSceneActorInfo sceneActorInfo;
+	int actorId = 0;
+	bool needReplacePosition = false;
+	FVector position;
+	bool needReplaceRotation = false;
+	FRotator rotation;
 };

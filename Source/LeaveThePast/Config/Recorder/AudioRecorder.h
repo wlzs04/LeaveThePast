@@ -4,6 +4,7 @@
 #include "Config/RecorderBase.h"
 #include "AudioRecorder.generated.h"
 
+//音乐
 UCLASS()
 class LEAVETHEPAST_API UAudioRecorder : public URecorderBase
 {

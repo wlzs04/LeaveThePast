@@ -7,6 +7,7 @@
 class UActionBase;
 class UChapter;
 
+//管理剧情及执行指令
 UCLASS()
 class LEAVETHEPAST_API UScriptManager : public UObject
 {

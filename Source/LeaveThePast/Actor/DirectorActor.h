@@ -9,6 +9,7 @@ class USoundCue;
 class UAudioComponent;
 class USphereComponent;
 
+//导演类，受玩家控制
 UCLASS()
 class LEAVETHEPAST_API ADirectorActor : public APawn
 {

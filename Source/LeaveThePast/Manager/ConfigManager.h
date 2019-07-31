@@ -6,6 +6,7 @@
 
 class URecorderBase;
 
+//管理配置
 UCLASS()
 class LEAVETHEPAST_API UConfigManager : public UObject
 {

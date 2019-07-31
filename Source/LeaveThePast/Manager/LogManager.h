@@ -13,6 +13,7 @@ enum class LogLevelEnum :uint8
 	Error,//错误
 };
 
+//日志类，记录游戏信息
 UCLASS()
 class LEAVETHEPAST_API ULogManager : public UObject
 {

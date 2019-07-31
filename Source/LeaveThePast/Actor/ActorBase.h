@@ -13,6 +13,7 @@ class USphereComponent;
 class USpringArmComponent;
 class UCameraComponent;
 
+//演员基类
 UCLASS()
 class LEAVETHEPAST_API AActorBase : public ACharacter
 {

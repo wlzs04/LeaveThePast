@@ -5,11 +5,11 @@
 #include "Components/BoxComponent.h"
 #include "VolumeBase.generated.h"
 
+//体积基类
 UCLASS()
 class LEAVETHEPAST_API AVolumeBase : public AActor
 {
 	GENERATED_BODY()
-	
 public:	
 	AVolumeBase();
 

@@ -7,15 +7,15 @@
 			<Say actorId="10001" text="如果没事的话，我先走了。" voicePath="goaway.wav" actionTime="1"/>
 			<Rotate actorId="10001" actionTime="1" value="90" />
 			<Move actorId="10001" actionTime="4" speed="100" direction="1,0,0"/>
-			<ChangeCameraActor actorId="10002"/>
+			<ChangeControlActor actorId="10002"/>
 			<Say actorId="10002" text="先别走，我有事找你！" voicePath="saysomething.wav" actionTime="1"/>
 			<Move actorId="10002" actionTime="1" speed="100" direction="1,0,0"/>
 			<Say actorId="10002" text="你带闲钱了吗？" voicePath="saysomething.wav" actionTime="0.5"/>
 			<Say actorId="10001" text="啊？" voicePath="saysomething.wav" actionTime="0.2"/>
 			<Say actorId="30003" text="这位客官吃饭没带钱。" voicePath="saysomething.wav" actionTime="1"/>
-			<ChangeCameraActor actorId="30003"/>
+			<ChangeControlActor actorId="30003"/>
 			<Move actorId="30003" actionTime="1" speed="100" direction="1,0,0"/>
-			<ChangeCameraActor actorId="10001"/>
+			<ChangeControlActor actorId="10001"/>
 		</Paragraph>
 		<Paragraph>
 			<Say actorId="10002" text="多少？" voicePath="saysomething.wav" actionTime="0.5"/>

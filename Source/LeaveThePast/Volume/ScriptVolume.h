@@ -5,6 +5,7 @@
 #include "../Config/ScriptItemData.h"
 #include "ScriptVolume.generated.h"
 
+//剧本体积，玩家进入体积会执行剧情
 UCLASS()
 class LEAVETHEPAST_API AScriptVolume : public AVolumeBase
 {

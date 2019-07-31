@@ -4,9 +4,7 @@
 #include "UObject/NoExportTypes.h"
 #include "TimeData.generated.h"
 
-/**
- * 用来保存时间相关信息的类
- */
+//用来保存时间相关信息的结构体
 USTRUCT(BlueprintType)
 struct LEAVETHEPAST_API FTimeData
 {

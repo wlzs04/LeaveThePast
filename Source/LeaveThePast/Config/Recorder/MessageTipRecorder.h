@@ -4,6 +4,7 @@
 #include "Config/RecorderBase.h"
 #include "MessageTipRecorder.generated.h"
 
+//提示
 UCLASS()
 class LEAVETHEPAST_API UMessageTipRecorder : public URecorderBase
 {

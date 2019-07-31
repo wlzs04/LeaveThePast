@@ -4,6 +4,7 @@
 #include "UObject/NoExportTypes.h"
 #include "SystemData.generated.h"
 
+//系统数据
 UCLASS()
 class LEAVETHEPAST_API USystemData : public UObject
 {

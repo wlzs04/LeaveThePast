@@ -43,14 +43,13 @@ void UActorManager::LoadAllActorBySceneId(int sceneId)
 		LogError(FString::Printf(TEXT("场景：%d不存在。"), sceneId));
 		return;
 	}
-	for (FSceneActorInfo sceneActorInfo : sceneRecorder->GetSceneActorList())
+	for (int actorId : sceneRecorder->GetSceneActorIdList())
 	{
-		if (GetActorByInfoId(sceneActorInfo.actorId) == nullptr)
+		if (GetActorByInfoId(actorId) == nullptr)
 		{
-			UActorInfoBase* actorInfo = GetNewActorInfoByInfoId(sceneActorInfo.actorId);
+			UActorInfoBase* actorInfo = GetNewActorInfoByInfoId(actorId);
 			if (actorInfo != nullptr)
 			{
-				actorInfo->CoverData(sceneActorInfo);
 				LoadActorToSceneByActorInfo(actorInfo);
 			}
 		}

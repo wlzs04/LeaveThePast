@@ -4,6 +4,7 @@
 #include "Volume/VolumeBase.h"
 #include "ExecuteActionVolume.generated.h"
 
+//场景体积，玩家进入体积会执行一段自定义的指令
 UCLASS()
 class LEAVETHEPAST_API AExecuteActionVolume : public AVolumeBase
 {

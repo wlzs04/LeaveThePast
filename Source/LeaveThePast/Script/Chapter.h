@@ -6,6 +6,7 @@
 
 class USection;
 
+//章
 UCLASS(BlueprintType)
 class LEAVETHEPAST_API UChapter : public UObject
 {

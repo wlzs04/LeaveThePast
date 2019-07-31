@@ -5,6 +5,7 @@
 #include "ActorInfoBase.h"
 #include "MassActorInfo.generated.h"
 
+//群众演员信息类
 UCLASS()
 class LEAVETHEPAST_API UMassActorInfo : public UActorInfoBase
 {

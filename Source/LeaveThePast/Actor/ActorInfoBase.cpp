@@ -129,29 +129,6 @@ void UActorInfoBase::CopyData(UActorInfoBase* actorInfo)
 	chatList = actorInfo->chatList;
 }
 
-void UActorInfoBase::CoverData(FSceneActorInfo sceneActorInfo)
-{
-	if (sceneActorInfo.actorId == actorId)
-	{
-		if (sceneActorInfo.needReplaceActorName)
-		{
-			actorName = sceneActorInfo.actorName;
-		}
-		if (sceneActorInfo.needReplacePosition)
-		{
-			defaultPosition = sceneActorInfo.position;
-		}
-		if (sceneActorInfo.needReplaceRotation)
-		{
-			defaultRotation = sceneActorInfo.rotation;
-		}
-	}
-	else
-	{
-		LogError(TEXT("使用FSceneActorInfo覆盖UActorInfoBase数据时actorId不同。"));
-	}
-}
-
 void UActorInfoBase::CoverData(USceneActorData* sceneActorData)
 {
 	if (sceneActorData->actorId == actorId)

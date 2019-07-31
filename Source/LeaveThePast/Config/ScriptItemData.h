@@ -6,6 +6,7 @@
 
 class FXmlNode;
 
+//一条剧情数据，指向具体章节段
 USTRUCT(BlueprintType)
 struct FScriptItemData
 {

@@ -5,7 +5,7 @@
 #include "XmlParser/Public/XmlFile.h"
 #include "RecorderBase.generated.h"
 
-
+//记录基类，配置表中的一条数据
 UCLASS(BlueprintType)
 class LEAVETHEPAST_API URecorderBase : public UObject
 {

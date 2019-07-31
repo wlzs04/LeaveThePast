@@ -8,6 +8,7 @@ class USoundClass;
 class USoundMix;
 class USoundCue;
 
+//管理声音
 UCLASS()
 class LEAVETHEPAST_API UAudioManager : public UObject
 {

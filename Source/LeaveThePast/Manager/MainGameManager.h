@@ -19,6 +19,7 @@ class ULogManager;
 class UUIManager;
 class UAudioManager;
 
+//管理游戏
 UCLASS()
 class LEAVETHEPAST_API UMainGameManager : public UGameInstance
 {

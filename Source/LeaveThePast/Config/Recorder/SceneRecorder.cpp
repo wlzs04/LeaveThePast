@@ -2,32 +2,6 @@
 #include "../../Manager/LogManager.h"
 #include "../../Manager/HelpManager.h"
 
-void FSceneActorInfo::LoadFromXmlNode(FXmlNode* xmlNode)
-{
-	for (FXmlAttribute attribute : xmlNode->GetAttributes())
-	{
-		FString attributeName = attribute.GetTag();
-		FString attributeValue = attribute.GetValue();
-
-		if (attributeName == TEXT("actorId"))
-		{
-			actorId = FCString::Atoi(*attributeValue);
-		}
-		else if (attributeName == TEXT("actorName"))
-		{
-			SetActorName(attributeValue);
-		}
-		else if (attributeName == TEXT("position"))
-		{
-			SetPosition(UHelpManager::ConvertFStringToFVector(attributeValue));
-		}
-		else if (attributeName == TEXT("rotation"))
-		{
-			SetRotation(UHelpManager::ConvertFStringToFRotator(attributeValue));
-		}
-	}
-}
-
 void USceneRecorder::LoadRecorder(FXmlNode* xmlNode)
 {
 	URecorderBase::LoadRecorder(xmlNode);
@@ -39,9 +13,17 @@ void USceneRecorder::LoadRecorder(FXmlNode* xmlNode)
 	{
 		if (childNode->GetTag() == TEXT("SceneActorInfo"))
 		{
-			FSceneActorInfo sceneActorInfo;
-			sceneActorInfo.LoadFromXmlNode(childNode);
-			sceneActorList.Add(sceneActorInfo);
+			int actorId = 0;
+			for (FXmlAttribute attribute : childNode->GetAttributes())
+			{
+				FString attributeName = attribute.GetTag();
+				FString attributeValue = attribute.GetValue();
+				if (attributeName == TEXT("actorId"))
+				{
+					actorId = FCString::Atoi(*attributeValue);
+				}
+			}
+			sceneActorIdList.Add(actorId);
 		}
 	}
 }
@@ -61,7 +43,7 @@ int USceneRecorder::GetBGMId()
 	return bgmId;
 }
 
-TArray<FSceneActorInfo> USceneRecorder::GetSceneActorList()
+TArray<int> USceneRecorder::GetSceneActorIdList()
 {
-	return sceneActorList;
+	return sceneActorIdList;
 }

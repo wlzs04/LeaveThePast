@@ -4,6 +4,7 @@
 #include "Config/RecorderBase.h"
 #include "SellItemRecorder.generated.h"
 
+//售货
 UCLASS()
 class LEAVETHEPAST_API USellItemRecorder : public URecorderBase
 {

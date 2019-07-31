@@ -12,6 +12,7 @@ class UScriptManager;
 class UUIManager;
 class UTexture2D;
 
+//常用函数
 UCLASS()
 class LEAVETHEPAST_API UCommonBlueprintFunctionLibrary : public UBlueprintFunctionLibrary
 {

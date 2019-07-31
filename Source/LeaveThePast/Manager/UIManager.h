@@ -7,6 +7,7 @@
 class UOptionAction;
 class UUserWidget;
 
+//管理界面
 UCLASS(BlueprintType, Blueprintable)
 class LEAVETHEPAST_API UUIManager : public UObject
 {

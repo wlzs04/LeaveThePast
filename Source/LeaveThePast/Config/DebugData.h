@@ -4,6 +4,7 @@
 #include "UObject/NoExportTypes.h"
 #include "DebugData.generated.h"
 
+//调试数据，开发者专用
 UCLASS()
 class LEAVETHEPAST_API UDebugData : public UObject
 {

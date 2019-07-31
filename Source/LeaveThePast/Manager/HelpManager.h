@@ -6,6 +6,7 @@
 
 class UTexture2D;
 
+//包含一些静态辅助函数
 UCLASS()
 class LEAVETHEPAST_API UHelpManager : public UObject
 {

@@ -4,6 +4,7 @@
 #include "Config/RecorderBase.h"
 #include "ItemRecorder.generated.h"
 
+//物品
 UCLASS()
 class LEAVETHEPAST_API UItemRecorder : public URecorderBase
 {
