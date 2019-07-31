@@ -17,7 +17,7 @@ public:
 	void Load(FXmlNode* xmlNode);
 	bool GetIsCompleted();
 	int GetParagraphId();
-	void Start();
+	bool Start();
 	void Finish();
 	bool SkipScript();
 private:

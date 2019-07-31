@@ -50,8 +50,9 @@ void UActorInfoBase::Load(FXmlNode* xmlNode)
 
 	for (auto childNode : xmlNode->GetChildrenNodes())
 	{
+		FString nodeName = childNode->GetTag();
 		//闲话列表
-		if (childNode->GetTag() == "ChatList")
+		if (nodeName == "ChatList")
 		{
 			for (auto chatNode : childNode->GetChildrenNodes())
 			{
@@ -60,7 +61,7 @@ void UActorInfoBase::Load(FXmlNode* xmlNode)
 			}
 		}
 		//模型
-		if (childNode->GetTag() == "Model")
+		else if (nodeName == "Model")
 		{
 			for (auto item : childNode->GetAttributes())
 			{
@@ -75,40 +76,44 @@ void UActorInfoBase::Load(FXmlNode* xmlNode)
 			}
 		}
 		//属性
-		if (childNode->GetTag() == "PropertyList")
+		else if (nodeName == "PropertyList")
 		{
 			for (auto propertyNode : childNode->GetChildrenNodes())
 			{
 				FPropertyBase propertyBase;
-				FString tag = propertyNode->GetTag();
-				if (tag == TEXT("Attack"))
+				FString propertyTag = propertyNode->GetTag();
+				if (propertyTag == TEXT("Attack"))
 				{
 					propertyBase.propertyEnum = PropertyEnum::Attact;
 				}
-				else if (tag == TEXT("Defense"))
+				else if (propertyTag == TEXT("Defense"))
 				{
 					propertyBase.propertyEnum = PropertyEnum::Defense;
 				}
-				else if (tag == TEXT("Speed"))
+				else if (propertyTag == TEXT("Speed"))
 				{
 					propertyBase.propertyEnum = PropertyEnum::Speed;
 				}
-				else if (tag == TEXT("Life"))
+				else if (propertyTag == TEXT("Life"))
 				{
 					propertyBase.propertyEnum = PropertyEnum::Life;
 				}
-				else if (tag == TEXT("Power"))
+				else if (propertyTag == TEXT("Power"))
 				{
 					propertyBase.propertyEnum = PropertyEnum::Power;
 				}
 				else
 				{
-					LogWarning(FString::Printf(TEXT("演员Id:%d配置中存在未知属性:%s！"), actorId, *tag));
+					LogWarning(FString::Printf(TEXT("演员Id:%d配置中存在未知属性:%s！"), actorId, *propertyTag));
 				}
 				propertyBase.propertyName = propertyNode->GetAttribute(TEXT("name"));
 				propertyBase.propertyValue = FCString::Atof(*propertyNode->GetAttribute(TEXT("value")));
-				propertyMap.Add(tag, propertyBase);
+				propertyMap.Add(propertyTag, propertyBase);
 			}
+		}
+		else
+		{
+			LogWarning(FString::Printf(TEXT("演员Id:%d配置中存在未知节点:%s！"), actorId, *nodeName));
 		}
 	}
 }
@@ -195,6 +200,10 @@ float UActorInfoBase::GetPropertyValue(FString propertyName)
 	if (propertyMap.Contains(propertyName))
 	{
 		return propertyMap[propertyName].propertyValue;
+	}
+	else
+	{
+		LogError(FString::Printf(TEXT("演员Id:%d没有此项属性:%s！"), actorId, *propertyName));
 	}
 	return 0;
 }

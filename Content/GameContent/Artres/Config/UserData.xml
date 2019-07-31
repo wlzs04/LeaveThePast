@@ -10,7 +10,6 @@
 		<Actor id="30006" position="4690,-450,90" rotation="0,0,89" />
 		<Actor id="30007" position="5160,-420,90" rotation="0,0,89" />
 		<Actor id="30003" position="3280,-3110,105" rotation="0,0,0"/>
-		<Actor id="10002" position="3590,-3140,105" rotation="0,0,89" />
 	</SceneActorList>
 	<SceneVolumeList>
 		<Script position="3430.0,-2810.0,70.0" value="1 0 1"/>

@@ -9,7 +9,6 @@
 			<Power name="能力值" value="1000"/>
 		</PropertyList>
 	</Actor>
-	
 	<Actor actorId="10002" actorName="主角2" headImagePath="GameContent/Resource/Others/Image/MainActor2Head.png" description="主角2的描述。" defaultPosition="3590.0,-3140.0,110" defaultRotation="0,0,90">
 		<Model modelName="NPC2Actor" modelRootPath="GameContent/Resource/Others/Model/NPC2"/>
 		<PropertyList>

@@ -16,7 +16,7 @@ public:
 	void Load(FString newChapterPath);
 	bool GetIsCompleted();
 	USection* GetCurrentSection();
-	void Start(int sectionId, int paragrapgId);
+	bool Start(int sectionId, int paragrapgId);
 
 	UFUNCTION(BlueprintCallable)
 	FString GetChapterName();

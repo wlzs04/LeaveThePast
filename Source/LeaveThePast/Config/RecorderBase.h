@@ -13,16 +13,9 @@ class LEAVETHEPAST_API URecorderBase : public UObject
 public:
 	virtual void LoadRecorder(FXmlNode* xmlNode);
 
-	virtual FString GetRecordName();
-
 	//获得Id
 	UFUNCTION(BlueprintCallable)
 	int GetId();
-
-	//获得指定名称的值
-	UFUNCTION(BlueprintCallable)
-	FString GetValueByName(FString name);
 protected:
 	int id;
-	TMap<FString, FString> valueMap;
 };

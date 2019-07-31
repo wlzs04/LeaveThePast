@@ -65,6 +65,10 @@ FString USetScriptActorAction::ExecuteReal()
 			scriptItemData.sectionId = chapter->GetCurrentSection()->GetSectionId();
 			scriptItemData.paragraphId = chapter->GetCurrentSection()->GetCurrentParagraph()->GetParagraphId() + 1;
 		}
+		else
+		{
+			LogError(FString::Printf(TEXT("指令:%s没有设置具体章节信息，或当前没有正在运行的剧本，不能自动设置为下一个。"), *actionName));
+		}
 	}
 	actor->AddInteractedScript(scriptItemData);
 

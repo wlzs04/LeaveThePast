@@ -1,5 +1,6 @@
 #include "ScriptItemData.h"
 #include "XmlParser/Public/XmlFile.h"
+#include "../Manager/LogManager.h"
 
 FScriptItemData::FScriptItemData()
 {
@@ -39,6 +40,10 @@ void FScriptItemData::LoadFromXmlNode(FXmlNode* xmlNode)
 		else if (attributeName == TEXT("paragraphId"))
 		{
 			paragraphId = FCString::Atoi(*attributeValue);
+		}
+		else
+		{
+			LogWarning(FString::Printf(TEXT("ScriptItemData中存在未知属性:%s：%s！"), *attributeName, *attributeValue));
 		}
 	}
 }

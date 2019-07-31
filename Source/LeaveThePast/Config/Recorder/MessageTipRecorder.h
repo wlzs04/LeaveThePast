@@ -12,8 +12,6 @@ class LEAVETHEPAST_API UMessageTipRecorder : public URecorderBase
 public:
 	void LoadRecorder(FXmlNode* xmlNode) override;
 
-	FString GetRecordName() override;
-
 	//获得值
 	UFUNCTION(BlueprintCallable)
 	FString GetValue();

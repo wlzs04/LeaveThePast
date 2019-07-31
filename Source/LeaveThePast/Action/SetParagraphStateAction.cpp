@@ -58,6 +58,10 @@ FString USetParagraphStateAction::ExecuteReal()
 			sectionId = currentChapter->GetCurrentSection()->GetSectionId();
 			paragraphId = currentChapter->GetCurrentSection()->GetCurrentParagraph()->GetParagraphId();
 		}
+		else
+		{
+			LogError(FString::Printf(TEXT("指令:%s没有设置具体章节段信息，或当前没有正在运行的剧本，不能自动设置为当前。"), *actionName));
+		}
 	}
 	UUserData* userData = UMainGameManager::GetInstance()->GetUserData();
 	userData->SetParagraphState(chapter, sectionId,paragraphId, state);

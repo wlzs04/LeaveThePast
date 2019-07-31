@@ -132,12 +132,12 @@ void AActorBase::Tick(float DeltaTime)
 
 void AActorBase::SetActorInfo(UActorInfoBase* newActorInfo)
 {
-	actorInfo = newActorInfo;
-	if (actorInfo == nullptr)
+	if (newActorInfo == nullptr)
 	{
 		LogError(TEXT("设置actorinfo为空。"));
 		return;
 	}
+	actorInfo = newActorInfo;
 	GetCharacterMovement()->MaxWalkSpeed =  actorInfo->GetPropertyValue(TEXT("Speed"));
 }
 
@@ -150,6 +150,7 @@ void AActorBase::LoadModel()
 {
 	if (actorInfo == nullptr)
 	{
+		LogError(TEXT("当前演员信息为空不能加载模型。"));
 		return;
 	}
 	FString modelPath = actorInfo->GetModelRootPath();
@@ -172,7 +173,14 @@ void AActorBase::LoadModel()
 		FString realAnimationPath = TEXT("/Game/");
 		realAnimationPath += modelPath + TEXT("/") + modelName + TEXT("AnimBP.") + modelName + TEXT("AnimBP_C");
 		UAnimBlueprintGeneratedClass* meshAnim = LoadObject<UAnimBlueprintGeneratedClass>(NULL, realAnimationPath.GetCharArray().GetData());
-		GetMesh()->SetAnimInstanceClass(meshAnim);
+		if (meshAnim==nullptr)
+		{
+			LogError(FString::Printf(TEXT("演员信息Id:%d动画蓝图加载失败，路径：%s"), actorInfo->GetActorId(), *realAnimationPath));
+		}
+		else
+		{
+			GetMesh()->SetAnimInstanceClass(meshAnim);
+		}
 	}
 	else
 	{
@@ -197,6 +205,11 @@ void AActorBase::StopTalk()
 
 void AActorBase::StartPlayVoiceSound(USoundCue* soundBase)
 {
+	if (soundBase == nullptr)
+	{
+		LogError(TEXT("Actor在设置声音时传入值为空。"));
+		return;
+	}
 	audioComponent->SetSound(soundBase);
 	audioComponent->SoundClassOverride = UAudioManager::GetInstance()->GetVoiceSoundClass();
 	audioComponent->Play();

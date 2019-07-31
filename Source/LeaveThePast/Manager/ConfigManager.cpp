@@ -51,7 +51,7 @@ TMap<int, URecorderBase*> UConfigManager::GetConfigByName(UClass* recorderClass,
 	}
 	if (!configMap.Contains(configName))
 	{
-		LogError(FString::Printf(TEXT("配置文件加载失败：%s"), *configName));
+		LogError(FString::Printf(TEXT("配置文件加载失败：%s"),*configName));
 		return TMap<int, URecorderBase*>();
 	}
 	return *configMap[configName];

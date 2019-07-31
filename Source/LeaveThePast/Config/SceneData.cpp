@@ -1,6 +1,7 @@
 #include "SceneData.h"
 #include "XmlParser/Public/XmlFile.h"
 #include "../Manager/HelpManager.h"
+#include "../Manager/LogManager.h"
 
 void USceneActorData::LoadFromXmlNode(FXmlNode* xmlNode)
 {
@@ -21,13 +22,25 @@ void USceneActorData::LoadFromXmlNode(FXmlNode* xmlNode)
 		{
 			rotation = UHelpManager::ConvertFStringToFRotator(attributeValue);
 		}
+		else
+		{
+			LogWarning(FString::Printf(TEXT("SceneActorData配置中存在未知属性:%s:%s！"), *attributeName,*attributeValue));
+		}
 	}
 
 	for (FXmlNode* childNode : xmlNode->GetChildrenNodes())
 	{
-		FScriptItemData scriptItemData;
-		scriptItemData.LoadFromXmlNode(childNode);
-		scriptItemDataList.Add(scriptItemData);
+		FString nodeName = childNode->GetTag();
+		if (nodeName == TEXT("ScriptItemData"))
+		{
+			FScriptItemData scriptItemData;
+			scriptItemData.LoadFromXmlNode(childNode);
+			scriptItemDataList.Add(scriptItemData);
+		}
+		else
+		{
+			LogWarning(FString::Printf(TEXT("SceneActor中存在未知节点:%s！"), *nodeName));
+		}
 	}
 }
 
@@ -46,6 +59,10 @@ void USceneVolumeData::LoadFromXmlNode(FXmlNode* xmlNode)
 		else if (attributeName == TEXT("value"))
 		{
 			value = attributeValue;
+		}
+		else
+		{
+			LogWarning(FString::Printf(TEXT("SceneVolume配置中存在未知属性:%s:%s！"), *attributeName, *attributeValue));
 		}
 	}
 }

@@ -90,7 +90,7 @@ int UParagraph::GetParagraphId()
 	return paragraphId;
 }
 
-void UParagraph::Start()
+bool UParagraph::Start()
 {
 	currentActionIndex = 0;
 	isStart = true;
@@ -105,12 +105,14 @@ void UParagraph::Start()
 	}
 
 	actionList[currentActionIndex]->Execute();
+	return true;
 }
 
 void UParagraph::Finish()
 {
 	isStart = false;
 	isCompleted = true;
+	currentActionIndex = 0;
 
 	ADirectorActor::GetInstance()->SetCanControlMove(true);
 	ADirectorActor::GetInstance()->SetCanControlView(true);

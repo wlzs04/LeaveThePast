@@ -13,7 +13,7 @@ void UDebugData::Load()
 	FXmlFile* xmlFile = new FXmlFile(savePath);
 	if (!xmlFile->IsValid())
 	{
-		LogError(FString::Printf(TEXT("存档文件加载失败：%s"), *savePath));
+		LogError(FString::Printf(TEXT("调试存档文件加载失败：%s"), *savePath));
 		return;
 	}
 
@@ -39,7 +39,7 @@ void UDebugData::Load()
 
 	xmlFile->Clear();
 	delete xmlFile;
-	LogNormal(FString::Printf(TEXT("Save文件：%s加载完成！"), *savePath));
+	LogNormal(FString::Printf(TEXT("调试存档文件：%s加载完成！"), *savePath));
 }
 
 void UDebugData::Save()

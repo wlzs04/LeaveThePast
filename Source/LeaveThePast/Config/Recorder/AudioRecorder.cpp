@@ -9,11 +9,6 @@ void UAudioRecorder::LoadRecorder(FXmlNode* xmlNode)
 	audioRootPath = xmlNode->GetAttribute(TEXT("audioRootPath"));
 }
 
-FString UAudioRecorder::GetRecordName()
-{
-	return TEXT("Audio");
-}
-
 FString UAudioRecorder::GetAudioName()
 {
 	return audioName;

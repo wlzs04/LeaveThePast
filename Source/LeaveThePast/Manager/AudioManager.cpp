@@ -90,11 +90,6 @@ USoundCue* UAudioManager::GetAudioById(int id)
 USoundCue* UAudioManager::LoadAudioById(int id)
 {
 	UAudioRecorder* audioRecorder = (UAudioRecorder*)(UConfigManager::GetInstance()->GetConfigByNameId(UAudioRecorder::StaticClass(), TEXT("Audio"),id));
-	//因为在配置文件中audioName属性可能包含路径，所以先将真实名称截取出来。
-	/*int lastCharIndex = 0;
-	audioName.FindLastChar(TEXT('/'), lastCharIndex);
-	FString realAudioName = audioName.Right(audioName.Len() - lastCharIndex - 1);
-	audioRecorder->GetAudioRootPath*/
 	FString audioPath = TEXT("SoundCue'/Game/" + audioRecorder->GetAudioRootPath() + TEXT("/") + audioRecorder->GetAudioName() + "." + audioRecorder->GetAudioName() + "'");
 	USoundCue* sound = LoadObject<USoundCue>(nullptr, *audioPath);
 	if (!sound)

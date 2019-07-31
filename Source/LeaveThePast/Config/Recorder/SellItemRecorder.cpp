@@ -8,11 +8,6 @@ void USellItemRecorder::LoadRecorder(FXmlNode* xmlNode)
 	price = FCString::Atoi(*xmlNode->GetAttribute(TEXT("price")));
 }
 
-FString USellItemRecorder::GetRecordName()
-{
-	return TEXT("SellItem");
-}
-
 int USellItemRecorder::GetItemId()
 {
 	return itemId;

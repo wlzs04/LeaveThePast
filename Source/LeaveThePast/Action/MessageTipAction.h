@@ -18,5 +18,4 @@ private:
 	float actionTime = 1;
 
 	float currentTime = 0;
-	float startTime = 0;
 };

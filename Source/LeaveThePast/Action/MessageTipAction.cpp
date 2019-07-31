@@ -1,6 +1,7 @@
 #include "MessageTipAction.h"
 #include "../Manager/LogManager.h"
 #include "../Manager/UIManager.h"
+#include "../Manager/ScriptManager.h"
 
 void UMessageTipAction::Load(FXmlNode* xmlNode)
 {
@@ -27,8 +28,8 @@ void UMessageTipAction::Update()
 {
 	if (isCompleted == false)
 	{
-		currentTime = GWorld->GetTimeSeconds();
-		if (currentTime - startTime < actionTime)
+		currentTime += UScriptManager::GetInstance()->GetScriptTickTime();
+		if (currentTime < actionTime)
 		{
 
 		}
@@ -41,8 +42,7 @@ void UMessageTipAction::Update()
 
 FString UMessageTipAction::ExecuteReal()
 {
-	startTime = GWorld->GetTimeSeconds();
-	currentTime = GWorld->GetTimeSeconds();
+	currentTime = 0;
 	UUIManager::GetInstance()->AddMessageTip(text);
 	return FString();
 }

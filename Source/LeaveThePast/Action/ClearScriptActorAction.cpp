@@ -53,7 +53,7 @@ FString UClearScriptActorAction::ExecuteReal()
 
 	if (actor == nullptr)
 	{
-		LogError(FString::Printf(TEXT("指令：SetScriptActor，场景中不存在演员：%d"), actorInfoId));
+		LogError(FString::Printf(TEXT("指令：%s，场景中不存在演员：%d"),*actionName, actorInfoId));
 		return FString();
 	}
 	if (isCurrent)
@@ -64,6 +64,10 @@ FString UClearScriptActorAction::ExecuteReal()
 			scriptItemData.chapter = chapter->GetChapterIndexName();
 			scriptItemData.sectionId = chapter->GetCurrentSection()->GetSectionId();
 			scriptItemData.paragraphId = chapter->GetCurrentSection()->GetCurrentParagraph()->GetParagraphId();
+		}
+		else
+		{
+			LogError(FString::Printf(TEXT("指令:%s没有设置具体章节信息，或当前没有正在运行的剧本，不能自动设置为当前。"), *actionName));
 		}
 	}
 	actor->RemoveInteractedScript(scriptItemData);

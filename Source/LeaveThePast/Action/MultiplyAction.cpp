@@ -7,7 +7,8 @@ void UMultiplyAction::Load(FXmlNode* xmlNode)
 	UScriptManager* scriptManager = UScriptManager::GetInstance();
 	for (auto childNode : xmlNode->GetChildrenNodes())
 	{
-		UActionBase* actionBase = scriptManager->GetIegalActionByName(childNode->GetTag());
+		FString nodeName = childNode->GetTag();
+		UActionBase* actionBase = scriptManager->GetIegalActionByName(nodeName);
 
 		if (actionBase != nullptr)
 		{
@@ -17,7 +18,7 @@ void UMultiplyAction::Load(FXmlNode* xmlNode)
 		}
 		else
 		{
-			LogError(FString::Printf(TEXT("未知指令：%s"), *childNode->GetTag()));
+			LogError(FString::Printf(TEXT("未知指令：%s"), *nodeName));
 		}
 	}
 }

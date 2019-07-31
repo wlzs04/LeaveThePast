@@ -92,6 +92,10 @@ void UMainGameManager::EnterScene(int sceneId)
 		directorActor->StartPlayBGMSound(GetAudioManager()->GetAudioById(sceneRecorder->GetBGMId()));
 		GetActorManager()->LoadAllActorBySceneId(sceneId);
 	}
+	else
+	{
+		LogError(FString::Printf(TEXT("执行EnterScene进入场景时配置中场景Id:%d"), sceneId));
+	}
 }
 
 UWorld* UMainGameManager::GetGameWorld()
@@ -191,6 +195,7 @@ void UMainGameManager::ExitGame()
 {
 	SaveSystemData();
 	SaveDebugData();
+	LogNormal(TEXT("游戏退出！"));
 	UKismetSystemLibrary::QuitGame(this, nullptr, EQuitPreference::Quit, true);
 }
 

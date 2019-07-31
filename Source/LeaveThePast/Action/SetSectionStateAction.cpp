@@ -51,6 +51,10 @@ FString USetSectionStateAction::ExecuteReal()
 			chapter = currentChapter->GetChapterIndexName();
 			sectionId = currentChapter->GetCurrentSection()->GetSectionId();
 		}
+		else
+		{
+			LogError(FString::Printf(TEXT("指令:%s没有设置具体章节信息，或当前没有正在运行的剧本，不能自动设置为当前。"), *actionName));
+		}
 	}
 	UUserData* userData = UMainGameManager::GetInstance()->GetUserData();
 	userData->SetSectionState(chapter,sectionId, state);

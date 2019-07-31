@@ -27,6 +27,10 @@ FVector UHelpManager::ConvertFStringToFVector(FString value)
 		y = FCString::Atof(*stringArray[1]);
 		z = FCString::Atof(*stringArray[2]);
 	}
+	else
+	{
+		LogError(FString::Printf(TEXT("FString->FVector以','分割，格式不对:%s"), *value));
+	}
 	return FVector(x,y,z);
 }
 
@@ -58,6 +62,10 @@ FTimespan UHelpManager::ConvertFStringToFTimespan(FString value)
 		y = FCString::Atof(*stringArray[1]);
 		z = FCString::Atof(*stringArray[2]);
 	}
+	else
+	{
+		LogError(FString::Printf(TEXT("FString->FTimespan以':'分割，格式不对:%s"), *value));
+	}
 	return FTimespan(x, y, z);
 }
 
@@ -73,6 +81,10 @@ FRotator UHelpManager::ConvertFStringToFRotator(FString value)
 		x = FCString::Atof(*stringArray[0]);
 		y = FCString::Atof(*stringArray[1]);
 		z = FCString::Atof(*stringArray[2]);
+	}
+	else
+	{
+		LogError(FString::Printf(TEXT("FString->FRotator以','分割，格式不对:%s"), *value));
 	}
 	return FRotator(y, z, x);
 }

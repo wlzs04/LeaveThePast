@@ -28,11 +28,6 @@ void USceneRecorder::LoadRecorder(FXmlNode* xmlNode)
 	}
 }
 
-FString USceneRecorder::GetRecordName()
-{
-	return TEXT("Scene");
-}
-
 FString USceneRecorder::GetSceneName()
 {
 	return sceneName;

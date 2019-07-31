@@ -33,6 +33,13 @@ FString UPlayBGMAction::ExecuteReal()
 {
 	ADirectorActor* directorActor = ADirectorActor::GetInstance();
 	USoundCue* sound = UAudioManager::GetInstance()->GetAudioById(audioId);
-	directorActor->StartPlayBGMSound(sound);
+	if (sound != nullptr)
+	{
+		directorActor->StartPlayBGMSound(sound);
+	}
+	else
+	{
+		LogError(FString::Printf(TEXT("指令:%s配置中audioId:%d不存在！"), *actionName, audioId));
+	}
 	return FString();
 }

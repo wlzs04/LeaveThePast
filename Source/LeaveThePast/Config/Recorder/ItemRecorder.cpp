@@ -14,11 +14,6 @@ void UItemRecorder::LoadRecorder(FXmlNode* xmlNode)
 	imagePath = xmlNode->GetAttribute(TEXT("imagePath"));
 }
 
-FString UItemRecorder::GetRecordName()
-{
-	return TEXT("Item");
-}
-
 FString UItemRecorder::GetItemName()
 {
 	return itemName;

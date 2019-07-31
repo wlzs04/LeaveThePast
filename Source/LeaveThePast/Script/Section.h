@@ -18,7 +18,7 @@ public:
 	bool GetIsCompleted();
 	int GetSectionId();
 	UParagraph* GetCurrentParagraph();
-	void Start(int paragrapgId);
+	bool Start(int paragrapgId);
 private:
 	TArray<UParagraph*> paragraphList;
 	bool isCompleted = false;//是否完成

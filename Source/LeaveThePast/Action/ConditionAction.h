@@ -7,6 +7,7 @@
 UENUM(BlueprintType)
 enum class ConditionType :uint8
 {
+	Unknown UMETA(DisplayName = "未知"),
 	Equal UMETA(DisplayName = "相等"),
 	More UMETA(DisplayName = "大于"),
 	Less UMETA(DisplayName = "小于"),
@@ -21,7 +22,7 @@ public:
 	virtual void Load(FXmlNode* xmlNode) override;
 	bool CheckCondition(FString checkConditionValue);
 private:
-	ConditionType conditionType = ConditionType::Equal;
+	ConditionType conditionType = ConditionType::Unknown;
 	bool isDefault = false;
 	FString conditionValue;
 };

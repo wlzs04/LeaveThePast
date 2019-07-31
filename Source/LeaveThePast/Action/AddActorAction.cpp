@@ -58,6 +58,10 @@ FString UAddActorAction::ExecuteReal()
 				actor->SetActorRotation(rotation);
 			}
 		}
+		else
+		{
+			LogError(FString::Printf(TEXT("指令：%s配置中没有演员id：%d。"), *actionName, actorId));
+		}
 	}
 	else
 	{

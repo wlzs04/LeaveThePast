@@ -20,8 +20,6 @@ ADirectorActor* ADirectorActor::directorActor = nullptr;
 
 ADirectorActor::ADirectorActor()
 {
-	ADirectorActor::directorActor = this;
-
 	PrimaryActorTick.bCanEverTick = true;
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
 
@@ -58,6 +56,10 @@ void ADirectorActor::InitActor()
 					actor->AddInteractedScript(scriptItemData);
 				}
 			}
+			else
+			{
+				LogError(FString::Printf(TEXT("初始化存档中场景演员时未找到actorId：%d"), sceneActorInfo->actorId));
+			}
 		}
 	}
 
@@ -88,6 +90,10 @@ void ADirectorActor::InitActor()
 		{
 			volume->LoadFromString(sceneVolumeInfo->value);
 		}
+		else 
+		{
+			LogError(FString::Printf(TEXT("初始化存档中场景体积时失败，类型:%s。"), *sceneVolumeInfo->volumeType));
+		}
 	}
 }
 
@@ -97,13 +103,17 @@ void ADirectorActor::AddCanControlActorByInfoId(int actorInfoId)
 	AActorBase* actor = actorManager->GetActorByInfoId(actorInfoId);
 	if (actor == nullptr)
 	{
-		LogError(FString::Printf(TEXT("指令AddCanControlActor，未找到actorInfoId：%d"), actorInfoId));
+		LogError(FString::Printf(TEXT("添加可控演员时，未找到actorInfoId：%d"), actorInfoId));
 	}
 	else
 	{
 		if (!canControlActorList.Contains(actor))
 		{
 			canControlActorList.Add(actor);
+		}
+		else
+		{
+			LogWarning(FString::Printf(TEXT("此演员本是可控演员actorInfoId：%d"), actorInfoId));
 		}
 	}
 }
@@ -118,6 +128,7 @@ void ADirectorActor::RemoveCanControlActorByInfoId(int actorInfoId)
 			return;
 		}
 	}
+	LogWarning(FString::Printf(TEXT("此演员本不是可控演员actorInfoId：%d"), actorInfoId));
 }
 
 void ADirectorActor::SetControlActorById(int actorId)
@@ -174,6 +185,11 @@ TArray<AActorBase*> ADirectorActor::GetCanControlActorList()
 
 void ADirectorActor::StartPlayBGMSound(USoundCue* soundBase)
 {
+	if (soundBase==nullptr)
+	{
+		LogError(TEXT("Director在设置BGM时传入值为空。"));
+		return;
+	}
 	audioComponent->SetSound(soundBase);
 	audioComponent->SoundClassOverride = UAudioManager::GetInstance()->GetBGMSoundClass();
 	audioComponent->Play();
@@ -226,6 +242,8 @@ void ADirectorActor::RemoveCanOnlyControlUINumber()
 void ADirectorActor::BeginPlay()
 {
 	Super::BeginPlay();
+
+	ADirectorActor::directorActor = this;
 	GWorld->GetFirstPlayerController<APlayerController>()->bShowMouseCursor = true;
 }
 
@@ -358,7 +376,7 @@ void ADirectorActor::InteractedInputFunction()
 				}
 				else
 				{
-
+					LogError(FString::Printf(TEXT("Director中此类型%d的演员%d的交互方式未完成。"), actorInfo->GetActorType(), actorInfo->GetActorId()));
 				}
 				break;
 			}

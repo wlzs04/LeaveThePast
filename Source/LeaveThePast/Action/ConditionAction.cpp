@@ -52,13 +52,16 @@ bool UConditionItemAction::CheckCondition(FString checkConditionValue)
 		returnValue = checkConditionValue == conditionValue;
 		break;
 	case ConditionType::More:
-
 		returnValue = FCString::Atof(*checkConditionValue) > FCString::Atof(*conditionValue);
 		break;
 	case ConditionType::Less:
 		returnValue = FCString::Atof(*checkConditionValue) < FCString::Atof(*conditionValue);
 		break;
 	default:
+		if (!isDefault)
+		{
+			LogError(FString::Printf(TEXT("%s指令并未标记为默认，使用的判断类型:%d未写具体判断方法！"), *actionName, conditionType));
+		}
 		break;
 	}
 	return returnValue || isDefault;
@@ -81,11 +84,16 @@ void UConditionAction::Load(FXmlNode* xmlNode)
 	}
 	for (auto childNode : xmlNode->GetChildrenNodes())
 	{
-		if (childNode->GetTag() == TEXT("ConditionItem"))
+		FString nodeName = childNode->GetTag();
+		if (nodeName == TEXT("ConditionItem"))
 		{
 			UConditionItemAction* conditionItem = NewObject<UConditionItemAction>();
 			conditionItem->Load(childNode);
 			conditionItemList.Add(conditionItem);
+		}
+		else
+		{
+			LogWarning(FString::Printf(TEXT("%s指令中存在未知节点:%s！"), *actionName, *nodeName));
 		}
 	}
 }

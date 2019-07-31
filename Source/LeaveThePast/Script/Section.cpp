@@ -1,5 +1,6 @@
 #include "Section.h"
 #include "Paragraph.h"
+#include "../Manager/LogManager.h"
 #include "XmlParser/Public/XmlFile.h"
 
 void USection::Update()
@@ -40,34 +41,56 @@ UParagraph* USection::GetCurrentParagraph()
 	return currentParagraph;
 }
 
-void USection::Start(int paragrapgId)
+bool USection::Start(int paragrapgId)
 {
-	isCompleted = false;
-	currentParagraph = paragraphList[paragrapgId];
-	currentParagraph->Start();
+	if ((paragrapgId >= 0) && (paragrapgId < paragraphList.Num()))
+	{
+		isCompleted = false;
+		currentParagraph = paragraphList[paragrapgId];
+		return currentParagraph->Start();
+	}
+	else
+	{
+		LogError(FString::Printf(TEXT("Section%d中没有Paragrapg%d。"), sectionId, paragrapgId));
+	}
+	return false;
 }
 
 void USection::Load(FXmlNode* xmlNode)
 {
 	for (FXmlAttribute attribute : xmlNode->GetAttributes())
 	{
-		if (attribute.GetTag() == TEXT("name"))
+		FString attributeName = attribute.GetTag();
+		FString attributeValue = attribute.GetValue();
+		if (attributeName == TEXT("name"))
 		{
-			sectionName = attribute.GetValue();
+			sectionName = attributeValue;
 		}
-		else if (attribute.GetTag() == TEXT("id"))
+		else if (attributeName == TEXT("id"))
 		{
-			sectionId = FCString::Atoi(*attribute.GetValue());
+			sectionId = FCString::Atoi(*attributeValue);
 		}
-		else if (attribute.GetTag() == TEXT("description"))
+		else if (attributeName == TEXT("description"))
 		{
-			description = attribute.GetValue();
+			description = attributeValue;
+		}
+		else
+		{
+			LogWarning(FString::Printf(TEXT("Section中存在未知属性:%s：%s！"), *attributeName, *attributeValue));
 		}
 	}
 	for (auto childNode : xmlNode->GetChildrenNodes())
 	{
-		UParagraph* paragraph = NewObject<UParagraph>();
-		paragraph->Load(childNode);
-		paragraphList.Add(paragraph);
+		FString nodeName = childNode->GetTag();
+		if (nodeName == TEXT("Paragraph"))
+		{
+			UParagraph* paragraph = NewObject<UParagraph>();
+			paragraph->Load(childNode);
+			paragraphList.Add(paragraph);
+		}
+		else
+		{
+			LogWarning(FString::Printf(TEXT("Section中存在未知节点:%s！"), *nodeName));
+		}
 	}
 }

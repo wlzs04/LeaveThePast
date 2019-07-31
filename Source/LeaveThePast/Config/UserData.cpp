@@ -10,7 +10,6 @@
 #include "SceneData.h"
 #include "Paths.h"
 #include "XmlParser/Public/XmlFile.h"
-#include "Engine/World.h"
 #include "FileHelper.h"
 
 UUserData::UUserData() :UObject()
@@ -214,7 +213,7 @@ void UUserData::Save()
 	
 		for (FScriptItemData scriptItemData : actorPair.Value->GetInteractedScriptList())
 		{
-			xmlContent.Append(TEXT("\t\t\t<ScriptRecorderInfo"));
+			xmlContent.Append(TEXT("\t\t\t<ScriptItemData"));
 			xmlContent.Append(TEXT(" chapter=\"") + scriptItemData.chapter + TEXT("\""));
 			xmlContent.Append(TEXT(" sectionId=\"") + FString::FromInt(scriptItemData.sectionId) + TEXT("\""));
 			xmlContent.Append(TEXT(" paragraphId=\"") + FString::FromInt(scriptItemData.paragraphId) + TEXT("\""));

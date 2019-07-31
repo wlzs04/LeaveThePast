@@ -27,13 +27,24 @@ FString UOptionItemAction::GetOptionText()
 
 void UOptionAction::Load(FXmlNode* xmlNode)
 {
+	for (auto attribute : xmlNode->GetAttributes())
+	{
+		FString attributeName = attribute.GetTag();
+		FString attributeValue = attribute.GetValue();
+		LogWarning(FString::Printf(TEXT("%s指令中存在未知属性:%s：%s！"), *actionName, *attributeName, *attributeValue));
+	}
 	for (auto childNode : xmlNode->GetChildrenNodes())
 	{
-		if (childNode->GetTag() == TEXT("OptionItem"))
+		FString nodeName = childNode->GetTag();
+		if (nodeName == TEXT("OptionItem"))
 		{
 			UOptionItemAction* optionItem = NewObject<UOptionItemAction>();
 			optionItem->Load(childNode);
 			optionItemList.Add(optionItem);
+		}
+		else
+		{
+			LogWarning(FString::Printf(TEXT("%s指令中存在未知节点:%s！"), *actionName, *nodeName));
 		}
 	}
 }

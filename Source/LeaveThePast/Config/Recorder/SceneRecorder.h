@@ -12,8 +12,6 @@ class LEAVETHEPAST_API USceneRecorder : public URecorderBase
 public:
 	void LoadRecorder(FXmlNode* xmlNode) override;
 
-	FString GetRecordName() override;
-
 	UFUNCTION(BlueprintCallable)
 	FString GetSceneName();
 

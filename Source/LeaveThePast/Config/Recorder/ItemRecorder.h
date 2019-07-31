@@ -12,8 +12,6 @@ class LEAVETHEPAST_API UItemRecorder : public URecorderBase
 public:
 	void LoadRecorder(FXmlNode* xmlNode) override;
 
-	FString GetRecordName() override;
-
 	//获得名称
 	UFUNCTION(BlueprintCallable)
 	FString GetItemName();

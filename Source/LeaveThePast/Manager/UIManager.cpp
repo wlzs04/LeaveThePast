@@ -24,9 +24,16 @@ UUserWidget* UUIManager::LoadUIByName(FString uiName, FString foldName)
 {
 	FString uiPath = TEXT("WidgetBlueprint'/Game/GameContent/UI/")+ foldName + uiName + TEXT(".") + uiName + TEXT("_C'");
 	UClass* widgetClass = LoadClass<UUserWidget>(NULL, *uiPath);
-	UUserWidget* widget = CreateWidget<UUserWidget>(UMainGameManager::GetInstance(), widgetClass);
-
-	return widget;
+	if (widgetClass != nullptr)
+	{
+		UUserWidget* widget = CreateWidget<UUserWidget>(UMainGameManager::GetInstance(), widgetClass);
+		return widget;
+	}
+	else
+	{
+		LogError(FString::Printf(TEXT("加载界面：%s！失败！"),*uiPath));
+		return nullptr;
+	}
 }
 
 void UUIManager::ShowInitUI()
@@ -37,6 +44,11 @@ void UUIManager::ShowInitUI()
 void UUIManager::AddMessageTip(FString value)
 {
 	UUserWidget* widget = LoadUIByName(TEXT("MessageTipUI"));
+	if (widget == nullptr)
+	{
+		LogError(TEXT("AddMessageTip界面加载失败！"));
+		return;
+	}
 	widget->AddToViewport();
 	FOutputDeviceNull outputDeviceNull;
 	bool executeSuccess = widget->CallFunctionByNameWithArguments(*FString::Printf(TEXT("SetInfo %s"), *value), outputDeviceNull, nullptr,true);
@@ -148,6 +160,10 @@ void UUIManager::ShowShopUI(FString shopConfigName)
 	{
 		shopUIWidget->ProcessEvent(functionSetInfo, &shopConfigName);
 	}
+	else
+	{
+		LogError("ShowShopUI执行SetInfo蓝图函数失败！");
+	}
 }
 
 void UUIManager::HideShopUI()
@@ -246,6 +262,10 @@ void UUIManager::ShowOptionUI(UOptionAction* optionAction)
 	if (functionSetInfo)
 	{
 		optionUIWidget->ProcessEvent(functionSetInfo , &optionAction);
+	}
+	else
+	{
+		LogError("ShowOptionUI执行SetInfo蓝图函数失败！");
 	}
 }
 

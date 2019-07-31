@@ -109,6 +109,10 @@ void UScriptManager::StopCurrentScript()
 		currentScript = nullptr;
 		return;
 	}
+	else
+	{
+		LogWarning(TEXT("当前并没有执行剧本，为什么会调用到停止方法上？"));
+	}
 }
 
 void UScriptManager::Tick()
@@ -163,6 +167,10 @@ void UScriptManager::SkipScript()
 		{
 			ScriptFinish();
 		}
+	}
+	else
+	{
+		LogWarning(TEXT("当前并没有执行剧本，为什么会调用到跳过方法上？"));
 	}
 }
 
@@ -328,6 +336,10 @@ FString UScriptManager::ExecuteAction(FString actionValue)
 				LogError(stringArray[0] + TEXT("指令不合法！"));
 			}
 		}
+	}
+	else
+	{
+		LogWarning(TEXT("指令为空，无法执行！"));
 	}
 	return FString();
 }

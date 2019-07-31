@@ -38,20 +38,34 @@ void UChapter::Load(FString newChapterPath)
 	FXmlNode* rootNode = xmlFile->GetRootNode();
 	for (FXmlAttribute attribute : rootNode->GetAttributes())
 	{
-		if (attribute.GetTag()==TEXT("name"))
+		FString attributeName = attribute.GetTag();
+		FString attributeValue = attribute.GetValue();
+		if (attributeName ==TEXT("name"))
 		{
-			chapterName = attribute.GetValue();
+			chapterName = attributeValue;
 		}
-		else if (attribute.GetTag() == TEXT("description"))
+		else if (attributeName == TEXT("description"))
 		{
-			description = attribute.GetValue();
+			description = attributeValue;
+		}
+		else
+		{
+			LogWarning(FString::Printf(TEXT("Chapter路径：%s中存在未知属性:%s：%s！"), *chapterPath, *attributeName, *attributeValue));
 		}
 	}
 	for (auto childNode : rootNode->GetChildrenNodes())
 	{
-		USection* section = NewObject<USection>();
-		section->Load(childNode);
-		sectionList.Add(section);
+		FString nodeName = childNode->GetTag();
+		if (nodeName == TEXT("Section"))
+		{
+			USection* section = NewObject<USection>();
+			section->Load(childNode);
+			sectionList.Add(section);
+		}
+		else
+		{
+			LogWarning(FString::Printf(TEXT("Chapter中存在未知节点:%s！"), *nodeName));
+		}
 	}
 	xmlFile->Clear();
 	delete xmlFile;
@@ -68,11 +82,19 @@ USection* UChapter::GetCurrentSection()
 	return currentSection;
 }
 
-void UChapter::Start(int sectionId, int paragrapgId)
+bool UChapter::Start(int sectionId, int paragrapgId)
 {
-	isCompleted = false;
-	currentSection = sectionList[sectionId];
-	currentSection->Start(paragrapgId);
+	if ((sectionId >= 0) && (sectionId < sectionList.Num()))
+	{
+		isCompleted = false;
+		currentSection = sectionList[sectionId];
+		return currentSection->Start(paragrapgId);
+	}
+	else
+	{
+		LogError(FString::Printf(TEXT("Chapter%s中没有Section%d。"), *chapterIndexName,sectionId));
+	}
+	return false;
 }
 
 FString UChapter::GetChapterName()

@@ -7,11 +7,6 @@ void UStringRecorder::LoadRecorder(FXmlNode* xmlNode)
 	value = xmlNode->GetAttribute(TEXT("value"));
 }
 
-FString UStringRecorder::GetRecordName()
-{
-	return TEXT("String");
-}
-
 FString UStringRecorder::GetValue()
 {
 	return value;

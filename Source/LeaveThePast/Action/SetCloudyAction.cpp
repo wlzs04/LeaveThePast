@@ -35,5 +35,9 @@ FString USetCloudyAction::ExecuteReal()
 	{
 		skActor->ProcessEvent(functionSetInfo, &cloudyValue);
 	}
+	else
+	{
+		LogError(FString::Printf(TEXT("指令:%s天空体没有方法RefreshCloudy。"), *actionName));
+	}
 	return FString();
 }

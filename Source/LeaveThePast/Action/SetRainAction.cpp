@@ -35,5 +35,9 @@ FString USetRainAction::ExecuteReal()
 	{
 		skActor->ProcessEvent(functionSetInfo, &rainFallValue);
 	}
+	else
+	{
+		LogError(FString::Printf(TEXT("指令:%s天空体没有方法RefreshRain。"), *actionName));
+	}
 	return FString();
 }

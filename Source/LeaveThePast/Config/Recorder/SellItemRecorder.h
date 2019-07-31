@@ -12,8 +12,6 @@ class LEAVETHEPAST_API USellItemRecorder : public URecorderBase
 public:
 	void LoadRecorder(FXmlNode* xmlNode) override;
 
-	FString GetRecordName() override;
-
 	UFUNCTION(BlueprintCallable)
 	int GetItemId();
 
