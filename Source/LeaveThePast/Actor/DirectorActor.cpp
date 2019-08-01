@@ -40,7 +40,8 @@ void ADirectorActor::InitActor()
 {
 	UMainGameManager* gameManager = UMainGameManager::GetInstance();
 	UActorManager* actorManager = gameManager->GetActorManager();
-	TArray<USceneActorData*> sceneActorList = gameManager->GetUserData()->GetSceneActorList();
+	UUserData* userData = gameManager->GetUserData();
+	TArray<USceneActorData*> sceneActorList = userData->GetSceneActorList();
 
 	for (USceneActorData* sceneActorInfo: sceneActorList)
 	{
@@ -63,7 +64,7 @@ void ADirectorActor::InitActor()
 		}
 	}
 
-	TArray<int> canControlActorSaveList = gameManager->GetUserData()->GetCanControlActorList();
+	TArray<int> canControlActorSaveList = userData->GetCanControlActorList();
 	for (int canControlActorSaveActorInfoId : canControlActorSaveList)
 	{
 		AActorBase* actor = actorManager->GetActorByInfoId(canControlActorSaveActorInfoId);
@@ -76,12 +77,9 @@ void ADirectorActor::InitActor()
 			LogError(FString::Printf(TEXT("初始化可控演员时未找到actorInfoId：%d"), canControlActorSaveActorInfoId));
 		}
 	}
-	if (canControlActorList.Num() > 0)
-	{
-		SetControlActor(canControlActorList[0]);
-	}
+	SetControlActorByIndex(userData->GetCurrentControlActorIndex());
 
-	TArray<USceneVolumeData*> sceneVolumeList = gameManager->GetUserData()->GetSceneVolumeList();
+	TArray<USceneVolumeData*> sceneVolumeList = userData->GetSceneVolumeList();
 
 	for (USceneVolumeData* sceneVolumeInfo : sceneVolumeList)
 	{
@@ -137,10 +135,16 @@ void ADirectorActor::SetControlActorById(int actorId)
 	{
 		return;
 	}
-	UMainGameManager* gameManager = UMainGameManager::GetInstance();
-	UActorManager* actorManager = gameManager->GetActorManager();
-	AActorBase* actor = actorManager->GetActorByInfoId(actorId);
+	AActorBase* actor = UActorManager::GetInstance()->GetActorByInfoId(actorId);
 	SetControlActor(actor);
+}
+
+void ADirectorActor::SetControlActorByIndex(int index)
+{
+	if (index>=0 && index< canControlActorList.Num())
+	{
+		SetControlActor(canControlActorList[index]);
+	}
 }
 
 void ADirectorActor::SetControlActor(AActorBase* actor)
@@ -176,6 +180,11 @@ void ADirectorActor::SetControlActor(AActorBase* actor)
 AActorBase* ADirectorActor::GetControlActor()
 {
 	return currentControlActor;
+}
+
+int ADirectorActor::GetCurrentControlActorIndex()
+{
+	return currentControlActorIndex;
 }
 
 TArray<AActorBase*> ADirectorActor::GetCanControlActorList()

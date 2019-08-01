@@ -51,6 +51,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	int GetSceneId();
 
+	//获得当前控制第几个演员
+	int GetCurrentControlActorIndex();
+
 	//可控演员列表
 	TArray<int> GetCanControlActorList();
 
@@ -122,7 +125,10 @@ protected:
 	bool isFixedTime = false;//是否固定时间
 	float gameAndRealTimeRate = 1;
 	int sceneId = 10001;//角色所在场景Id
+
+	int currentControlActorIndex = 0;//当前控制第几个
 	TArray<int> canControlActorList;//可控演员列表
+
 	UPROPERTY()
 	TArray<USceneActorData*> sceneActorList;//场景演员列表
 	UPROPERTY()

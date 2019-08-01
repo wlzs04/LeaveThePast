@@ -35,6 +35,10 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SetControlActorById(int actorId);
 
+	//通过index设置当前控制演员
+	UFUNCTION(BlueprintCallable)
+	void SetControlActorByIndex(int index);
+
 	//设置当前控制演员
 	UFUNCTION(BlueprintCallable)
 	void SetControlActor(AActorBase* actor);
@@ -42,6 +46,10 @@ public:
 	//通过当前控制演员
 	UFUNCTION(BlueprintCallable)
 	AActorBase* GetControlActor();
+
+	//通过当前控制演员在列表中的位置
+	UFUNCTION(BlueprintCallable)
+	int GetCurrentControlActorIndex();
 
 	//通过可控演员列表
 	UFUNCTION(BlueprintCallable)

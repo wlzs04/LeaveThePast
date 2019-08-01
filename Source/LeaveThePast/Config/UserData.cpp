@@ -61,10 +61,14 @@ void UUserData::Load()
 	
 	for (FXmlNode* xmlNode : rootNode->GetChildrenNodes())
 	{
+		FString nodeTag = xmlNode->GetTag();
 		//加载可控演员列表
-		if (xmlNode->GetTag() == TEXT("CanControlActorList"))
+		if (nodeTag == TEXT("CanControlActorList"))
 		{
 			canControlActorList.Empty();
+
+			currentControlActorIndex = FCString::Atoi(*xmlNode->GetAttribute(TEXT("currentControlActorIndex")));
+
 			for (FXmlNode* itemNode : xmlNode->GetChildrenNodes())
 			{
 				FString idString = itemNode->GetAttribute(TEXT("id"));
@@ -75,7 +79,7 @@ void UUserData::Load()
 			}
 		}
 		//加载场景演员列表
-		if (xmlNode->GetTag() == TEXT("SceneActorList"))
+		else if (nodeTag == TEXT("SceneActorList"))
 		{
 			sceneActorList.Empty();
 			for (FXmlNode* childNode : xmlNode->GetChildrenNodes())
@@ -86,7 +90,7 @@ void UUserData::Load()
 			}
 		}
 		//加载场景演员列表
-		if (xmlNode->GetTag() == TEXT("SceneVolumeList"))
+		else if (nodeTag == TEXT("SceneVolumeList"))
 		{
 			sceneVolumeList.Empty();
 			for (FXmlNode* childNode : xmlNode->GetChildrenNodes())
@@ -97,7 +101,7 @@ void UUserData::Load()
 			}
 		}
 		//加载物品
-		if (xmlNode->GetTag() == TEXT("ItemMap"))
+		else if (nodeTag == TEXT("ItemMap"))
 		{
 			itemMap.Empty();
 			for (FXmlNode* itemNode : xmlNode->GetChildrenNodes())
@@ -118,7 +122,7 @@ void UUserData::Load()
 			}
 		}
 		//加载剧本
-		if (xmlNode->GetTag() == TEXT("Script"))
+		else if (nodeTag == TEXT("Script"))
 		{
 			chapterMap.Empty();
 			for (FXmlNode* chapterNode : xmlNode->GetChildrenNodes())
@@ -143,7 +147,7 @@ void UUserData::Load()
 			}
 		}
 		//即将运行的剧本
-		if (xmlNode->GetTag() == TEXT("NextScript"))
+		else if (nodeTag == TEXT("NextScript"))
 		{
 			nextScriptList.Empty();
 			for (FXmlNode* scriptNode : xmlNode->GetChildrenNodes())
@@ -169,6 +173,10 @@ void UUserData::Load()
 				nextScriptList.Add(scriptItemData);
 			}
 		}
+		else
+		{
+			LogWarning(FString::Printf(TEXT("玩家存档中出现未知节点：%s"), *nodeTag));
+		}
 	}
 
 	xmlFile->Clear();
@@ -192,7 +200,9 @@ void UUserData::Save()
 	//end 添加基础信息
 	xmlContent.Append(TEXT(">\n"));
 	//start 添加可控演员列表
-	xmlContent.Append(TEXT("\t<CanControlActorList>\n"));
+	xmlContent.Append(TEXT("\t<CanControlActorList"));
+	xmlContent.Append(TEXT(" currentControlActorIndex=\"") + FString::FromInt(directorActor->GetCurrentControlActorIndex()) + TEXT("\""));
+	xmlContent.Append(TEXT(">\n"));
 	for (AActorBase* actor : directorActor->GetCanControlActorList())
 	{
 		xmlContent.Append(TEXT("\t\t<Actor"));
@@ -359,6 +369,11 @@ void UUserData::SetSceneId(int newSceneId)
 int UUserData::GetSceneId()
 {
 	return sceneId;
+}
+
+int UUserData::GetCurrentControlActorIndex()
+{
+	return currentControlActorIndex;
 }
 
 TArray<int> UUserData::GetCanControlActorList()
