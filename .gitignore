@@ -343,3 +343,6 @@ healthchecksdb
 Binaries/
 Intermediate/
 Saved/
+
+# LeaveThePast
+Content/GameContent/Artres/Config/UserData.xml

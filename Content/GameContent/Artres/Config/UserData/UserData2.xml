@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <UserData time="9:0:57" isFixedTime="false" gameAndRealTimeRate="1.0" sceneId="10002">
-	<CanControlActorList>
+	<CanControlActorList currentControlActorIndex="0">
 		<Actor id="10001" />
 	</CanControlActorList>
 	<SceneActorList>
