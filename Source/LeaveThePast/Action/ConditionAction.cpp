@@ -115,7 +115,7 @@ void UConditionAction::Update()
 
 FString UConditionAction::ExecuteReal()
 {
-	FString conditionValue = UScriptManager::GetInstance()->ExecuteAction(actionString);
+	FString conditionValue = UScriptManager::GetInstance()->ExecuteActionString(actionString);
 
 	for(UConditionItemAction* conditionItem : conditionItemList)
 	{

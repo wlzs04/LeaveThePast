@@ -3,6 +3,7 @@
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
 #include "../Config/UserData.h"
+#include "../Action/ActionBase.h"
 #include "../Config/Recorder/SceneRecorder.h"
 #include "ActorInfoBase.generated.h"
 
@@ -87,12 +88,6 @@ public:
 	FString GetActorName();
 
 	UFUNCTION(BlueprintCallable)
-	int GetActorType();
-
-	UFUNCTION(BlueprintCallable)
-	FString GetActorTypeValue();
-
-	UFUNCTION(BlueprintCallable)
 	FString GetHeadImagePath();
 
 	FString GetModelName();
@@ -107,13 +102,14 @@ public:
 	UFUNCTION(BlueprintCallable)
 	TMap<FString, FPropertyBase> GetPropertyMap();
 
-	//随机获得一句闲话
-	FChat GetRandomChat();
+	UFUNCTION(BlueprintCallable)
+	TArray<UActionBase*> GetInteractedActionList();
+
+	UFUNCTION(BlueprintCallable)
+	TArray<UActionBase*> GetNearbyActionList();
 private:
 	int actorId = 0;//演员的Id
 	FString actorName = TEXT("未命名演员");//演员名称
-	int actorType = 0;//演员类型 0 普通 1 商店
-	FString actorTypeValue = TEXT("");//演员类型的参数
 	FString description = TEXT("无描述。");//演员描述
 	FString modelName = TEXT("");//演员模型的名称
 	FString modelRootPath = TEXT("");//演员模型的根路径
@@ -121,6 +117,10 @@ private:
 	FRotator defaultRotation = FRotator(0, 0, 0);//默认角度
 	FString headImagePath = TEXT("GameContent/Resource/Others/Image/Unknown.jpg");
 
-	TMap<FString,FPropertyBase> propertyMap;//属性列表
-	TArray<FChat> chatList;//闲话列表
+	TMap<FString, FPropertyBase> propertyMap;//属性列表
+
+	UPROPERTY()
+	TArray<UActionBase*> interactedActionList;//玩家与此演员交互执行的指令列表
+	UPROPERTY()
+	TArray<UActionBase*> nearbyActionList;//玩家靠近此演员执行的指令列表
 };

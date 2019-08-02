@@ -1,5 +1,6 @@
 #include "MoveAction.h"
 #include "..\Actor\ActorBase.h"
+#include "../Actor/DirectorActor.h"
 #include "..\Manager\ActorManager.h"
 #include "..\Manager\ScriptManager.h"
 #include "..\Manager\HelpManager.h"
@@ -14,6 +15,7 @@ void UMoveAction::Load(FXmlNode* xmlNode)
 		if (attributeName == TEXT("actorId"))
 		{
 			actorInfoId = FCString::Atoi(*attributeValue);
+			isPlayerControlActorId = false;
 		}
 		else if(attributeName == TEXT("direction"))
 		{
@@ -58,7 +60,14 @@ void UMoveAction::Update()
 
 FString UMoveAction::ExecuteReal()
 {
-	executeActor = UActorManager::GetInstance()->GetActorByInfoId(actorInfoId);
+	if (isPlayerControlActorId)
+	{
+		executeActor = ADirectorActor::GetInstance()->GetCurrentControlActor();
+	}
+	else
+	{
+		executeActor = UActorManager::GetInstance()->GetActorByInfoId(actorInfoId);
+	}
 	if (executeActor == nullptr)
 	{
 		LogError(FString::Printf(TEXT("指令：Move未找到actorInId：%d"), actorInfoId));

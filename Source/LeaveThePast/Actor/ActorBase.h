@@ -70,6 +70,9 @@ private:
 	UFUNCTION(BlueprintCallable)
 	void LoadModel();
 
+	UFUNCTION()
+	void ActorBeginOverlapEvent(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
 	UPROPERTY()
 	UActorInfoBase* actorInfo = nullptr;
 
@@ -83,7 +86,9 @@ private:
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta = (AllowPrivateAccess = "true"))
 	UAudioComponent* audioComponent = nullptr;
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta = (AllowPrivateAccess = "true"))
-	USphereComponent* interactedComponent = nullptr;
+	USphereComponent* interactComponent = nullptr;
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta = (AllowPrivateAccess = "true"))
+	USphereComponent* nearbyComponent = nullptr;
 
-	TArray<FScriptItemData> interactedScriptList;
+	TArray<FScriptItemData> interactedScriptList;//动态添加的交互剧本
 };

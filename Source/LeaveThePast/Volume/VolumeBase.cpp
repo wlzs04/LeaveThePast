@@ -5,9 +5,9 @@ AVolumeBase::AVolumeBase()
 {
 	PrimaryActorTick.bCanEverTick = false;
 
-	interactedComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("Interacted"));
-	interactedComponent->SetupAttachment(RootComponent);
-	interactedComponent->OnComponentBeginOverlap.AddDynamic(this, &AVolumeBase::VolumeBeginOverlapEvent);
+	nearbyComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("Nearby"));
+	nearbyComponent->SetupAttachment(RootComponent);
+	nearbyComponent->OnComponentBeginOverlap.AddDynamic(this, &AVolumeBase::VolumeBeginOverlapEvent);
 }
 
 FString AVolumeBase::GetVolumeName()

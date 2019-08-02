@@ -1,6 +1,7 @@
 #include "ActorInfoBase.h"
 #include "../Manager/LogManager.h"
 #include "../Manager/HelpManager.h"
+#include "../Manager/ScriptManager.h"
 #include "../Config/SceneData.h"
 
 void UActorInfoBase::Load(FXmlNode* xmlNode)
@@ -17,14 +18,6 @@ void UActorInfoBase::Load(FXmlNode* xmlNode)
 		else if (attributeName == "actorName")
 		{
 			actorName = attributeValue;
-		}
-		else if (attributeName == "actorType")
-		{
-			actorType = FCString::Atoi(*attributeValue);
-		}
-		else if (attributeName == "actorTypeValue")
-		{
-			actorTypeValue = attributeValue;
 		}
 		else if (attributeName == "description")
 		{
@@ -51,17 +44,8 @@ void UActorInfoBase::Load(FXmlNode* xmlNode)
 	for (auto childNode : xmlNode->GetChildrenNodes())
 	{
 		FString nodeName = childNode->GetTag();
-		//闲话列表
-		if (nodeName == "ChatList")
-		{
-			for (auto chatNode : childNode->GetChildrenNodes())
-			{
-				FChat chat(chatNode->GetAttribute(TEXT("text")), chatNode->GetAttribute(TEXT("voicePath")));
-				chatList.Add(chat);
-			}
-		}
 		//模型
-		else if (nodeName == "Model")
+		if (nodeName == "Model")
 		{
 			for (auto item : childNode->GetAttributes())
 			{
@@ -111,6 +95,48 @@ void UActorInfoBase::Load(FXmlNode* xmlNode)
 				propertyMap.Add(propertyTag, propertyBase);
 			}
 		}
+		//交互列表
+		else if (nodeName == "Interact")
+		{
+			UScriptManager* scriptManager = UScriptManager::GetInstance();
+			for (auto actionNode : childNode->GetChildrenNodes())
+			{
+				FString actionName = actionNode->GetTag();
+				UActionBase* actionBase = scriptManager->GetIegalActionByName(actionName);
+
+				if (actionBase != nullptr)
+				{
+					UActionBase* actionBase2 = NewObject<UActionBase>((UObject*)GetTransientPackage(), actionBase->GetClass());
+					actionBase2->Load(actionNode);
+					interactedActionList.Add(actionBase2);
+				}
+				else
+				{
+					LogError(FString::Printf(TEXT("演员信息Id:%d交互列表中出现未知指令：%s"),actorId, *actionName));
+				}
+			}
+		}
+		//附近列表
+		else if (nodeName == "Nearby")
+		{
+			UScriptManager* scriptManager = UScriptManager::GetInstance();
+			for (auto actionNode : childNode->GetChildrenNodes())
+			{
+				FString actionName = actionNode->GetTag();
+				UActionBase* actionBase = scriptManager->GetIegalActionByName(actionName);
+
+				if (actionBase != nullptr)
+				{
+					UActionBase* actionBase2 = NewObject<UActionBase>((UObject*)GetTransientPackage(), actionBase->GetClass());
+					actionBase2->Load(actionNode);
+					nearbyActionList.Add(actionBase2);
+				}
+				else
+				{
+					LogError(FString::Printf(TEXT("演员信息Id:%d附近列表中出现未知指令：%s"), actorId, *actionName));
+				}
+			}
+		}
 		else
 		{
 			LogWarning(FString::Printf(TEXT("演员Id:%d配置中存在未知节点:%s！"), actorId, *nodeName));
@@ -122,8 +148,6 @@ void UActorInfoBase::CopyData(UActorInfoBase* actorInfo)
 {
 	actorId = actorInfo->actorId;
 	actorName = actorInfo->actorName;
-	actorType = actorInfo->actorType;
-	actorTypeValue = actorInfo->actorTypeValue;
 	description = actorInfo->description;
 	modelName = actorInfo->modelName;
 	modelRootPath = actorInfo->modelRootPath;
@@ -131,7 +155,8 @@ void UActorInfoBase::CopyData(UActorInfoBase* actorInfo)
 	defaultRotation = actorInfo->defaultRotation;
 	headImagePath = actorInfo->headImagePath;
 	propertyMap = actorInfo->propertyMap;
-	chatList = actorInfo->chatList;
+	interactedActionList = actorInfo->interactedActionList;
+	nearbyActionList = actorInfo->nearbyActionList;
 }
 
 void UActorInfoBase::CoverData(USceneActorData* sceneActorData)
@@ -162,14 +187,6 @@ FString UActorInfoBase::GetActorName()
 	return actorName;
 }
 
-int UActorInfoBase::GetActorType()
-{
-	return actorType;
-}
-FString UActorInfoBase::GetActorTypeValue()
-{
-	return actorTypeValue;
-}
 FString UActorInfoBase::GetHeadImagePath()
 {
 	return headImagePath;
@@ -213,12 +230,12 @@ TMap<FString, FPropertyBase> UActorInfoBase::GetPropertyMap()
 	return propertyMap;
 }
 
-FChat UActorInfoBase::GetRandomChat()
+TArray<UActionBase*> UActorInfoBase::GetInteractedActionList()
 {
-	if (chatList.Num()==0)
-	{
-		return FChat();
-	}
-	int index =FMath::RandRange(0, chatList.Num()-1);
-	return chatList[index];
+	return interactedActionList;
+}
+
+TArray<UActionBase*> UActorInfoBase::GetNearbyActionList()
+{
+	return nearbyActionList;
 }

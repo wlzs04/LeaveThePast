@@ -1,11 +1,12 @@
-#include "RotateAction.h"
-#include "..\Actor\ActorBase.h"
+#include "ChatAction.h"
+#include "../Actor/ActorBase.h"
 #include "../Actor/DirectorActor.h"
-#include "..\Manager\ActorManager.h"
-#include "..\Manager\ScriptManager.h"
-#include "..\Manager\LogManager.h"
+#include "../Manager/ActorManager.h"
+#include "../Manager/LogManager.h"
+#include "../Manager/ScriptManager.h"
+#include "../Manager/UIManager.h"
 
-void URotateAction::Load(FXmlNode* xmlNode)
+void UChatAction::Load(FXmlNode* xmlNode)
 {
 	for (auto attribute : xmlNode->GetAttributes())
 	{
@@ -16,9 +17,13 @@ void URotateAction::Load(FXmlNode* xmlNode)
 			actorInfoId = FCString::Atoi(*attributeValue);
 			isPlayerControlActorId = false;
 		}
-		else if (attributeName == TEXT("value"))
+		else if (attributeName == TEXT("text"))
 		{
-			value = FCString::Atof(*attributeValue);
+			text = attributeValue;
+		}
+		else if (attributeName == TEXT("voicePath"))
+		{
+			voicePath = attributeValue;
 		}
 		else if (attributeName == TEXT("actionTime"))
 		{
@@ -31,29 +36,23 @@ void URotateAction::Load(FXmlNode* xmlNode)
 	}
 }
 
-void URotateAction::Update()
+void UChatAction::Update()
 {
 	if (isCompleted == false)
 	{
 		currentTime += UScriptManager::GetInstance()->GetScriptTickTime();
 		if (currentTime < actionTime)
 		{
-			if (executeActor != nullptr)
-			{
-				float speed = (value / actionTime) * (currentTime - lastTime);
-				executeActor->AddActorLocalRotation(FRotator(0, speed, 0));
-				remainValue -= speed;
-			}
+
 		}
 		else
 		{
 			Finish();
 		}
-		lastTime = currentTime;
 	}
 }
 
-FString URotateAction::ExecuteReal()
+FString UChatAction::ExecuteReal()
 {
 	if (isPlayerControlActorId)
 	{
@@ -65,20 +64,23 @@ FString URotateAction::ExecuteReal()
 	}
 	if (executeActor == nullptr)
 	{
-		LogError(FString::Printf(TEXT("指令：%s未找到actorInId：%d"),*actionName, actorInfoId));
+		LogError(FString::Printf(TEXT("指令：Rotat未找到actorInId：%d"), actorInfoId));
+	}
+	else
+	{
+		executeActor->StartTalk();
+		UUIManager::GetInstance()->ShowTalkUI(text, executeActor->GetActorInfo()->GetActorName(), actionTime, executeActor->GetActorInfo()->GetHeadImagePath());
 	}
 	currentTime = 0;
-	lastTime = 0;
-	remainValue = value;
 	return FString();
 }
 
-void URotateAction::FinishReal()
+void UChatAction::FinishReal()
 {
 	if (executeActor != nullptr)
 	{
-		executeActor->AddActorLocalRotation(FRotator(0, remainValue, 0));
+		UUIManager::GetInstance()->HideTalkUI();
+		executeActor->StopTalk();
 		executeActor = nullptr;
-		remainValue = 0;
 	}
 }

@@ -1,5 +1,6 @@
 #include "ActorBase.h"
 #include "..\Action\ActionBase.h"
+#include "..\Actor\DirectorActor.h"
 #include "..\Manager\LogManager.h"
 #include "..\Manager\AudioManager.h"
 #include "Engine/Engine.h"
@@ -27,6 +28,7 @@ AActorBase::AActorBase()
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f);
 	GetCharacterMovement()->JumpZVelocity = 600.f;
 	GetCharacterMovement()->AirControl = 0.2f;
+	GetCharacterMovement()->MaxWalkSpeed = 150;
 
 	bFindCameraComponentWhenViewTarget = true;
 
@@ -36,9 +38,15 @@ AActorBase::AActorBase()
 	audioComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("Audio"));
 	audioComponent->SetupAttachment(RootComponent);
 
-	interactedComponent = CreateDefaultSubobject<USphereComponent>(TEXT("Interacted"));
-	interactedComponent->SetupAttachment(RootComponent);
-	interactedComponent->SetSphereRadius(100);
+	interactComponent = CreateDefaultSubobject<USphereComponent>(TEXT("Interact"));
+	interactComponent->SetupAttachment(RootComponent);
+	interactComponent->SetSphereRadius(100);
+
+	nearbyComponent = CreateDefaultSubobject<USphereComponent>(TEXT("Nearby"));
+	nearbyComponent->SetupAttachment(RootComponent);
+	nearbyComponent->SetSphereRadius(200);
+
+	nearbyComponent->OnComponentBeginOverlap.AddDynamic(this, &AActorBase::ActorBeginOverlapEvent);
 }
 
 void AActorBase::InitByActorInfo()
@@ -95,18 +103,21 @@ void AActorBase::LookUpInputFunction(float value)
 
 void AActorBase::SetAccelerate(bool enableAccelerate)
 {
-	float newMaxWalkSpeed = actorInfo->GetPropertyValue(TEXT("Speed"));
 	if (enableAccelerate)
 	{
-		newMaxWalkSpeed *= 6;
+		float newMaxWalkSpeed = actorInfo->GetPropertyValue(TEXT("Speed"));
+		GetCharacterMovement()->MaxWalkSpeed = newMaxWalkSpeed;
 	}
-	GetCharacterMovement()->MaxWalkSpeed = newMaxWalkSpeed;
+	else
+	{
+		GetCharacterMovement()->MaxWalkSpeed = 150;
+	}
 }
 
 TArray<AActor*> AActorBase::GetInteractedActor()
 {
 	TArray<AActor*> overlappingActorList;
-	interactedComponent->GetOverlappingActors(overlappingActorList, AActorBase::StaticClass());
+	interactComponent->GetOverlappingActors(overlappingActorList, AActorBase::StaticClass());
 	return overlappingActorList;
 }
 
@@ -138,7 +149,6 @@ void AActorBase::SetActorInfo(UActorInfoBase* newActorInfo)
 		return;
 	}
 	actorInfo = newActorInfo;
-	GetCharacterMovement()->MaxWalkSpeed =  actorInfo->GetPropertyValue(TEXT("Speed"));
 }
 
 UActorInfoBase* AActorBase::GetActorInfo()
@@ -185,6 +195,17 @@ void AActorBase::LoadModel()
 	else
 	{
 		LogError(FString::Printf(TEXT("演员信息Id:%d模型路径为空"), actorInfo->GetActorId()));
+	}
+}
+
+void AActorBase::ActorBeginOverlapEvent(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	if (OtherActor == ADirectorActor::GetInstance())
+	{
+		if (actorInfo->GetNearbyActionList().Num() > 0)
+		{
+			actorInfo->GetNearbyActionList()[0]->Execute();
+		}
 	}
 }
 

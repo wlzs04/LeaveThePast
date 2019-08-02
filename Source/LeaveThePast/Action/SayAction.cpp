@@ -1,5 +1,6 @@
 #include "SayAction.h"
 #include "../Actor/ActorBase.h"
+#include "../Actor/DirectorActor.h"
 #include "../Manager/ActorManager.h"
 #include "../Manager/LogManager.h"
 #include "../Manager/ScriptManager.h"
@@ -14,6 +15,7 @@ void USayAction::Load(FXmlNode* xmlNode)
 		if (attributeName == TEXT("actorId"))
 		{
 			actorInfoId = FCString::Atoi(*attributeValue);
+			isPlayerControlActorId = false;
 		}
 		else if (attributeName == TEXT("text"))
 		{
@@ -52,7 +54,14 @@ void USayAction::Update()
 
 FString USayAction::ExecuteReal()
 {
-	executeActor = UActorManager::GetInstance()->GetActorByInfoId(actorInfoId);
+	if (isPlayerControlActorId)
+	{
+		executeActor = ADirectorActor::GetInstance()->GetCurrentControlActor();
+	}
+	else
+	{
+		executeActor = UActorManager::GetInstance()->GetActorByInfoId(actorInfoId);
+	}
 	if (executeActor == nullptr)
 	{
 		LogError(FString::Printf(TEXT("指令：Rotat未找到actorInId：%d"), actorInfoId));

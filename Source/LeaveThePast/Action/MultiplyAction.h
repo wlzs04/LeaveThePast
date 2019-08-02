@@ -15,6 +15,7 @@ public:
 	virtual FString ExecuteReal() override;
 	bool SkipAction() override;
 private:
+	UPROPERTY()
 	TArray<UActionBase*> actionList; 
 	int currentActionIndex = 0;
 };

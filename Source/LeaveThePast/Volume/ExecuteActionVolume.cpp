@@ -9,7 +9,7 @@ void AExecuteActionVolume::VolumeBeginOverlapEventReal(UPrimitiveComponent* Over
 	{
 		if (!actionString.IsEmpty())
 		{
-			UScriptManager::GetInstance()->ExecuteAction(actionString);
+			UScriptManager::GetInstance()->ExecuteActionString(actionString);
 			Destroy();
 		}
 	}

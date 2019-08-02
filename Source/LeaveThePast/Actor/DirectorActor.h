@@ -45,7 +45,7 @@ public:
 
 	//通过当前控制演员
 	UFUNCTION(BlueprintCallable)
-	AActorBase* GetControlActor();
+	AActorBase* GetCurrentControlActor();
 
 	//通过当前控制演员在列表中的位置
 	UFUNCTION(BlueprintCallable)

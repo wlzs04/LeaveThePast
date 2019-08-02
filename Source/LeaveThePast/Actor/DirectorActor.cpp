@@ -177,7 +177,7 @@ void ADirectorActor::SetControlActor(AActorBase* actor)
 	}
 }
 
-AActorBase* ADirectorActor::GetControlActor()
+AActorBase* ADirectorActor::GetCurrentControlActor()
 {
 	return currentControlActor;
 }
@@ -368,24 +368,11 @@ void ADirectorActor::InteractedInputFunction()
 					UScriptManager::GetInstance()->StartScript(scriptItemData.chapter, scriptItemData.sectionId, scriptItemData.paragraphId);
 					return;
 				}
-				UActorInfoBase* actorInfo = actorBase->GetActorInfo();
-				LogNormal(FString::Printf(TEXT("演员%d，类型%d。"), actorInfo->GetActorId(), actorInfo->GetActorType()));
-				if (actorInfo->GetActorType() == 0)
+
+				TArray<UActionBase*> actionList = actorBase->GetActorInfo()->GetInteractedActionList();
+				if (actionList.Num() > 0)
 				{
-					FChat chat = actorInfo->GetRandomChat();
-					if (!chat.text.IsEmpty())
-					{
-						UUIManager::GetInstance()->ShowTalkUI(chat.text, actorInfo->GetActorName(), 1, actorInfo->GetHeadImagePath());
-					}
-				}
-				else if (actorInfo->GetActorType() == 1)
-				{
-					FString configName = actorInfo->GetActorTypeValue();
-					UUIManager::GetInstance()->ShowShopUI(configName);
-				}
-				else
-				{
-					LogError(FString::Printf(TEXT("Director中此类型%d的演员%d的交互方式未完成。"), actorInfo->GetActorType(), actorInfo->GetActorId()));
+					actionList[0]->Execute();
 				}
 				break;
 			}

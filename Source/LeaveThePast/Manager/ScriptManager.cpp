@@ -37,6 +37,10 @@
 #include "../Action/StopScriptAction.h"
 #include "../Action/RemoveNextScriptAction.h"
 
+#include "../Action/ChatAction.h"
+#include "../Action/RandomAction.h"
+#include "../Action/SetShopUIStateAction.h"
+
 #include "../Script/Chapter.h"
 #include "../Script/Section.h"
 #include "../Script/Paragraph.h"
@@ -288,6 +292,10 @@ void UScriptManager::LoadAllIegalAction()
 	AddIegalAction(NewObject<USetMainUIStateAction>(this));
 	AddIegalAction(NewObject<UStopScriptAction>(this));
 	AddIegalAction(NewObject<URemoveNextScriptAction>(this));
+
+	AddIegalAction(NewObject<UChatAction>(this));
+	AddIegalAction(NewObject<URandomAction>(this));
+	AddIegalAction(NewObject<USetShopUIStateAction>(this));
 }
 
 void UScriptManager::AddIegalAction(UActionBase* actionBase)
@@ -316,7 +324,7 @@ UActionBase* UScriptManager::GetIegalActionByName(FString actionName)
 	return nullptr;
 }
 
-FString UScriptManager::ExecuteAction(FString actionValue)
+FString UScriptManager::ExecuteActionString(FString actionValue)
 {
 	if (! actionValue.IsEmpty())
 	{
@@ -342,4 +350,9 @@ FString UScriptManager::ExecuteAction(FString actionValue)
 		LogWarning(TEXT("指令为空，无法执行！"));
 	}
 	return FString();
+}
+
+FString UScriptManager::ExecuteAction(UActionBase* action)
+{
+	return action->Execute();
 }

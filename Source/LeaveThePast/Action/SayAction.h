@@ -22,6 +22,7 @@ private:
 	FString voicePath = TEXT("");
 	float actionTime = 1;
 
+	bool isPlayerControlActorId = true;
 	float currentTime = 0;
 	UPROPERTY()
 	AActorBase* executeActor = nullptr;

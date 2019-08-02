@@ -38,8 +38,9 @@ protected:
 	virtual FString ExecuteReal() override;
 	bool SkipAction() override;
 private:
+	UPROPERTY()
 	TArray<UConditionItemAction*> conditionItemList;
 	FString actionString;
-
+	UPROPERTY()
 	UConditionItemAction* selectConditionItemAction = nullptr;
 };

@@ -3,47 +3,82 @@
 	<Actor actorId="30002" actorName="群演2" description="群演2的描述。"/>
 	<Actor actorId="30003" actorName="店小二" description="一个普通的店小二。" defaultPosition="3280.0,-3110.0,120" defaultRotation="0,0,0">
 		<Model modelName="dianxiaoer" modelRootPath="GameContent/Resource/Others/Model/dianxiaoer">
-			
 		</Model>
-		<ChatList>
-			<Chat text="客官要住店吗？"/>
-			<Chat text="客官慢走。"/>
-		</ChatList>
+		<Nearby>
+			<Random>
+				<RandomItem probability="1">
+					<Chat text="我好像在哪见过你。" voicePath="saysomething.wav" actionTime="1"/>
+					<Chat actorId="30003" text="客官要住店吗？" voicePath="saysomething.wav" actionTime="1"/>
+				</RandomItem>
+				<RandomItem probability="0">
+					<Chat actorId="30003" text="客官慢走。" voicePath="saysomething.wav" actionTime="1"/>
+				</RandomItem>
+			</Random>
+		</Nearby>
 	</Actor>
 	<Actor actorId="30004" actorName="路人甲" description="一个普通的路人。" defaultPosition="4900,390,98" defaultRotation="0,0,-90">
 		<Model modelName="dianxiaoer" modelRootPath="GameContent/Resource/Others/Model/dianxiaoer">
-			
 		</Model>
-		<ChatList>
-			<Chat text="今天天气真好！"/>
-			<Chat text="今天起得真早。"/>
-		</ChatList>
+		<Nearby>
+			<Random>
+				<RandomItem>
+					<Chat actorId="30004" text="今天天气真好！" voicePath="saysomething.wav" actionTime="1"/>
+				</RandomItem>
+				<RandomItem>
+					<Chat actorId="30004" text="今天起得真早。" voicePath="saysomething.wav" actionTime="1"/>
+				</RandomItem>
+			</Random>
+		</Nearby>
 	</Actor>
-	<Actor actorId="30005" actorName="厨师" actorType="1" actorTypeValue="ChuShiSellItem" description="一个普通的厨师。" defaultPosition="4320,-560,98" defaultRotation="0,0,90">
+	<Actor actorId="30005" actorName="厨师" description="一个普通的厨师。" defaultPosition="4320,-560,98" defaultRotation="0,0,90">
 		<Model modelName="ChuShiNPC" modelRootPath="GameContent/Resource/Others/Model/ChuShiNPC">
-			
 		</Model>
-		<ChatList>
-			<Chat text="客官要买点什么？"/>
-			<Chat text="快来买呀，都是好吃的。"/>
-		</ChatList>
+		<Interact>
+			<SetShopUIState isShow="true" shopConfigName="ChuShiSellItem"/>
+		</Interact>
+		<Nearby>
+			<Random>
+				<RandomItem>
+					<Chat actorId="30005" text="客官要买点什么？" voicePath="saysomething.wav" actionTime="1"/>
+				</RandomItem>
+				<RandomItem>
+					<Chat actorId="30005" text="快来买呀，都是好吃的。" voicePath="saysomething.wav" actionTime="1"/>
+				</RandomItem>
+			</Random>
+		</Nearby>
 	</Actor>
-	<Actor actorId="30006" actorName="铁匠" actorType="1" actorTypeValue="TieJiangSellItem" description="一个普通的铁匠。" defaultPosition="4690,-450,98" defaultRotation="0,0,90">
+	<Actor actorId="30006" actorName="铁匠" description="一个普通的铁匠。" defaultPosition="4690,-450,98" defaultRotation="0,0,90">
 		<Model modelName="TieJiangNPC" modelRootPath="GameContent/Resource/Others/Model/TieJiangNPC">
-			
 		</Model>
-		<ChatList>
-			<Chat text="客官要买点什么？"/>
-			<Chat text="快来买呀，都是好用的。"/>
-		</ChatList>
+		<Interact>
+			<SetShopUIState isShow="true" shopConfigName="TieJiangSellItem"/>
+		</Interact>
+		<Nearby>
+			<Random>
+				<RandomItem>
+					<Chat actorId="30006" text="客官要买点什么？" voicePath="saysomething.wav" actionTime="1"/>
+				</RandomItem>
+				<RandomItem>
+					<Chat actorId="30006" text="快来买呀，都是好用的。" voicePath="saysomething.wav" actionTime="1"/>
+				</RandomItem>
+			</Random>
+		</Nearby>
 	</Actor>
-	<Actor actorId="30007" actorName="药商" actorType="1" actorTypeValue="YaoShangSellItem" description="一个普通的药商。" defaultPosition="5160,-420.0,98" defaultRotation="0,0,90">
+	<Actor actorId="30007" actorName="药商" description="一个普通的药商。" defaultPosition="5160,-420.0,98" defaultRotation="0,0,90">
 		<Model modelName="YaoShangNPC" modelRootPath="GameContent/Resource/Others/Model/YaoShangNPC">
-			
 		</Model>
-		<ChatList>
-			<Chat text="客官要买点什么？"/>
-			<Chat text="快来买呀，都是好苦的。"/>
-		</ChatList>
+		<Interact>
+			<SetShopUIState isShow="true" shopConfigName="YaoShangSellItem"/>
+		</Interact>
+		<Nearby>
+			<Random>
+				<RandomItem>
+					<Chat actorId="30007" text="客官要买点什么？" voicePath="saysomething.wav" actionTime="1"/>
+				</RandomItem>
+				<RandomItem>
+					<Chat actorId="30007" text="快来买呀，都是好苦的。" voicePath="saysomething.wav" actionTime="1"/>
+				</RandomItem>
+			</Random>
+		</Nearby>
 	</Actor>
 </MassActor>

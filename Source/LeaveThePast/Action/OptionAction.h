@@ -37,6 +37,7 @@ protected:
 
 	bool SkipAction() override;
 private:
+	UPROPERTY()
 	TArray<UOptionItemAction*> optionItemList;
 	int selectItemIndex = -1;
 };

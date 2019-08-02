@@ -38,7 +38,11 @@ public:
 
 	//执行指令
 	UFUNCTION(BlueprintCallable)
-	FString ExecuteAction(FString actionValue);
+	FString ExecuteActionString(FString actionValue);
+
+	//执行指令
+	UFUNCTION(BlueprintCallable)
+	FString ExecuteAction(UActionBase* action);
 
 	//加载所有剧本
 	void LoadAllScript();

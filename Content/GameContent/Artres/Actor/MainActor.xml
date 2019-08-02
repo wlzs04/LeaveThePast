@@ -4,7 +4,7 @@
 		<PropertyList>
 			<Attack name="攻击力" value="100"/>
 			<Defense name="防御力" value="100"/>
-			<Speed name="速度" value="100"/>
+			<Speed name="最大速度" value="600"/>
 			<Life name="生命值" value="1000"/>
 			<Power name="能力值" value="1000"/>
 		</PropertyList>
@@ -14,7 +14,7 @@
 		<PropertyList>
 			<Attack name="攻击力" value="120"/>
 			<Defense name="防御力" value="110"/>
-			<Speed name="速度" value="140"/>
+			<Speed name="最大速度" value="800"/>
 			<Life name="生命值" value="1200"/>
 			<Power name="能力值" value="600"/>
 		</PropertyList>

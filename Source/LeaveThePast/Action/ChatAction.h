@@ -1,14 +1,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "ActionBase.h"
-#include "MoveAction.generated.h"
+#include "Action/ActionBase.h"
+#include "ChatAction.generated.h"
 
 class AActorBase;
 
-//指令：控制演员移动
+//指令：演员闲话，显示小型闲话框
 UCLASS()
-class LEAVETHEPAST_API UMoveAction : public UActionBase
+class LEAVETHEPAST_API UChatAction : public UActionBase
 {
 	GENERATED_BODY()
 protected:
@@ -16,16 +16,13 @@ protected:
 	virtual void Update() override;
 	virtual FString ExecuteReal() override;
 	virtual void FinishReal() override;
-
 private:
 	int actorInfoId = 0;
-	//移动方向
-	FVector direction;
-	float speed = 100;
+	FString text = TEXT("无内容！");
+	FString voicePath = TEXT("");
 	float actionTime = 1;
 
 	bool isPlayerControlActorId = true;
-	FVector remainValue;
 	float currentTime = 0;
 	UPROPERTY()
 	AActorBase* executeActor = nullptr;

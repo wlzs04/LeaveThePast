@@ -24,6 +24,7 @@ private:
 	float value = 0;
 	float remainValue = 0;
 
+	bool isPlayerControlActorId = true;
 	float currentTime = 0;
 	float lastTime = 0;
 	UPROPERTY()
