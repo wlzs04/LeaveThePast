@@ -368,13 +368,11 @@ void ADirectorActor::InteractedInputFunction()
 					UScriptManager::GetInstance()->StartScript(scriptItemData.chapter, scriptItemData.sectionId, scriptItemData.paragraphId);
 					return;
 				}
-
-				TArray<UActionBase*> actionList = actorBase->GetActorInfo()->GetInteractedActionList();
-				if (actionList.Num() > 0)
+				if (actorBase->GetActorInfo()->GetInteractParagraph()!=nullptr)
 				{
-					actionList[0]->Execute();
+					UScriptManager::GetInstance()->ExecuteParagraph(actorBase->GetActorInfo()->GetInteractParagraph());
+					break;
 				}
-				break;
 			}
 		}
 	}
@@ -402,7 +400,7 @@ void ADirectorActor::StopAccelerateInputFunction()
 
 void ADirectorActor::SystemInputFunction()
 {
-	if (UScriptManager::GetInstance()->IsInScript())
+	if (UScriptManager::GetInstance()->IsExecutingScript())
 	{
 		if (UUIManager::GetInstance()->IsShowPauseUI())
 		{

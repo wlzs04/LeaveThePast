@@ -51,12 +51,12 @@ FString USetParagraphStateAction::ExecuteReal()
 {
 	if (isCurrent)
 	{
-		UChapter* currentChapter = UScriptManager::GetInstance()->GetCurrentChapter();
-		if (currentChapter != nullptr)
+		if (UScriptManager::GetInstance()->IsExecutingScript())
 		{
-			chapter = currentChapter->GetChapterIndexName();
-			sectionId = currentChapter->GetCurrentSection()->GetSectionId();
-			paragraphId = currentChapter->GetCurrentSection()->GetCurrentParagraph()->GetParagraphId();
+			FScriptItemData scriptItemData = UScriptManager::GetInstance()->GetCurrentScriptItemData();
+			chapter = scriptItemData.chapter;
+			sectionId = scriptItemData.sectionId;
+			paragraphId = scriptItemData.paragraphId;
 		}
 		else
 		{

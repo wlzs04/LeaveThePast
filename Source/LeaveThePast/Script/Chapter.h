@@ -14,9 +14,12 @@ class LEAVETHEPAST_API UChapter : public UObject
 public:
 	void Update();
 	void Load(FString newChapterPath);
-	bool GetIsCompleted();
-	USection* GetCurrentSection();
-	bool Start(int sectionId, int paragrapgId);
+	//bool GetIsCompleted();
+	//USection* GetCurrentSection();
+	//bool Start(int sectionId, int paragrapgId);
+
+	UFUNCTION(BlueprintCallable)
+	TArray<USection*> GetSectionList();
 
 	UFUNCTION(BlueprintCallable)
 	FString GetChapterName();
@@ -28,8 +31,8 @@ public:
 	FString GetChapterDescription();
 private:
 	TArray<USection*> sectionList;
-	bool isCompleted = false;//是否完成
-	USection* currentSection = nullptr;
+	//bool isCompleted = false;//是否完成
+	//USection* currentSection = nullptr;
 
 	FString chapterPath = TEXT("");
 	FString chapterIndexName = TEXT("未命名");

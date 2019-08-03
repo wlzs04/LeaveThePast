@@ -7,7 +7,7 @@
 		<Nearby>
 			<Random>
 				<RandomItem probability="1">
-					<Chat text="我好像在哪见过你。" voicePath="saysomething.wav" actionTime="1"/>
+					<Chat actorId="30003" text="我好像在哪见过你。" voicePath="saysomething.wav" actionTime="1"/>
 					<Chat actorId="30003" text="客官要住店吗？" voicePath="saysomething.wav" actionTime="1"/>
 				</RandomItem>
 				<RandomItem probability="0">

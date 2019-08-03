@@ -3,12 +3,13 @@
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
 #include "../Config/UserData.h"
-#include "../Action/ActionBase.h"
 #include "../Config/Recorder/SceneRecorder.h"
 #include "ActorInfoBase.generated.h"
 
 class FXmlNode;
 class USceneActorData;
+class UParagraph;
+class UActionBase;
 
 //说话结构体
 USTRUCT()
@@ -103,10 +104,10 @@ public:
 	TMap<FString, FPropertyBase> GetPropertyMap();
 
 	UFUNCTION(BlueprintCallable)
-	TArray<UActionBase*> GetInteractedActionList();
+	UParagraph* GetInteractParagraph();
 
 	UFUNCTION(BlueprintCallable)
-	TArray<UActionBase*> GetNearbyActionList();
+	UParagraph* GetNearbyParagraph();
 private:
 	int actorId = 0;//演员的Id
 	FString actorName = TEXT("未命名演员");//演员名称
@@ -120,7 +121,7 @@ private:
 	TMap<FString, FPropertyBase> propertyMap;//属性列表
 
 	UPROPERTY()
-	TArray<UActionBase*> interactedActionList;//玩家与此演员交互执行的指令列表
+	UParagraph* interactParagraph = nullptr;//玩家与此演员交互执行的指令段
 	UPROPERTY()
-	TArray<UActionBase*> nearbyActionList;//玩家靠近此演员执行的指令列表
+	UParagraph* nearbyParagraph = nullptr;//玩家靠近此演员执行的指令段
 };

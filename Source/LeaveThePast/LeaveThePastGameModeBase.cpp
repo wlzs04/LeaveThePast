@@ -67,6 +67,7 @@ void ALeaveThePastGameModeBase::Tick(float deltaSeconds)
 		
 		skyBPActor->SetActorRelativeLocation(directorActor->GetActorLocation()+FVector(0,0,500));
 	}
+	RefreshSky();
 }
 
 void ALeaveThePastGameModeBase::InitFinish()

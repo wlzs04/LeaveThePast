@@ -51,12 +51,9 @@ FString URemoveScriptVolumeAction::ExecuteReal()
 {
 	if (isCurrent)
 	{
-		UChapter* chapter = UScriptManager::GetInstance()->GetCurrentChapter();
-		if (chapter != nullptr)
+		if (UScriptManager::GetInstance()->IsExecutingScript())
 		{
-			scriptItemData.chapter = chapter->GetChapterIndexName();
-			scriptItemData.sectionId = chapter->GetCurrentSection()->GetSectionId();
-			scriptItemData.paragraphId = chapter->GetCurrentSection()->GetCurrentParagraph()->GetParagraphId();
+			scriptItemData = UScriptManager::GetInstance()->GetCurrentScriptItemData();
 		}
 		else
 		{

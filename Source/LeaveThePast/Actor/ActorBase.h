@@ -73,6 +73,9 @@ private:
 	UFUNCTION()
 	void ActorBeginOverlapEvent(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
+	UFUNCTION()
+	void ActorEndOverlapEvent(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+	
 	UPROPERTY()
 	UActorInfoBase* actorInfo = nullptr;
 
@@ -91,4 +94,8 @@ private:
 	USphereComponent* nearbyComponent = nullptr;
 
 	TArray<FScriptItemData> interactedScriptList;//动态添加的交互剧本
+
+	int currentActionIndex = 0;
+	bool executeNearbyAction = false;//执行附近指令
+	bool nearbyActionIsCompleted = true;//附近指令是否执行完
 };

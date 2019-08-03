@@ -70,7 +70,7 @@ FString UMoveAction::ExecuteReal()
 	}
 	if (executeActor == nullptr)
 	{
-		LogError(FString::Printf(TEXT("指令：Move未找到actorInId：%d"), actorInfoId));
+		LogError(FString::Printf(TEXT("指令：%s未找到actorInId：%d"), *actionName, actorInfoId));
 	}
 	currentTime = 0;
 	remainValue = direction * speed;

@@ -1,8 +1,10 @@
 #include "ActorBase.h"
-#include "..\Action\ActionBase.h"
-#include "..\Actor\DirectorActor.h"
-#include "..\Manager\LogManager.h"
-#include "..\Manager\AudioManager.h"
+#include "../Action/ActionBase.h"
+#include "../Actor/DirectorActor.h"
+#include "../Manager/LogManager.h"
+#include "../Manager/AudioManager.h"
+#include "../Manager/ScriptManager.h"
+#include "../Script/Paragraph.h"
 #include "Engine/Engine.h"
 #include "GameFramework/PlayerController.h"
 #include "Components/InputComponent.h"
@@ -47,6 +49,7 @@ AActorBase::AActorBase()
 	nearbyComponent->SetSphereRadius(200);
 
 	nearbyComponent->OnComponentBeginOverlap.AddDynamic(this, &AActorBase::ActorBeginOverlapEvent);
+	nearbyComponent->OnComponentEndOverlap.AddDynamic(this, &AActorBase::ActorEndOverlapEvent);
 }
 
 void AActorBase::InitByActorInfo()
@@ -139,6 +142,23 @@ void AActorBase::RemoveInteractedScript(FScriptItemData scriptItemData)
 void AActorBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	if ((executeNearbyAction || !nearbyActionIsCompleted))
+	{
+		if (actorInfo->GetNearbyParagraph() != nullptr)
+		{
+			if (!actorInfo->GetNearbyParagraph()->GetIsCompleted())
+			{
+				actorInfo->GetNearbyParagraph()->Update();
+			}
+			else
+			{
+
+				executeNearbyAction = false;
+				nearbyActionIsCompleted = true;
+			}
+		}
+	}
 }
 
 void AActorBase::SetActorInfo(UActorInfoBase* newActorInfo)
@@ -200,11 +220,29 @@ void AActorBase::LoadModel()
 
 void AActorBase::ActorBeginOverlapEvent(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+	if (!nearbyActionIsCompleted || UScriptManager::GetInstance()->IsExecutingScript())
+	{
+		return;
+	}
 	if (OtherActor == ADirectorActor::GetInstance())
 	{
-		if (actorInfo->GetNearbyActionList().Num() > 0)
+		if (actorInfo->GetNearbyParagraph()!=nullptr)
 		{
-			actorInfo->GetNearbyActionList()[0]->Execute();
+			executeNearbyAction = true;
+			nearbyActionIsCompleted = false;
+			actorInfo->GetNearbyParagraph()->Start();
+		}
+	}
+}
+
+void AActorBase::ActorEndOverlapEvent(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	if (OtherActor == ADirectorActor::GetInstance())
+	{
+		if (actorInfo->GetNearbyParagraph() != nullptr)
+		{
+			executeNearbyAction = false;
+			currentActionIndex = 0;
 		}
 	}
 }

@@ -2,10 +2,11 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
+#include "../Config/ScriptItemData.h"
 #include "ScriptManager.generated.h"
 
 class UActionBase;
-class UChapter;
+class UParagraph;
 
 //管理剧情及执行指令
 UCLASS()
@@ -19,7 +20,7 @@ public:
 
 	//开始执行任务
 	UFUNCTION(BlueprintCallable)
-	void StartScript(FString scriptName, int sectionId,int paragrapgId);
+	void StartScript(FString chapterName, int sectionId,int paragrapgId);
 
 	//开始执行需要运行的脚本
 	UFUNCTION(BlueprintCallable)
@@ -40,9 +41,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	FString ExecuteActionString(FString actionValue);
 
-	//执行指令
+	//执行指令段
 	UFUNCTION(BlueprintCallable)
-	FString ExecuteAction(UActionBase* action);
+	void ExecuteParagraph(UParagraph* newParagraph);
 
 	//加载所有剧本
 	void LoadAllScript();
@@ -54,17 +55,17 @@ public:
 	UFUNCTION(BlueprintCallable)
 	TMap<FString, UChapter*> GetSceneChapterMap();
 
-	//获得当前执行章节
-	UFUNCTION(BlueprintCallable)
-	UChapter* GetCurrentChapter();
-
 	//跳过当前执行章节,如果中间有不可跳过的，无法跳过，跳过后当前剧本设置为完成
 	UFUNCTION(BlueprintCallable)
 	void SkipScript();
 
 	//判断是否在剧本执行中
 	UFUNCTION(BlueprintCallable)
-	bool IsInScript();
+	bool IsExecutingScript();
+
+	//获得当前剧本信息
+	UFUNCTION(BlueprintCallable)
+	FScriptItemData GetCurrentScriptItemData();
 
 	//设置剧本执行速度
 	UFUNCTION(BlueprintCallable)
@@ -110,7 +111,9 @@ private:
 	TMap<FString, UChapter*> sceneChapterMap;
 
 	UPROPERTY()
-	UChapter* currentScript = nullptr;
+	UParagraph* currentParagraph = nullptr;
+	bool isExecutingScript = false;//是否正在执行剧本
+	FScriptItemData currentScriptItemData;
 
 	float scriptExecuteSpeed = 1;//剧本执行速度
 	float scriptTickTime = 0;

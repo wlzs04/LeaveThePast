@@ -1,4 +1,6 @@
 #include "ActorInfoBase.h"
+#include "../Action/ActionBase.h"
+#include "../Script/Paragraph.h"
 #include "../Manager/LogManager.h"
 #include "../Manager/HelpManager.h"
 #include "../Manager/ScriptManager.h"
@@ -98,44 +100,14 @@ void UActorInfoBase::Load(FXmlNode* xmlNode)
 		//交互列表
 		else if (nodeName == "Interact")
 		{
-			UScriptManager* scriptManager = UScriptManager::GetInstance();
-			for (auto actionNode : childNode->GetChildrenNodes())
-			{
-				FString actionName = actionNode->GetTag();
-				UActionBase* actionBase = scriptManager->GetIegalActionByName(actionName);
-
-				if (actionBase != nullptr)
-				{
-					UActionBase* actionBase2 = NewObject<UActionBase>((UObject*)GetTransientPackage(), actionBase->GetClass());
-					actionBase2->Load(actionNode);
-					interactedActionList.Add(actionBase2);
-				}
-				else
-				{
-					LogError(FString::Printf(TEXT("演员信息Id:%d交互列表中出现未知指令：%s"),actorId, *actionName));
-				}
-			}
+			interactParagraph = NewObject<UParagraph>();
+			interactParagraph->Load(childNode);
 		}
 		//附近列表
 		else if (nodeName == "Nearby")
 		{
-			UScriptManager* scriptManager = UScriptManager::GetInstance();
-			for (auto actionNode : childNode->GetChildrenNodes())
-			{
-				FString actionName = actionNode->GetTag();
-				UActionBase* actionBase = scriptManager->GetIegalActionByName(actionName);
-
-				if (actionBase != nullptr)
-				{
-					UActionBase* actionBase2 = NewObject<UActionBase>((UObject*)GetTransientPackage(), actionBase->GetClass());
-					actionBase2->Load(actionNode);
-					nearbyActionList.Add(actionBase2);
-				}
-				else
-				{
-					LogError(FString::Printf(TEXT("演员信息Id:%d附近列表中出现未知指令：%s"), actorId, *actionName));
-				}
-			}
+			nearbyParagraph = NewObject<UParagraph>();
+			nearbyParagraph->Load(childNode);
 		}
 		else
 		{
@@ -155,8 +127,8 @@ void UActorInfoBase::CopyData(UActorInfoBase* actorInfo)
 	defaultRotation = actorInfo->defaultRotation;
 	headImagePath = actorInfo->headImagePath;
 	propertyMap = actorInfo->propertyMap;
-	interactedActionList = actorInfo->interactedActionList;
-	nearbyActionList = actorInfo->nearbyActionList;
+	interactParagraph = actorInfo->interactParagraph;
+	nearbyParagraph = actorInfo->nearbyParagraph;
 }
 
 void UActorInfoBase::CoverData(USceneActorData* sceneActorData)
@@ -230,12 +202,12 @@ TMap<FString, FPropertyBase> UActorInfoBase::GetPropertyMap()
 	return propertyMap;
 }
 
-TArray<UActionBase*> UActorInfoBase::GetInteractedActionList()
+UParagraph* UActorInfoBase::GetInteractParagraph()
 {
-	return interactedActionList;
+	return interactParagraph;
 }
 
-TArray<UActionBase*> UActorInfoBase::GetNearbyActionList()
+UParagraph* UActorInfoBase::GetNearbyParagraph()
 {
-	return nearbyActionList;
+	return nearbyParagraph;
 }

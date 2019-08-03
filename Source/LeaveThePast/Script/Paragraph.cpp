@@ -134,3 +134,8 @@ bool UParagraph::SkipScript()
 	LogNormal(TEXT("已经跳过剧情！"));
 	return true;
 }
+
+TArray<UActionBase*> UParagraph::GetActionList()
+{
+	return actionList;
+}

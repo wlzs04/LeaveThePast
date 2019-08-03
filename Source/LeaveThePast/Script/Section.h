@@ -15,14 +15,15 @@ class LEAVETHEPAST_API USection : public UObject
 public:
 	void Update();
 	void Load(FXmlNode* xmlNode);
-	bool GetIsCompleted();
+	//bool GetIsCompleted();
 	int GetSectionId();
-	UParagraph* GetCurrentParagraph();
-	bool Start(int paragrapgId);
+	TArray<UParagraph*> GetParagraphList();
+	//UParagraph* GetCurrentParagraph();
+	//bool Start(int paragrapgId);
 private:
 	TArray<UParagraph*> paragraphList;
-	bool isCompleted = false;//是否完成
-	UParagraph* currentParagraph = nullptr;
+	//bool isCompleted = false;//是否完成
+	//UParagraph* currentParagraph = nullptr;
 
 	FString sectionName = TEXT("未命名");
 	FString description = TEXT("无");

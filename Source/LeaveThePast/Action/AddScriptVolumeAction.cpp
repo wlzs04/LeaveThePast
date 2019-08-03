@@ -55,12 +55,10 @@ FString UAddScriptVolumeAction::ExecuteReal()
 	
 	if (isNext)
 	{
-		UChapter* chapter =  UScriptManager::GetInstance()->GetCurrentChapter();
-		if (chapter != nullptr)
+		if (UScriptManager::GetInstance()->IsExecutingScript())
 		{
-			scriptItemData.chapter = chapter->GetChapterIndexName();
-			scriptItemData.sectionId = chapter->GetCurrentSection()->GetSectionId();
-			scriptItemData.paragraphId = chapter->GetCurrentSection()->GetCurrentParagraph()->GetParagraphId()+1;
+			scriptItemData = UScriptManager::GetInstance()->GetCurrentScriptItemData();
+			scriptItemData.paragraphId = scriptItemData.paragraphId + 1;
 		}
 		else
 		{

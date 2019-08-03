@@ -5,7 +5,7 @@
 
 void UChapter::Update()
 {
-	if (!isCompleted && currentSection != nullptr)
+	/*if (!isCompleted && currentSection != nullptr)
 	{
 		if (currentSection->GetCurrentParagraph())
 		{
@@ -23,7 +23,7 @@ void UChapter::Update()
 			}
 			isCompleted = true;
 		}
-	}
+	}*/
 }
 
 void UChapter::Load(FString newChapterPath)
@@ -72,29 +72,34 @@ void UChapter::Load(FString newChapterPath)
 	LogNormal(FString::Printf(TEXT("Chapter文件：%s加载完成"), *chapterPath));
 }
 
-bool UChapter::GetIsCompleted()
-{
-	return isCompleted;
-}
+//bool UChapter::GetIsCompleted()
+//{
+//	return isCompleted;
+//}
+//
+//USection* UChapter::GetCurrentSection()
+//{
+//	return currentSection;
+//}
 
-USection* UChapter::GetCurrentSection()
-{
-	return currentSection;
-}
+//bool UChapter::Start(int sectionId, int paragrapgId)
+//{
+//	if ((sectionId >= 0) && (sectionId < sectionList.Num()))
+//	{
+//		isCompleted = false;
+//		currentSection = sectionList[sectionId];
+//		return currentSection->Start(paragrapgId);
+//	}
+//	else
+//	{
+//		LogError(FString::Printf(TEXT("Chapter%s中没有Section%d。"), *chapterIndexName,sectionId));
+//	}
+//	return false;
+//}
 
-bool UChapter::Start(int sectionId, int paragrapgId)
+TArray<USection*> UChapter::GetSectionList()
 {
-	if ((sectionId >= 0) && (sectionId < sectionList.Num()))
-	{
-		isCompleted = false;
-		currentSection = sectionList[sectionId];
-		return currentSection->Start(paragrapgId);
-	}
-	else
-	{
-		LogError(FString::Printf(TEXT("Chapter%s中没有Section%d。"), *chapterIndexName,sectionId));
-	}
-	return false;
+	return sectionList;
 }
 
 FString UChapter::GetChapterName()

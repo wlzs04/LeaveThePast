@@ -45,11 +45,11 @@ FString USetSectionStateAction::ExecuteReal()
 {
 	if (isCurrent)
 	{
-		UChapter* currentChapter = UScriptManager::GetInstance()->GetCurrentChapter();
-		if (currentChapter != nullptr)
+		if (UScriptManager::GetInstance()->IsExecutingScript())
 		{
-			chapter = currentChapter->GetChapterIndexName();
-			sectionId = currentChapter->GetCurrentSection()->GetSectionId();
+			FScriptItemData scriptItemData = UScriptManager::GetInstance()->GetCurrentScriptItemData();
+			chapter = scriptItemData.chapter;
+			sectionId = scriptItemData.sectionId;
 		}
 		else
 		{

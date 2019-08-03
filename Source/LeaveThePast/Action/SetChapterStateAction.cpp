@@ -39,10 +39,9 @@ FString USetChapterStateAction::ExecuteReal()
 {
 	if (isCurrent)
 	{
-		UChapter* currentChapter = UScriptManager::GetInstance()->GetCurrentChapter();
-		if (currentChapter != nullptr)
+		if (UScriptManager::GetInstance()->IsExecutingScript())
 		{
-			chapter = currentChapter->GetChapterIndexName();
+			chapter = UScriptManager::GetInstance()->GetCurrentScriptItemData().chapter;
 		}
 		else
 		{

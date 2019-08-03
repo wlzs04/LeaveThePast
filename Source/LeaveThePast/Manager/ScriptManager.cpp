@@ -68,25 +68,27 @@ void UScriptManager::Init()
 	LoadAllScript();
 }
 
-void UScriptManager::StartScript(FString scriptName, int sectionId, int paragrapgId)
+void UScriptManager::StartScript(FString chapterName, int sectionId, int paragrapgId)
 {
-	if (!mainChapterMap.Contains(scriptName))
+	if(IsExecutingScript())
 	{
-		LogError(FString::Printf(TEXT("未知剧本文件：%s"), *scriptName));
+		LogError(FString::Printf(TEXT("当前已存在正在运行的剧本:%s:%d:%d"), *currentScriptItemData.chapter, currentScriptItemData.sectionId, currentScriptItemData.paragraphId));
 		return;
 	}
-	else if(currentScript!=nullptr)
+	else if (!mainChapterMap.Contains(chapterName))
 	{
-		LogError(FString::Printf(TEXT("当前已存在正在运行的剧本:%s"), *currentScript->GetChapterName()));
+		LogError(FString::Printf(TEXT("未知剧本文件：%s"), *chapterName));
 		return;
 	}
 	else
 	{
-		currentScript = mainChapterMap[scriptName];
-		LogNormal(FString::Printf(TEXT("剧本开始：%s,%d,%d"), *scriptName, sectionId, paragrapgId));
+		isExecutingScript = true;
+		currentScriptItemData = FScriptItemData(chapterName, sectionId, paragrapgId);
+		LogNormal(FString::Printf(TEXT("剧本开始：%s,%d,%d"), *chapterName, sectionId, paragrapgId));
 		UUserData* userData = UMainGameManager::GetInstance()->GetUserData();
-		userData->SetParagraphState(scriptName, sectionId, paragrapgId,1);
-		currentScript->Start(sectionId, paragrapgId);
+		userData->SetParagraphState(chapterName, sectionId, paragrapgId, 1);
+		currentParagraph = mainChapterMap[chapterName]->GetSectionList()[sectionId]->GetParagraphList()[paragrapgId];
+		currentParagraph->Start();
 	}
 }
 
@@ -103,14 +105,14 @@ void UScriptManager::StartNextScript()
 
 void UScriptManager::StopCurrentScript()
 {
-	if (currentScript != nullptr)
+	if (currentParagraph != nullptr)
 	{
-		FString currentScriptName = currentScript->GetChapterName();
-		int currentSectionId = currentScript->GetCurrentSection()->GetSectionId();
-		int currentParagraphId = currentScript->GetCurrentSection()->GetCurrentParagraph()->GetParagraphId();
-		currentScript->GetCurrentSection()->GetCurrentParagraph()->Finish();
-		LogNormal(FString::Printf(TEXT("剧本退出：%s,%d,%d"), *currentScriptName, currentSectionId, currentParagraphId));
-		currentScript = nullptr;
+		currentParagraph->Finish();
+		if (isExecutingScript)
+		{
+			LogNormal(FString::Printf(TEXT("剧本退出：%s:%d:%d"), *currentScriptItemData.chapter, currentScriptItemData.sectionId, currentScriptItemData.paragraphId));
+		}
+		currentParagraph = nullptr;
 		return;
 	}
 	else
@@ -122,11 +124,11 @@ void UScriptManager::StopCurrentScript()
 void UScriptManager::Tick()
 {
 	scriptTickTime = GetWorld()->DeltaTimeSeconds * scriptExecuteSpeed;
-	if (currentScript != nullptr)
+	if (currentParagraph != nullptr)
 	{
-		if (currentScript->GetCurrentSection())
+		if (!currentParagraph->GetIsCompleted())
 		{
-			currentScript->Update();
+			currentParagraph->Update();
 		}
 		else
 		{
@@ -157,16 +159,11 @@ TMap<FString, UChapter*> UScriptManager::GetSceneChapterMap()
 	return sceneChapterMap;
 }
 
-UChapter* UScriptManager::GetCurrentChapter()
-{
-	return currentScript;
-}
-
 void UScriptManager::SkipScript()
 {
-	if (currentScript != nullptr)
+	if (currentParagraph != nullptr)
 	{
-		bool skipResult = currentScript->GetCurrentSection()->GetCurrentParagraph()->SkipScript();
+		bool skipResult = currentParagraph->SkipScript();
 		if (skipResult)
 		{
 			ScriptFinish();
@@ -178,9 +175,14 @@ void UScriptManager::SkipScript()
 	}
 }
 
-bool UScriptManager::IsInScript()
+bool UScriptManager::IsExecutingScript()
 {
-	return currentScript != nullptr;
+	return isExecutingScript;
+}
+
+FScriptItemData UScriptManager::GetCurrentScriptItemData()
+{
+	return currentScriptItemData;
 }
 
 void UScriptManager::SetScriptExecuteSpeed(float newScriptExecuteSpeed)
@@ -305,13 +307,14 @@ void UScriptManager::AddIegalAction(UActionBase* actionBase)
 
 void UScriptManager::ScriptFinish()
 {
-	if (currentScript != nullptr)
+	if (currentParagraph != nullptr)
 	{
-		currentScript = nullptr;
+		currentParagraph = nullptr;
+		isExecutingScript = false;
 	}
 	else
 	{
-		LogError(TEXT("UScriptManager::ScriptFinish currentScript为空。"));
+		LogError(TEXT("UScriptManager::ScriptFinish currentParagraph为空。"));
 	}
 }
 
@@ -322,6 +325,24 @@ UActionBase* UScriptManager::GetIegalActionByName(FString actionName)
 		return legalActionMap[actionName];
 	}
 	return nullptr;
+}
+
+void UScriptManager::ExecuteParagraph(UParagraph* newParagraph)
+{
+	if (newParagraph == nullptr)
+	{
+		LogError(TEXT("ScriptManager:ExecuteParagraph传入指令段为空。"));
+	}
+	if (currentParagraph == nullptr)
+	{
+		currentParagraph = newParagraph;
+		currentParagraph->Start();
+		isExecutingScript = false;
+	}
+	else
+	{
+		LogError(TEXT("ScriptManager正在执行指令段，无法执行新指令。"));
+	}
 }
 
 FString UScriptManager::ExecuteActionString(FString actionValue)
@@ -350,9 +371,4 @@ FString UScriptManager::ExecuteActionString(FString actionValue)
 		LogWarning(TEXT("指令为空，无法执行！"));
 	}
 	return FString();
-}
-
-FString UScriptManager::ExecuteAction(UActionBase* action)
-{
-	return action->Execute();
 }
