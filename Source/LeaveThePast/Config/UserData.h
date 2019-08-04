@@ -51,6 +51,18 @@ public:
 	UFUNCTION(BlueprintCallable)
 	int GetSceneId();
 
+	//雨量
+	UFUNCTION(BlueprintCallable)
+	void SetRainValue(int newRainValue);
+	UFUNCTION(BlueprintCallable)
+	int GetRainValue();
+
+	//云量
+	UFUNCTION(BlueprintCallable)
+	void SetCloudyValue(float newCloudyValue);
+	UFUNCTION(BlueprintCallable)
+	float GetCloudyValue();
+
 	//获得当前控制第几个演员
 	int GetCurrentControlActorIndex();
 
@@ -121,6 +133,9 @@ protected:
 	FString savePath;
 
 	FTimeData gameTimeData;
+
+	int rainValue = 0;//雨量
+	float cloudyValue = 0;//云量（0-1）
 
 	bool isFixedTime = false;//是否固定时间
 	float gameAndRealTimeRate = 1;

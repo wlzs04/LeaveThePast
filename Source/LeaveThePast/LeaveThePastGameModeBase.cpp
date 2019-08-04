@@ -4,6 +4,7 @@
 #include "Manager/UIManager.h"
 #include "Manager/ScriptManager.h"
 #include "Config/SystemData.h"
+#include "Config/UserData.h"
 #include "Actor/DirectorActor.h"
 #include "Engine/World.h"
 #include "Engine/Level.h"
@@ -66,8 +67,9 @@ void ALeaveThePastGameModeBase::Tick(float deltaSeconds)
 		gameManager->Tick(deltaSeconds);
 		
 		skyBPActor->SetActorRelativeLocation(directorActor->GetActorLocation()+FVector(0,0,500));
+
+		//RefreshSky();
 	}
-	RefreshSky();
 }
 
 void ALeaveThePastGameModeBase::InitFinish()
@@ -78,6 +80,27 @@ void ALeaveThePastGameModeBase::InitFinish()
 		mainGameState = MainGameStateEnum::Normal;
 		directorActor->SetCanControl(true);
 		StartGame();
+
+		UFunction* functionSetCloudy = skyBPActor->FindFunction(TEXT("RefreshCloudy"));
+		if (functionSetCloudy)
+		{
+			float cloudyValue = gameManager->GetUserData()->GetCloudyValue();
+			skyBPActor->ProcessEvent(functionSetCloudy, &cloudyValue);
+		}
+		else
+		{
+			LogError(TEXT("天空体没有方法RefreshCloudy。"));
+		}
+		UFunction* functionSetRain = skyBPActor->FindFunction(TEXT("RefreshRain"));
+		if (functionSetRain)
+		{
+			int rainValue = gameManager->GetUserData()->GetRainValue();
+			skyBPActor->ProcessEvent(functionSetRain, &rainValue);
+		}
+		else
+		{
+			LogError(TEXT("天空体没有方法RefreshRain。"));
+		}
 	}
 }
 
@@ -117,12 +140,11 @@ AActor* ALeaveThePastGameModeBase::GetSkyBPActor()
 	return skyBPActor;
 }
 
-void ALeaveThePastGameModeBase::RefreshSky()
-{
-	UFunction* functionSetInfo = skyBPActor->FindFunction(TEXT("RefreshSkyByGameTime"));
-	bool focus = false;
-	if (functionSetInfo)
-	{
-		skyBPActor->ProcessEvent(functionSetInfo, nullptr);
-	}
-}
+//void ALeaveThePastGameModeBase::RefreshSky(bool focus)
+//{
+//	UFunction* functionSetInfo = skyBPActor->FindFunction(TEXT("RefreshSkyByGameTime"));
+//	if (functionSetInfo)
+//	{
+//		skyBPActor->ProcessEvent(functionSetInfo, &focus);
+//	}
+//}

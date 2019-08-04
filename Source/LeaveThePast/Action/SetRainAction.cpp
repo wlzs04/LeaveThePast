@@ -1,6 +1,8 @@
 #include "SetRainAction.h"
 #include "../LeaveThePastGameModeBase.h"
 #include "../Manager/LogManager.h"
+#include "../Manager/MainGameManager.h"
+#include "../Config/UserData.h"
 
 void USetRainAction::Load(FXmlNode* xmlNode)
 {
@@ -8,9 +10,9 @@ void USetRainAction::Load(FXmlNode* xmlNode)
 	{
 		FString attributeName = attribute.GetTag();
 		FString attributeValue = attribute.GetValue();
-		if (attributeName == TEXT("rainFallValue"))
+		if (attributeName == TEXT("rainValue"))
 		{
-			rainFallValue = FCString::Atoi(*attributeValue);
+			rainValue = FCString::Atoi(*attributeValue);
 		}
 		else
 		{
@@ -29,11 +31,12 @@ void USetRainAction::Update()
 
 FString USetRainAction::ExecuteReal()
 {
-	AActor* skActor = ALeaveThePastGameModeBase::GetInstance()->GetSkyBPActor();
-	UFunction* functionSetInfo = skActor->FindFunction(TEXT("RefreshRain"));
+	UMainGameManager::GetInstance()->GetUserData()->SetRainValue(rainValue);
+	AActor* skyActor = ALeaveThePastGameModeBase::GetInstance()->GetSkyBPActor();
+	UFunction* functionSetInfo = skyActor->FindFunction(TEXT("RefreshRain"));
 	if (functionSetInfo)
 	{
-		skActor->ProcessEvent(functionSetInfo, &rainFallValue);
+		skyActor->ProcessEvent(functionSetInfo, &rainValue);
 	}
 	else
 	{

@@ -53,6 +53,14 @@ void UUserData::Load()
 		{
 			sceneId = FCString::Atoi(*attributeValue);
 		}
+		else if (attributeName == TEXT("rainValue"))
+		{
+			rainValue = FCString::Atoi(*attributeValue);
+		}
+		else if (attributeName == TEXT("cloudyValue"))
+		{
+			cloudyValue = FCString::Atof(*attributeValue);
+		}
 		else
 		{
 			LogWarning(FString::Printf(TEXT("角色存档中存在未知属性：%s:%s"), *attributeName, *attributeValue));
@@ -197,6 +205,8 @@ void UUserData::Save()
 	xmlContent.Append(TEXT(" isFixedTime=\"") + isFixedTimeString + TEXT("\""));
 	xmlContent.Append(TEXT(" gameAndRealTimeRate=\"") + FString::SanitizeFloat(gameAndRealTimeRate) + TEXT("\""));
 	xmlContent.Append(TEXT(" sceneId=\"") + FString::FromInt(sceneId) + TEXT("\""));
+	xmlContent.Append(TEXT(" rainValue=\"") + FString::FromInt(rainValue) + TEXT("\""));
+	xmlContent.Append(TEXT(" cloudyValue=\"") + FString::SanitizeFloat(cloudyValue) + TEXT("\""));
 	//end 添加基础信息
 	xmlContent.Append(TEXT(">\n"));
 	//start 添加可控演员列表
@@ -369,6 +379,26 @@ void UUserData::SetSceneId(int newSceneId)
 int UUserData::GetSceneId()
 {
 	return sceneId;
+}
+
+void UUserData::SetRainValue(int newRainValue)
+{
+	rainValue = newRainValue;
+}
+
+int UUserData::GetRainValue()
+{
+	return rainValue;
+}
+
+void UUserData::SetCloudyValue(float newCloudyValue)
+{
+	cloudyValue = newCloudyValue;
+}
+
+float UUserData::GetCloudyValue()
+{
+	return cloudyValue;
 }
 
 int UUserData::GetCurrentControlActorIndex()

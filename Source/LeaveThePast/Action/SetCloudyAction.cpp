@@ -1,6 +1,8 @@
 #include "SetCloudyAction.h"
 #include "../LeaveThePastGameModeBase.h"
 #include "../Manager/LogManager.h"
+#include "../Manager/MainGameManager.h"
+#include "../Config/UserData.h"
 
 void USetCloudyAction::Load(FXmlNode* xmlNode)
 {
@@ -29,11 +31,12 @@ void USetCloudyAction::Update()
 
 FString USetCloudyAction::ExecuteReal()
 {
-	AActor* skActor = ALeaveThePastGameModeBase::GetInstance()->GetSkyBPActor();
-	UFunction* functionSetInfo = skActor->FindFunction(TEXT("RefreshCloudy"));
+	UMainGameManager::GetInstance()->GetUserData()->SetCloudyValue(cloudyValue);
+	AActor* skyActor = ALeaveThePastGameModeBase::GetInstance()->GetSkyBPActor();
+	UFunction* functionSetInfo = skyActor->FindFunction(TEXT("RefreshCloudy"));
 	if (functionSetInfo)
 	{
-		skActor->ProcessEvent(functionSetInfo, &cloudyValue);
+		skyActor->ProcessEvent(functionSetInfo, &cloudyValue);
 	}
 	else
 	{

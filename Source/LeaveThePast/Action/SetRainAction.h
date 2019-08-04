@@ -15,5 +15,5 @@ protected:
 	virtual FString ExecuteReal() override;
 
 private:
-	int rainFallValue = 0;
+	int rainValue = 0;
 };

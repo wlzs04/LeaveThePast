@@ -36,7 +36,7 @@
 		</Paragraph>
 		<Paragraph id="2" canControlMove="false" hideMainUI="true">
 			<Say actorId="10001" text="多少？" voicePath="saysomething.wav" actionTime="1"/>
-			<SetRain rainFallValue="2000"/>
+			<SetRain rainValue="2000"/>
 			<SetCloudy cloudyValue="1"/>
 			<SetTime time="20:0:0"/>
 			<Say actorId="10002" text="2钱。" voicePath="saysomething.wav" actionTime="1"/>
