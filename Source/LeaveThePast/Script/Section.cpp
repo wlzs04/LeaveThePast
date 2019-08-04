@@ -3,63 +3,25 @@
 #include "../Manager/LogManager.h"
 #include "XmlParser/Public/XmlFile.h"
 
-void USection::Update()
-{
-	/*if (!isCompleted && currentParagraph != nullptr)
-	{
-		if (!currentParagraph->GetIsCompleted())
-		{
-			currentParagraph->Update();
-		}
-		else
-		{
-			currentParagraph = nullptr;
-			for (auto paragraph : paragraphList)
-			{
-				if (!paragraph->GetIsCompleted())
-				{
-					return;
-				}
-			}
-			isCompleted = true;
-		}
-	}*/
-}
-
-//bool USection::GetIsCompleted()
-//{
-//	return isCompleted;
-//}
-
 int USection::GetSectionId()
 {
 	return sectionId;
+}
+
+FString USection::GetSectionName()
+{
+	return sectionName;
+}
+
+FString USection::GetSectionDescription()
+{
+	return description;
 }
 
 TArray<UParagraph*> USection::GetParagraphList()
 {
 	return paragraphList;
 }
-
-//UParagraph* USection::GetCurrentParagraph()
-//{
-//	return currentParagraph;
-//}
-
-//bool USection::Start(int paragrapgId)
-//{
-//	if ((paragrapgId >= 0) && (paragrapgId < paragraphList.Num()))
-//	{
-//		isCompleted = false;
-//		currentParagraph = paragraphList[paragrapgId];
-//		return currentParagraph->Start();
-//	}
-//	else
-//	{
-//		LogError(FString::Printf(TEXT("Section%d中没有Paragrapg%d。"), sectionId, paragrapgId));
-//	}
-//	return false;
-//}
 
 void USection::Load(FXmlNode* xmlNode)
 {

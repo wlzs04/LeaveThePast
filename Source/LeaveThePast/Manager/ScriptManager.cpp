@@ -82,6 +82,11 @@ void UScriptManager::StartScript(FString chapterName, int sectionId, int paragra
 	}
 	else
 	{
+		if (currentParagraph != nullptr)
+		{
+			currentParagraph->Stop();
+			LogWarning(TEXT("已停止当前正在执行的指令段。"));
+		}
 		isExecutingScript = true;
 		currentScriptItemData = FScriptItemData(chapterName, sectionId, paragrapgId);
 		LogNormal(FString::Printf(TEXT("剧本开始：%s,%d,%d"), *chapterName, sectionId, paragrapgId));

@@ -13,17 +13,19 @@ class LEAVETHEPAST_API USection : public UObject
 {
 	GENERATED_BODY()
 public:
-	void Update();
 	void Load(FXmlNode* xmlNode);
-	//bool GetIsCompleted();
+
+	UFUNCTION(BlueprintCallable)
 	int GetSectionId();
+	UFUNCTION(BlueprintCallable)
+	FString GetSectionName();
+	UFUNCTION(BlueprintCallable)
+	FString GetSectionDescription();
+
+	UFUNCTION(BlueprintCallable)
 	TArray<UParagraph*> GetParagraphList();
-	//UParagraph* GetCurrentParagraph();
-	//bool Start(int paragrapgId);
 private:
 	TArray<UParagraph*> paragraphList;
-	//bool isCompleted = false;//是否完成
-	//UParagraph* currentParagraph = nullptr;
 
 	FString sectionName = TEXT("未命名");
 	FString description = TEXT("无");

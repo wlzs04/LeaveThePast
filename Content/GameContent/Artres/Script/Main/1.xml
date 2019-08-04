@@ -1,6 +1,6 @@
 <Chapter name="第一章" description="准备出发">
 	<Section id="0" name="第一节" description="在客栈汇合">
-		<Paragraph id="0" autoHideMainUI="true">
+		<Paragraph id="0" hideMainUI="true">
 			<AddActor actorId="10001" position="3690.0,-3100.0,610"/>
 			<AddCanControlActor actorId="10001"/>
 			<ChangeControlActor actorId="10001"/>
@@ -10,7 +10,7 @@
 			<AddScriptVolume position="3430.0,-2810.0,70.0"/>
 			<SetParagraphState state="2"/>
 		</Paragraph>
-		<Paragraph id="1" canControlMove="false" autoHideMainUI="false" autoHideMainUI="true">
+		<Paragraph id="1" canControlMove="false" hideMainUI="true">
 			<RemoveScriptVolume/>
 			<AddActor actorId="10002"/>
 			<Move actorId="10001" actionTime="1" speed="100" direction="1,0,0"/>
@@ -34,7 +34,7 @@
 			<SetScriptActor actorId="30003"/>
 			<SetParagraphState state="2"/>
 		</Paragraph>
-		<Paragraph id="2" canControlMove="false" autoHideMainUI="true">
+		<Paragraph id="2" canControlMove="false" hideMainUI="true">
 			<Say actorId="10001" text="多少？" voicePath="saysomething.wav" actionTime="1"/>
 			<SetRain rainFallValue="2000"/>
 			<SetCloudy cloudyValue="1"/>

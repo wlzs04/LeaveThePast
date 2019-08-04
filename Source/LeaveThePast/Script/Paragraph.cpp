@@ -49,14 +49,17 @@ void UParagraph::Load(FXmlNode* xmlNode)
 		else if (attributeName == TEXT("canControlMove"))
 		{
 			canControlMove = FCString::ToBool(*attributeValue);
+			needCanControlMove = true;
 		}
 		else if (attributeName == TEXT("canControlView"))
 		{
 			canControlView = FCString::ToBool(*attributeValue);
+			needCanControlView = true;
 		}
-		else if (attributeName == TEXT("autoHideMainUI"))
+		else if (attributeName == TEXT("hideMainUI"))
 		{
-			autoHideMainUI = FCString::ToBool(*attributeValue);
+			hideMainUI = FCString::ToBool(*attributeValue);
+			needHideMainUI = true;
 		}
 		else
 		{
@@ -96,15 +99,37 @@ bool UParagraph::Start()
 	isStart = true;
 	isCompleted = false;
 
-	ADirectorActor::GetInstance()->SetCanControlMove(canControlMove);
-	ADirectorActor::GetInstance()->SetCanControlView(canControlView);
+	if (needCanControlMove)
+	{
+		ADirectorActor::GetInstance()->SetCanControlMove(canControlMove);
+	}
+	if (needCanControlView)
+	{
+		ADirectorActor::GetInstance()->SetCanControlView(canControlView);
+	}
 
-	if (autoHideMainUI)
+	if (needHideMainUI)
 	{
 		UUIManager::GetInstance()->HideMainUI();
 	}
 
 	actionList[currentActionIndex]->Execute();
+	return true;
+}
+
+bool UParagraph::Stop()
+{
+	if (isStart)
+	{
+		if (currentActionIndex >= actionList.Num())
+		{
+		}
+		else if (!actionList[currentActionIndex]->GetIsCompleted())
+		{
+			actionList[currentActionIndex]->Finish();
+		}
+		Finish();
+	}
 	return true;
 }
 
@@ -114,10 +139,18 @@ void UParagraph::Finish()
 	isCompleted = true;
 	currentActionIndex = 0;
 
-	ADirectorActor::GetInstance()->SetCanControlMove(true);
-	ADirectorActor::GetInstance()->SetCanControlView(true);
-
-	UUIManager::GetInstance()->ShowMainUI();
+	if (needCanControlMove)
+	{
+		ADirectorActor::GetInstance()->SetCanControlMove(!canControlMove);
+	}
+	if (needCanControlView)
+	{
+		ADirectorActor::GetInstance()->SetCanControlView(!canControlView);
+	}
+	if (needHideMainUI)
+	{
+		UUIManager::GetInstance()->ShowMainUI();
+	}
 }
 
 bool UParagraph::SkipScript()

@@ -3,29 +3,6 @@
 #include "XmlParser/Public/XmlFile.h"
 #include "../Manager/LogManager.h"
 
-void UChapter::Update()
-{
-	/*if (!isCompleted && currentSection != nullptr)
-	{
-		if (currentSection->GetCurrentParagraph())
-		{
-			currentSection->Update();
-		}
-		else
-		{
-			currentSection = nullptr;
-			for (auto section : sectionList)
-			{
-				if (!section->GetIsCompleted())
-				{
-					return;
-				}
-			}
-			isCompleted = true;
-		}
-	}*/
-}
-
 void UChapter::Load(FString newChapterPath)
 {
 	chapterPath = newChapterPath;
@@ -71,31 +48,6 @@ void UChapter::Load(FString newChapterPath)
 	delete xmlFile;
 	LogNormal(FString::Printf(TEXT("Chapter文件：%s加载完成"), *chapterPath));
 }
-
-//bool UChapter::GetIsCompleted()
-//{
-//	return isCompleted;
-//}
-//
-//USection* UChapter::GetCurrentSection()
-//{
-//	return currentSection;
-//}
-
-//bool UChapter::Start(int sectionId, int paragrapgId)
-//{
-//	if ((sectionId >= 0) && (sectionId < sectionList.Num()))
-//	{
-//		isCompleted = false;
-//		currentSection = sectionList[sectionId];
-//		return currentSection->Start(paragrapgId);
-//	}
-//	else
-//	{
-//		LogError(FString::Printf(TEXT("Chapter%s中没有Section%d。"), *chapterIndexName,sectionId));
-//	}
-//	return false;
-//}
 
 TArray<USection*> UChapter::GetSectionList()
 {
