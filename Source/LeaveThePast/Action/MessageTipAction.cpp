@@ -24,6 +24,18 @@ void UMessageTipAction::Load(FXmlNode* xmlNode)
 	}
 }
 
+void UMessageTipAction::Load(TArray<FString> paramList)
+{
+	if (paramList.Num() > 1)
+	{
+		text = paramList[1];
+	}
+	if (paramList.Num() > 2)
+	{
+		actionTime = FCString::Atof(*paramList[2]);
+	}
+}
+
 void UMessageTipAction::Update()
 {
 	if (isCompleted == false)

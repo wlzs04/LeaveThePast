@@ -16,20 +16,25 @@ public:
 	UFUNCTION(BlueprintCallable)
 	FString GetItemName();
 
-	//获得类型
-	UFUNCTION(BlueprintCallable)
-	int GetTtemType();
-
 	//获得描述
 	UFUNCTION(BlueprintCallable)
 	FString GetDescription();
 
-	//获得类型
+	//获得图片路径
 	UFUNCTION(BlueprintCallable)
 	FString GetImagePath();
+
+	//获得物品使用后执行的指令
+	UFUNCTION(BlueprintCallable)
+	FString GetUseItemExecuteActionString();
+
+	//获得物品的价值(一般用于计算角色有多少钱，所以银票、铜钱、银两需要此值)
+	UFUNCTION(BlueprintCallable)
+	int GetItemWorth();
 private:
 	FString itemName;
-	int itemType;
 	FString description;
 	FString imagePath;
+	FString useItemExecuteActionString;
+	int itemWorth = 0;
 };

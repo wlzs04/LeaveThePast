@@ -12,6 +12,7 @@
 #include "../Config/SystemData.h"
 #include "../Config/DebugData.h"
 #include "../Config/Recorder/SceneRecorder.h"
+#include "../Config/Recorder/ItemRecorder.h"
 #include "../Actor/DirectorActor.h"
 
 #include "ConfigManager.h"
@@ -75,12 +76,13 @@ void UMainGameManager::UseItem(int itemId)
 {
 	if (userData->GetItemNumberById(itemId)>0)
 	{
-		if (itemId == 20001)
+		UItemRecorder* itemRecorder = (UItemRecorder*)configManager->GetConfigByNameId(UItemRecorder::StaticClass(),TEXT("Item"), itemId);
+		FString executeString = itemRecorder->GetUseItemExecuteActionString();
+		if (!executeString.IsEmpty())
 		{
-			GetUIManager()->AddMessageTipById(10007);
+			scriptManager->ExecuteActionString(executeString);
 		}
 	}
-	userData->ReduceItem(itemId,1);
 }
 
 void UMainGameManager::EnterScene(int sceneId)

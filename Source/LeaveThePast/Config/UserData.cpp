@@ -3,6 +3,8 @@
 #include "../Manager/HelpManager.h"
 #include "../Manager/LogManager.h"
 #include "../Manager/ActorManager.h"
+#include "../Manager/ConfigManager.h"
+#include "Recorder/ItemRecorder.h"
 #include "../Actor/DirectorActor.h"
 #include "../Actor/ActorBase.h"
 #include "../Volume/VolumeBase.h"
@@ -512,14 +514,9 @@ int UUserData::GetMoney()
 	{
 		int itemId = itemList[i];
 		int itemNumber = itemMap[itemId];
-		if (itemId == 10001)
-		{
-			totalMoney += 1 * itemNumber;
-		}
-		else if(itemId == 10006)
-		{
-			totalMoney += 1000 * itemNumber;
-		}
+		UItemRecorder* itemRecorder = (UItemRecorder*)UConfigManager::GetInstance()->GetConfigByNameId(UItemRecorder::StaticClass(), TEXT("Item"), itemId);
+		int itemWorth = itemRecorder->GetItemWorth();
+		totalMoney += itemWorth * itemNumber;
 	}
 	return totalMoney;
 }

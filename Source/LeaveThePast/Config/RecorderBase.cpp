@@ -1,12 +1,9 @@
 #include "RecorderBase.h"
+#include "./Manager/LogManager.h"
 
 void URecorderBase::LoadRecorder(FXmlNode* xmlNode)
 {
-	FString idString = xmlNode->GetAttribute(TEXT("id"));
-	if (!idString.IsEmpty())
-	{
-		id = FCString::Atoi(*idString);
-	}
+	LogError(TEXT("配置没有重写LoadRecorder方法！"));
 }
 
 int URecorderBase::GetId()

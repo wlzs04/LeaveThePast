@@ -1,27 +1,46 @@
 #include "ItemRecorder.h"
+#include "../../Manager/LogManager.h"
 
 void UItemRecorder::LoadRecorder(FXmlNode* xmlNode)
 {
-	URecorderBase::LoadRecorder(xmlNode);
-	
-	itemName = xmlNode->GetAttribute(TEXT("itemName"));
-	FString itemTypeString = xmlNode->GetAttribute(TEXT("itemType"));
-	if (!itemTypeString.IsEmpty())
+	for (FXmlAttribute attribute : xmlNode->GetAttributes())
 	{
-		itemType = FCString::Atoi(*itemTypeString);
+		FString attributeName = attribute.GetTag();
+		FString attributeValue = attribute.GetValue();
+		if (attributeName == TEXT("id"))
+		{
+			id = FCString::Atoi(*attributeValue);
+		}
+		else if (attributeName == TEXT("itemName"))
+		{
+			itemName = attributeValue;
+		}
+		else if (attributeName == TEXT("description"))
+		{
+			description = attributeValue;
+		}
+		else if (attributeName == TEXT("imagePath"))
+		{
+			imagePath = attributeValue;
+		}
+		else if (attributeName == TEXT("useItemExecuteActionString"))
+		{
+			useItemExecuteActionString = attributeValue;
+		}
+		else if (attributeName == TEXT("itemWorth"))
+		{
+			itemWorth = FCString::Atoi(*attributeValue);
+		}
+		else
+		{
+			LogWarning(FString::Printf(TEXT("%s配置中存在未知属性:%s：%s！"), *GetClass()->GetName().Left(GetClass()->GetName().Len() - 8), *attributeName, *attributeValue));
+		}
 	}
-	description = xmlNode->GetAttribute(TEXT("description"));
-	imagePath = xmlNode->GetAttribute(TEXT("imagePath"));
 }
 
 FString UItemRecorder::GetItemName()
 {
 	return itemName;
-}
-
-int UItemRecorder::GetTtemType()
-{
-	return itemType;
 }
 
 FString UItemRecorder::GetDescription()
@@ -32,4 +51,14 @@ FString UItemRecorder::GetDescription()
 FString UItemRecorder::GetImagePath()
 {
 	return imagePath;
+}
+
+FString UItemRecorder::GetUseItemExecuteActionString()
+{
+	return useItemExecuteActionString;
+}
+
+int UItemRecorder::GetItemWorth()
+{
+	return itemWorth;
 }

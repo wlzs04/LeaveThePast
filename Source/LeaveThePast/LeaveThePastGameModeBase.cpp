@@ -67,8 +67,6 @@ void ALeaveThePastGameModeBase::Tick(float deltaSeconds)
 		gameManager->Tick(deltaSeconds);
 		
 		skyBPActor->SetActorRelativeLocation(directorActor->GetActorLocation()+FVector(0,0,500));
-
-		//RefreshSky();
 	}
 }
 
@@ -140,11 +138,11 @@ AActor* ALeaveThePastGameModeBase::GetSkyBPActor()
 	return skyBPActor;
 }
 
-//void ALeaveThePastGameModeBase::RefreshSky(bool focus)
-//{
-//	UFunction* functionSetInfo = skyBPActor->FindFunction(TEXT("RefreshSkyByGameTime"));
-//	if (functionSetInfo)
-//	{
-//		skyBPActor->ProcessEvent(functionSetInfo, &focus);
-//	}
-//}
+void ALeaveThePastGameModeBase::RefreshSky(bool focus)
+{
+	UFunction* functionSetInfo = skyBPActor->FindFunction(TEXT("RefreshSkyByGameTime"));
+	if (functionSetInfo)
+	{
+		skyBPActor->ProcessEvent(functionSetInfo, &focus);
+	}
+}

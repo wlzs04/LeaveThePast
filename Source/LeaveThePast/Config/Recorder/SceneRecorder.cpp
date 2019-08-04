@@ -4,10 +4,27 @@
 
 void USceneRecorder::LoadRecorder(FXmlNode* xmlNode)
 {
-	URecorderBase::LoadRecorder(xmlNode);
-
-	sceneName = xmlNode->GetAttribute(TEXT("sceneName"));
-	bgmId = FCString::Atoi(*xmlNode->GetAttribute(TEXT("bgmId")));
+	for (FXmlAttribute attribute : xmlNode->GetAttributes())
+	{
+		FString attributeName = attribute.GetTag();
+		FString attributeValue = attribute.GetValue();
+		if (attributeName == TEXT("id"))
+		{
+			id = FCString::Atoi(*attributeValue);
+		}
+		else if (attributeName == TEXT("sceneName"))
+		{
+			sceneName = attributeValue;
+		}
+		else if (attributeName == TEXT("bgmId"))
+		{
+			bgmId = FCString::Atoi(*attributeValue);
+		}
+		else
+		{
+			LogWarning(FString::Printf(TEXT("%s配置中存在未知属性:%s：%s！"), *GetClass()->GetName().Left(GetClass()->GetName().Len() - 8), *attributeName, *attributeValue));
+		}
+	}
 
 	for (FXmlNode* childNode : xmlNode->GetChildrenNodes())
 	{
@@ -21,6 +38,10 @@ void USceneRecorder::LoadRecorder(FXmlNode* xmlNode)
 				if (attributeName == TEXT("actorId"))
 				{
 					actorId = FCString::Atoi(*attributeValue);
+				}
+				else
+				{
+					LogWarning(FString::Printf(TEXT("%s配置中存在未知属性:%s：%s！"), *GetClass()->GetName().Left(GetClass()->GetName().Len() - 8), *attributeName, *attributeValue));
 				}
 			}
 			sceneActorIdList.Add(actorId);

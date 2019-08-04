@@ -53,8 +53,8 @@ public:
 	AActor* GetSkyBPActor();
 
 	//刷新天空
-	//UFUNCTION(BlueprintCallable)
-	//void RefreshSky(bool focus = false);
+	UFUNCTION(BlueprintCallable)
+	void RefreshSky(bool focus = false);
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void InitDebugCommand();

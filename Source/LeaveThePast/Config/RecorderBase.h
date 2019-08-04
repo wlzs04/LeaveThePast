@@ -17,5 +17,5 @@ public:
 	UFUNCTION(BlueprintCallable)
 	int GetId();
 protected:
-	int id;
+	int id = -1;
 };

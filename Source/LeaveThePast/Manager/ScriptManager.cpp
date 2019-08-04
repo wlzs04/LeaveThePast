@@ -363,7 +363,9 @@ FString UScriptManager::ExecuteActionString(FString actionValue)
 			{
 				UActionBase* actionBase2 = NewObject<UActionBase>(this, actionBase->GetClass());
 				actionBase2->Load(stringArray);
-				return actionBase2->Execute();
+				FString resultString = actionBase2->Execute();
+				actionBase2->Finish();
+				return resultString;
 			}
 			else
 			{
