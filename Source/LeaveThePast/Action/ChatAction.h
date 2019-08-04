@@ -26,4 +26,5 @@ private:
 	float currentTime = 0;
 	UPROPERTY()
 	AActorBase* executeActor = nullptr;
+	AActor* chatUIBP = nullptr;
 };

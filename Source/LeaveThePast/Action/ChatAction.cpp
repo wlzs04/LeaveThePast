@@ -5,6 +5,7 @@
 #include "../Manager/LogManager.h"
 #include "../Manager/ScriptManager.h"
 #include "../Manager/UIManager.h"
+#include "Engine/World.h"
 
 void UChatAction::Load(FXmlNode* xmlNode)
 {
@@ -68,8 +69,21 @@ FString UChatAction::ExecuteReal()
 	}
 	else
 	{
+		UClass* chatUIBPClass = LoadObject<UClass>(NULL, TEXT("Blueprint'/Game/GameContent/WorldObject/UI/ChatUIBP.ChatUIBP_C'"));
+		chatUIBP = GWorld->SpawnActor(chatUIBPClass);
+		chatUIBP->AttachToActor(executeActor,FAttachmentTransformRules::KeepRelativeTransform);
+
+		UFunction* functionSetInfo = chatUIBP->FindFunction(TEXT("SetText"));
+		if (functionSetInfo)
+		{
+			chatUIBP->ProcessEvent(functionSetInfo, &text);
+		}
+		else
+		{
+			LogError(FString::Printf(TEXT("指令:%s没有方法SetText。"), *actionName));
+		}
+		chatUIBP->SetActorRelativeLocation(FVector(0, 0, 130));
 		executeActor->StartTalk();
-		UUIManager::GetInstance()->ShowTalkUI(text, executeActor->GetActorInfo()->GetActorName(), actionTime, executeActor->GetActorInfo()->GetHeadImagePath());
 	}
 	currentTime = 0;
 	return FString();
@@ -79,7 +93,7 @@ void UChatAction::FinishReal()
 {
 	if (executeActor != nullptr)
 	{
-		UUIManager::GetInstance()->HideTalkUI();
+		chatUIBP->Destroy();
 		executeActor->StopTalk();
 		executeActor = nullptr;
 	}
