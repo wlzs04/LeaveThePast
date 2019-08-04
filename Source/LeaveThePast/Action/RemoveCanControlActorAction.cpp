@@ -19,6 +19,14 @@ void URemoveCanControlActorAction::Load(FXmlNode* xmlNode)
 	}
 }
 
+void URemoveCanControlActorAction::Load(TArray<FString> paramList)
+{
+	if (paramList.Num() > 1)
+	{
+		actorInfoId = FCString::Atoi(*paramList[1]);
+	}
+}
+
 void URemoveCanControlActorAction::Update()
 {
 	if (isCompleted == false)

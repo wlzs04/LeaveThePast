@@ -21,6 +21,14 @@ void UChangeControlActorAction::Load(FXmlNode* xmlNode)
 	}
 }
 
+void UChangeControlActorAction::Load(TArray<FString> paramList)
+{
+	if (paramList.Num() > 1)
+	{
+		actorInfoId = FCString::Atoi(*paramList[1]);
+	}
+}
+
 void UChangeControlActorAction::Update()
 {
 	if (isCompleted == false)

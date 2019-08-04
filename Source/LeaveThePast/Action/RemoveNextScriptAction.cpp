@@ -29,6 +29,22 @@ void URemoveNextScriptAction::Load(FXmlNode* xmlNode)
 	}
 }
 
+void URemoveNextScriptAction::Load(TArray<FString> paramList)
+{
+	if (paramList.Num() > 1)
+	{
+		chapterName = paramList[1];
+	}
+	if (paramList.Num() > 2)
+	{
+		sectionId = FCString::Atoi(*paramList[2]);
+	}
+	if (paramList.Num() > 3)
+	{
+		paragraphId = FCString::Atoi(*paramList[3]);
+	}
+}
+
 void URemoveNextScriptAction::Update()
 {
 	if (isCompleted == false)

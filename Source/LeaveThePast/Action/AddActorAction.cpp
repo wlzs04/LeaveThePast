@@ -33,6 +33,24 @@ void UAddActorAction::Load(FXmlNode* xmlNode)
 	}
 }
 
+void UAddActorAction::Load(TArray<FString> paramList)
+{
+	if (paramList.Num() > 1)
+	{
+		actorId = FCString::Atoi(*paramList[1]);
+	}
+	if (paramList.Num() > 2)
+	{
+		position = UHelpManager::ConvertFStringToFVector(paramList[2]);
+		needReplacePosition = true;
+	}
+	if (paramList.Num() > 3)
+	{
+		rotation = UHelpManager::ConvertFStringToFRotator(paramList[3]);
+		needReplaceRotation = true;
+	}
+}
+
 void UAddActorAction::Update()
 {
 	if (isCompleted == false)

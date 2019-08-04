@@ -41,6 +41,29 @@ void UAddScriptVolumeAction::Load(FXmlNode* xmlNode)
 	}
 }
 
+void UAddScriptVolumeAction::Load(TArray<FString> paramList)
+{
+	if (paramList.Num() > 1)
+	{
+		position = UHelpManager::ConvertFStringToFVector(paramList[1]);
+	}
+	if (paramList.Num() > 2)
+	{
+		scriptItemData.chapter = paramList[2]; 
+		isNext = false;
+	}
+	if (paramList.Num() > 3)
+	{
+		scriptItemData.sectionId = FCString::Atoi(*paramList[3]);
+		isNext = false;
+	}
+	if (paramList.Num() > 4)
+	{
+		scriptItemData.paragraphId = FCString::Atoi(*paramList[4]);
+		isNext = false;
+	}
+}
+
 void UAddScriptVolumeAction::Update()
 {
 	if (isCompleted == false)

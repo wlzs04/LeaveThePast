@@ -21,6 +21,14 @@ void UPlayBGMAction::Load(FXmlNode* xmlNode)
 	}
 }
 
+void UPlayBGMAction::Load(TArray<FString> paramList)
+{
+	if (paramList.Num() > 1)
+	{
+		audioId = FCString::Atoi(*paramList[1]);
+	}
+}
+
 void UPlayBGMAction::Update()
 {
 	if (isCompleted == false)

@@ -21,6 +21,14 @@ void USetRainAction::Load(FXmlNode* xmlNode)
 	}
 }
 
+void USetRainAction::Load(TArray<FString> paramList)
+{
+	if (paramList.Num() > 1)
+	{
+		rainValue = FCString::Atoi(*paramList[1]);
+	}
+}
+
 void USetRainAction::Update()
 {
 	if (isCompleted == false)

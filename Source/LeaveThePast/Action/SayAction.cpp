@@ -36,6 +36,27 @@ void USayAction::Load(FXmlNode* xmlNode)
 	}
 }
 
+void USayAction::Load(TArray<FString> paramList)
+{
+	if (paramList.Num() > 1)
+	{
+		actorInfoId = FCString::Atoi(*paramList[1]);
+		isPlayerControlActorId = false;
+	}
+	if (paramList.Num() > 2)
+	{
+		text = paramList[2];
+	}
+	if (paramList.Num() > 3)
+	{
+		voicePath = paramList[3];
+	}
+	if (paramList.Num() > 4)
+	{
+		actionTime = FCString::Atof(*paramList[4]);
+	}
+}
+
 void USayAction::Update()
 {
 	if (isCompleted == false)

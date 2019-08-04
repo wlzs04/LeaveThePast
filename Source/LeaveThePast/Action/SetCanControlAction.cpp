@@ -19,6 +19,14 @@ void USetCanControlAction::Load(FXmlNode* xmlNode)
 	}
 }
 
+void USetCanControlAction::Load(TArray<FString> paramList)
+{
+	if (paramList.Num() > 1)
+	{
+		canControl = FCString::ToBool(*paramList[1]);
+	}
+}
+
 void USetCanControlAction::Update()
 {
 	if (isCompleted == false)

@@ -19,6 +19,14 @@ void USetMainUIStateAction::Load(FXmlNode* xmlNode)
 	}
 }
 
+void USetMainUIStateAction::Load(TArray<FString> paramList)
+{
+	if (paramList.Num() > 1)
+	{
+		isShow = FCString::ToBool(*paramList[1]);
+	}
+}
+
 void USetMainUIStateAction::Update()
 {
 	if (isCompleted == false)

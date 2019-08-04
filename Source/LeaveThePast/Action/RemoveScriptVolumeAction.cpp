@@ -39,6 +39,25 @@ void URemoveScriptVolumeAction::Load(FXmlNode* xmlNode)
 	}
 }
 
+void URemoveScriptVolumeAction::Load(TArray<FString> paramList)
+{
+	if (paramList.Num() > 1)
+	{
+		scriptItemData.chapter = paramList[1];
+		isCurrent = false;
+	}
+	if (paramList.Num() > 2)
+	{
+		scriptItemData.sectionId = FCString::Atoi(*paramList[2]);
+		isCurrent = false;
+	}
+	if (paramList.Num() > 3)
+	{
+		scriptItemData.paragraphId = FCString::Atoi(*paramList[3]);
+		isCurrent = false;
+	}
+}
+
 void URemoveScriptVolumeAction::Update()
 {
 	if (isCompleted == false)

@@ -31,6 +31,23 @@ void URotateAction::Load(FXmlNode* xmlNode)
 	}
 }
 
+void URotateAction::Load(TArray<FString> paramList)
+{
+	if (paramList.Num() > 1)
+	{
+		actorInfoId = FCString::Atoi(*paramList[1]);
+		isPlayerControlActorId = false;
+	}
+	if (paramList.Num() > 2)
+	{
+		value = FCString::Atof(*paramList[2]);
+	}
+	if (paramList.Num() > 3)
+	{
+		actionTime = FCString::Atof(*paramList[3]);
+	}
+}
+
 void URotateAction::Update()
 {
 	if (isCompleted == false)

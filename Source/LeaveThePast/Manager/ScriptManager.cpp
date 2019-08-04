@@ -40,6 +40,8 @@
 #include "../Action/ChatAction.h"
 #include "../Action/RandomAction.h"
 #include "../Action/SetShopUIStateAction.h"
+#include "../Action/RemoveItemAction.h"
+#include "../Action/MessageTipByIdAction.h"
 
 #include "../Script/Chapter.h"
 #include "../Script/Section.h"
@@ -303,6 +305,8 @@ void UScriptManager::LoadAllIegalAction()
 	AddIegalAction(NewObject<UChatAction>(this));
 	AddIegalAction(NewObject<URandomAction>(this));
 	AddIegalAction(NewObject<USetShopUIStateAction>(this));
+	AddIegalAction(NewObject<URemoveItemAction>(this));
+	AddIegalAction(NewObject<UMessageTipByIdAction>(this));
 }
 
 void UScriptManager::AddIegalAction(UActionBase* actionBase)
@@ -352,24 +356,30 @@ void UScriptManager::ExecuteParagraph(UParagraph* newParagraph)
 
 FString UScriptManager::ExecuteActionString(FString actionValue)
 {
+	FString resultString;
+	//先判断是否为空
 	if (! actionValue.IsEmpty())
 	{
-		TArray<FString> stringArray;
-		actionValue.ParseIntoArray(stringArray, TEXT(" "));
-		if (stringArray.Num() > 0)
+		//再按行分割
+		TArray<FString> executeItemStringArray;
+		actionValue.ParseIntoArray(executeItemStringArray, TEXT("\\n"));
 		{
-			UActionBase* actionBase = GetIegalActionByName(stringArray[0]);
-			if (actionBase != nullptr)
+			for (auto executeItemString : executeItemStringArray)
 			{
-				UActionBase* actionBase2 = NewObject<UActionBase>(this, actionBase->GetClass());
-				actionBase2->Load(stringArray);
-				FString resultString = actionBase2->Execute();
-				actionBase2->Finish();
-				return resultString;
-			}
-			else
-			{
-				LogError(stringArray[0] + TEXT("指令不合法！"));
+				TArray<FString> paramArray;
+				executeItemString.ParseIntoArray(paramArray, TEXT(" "));
+				UActionBase* actionBase = GetIegalActionByName(paramArray[0]);
+				if (actionBase != nullptr)
+				{
+					UActionBase* actionBase2 = NewObject<UActionBase>(this, actionBase->GetClass());
+					actionBase2->Load(paramArray);
+					resultString.Append(actionBase2->Execute()+TEXT(";"));
+					actionBase2->Finish();
+				}
+				else
+				{
+					LogError(paramArray[0] + TEXT("指令不合法！"));
+				}
 			}
 		}
 	}
@@ -377,5 +387,5 @@ FString UScriptManager::ExecuteActionString(FString actionValue)
 	{
 		LogWarning(TEXT("指令为空，无法执行！"));
 	}
-	return FString();
+	return resultString;
 }

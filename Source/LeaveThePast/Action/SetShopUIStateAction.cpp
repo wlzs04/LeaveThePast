@@ -23,6 +23,18 @@ void USetShopUIStateAction::Load(FXmlNode* xmlNode)
 	}
 }
 
+void USetShopUIStateAction::Load(TArray<FString> paramList)
+{
+	if (paramList.Num() > 1)
+	{
+		isShow = FCString::ToBool(*paramList[1]);
+	}
+	if (paramList.Num() > 2)
+	{
+		shopConfigName = paramList[2];
+	}
+}
+
 void USetShopUIStateAction::Update()
 {
 	if (isCompleted == false)

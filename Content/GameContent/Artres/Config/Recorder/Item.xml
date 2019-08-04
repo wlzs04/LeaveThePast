@@ -5,9 +5,9 @@
     <Recorder id="10004" itemName="介绍信" description="到指定指点作为身份的证明。" imagePath="GameContent/Resource/Others/Image/Letter.jpg"/>
     <Recorder id="10005" itemName="通关令" description="背面刻着：紧急情况下可打开城门，不应轻易使用。" imagePath="GameContent/Resource/Others/Image/Token.jpg"/>
     <Recorder id="10006" itemName="白银" itemWorth="100" description="一钱银子值100文，上面还有牙印。" imagePath="GameContent/Resource/Others/Image/Money.jpg"/>
-    <Recorder id="10007" itemName="宝箱" useItemExecuteActionString="AddItem 10001 200" description="使用后获得200文。" imagePath="GameContent/Resource/Others/Image/MoneyPackage.jpg"/>
+    <Recorder id="10007" itemName="宝箱" useItemExecuteActionString="AddItem 10001 200\nRemoveItem 10007" description="使用后获得200文。" imagePath="GameContent/Resource/Others/Image/MoneyPackage.jpg"/>
 
-    <Recorder id="20001" itemName="止血草" useItemExecuteActionString="MessageTip 止血草？" description="我方单体，恢复少量精。" imagePath="GameContent/Resource/Others/Image/Money.png"/>
+    <Recorder id="20001" itemName="止血草" useItemExecuteActionString="MessageTipById 10007" description="我方单体，恢复少量精。" imagePath="GameContent/Resource/Others/Image/Money.png"/>
     <Recorder id="20002" itemName="行军丹" description="我方单体，恢复中等精。" imagePath="GameContent/Resource/Others/Image/Money.png"/>
     <Recorder id="20003" itemName="紫菁玉蓉膏" description="我方单体，恢复全部精。" imagePath="GameContent/Resource/Others/Image/Money.png"/>
     <Recorder id="20004" itemName="龙胆草" description="我方全体，恢复中等精。" imagePath="GameContent/Resource/Others/Image/Money.png"/>

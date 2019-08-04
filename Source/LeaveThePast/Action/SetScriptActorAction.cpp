@@ -39,6 +39,29 @@ void USetScriptActorAction::Load(FXmlNode* xmlNode)
 	}
 }
 
+void USetScriptActorAction::Load(TArray<FString> paramList)
+{
+	if (paramList.Num() > 1)
+	{
+		actorInfoId = FCString::Atoi(*paramList[1]);
+	}
+	if (paramList.Num() > 2)
+	{
+		scriptItemData.chapter = paramList[2];
+		isNext = false;
+	}
+	if (paramList.Num() > 3)
+	{
+		scriptItemData.sectionId = FCString::Atoi(*paramList[3]);
+		isNext = false;
+	}
+	if (paramList.Num() > 4)
+	{
+		scriptItemData.paragraphId = FCString::Atoi(*paramList[4]);
+		isNext = false;
+	}
+}
+
 void USetScriptActorAction::Update()
 {
 	if (isCompleted == false)

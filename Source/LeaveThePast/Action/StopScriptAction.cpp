@@ -12,6 +12,10 @@ void UStopScriptAction::Load(FXmlNode* xmlNode)
 	}
 }
 
+void UStopScriptAction::Load(TArray<FString> paramList)
+{
+}
+
 void UStopScriptAction::Update()
 {
 	if (isCompleted == false)

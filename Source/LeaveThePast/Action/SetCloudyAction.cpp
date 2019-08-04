@@ -21,6 +21,14 @@ void USetCloudyAction::Load(FXmlNode* xmlNode)
 	}
 }
 
+void USetCloudyAction::Load(TArray<FString> paramList)
+{
+	if (paramList.Num() > 1)
+	{
+		cloudyValue = FCString::Atoi(*paramList[1]);
+	}
+}
+
 void USetCloudyAction::Update()
 {
 	if (isCompleted == false)

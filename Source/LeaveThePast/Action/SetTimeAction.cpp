@@ -22,6 +22,15 @@ void USetTimeAction::Load(FXmlNode* xmlNode)
 	}
 }
 
+void USetTimeAction::Load(TArray<FString> paramList)
+{
+	if (paramList.Num() > 1)
+	{
+		FTimespan timespan = UHelpManager::ConvertFStringToFTimespan(paramList[1]);
+		timeData.SetTime(timespan.GetHours(), timespan.GetMinutes(), timespan.GetSeconds());
+	}
+}
+
 void USetTimeAction::Update()
 {
 	if (isCompleted == false)

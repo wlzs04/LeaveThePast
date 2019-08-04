@@ -36,6 +36,26 @@ void UMoveAction::Load(FXmlNode* xmlNode)
 	}
 }
 
+void UMoveAction::Load(TArray<FString> paramList)
+{
+	if (paramList.Num() > 1)
+	{
+		actorInfoId = FCString::Atoi(*paramList[1]);
+	}
+	if (paramList.Num() > 2)
+	{
+		direction = UHelpManager::ConvertFStringToFVector(paramList[2]);
+	}
+	if (paramList.Num() > 3)
+	{
+		speed = FCString::Atoi(*paramList[3]);
+	}
+	if (paramList.Num() > 4)
+	{
+		actionTime = FCString::Atof(*paramList[4]);
+	}
+}
+
 void UMoveAction::Update()
 {
 	if (isCompleted==false)

@@ -12,6 +12,7 @@ class LEAVETHEPAST_API URemoveScriptVolumeAction : public UActionBase
 	GENERATED_BODY()
 protected:
 	virtual void Load(FXmlNode* xmlNode) override;
+	virtual void Load(TArray<FString> paramList) override;
 	virtual void Update() override;
 	virtual FString ExecuteReal() override;
 private:

@@ -27,6 +27,19 @@ void USetChapterStateAction::Load(FXmlNode* xmlNode)
 	}
 }
 
+void USetChapterStateAction::Load(TArray<FString> paramList)
+{
+	if (paramList.Num() > 1)
+	{
+		state = FCString::Atoi(*paramList[1]);
+	}
+	if (paramList.Num() > 2)
+	{
+		chapter = paramList[2];
+		isCurrent = false;
+	}
+}
+
 void USetChapterStateAction::Update()
 {
 	if (isCompleted == false)

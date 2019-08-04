@@ -39,6 +39,29 @@ void USetParagraphStateAction::Load(FXmlNode* xmlNode)
 	}
 }
 
+void USetParagraphStateAction::Load(TArray<FString> paramList)
+{
+	if (paramList.Num() > 1)
+	{
+		state = FCString::Atoi(*paramList[1]);
+	}
+	if (paramList.Num() > 2)
+	{
+		chapter = paramList[2];
+		isCurrent = false;
+	}
+	if (paramList.Num() > 3)
+	{
+		sectionId = FCString::Atoi(*paramList[3]);
+		isCurrent = false;
+	}
+	if (paramList.Num() > 4)
+	{
+		paragraphId = FCString::Atoi(*paramList[4]);
+		isCurrent = false;
+	}
+}
+
 void USetParagraphStateAction::Update()
 {
 	if (isCompleted == false)

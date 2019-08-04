@@ -2,11 +2,11 @@
 
 #include "CoreMinimal.h"
 #include "Action/ActionBase.h"
-#include "SetMainUIStateAction.generated.h"
+#include "RemoveItemAction.generated.h"
 
-//指令：设置主界面的状态
+//指令：移除指定物品
 UCLASS()
-class LEAVETHEPAST_API USetMainUIStateAction : public UActionBase
+class LEAVETHEPAST_API URemoveItemAction : public UActionBase
 {
 	GENERATED_BODY()
 protected:
@@ -16,5 +16,6 @@ protected:
 	virtual FString ExecuteReal() override;
 
 private:
-	bool isShow = true;
+	int itemId = 0;
+	int number = 1;
 };

@@ -19,6 +19,14 @@ void USetScriptExecuteSpeedAction::Load(FXmlNode* xmlNode)
 	}
 }
 
+void USetScriptExecuteSpeedAction::Load(TArray<FString> paramList)
+{
+	if (paramList.Num() > 1)
+	{
+		scriptExecuteSpeed = FCString::Atof(*paramList[1]);
+	}
+}
+
 void USetScriptExecuteSpeedAction::Update()
 {
 	if (isCompleted == false)
