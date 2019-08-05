@@ -9,6 +9,7 @@ class ALeaveThePastGameModeBase;
 class UMainGameManager;
 class UConfigManager;
 class UScriptManager;
+class UActorManager;
 class UUIManager;
 class UTexture2D;
 
@@ -45,6 +46,10 @@ public:
 	//获得ScriptManager
 	UFUNCTION(BlueprintCallable, Category = "Main|Manager")
 	static UScriptManager* GetScriptManager();
+
+	//获得ScriptManager
+	UFUNCTION(BlueprintCallable, Category = "Main|Manager")
+	static UActorManager* GetActorManager();
 
 	//获得MainGameManager
 	UFUNCTION(BlueprintCallable, Category = "Main|Manager")

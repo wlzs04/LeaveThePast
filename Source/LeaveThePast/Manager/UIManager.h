@@ -5,6 +5,7 @@
 #include "UIManager.generated.h"
 
 class UOptionAction;
+class USayAction;
 class UUserWidget;
 
 //管理界面
@@ -35,7 +36,7 @@ public:
 
 	//显示谈话界面
 	UFUNCTION(BlueprintCallable)
-	void ShowTalkUI(FString talkValue, FString actorName, float continueTime, FString headImagePath, bool isLeft = true);
+	void ShowTalkUI(USayAction* sayAction);
 
 	//隐藏谈话界面
 	UFUNCTION(BlueprintCallable)

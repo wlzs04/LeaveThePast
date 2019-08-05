@@ -96,7 +96,7 @@ FString USayAction::ExecuteReal()
 	else
 	{
 		executeActor->StartTalk();
-		UUIManager::GetInstance()->ShowTalkUI(text, executeActor->GetActorInfo()->GetActorName(), actionTime, executeActor->GetActorInfo()->GetHeadImagePath());
+		UUIManager::GetInstance()->ShowTalkUI(this);
 	}
 	currentTime = 0;
 	return FString();
@@ -110,4 +110,24 @@ void USayAction::FinishReal()
 		executeActor->StopTalk();
 		executeActor = nullptr;
 	}
+}
+
+int USayAction::GetActorId()
+{
+	return actorInfoId;
+}
+
+FString USayAction::GetText()
+{
+	return text;
+}
+
+FString USayAction::GetVoicePath()
+{
+	return voicePath;
+}
+
+float USayAction::GetActionTime()
+{
+	return actionTime;
 }

@@ -3,6 +3,7 @@
 #include "../LeaveThePastGameModeBase.h"
 #include "../Manager/MainGameManager.h"
 #include "../Manager/ScriptManager.h"
+#include "../Manager/ActorManager.h"
 #include "../Manager/ConfigManager.h"
 #include "../Manager/LogManager.h"
 #include "../Manager/UIManager.h"
@@ -42,6 +43,11 @@ UConfigManager* UCommonBlueprintFunctionLibrary::GetConfigManager()
 UScriptManager* UCommonBlueprintFunctionLibrary::GetScriptManager()
 {
 	return UScriptManager::GetInstance();
+}
+
+UActorManager* UCommonBlueprintFunctionLibrary::GetActorManager()
+{
+	return UActorManager::GetInstance();
 }
 
 UUIManager* UCommonBlueprintFunctionLibrary::GetUIManager()

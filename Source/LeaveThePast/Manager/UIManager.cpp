@@ -71,16 +71,18 @@ void UUIManager::AddMessageTipById(int id)
 	AddMessageTip(value);
 }
 
-void UUIManager::ShowTalkUI(FString talkValue, FString actorName, float continueTime, FString headImagePath, bool isLeft)
+void UUIManager::ShowTalkUI(USayAction* sayAction)
 {
 	if (!talkUIWidget->IsInViewport())
 	{
 		talkUIWidget->AddToViewport();
 	}
-	
-	FOutputDeviceNull outputDeviceNull;
-	bool executeSuccess = talkUIWidget->CallFunctionByNameWithArguments(*FString::Printf(TEXT("SetInfo %s %s %s %f %d"), *headImagePath, *actorName, *talkValue, continueTime, isLeft), outputDeviceNull, nullptr, true);
-	if (!executeSuccess)
+	UFunction* functionSetInfo = talkUIWidget->FindFunction(TEXT("SetInfo"));
+	if (functionSetInfo)
+	{
+		talkUIWidget->ProcessEvent(functionSetInfo, &sayAction);
+	}
+	else
 	{
 		LogError("ShowTalkUI执行SetInfo蓝图函数失败！");
 	}

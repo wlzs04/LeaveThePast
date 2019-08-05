@@ -17,6 +17,15 @@ protected:
 	virtual void Update() override;
 	virtual FString ExecuteReal() override;
 	virtual void FinishReal() override;
+
+	UFUNCTION(BlueprintCallable)
+	int GetActorId();
+	UFUNCTION(BlueprintCallable)
+	FString GetText();
+	UFUNCTION(BlueprintCallable)
+	FString GetVoicePath();
+	UFUNCTION(BlueprintCallable)
+	float GetActionTime();
 private:
 	int actorInfoId = 0;
 	FString text = TEXT("无内容！");
