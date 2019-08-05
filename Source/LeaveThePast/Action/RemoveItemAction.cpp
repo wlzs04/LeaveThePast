@@ -26,13 +26,19 @@ void URemoveItemAction::Load(FXmlNode* xmlNode)
 
 void URemoveItemAction::Load(TArray<FString> paramList)
 {
-	if (paramList.Num() > 1)
+	for (int i = 1; i < paramList.Num(); i++)
 	{
-		itemId = FCString::Atoi(*paramList[1]);
-	}
-	if (paramList.Num() > 2)
-	{
-		number = FCString::Atoi(*paramList[1]);
+		FString attributeValue = paramList[i];
+		switch (i)
+		{
+		case 1:
+			itemId = FCString::Atoi(*paramList[1]);
+		case 2:
+			number = FCString::Atoi(*paramList[1]);
+		default:
+			LogWarning(FString::Printf(TEXT("%s指令中没有第%d参数:%s！"), *actionName, i, *attributeValue));
+			break;
+		}
 	}
 }
 

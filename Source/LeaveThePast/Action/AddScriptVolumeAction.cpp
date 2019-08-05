@@ -43,24 +43,26 @@ void UAddScriptVolumeAction::Load(FXmlNode* xmlNode)
 
 void UAddScriptVolumeAction::Load(TArray<FString> paramList)
 {
-	if (paramList.Num() > 1)
+	for (int i = 1; i < paramList.Num(); i++)
 	{
-		position = UHelpManager::ConvertFStringToFVector(paramList[1]);
-	}
-	if (paramList.Num() > 2)
-	{
-		scriptItemData.chapter = paramList[2]; 
-		isNext = false;
-	}
-	if (paramList.Num() > 3)
-	{
-		scriptItemData.sectionId = FCString::Atoi(*paramList[3]);
-		isNext = false;
-	}
-	if (paramList.Num() > 4)
-	{
-		scriptItemData.paragraphId = FCString::Atoi(*paramList[4]);
-		isNext = false;
+		FString attributeValue = paramList[i];
+		switch (i)
+		{
+		case 1:
+			position = UHelpManager::ConvertFStringToFVector(attributeValue);
+		case 2:
+			scriptItemData.chapter = attributeValue;
+			isNext = false;
+		case 3:
+			scriptItemData.sectionId = FCString::Atoi(*attributeValue);
+			isNext = false;
+		case 4:
+			scriptItemData.paragraphId = FCString::Atoi(*attributeValue);
+			isNext = false;
+		default:
+			LogWarning(FString::Printf(TEXT("%s指令中没有第%d参数:%s！"), *actionName, i, *attributeValue));
+			break;
+		}
 	}
 }
 

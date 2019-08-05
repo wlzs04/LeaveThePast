@@ -21,9 +21,17 @@ void USetMainUIStateAction::Load(FXmlNode* xmlNode)
 
 void USetMainUIStateAction::Load(TArray<FString> paramList)
 {
-	if (paramList.Num() > 1)
+	for (int i = 1; i < paramList.Num(); i++)
 	{
-		isShow = FCString::ToBool(*paramList[1]);
+		FString attributeValue = paramList[i];
+		switch (i)
+		{
+		case 1:
+			isShow = FCString::ToBool(*attributeValue);
+		default:
+			LogWarning(FString::Printf(TEXT("%s指令中没有第%d参数:%s！"), *actionName, i, *attributeValue));
+			break;
+		}
 	}
 }
 

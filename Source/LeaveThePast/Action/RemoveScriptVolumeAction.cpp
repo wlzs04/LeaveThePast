@@ -41,20 +41,24 @@ void URemoveScriptVolumeAction::Load(FXmlNode* xmlNode)
 
 void URemoveScriptVolumeAction::Load(TArray<FString> paramList)
 {
-	if (paramList.Num() > 1)
+	for (int i = 1; i < paramList.Num(); i++)
 	{
-		scriptItemData.chapter = paramList[1];
-		isCurrent = false;
-	}
-	if (paramList.Num() > 2)
-	{
-		scriptItemData.sectionId = FCString::Atoi(*paramList[2]);
-		isCurrent = false;
-	}
-	if (paramList.Num() > 3)
-	{
-		scriptItemData.paragraphId = FCString::Atoi(*paramList[3]);
-		isCurrent = false;
+		FString attributeValue = paramList[i];
+		switch (i)
+		{
+		case 1:
+			scriptItemData.chapter = attributeValue;
+			isCurrent = false;
+		case 2:
+			scriptItemData.sectionId = FCString::Atoi(*attributeValue);
+			isCurrent = false;
+		case 3:
+			scriptItemData.paragraphId = FCString::Atoi(*attributeValue);
+			isCurrent = false;
+		default:
+			LogWarning(FString::Printf(TEXT("%s指令中没有第%d参数:%s！"), *actionName, i, *attributeValue));
+			break;
+		}
 	}
 }
 

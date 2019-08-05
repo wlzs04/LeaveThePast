@@ -21,9 +21,17 @@ void URemoveCanControlActorAction::Load(FXmlNode* xmlNode)
 
 void URemoveCanControlActorAction::Load(TArray<FString> paramList)
 {
-	if (paramList.Num() > 1)
+	for (int i = 1; i < paramList.Num(); i++)
 	{
-		actorInfoId = FCString::Atoi(*paramList[1]);
+		FString attributeValue = paramList[i];
+		switch (i)
+		{
+		case 1:
+			actorInfoId = FCString::Atoi(*attributeValue);
+		default:
+			LogWarning(FString::Printf(TEXT("%s指令中没有第%d参数:%s！"), *actionName, i, *attributeValue));
+			break;
+		}
 	}
 }
 

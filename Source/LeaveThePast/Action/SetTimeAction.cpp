@@ -24,10 +24,18 @@ void USetTimeAction::Load(FXmlNode* xmlNode)
 
 void USetTimeAction::Load(TArray<FString> paramList)
 {
-	if (paramList.Num() > 1)
+	for (int i = 1; i < paramList.Num(); i++)
 	{
-		FTimespan timespan = UHelpManager::ConvertFStringToFTimespan(paramList[1]);
-		timeData.SetTime(timespan.GetHours(), timespan.GetMinutes(), timespan.GetSeconds());
+		FString attributeValue = paramList[i];
+		switch (i)
+		{
+		case 1:
+			FTimespan timespan = UHelpManager::ConvertFStringToFTimespan(attributeValue);
+			timeData.SetTime(timespan.GetHours(), timespan.GetMinutes(), timespan.GetSeconds());
+		default:
+			LogWarning(FString::Printf(TEXT("%s指令中没有第%d参数:%s！"), *actionName, i, *attributeValue));
+			break;
+		}
 	}
 }
 

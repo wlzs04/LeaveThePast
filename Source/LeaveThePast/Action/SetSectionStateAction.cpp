@@ -35,19 +35,23 @@ void USetSectionStateAction::Load(FXmlNode* xmlNode)
 
 void USetSectionStateAction::Load(TArray<FString> paramList)
 {
-	if (paramList.Num() > 1)
+	for (int i = 1; i < paramList.Num(); i++)
 	{
-		state = FCString::Atoi(*paramList[1]);
-	}
-	if (paramList.Num() > 2)
-	{
-		chapter = paramList[2];
-		isCurrent = false;
-	}
-	if (paramList.Num() > 3)
-	{
-		sectionId = FCString::Atoi(*paramList[3]);
-		isCurrent = false;
+		FString attributeValue = paramList[i];
+		switch (i)
+		{
+		case 1:
+			state = FCString::Atoi(*attributeValue);
+		case 2:
+			chapter = attributeValue;
+			isCurrent = false;
+		case 3:
+			sectionId = FCString::Atoi(*attributeValue);
+			isCurrent = false;
+		default:
+			LogWarning(FString::Printf(TEXT("%s指令中没有第%d参数:%s！"), *actionName, i, *attributeValue));
+			break;
+		}
 	}
 }
 

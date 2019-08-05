@@ -31,17 +31,21 @@ void UAddNextScriptAction::Load(FXmlNode* xmlNode)
 
 void UAddNextScriptAction::Load(TArray<FString> paramList)
 {
-	if (paramList.Num() > 1)
+	for (int i = 1; i < paramList.Num(); i++)
 	{
-		chapterName = paramList[1];
-	}
-	if (paramList.Num() > 2)
-	{
-		sectionId = FCString::Atoi(*paramList[2]);
-	}
-	if (paramList.Num() > 3)
-	{
-		paragraphId = FCString::Atoi(*paramList[3]);
+		FString attributeValue = paramList[i];
+		switch (i)
+		{
+		case 1:
+			chapterName = attributeValue;
+		case 2:
+			sectionId = FCString::Atoi(*attributeValue);
+		case 3:
+			paragraphId = FCString::Atoi(*attributeValue);
+		default:
+			LogWarning(FString::Printf(TEXT("%s指令中没有第%d参数:%s！"), *actionName, i, *attributeValue));
+			break;
+		}
 	}
 }
 

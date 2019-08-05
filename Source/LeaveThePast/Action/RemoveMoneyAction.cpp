@@ -22,9 +22,17 @@ void URemoveMoneyAction::Load(FXmlNode* xmlNode)
 
 void URemoveMoneyAction::Load(TArray<FString> paramList)
 {
-	if (paramList.Num() > 1)
+	for (int i = 1; i < paramList.Num(); i++)
 	{
-		number = FCString::Atoi(*paramList[1]);
+		FString attributeValue = paramList[i];
+		switch (i)
+		{
+		case 1:
+			number = FCString::Atoi(*attributeValue);
+		default:
+			LogWarning(FString::Printf(TEXT("%s指令中没有第%d参数:%s！"), *actionName, i, *attributeValue));
+			break;
+		}
 	}
 }
 

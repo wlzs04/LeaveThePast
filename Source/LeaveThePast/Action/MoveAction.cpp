@@ -38,21 +38,24 @@ void UMoveAction::Load(FXmlNode* xmlNode)
 
 void UMoveAction::Load(TArray<FString> paramList)
 {
-	if (paramList.Num() > 1)
+	for (int i = 1; i < paramList.Num(); i++)
 	{
-		actorInfoId = FCString::Atoi(*paramList[1]);
-	}
-	if (paramList.Num() > 2)
-	{
-		direction = UHelpManager::ConvertFStringToFVector(paramList[2]);
-	}
-	if (paramList.Num() > 3)
-	{
-		speed = FCString::Atoi(*paramList[3]);
-	}
-	if (paramList.Num() > 4)
-	{
-		actionTime = FCString::Atof(*paramList[4]);
+		FString attributeValue = paramList[i];
+		switch (i)
+		{
+		case 1:
+			actorInfoId = FCString::Atoi(*attributeValue);
+			isPlayerControlActorId = false;
+		case 2:
+			direction = UHelpManager::ConvertFStringToFVector(attributeValue);
+		case 3:
+			speed = FCString::Atof(*attributeValue);
+		case 4:
+			actionTime = FCString::Atof(*attributeValue);
+		default:
+			LogWarning(FString::Printf(TEXT("%s指令中没有第%d参数:%s！"), *actionName, i, *attributeValue));
+			break;
+		}
 	}
 }
 

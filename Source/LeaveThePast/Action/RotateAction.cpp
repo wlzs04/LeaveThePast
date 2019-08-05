@@ -33,18 +33,22 @@ void URotateAction::Load(FXmlNode* xmlNode)
 
 void URotateAction::Load(TArray<FString> paramList)
 {
-	if (paramList.Num() > 1)
+	for (int i = 1; i < paramList.Num(); i++)
 	{
-		actorInfoId = FCString::Atoi(*paramList[1]);
-		isPlayerControlActorId = false;
-	}
-	if (paramList.Num() > 2)
-	{
-		value = FCString::Atof(*paramList[2]);
-	}
-	if (paramList.Num() > 3)
-	{
-		actionTime = FCString::Atof(*paramList[3]);
+		FString attributeValue = paramList[i];
+		switch (i)
+		{
+		case 1:
+			actorInfoId = FCString::Atoi(*attributeValue);
+			isPlayerControlActorId = false;
+		case 2:
+			value = FCString::Atof(*attributeValue);
+		case 3:
+			actionTime = FCString::Atof(*attributeValue);
+		default:
+			LogWarning(FString::Printf(TEXT("%s指令中没有第%d参数:%s！"), *actionName, i, *attributeValue));
+			break;
+		}
 	}
 }
 

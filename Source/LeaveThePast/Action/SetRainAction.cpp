@@ -23,9 +23,17 @@ void USetRainAction::Load(FXmlNode* xmlNode)
 
 void USetRainAction::Load(TArray<FString> paramList)
 {
-	if (paramList.Num() > 1)
+	for (int i = 1; i < paramList.Num(); i++)
 	{
-		rainValue = FCString::Atoi(*paramList[1]);
+		FString attributeValue = paramList[i];
+		switch (i)
+		{
+		case 1:
+			rainValue = FCString::Atoi(*attributeValue);
+		default:
+			LogWarning(FString::Printf(TEXT("%s指令中没有第%d参数:%s！"), *actionName, i, *attributeValue));
+			break;
+		}
 	}
 }
 

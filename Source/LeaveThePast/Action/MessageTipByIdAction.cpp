@@ -28,13 +28,19 @@ void UMessageTipByIdAction::Load(FXmlNode* xmlNode)
 
 void UMessageTipByIdAction::Load(TArray<FString> paramList)
 {
-	if (paramList.Num() > 1)
+	for (int i = 1; i < paramList.Num(); i++)
 	{
-		messageId = FCString::Atoi(*paramList[1]);
-	}
-	if (paramList.Num() > 2)
-	{
-		actionTime = FCString::Atof(*paramList[2]);
+		FString attributeValue = paramList[i];
+		switch (i)
+		{
+		case 1:
+			messageId = FCString::Atoi(*attributeValue);
+		case 2:
+			actionTime = FCString::Atof(*attributeValue);
+		default:
+			LogWarning(FString::Printf(TEXT("%s指令中没有第%d参数:%s！"), *actionName, i, *attributeValue));
+			break;
+		}
 	}
 }
 

@@ -21,9 +21,17 @@ void USetScriptExecuteSpeedAction::Load(FXmlNode* xmlNode)
 
 void USetScriptExecuteSpeedAction::Load(TArray<FString> paramList)
 {
-	if (paramList.Num() > 1)
+	for (int i = 1; i < paramList.Num(); i++)
 	{
-		scriptExecuteSpeed = FCString::Atof(*paramList[1]);
+		FString attributeValue = paramList[i];
+		switch (i)
+		{
+		case 1:
+			scriptExecuteSpeed = FCString::Atof(*attributeValue);
+		default:
+			LogWarning(FString::Printf(TEXT("%s指令中没有第%d参数:%s！"), *actionName, i, *attributeValue));
+			break;
+		}
 	}
 }
 

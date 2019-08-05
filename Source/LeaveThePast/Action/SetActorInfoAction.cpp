@@ -34,19 +34,23 @@ void USetActorInfoAction::Load(FXmlNode* xmlNode)
 
 void USetActorInfoAction::Load(TArray<FString> paramList)
 {
-	if (paramList.Num() > 1)
+	for (int i = 1; i < paramList.Num(); i++)
 	{
-		actorId = FCString::Atoi(*paramList[1]);
-	}
-	if (paramList.Num() > 2)
-	{
-		position = UHelpManager::ConvertFStringToFVector(paramList[2]);
-		needReplacePosition = true;
-	}
-	if (paramList.Num() > 3)
-	{
-		rotation = UHelpManager::ConvertFStringToFRotator(paramList[3]);
-		needReplaceRotation = true;
+		FString attributeValue = paramList[i];
+		switch (i)
+		{
+		case 1:
+			actorId = FCString::Atoi(*attributeValue);
+		case 2:
+			position = UHelpManager::ConvertFStringToFVector(attributeValue);
+			needReplacePosition = true;
+		case 3:
+			rotation = UHelpManager::ConvertFStringToFRotator(attributeValue);
+			needReplaceRotation = true;
+		default:
+			LogWarning(FString::Printf(TEXT("%s指令中没有第%d参数:%s！"), *actionName, i, *attributeValue));
+			break;
+		}
 	}
 }
 
