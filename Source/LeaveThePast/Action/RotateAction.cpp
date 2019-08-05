@@ -41,10 +41,13 @@ void URotateAction::Load(TArray<FString> paramList)
 		case 1:
 			actorInfoId = FCString::Atoi(*attributeValue);
 			isPlayerControlActorId = false;
+			break;
 		case 2:
 			value = FCString::Atof(*attributeValue);
+			break;
 		case 3:
 			actionTime = FCString::Atof(*attributeValue);
+			break;
 		default:
 			LogWarning(FString::Printf(TEXT("%s指令中没有第%d参数:%s！"), *actionName, i, *attributeValue));
 			break;

@@ -33,20 +33,14 @@ void UAddItemAction::Load(TArray<FString> paramList)
 		{
 		case 1:
 			itemId = FCString::Atoi(*attributeValue);
+			break;
 		case 2:
 			itemNumber = FCString::Atoi(*attributeValue);
+			break;
 		default:
 			LogWarning(FString::Printf(TEXT("%s指令中没有第%d参数:%s！"), *actionName, i, *attributeValue));
 			break;
 		}
-	}
-	if (paramList.Num() > 1)
-	{
-		itemId = FCString::Atoi(*paramList[1]);
-	}
-	if(paramList.Num() > 2)
-	{
-		itemNumber = FCString::Atoi(*paramList[2]);
 	}
 }
 

@@ -33,8 +33,10 @@ void URemoveItemAction::Load(TArray<FString> paramList)
 		{
 		case 1:
 			itemId = FCString::Atoi(*paramList[1]);
+			break;
 		case 2:
 			number = FCString::Atoi(*paramList[1]);
+			break;
 		default:
 			LogWarning(FString::Printf(TEXT("%s指令中没有第%d参数:%s！"), *actionName, i, *attributeValue));
 			break;

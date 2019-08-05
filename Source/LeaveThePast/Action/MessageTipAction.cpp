@@ -33,8 +33,10 @@ void UMessageTipAction::Load(TArray<FString> paramList)
 		{
 		case 1:
 			text = attributeValue;
+			break;
 		case 2:
 			actionTime = FCString::Atof(*attributeValue);
+			break;
 		default:
 			LogWarning(FString::Printf(TEXT("%s指令中没有第%d参数:%s！"), *actionName, i, *attributeValue));
 			break;

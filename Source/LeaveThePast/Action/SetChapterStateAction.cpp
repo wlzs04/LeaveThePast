@@ -36,9 +36,11 @@ void USetChapterStateAction::Load(TArray<FString> paramList)
 		{
 		case 1:
 			state = FCString::Atoi(*attributeValue);
+			break;
 		case 2:
 			chapter = attributeValue;
 			isCurrent = false;
+			break;
 		default:
 			LogWarning(FString::Printf(TEXT("%s指令中没有第%d参数:%s！"), *actionName, i, *attributeValue));
 			break;

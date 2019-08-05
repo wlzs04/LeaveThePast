@@ -32,8 +32,10 @@ void USetShopUIStateAction::Load(TArray<FString> paramList)
 		{
 		case 1:
 			isShow = FCString::ToBool(*attributeValue);
+			break;
 		case 2:
 			shopConfigName = attributeValue;
+			break;
 		default:
 			LogWarning(FString::Printf(TEXT("%s指令中没有第%d参数:%s！"), *actionName, i, *attributeValue));
 			break;

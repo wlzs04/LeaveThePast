@@ -30,8 +30,11 @@ void USetTimeAction::Load(TArray<FString> paramList)
 		switch (i)
 		{
 		case 1:
+		{
 			FTimespan timespan = UHelpManager::ConvertFStringToFTimespan(attributeValue);
 			timeData.SetTime(timespan.GetHours(), timespan.GetMinutes(), timespan.GetSeconds());
+			break;
+		}
 		default:
 			LogWarning(FString::Printf(TEXT("%s指令中没有第%d参数:%s！"), *actionName, i, *attributeValue));
 			break;

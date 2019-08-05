@@ -41,12 +41,15 @@ void USetActorInfoAction::Load(TArray<FString> paramList)
 		{
 		case 1:
 			actorId = FCString::Atoi(*attributeValue);
+			break;
 		case 2:
 			position = UHelpManager::ConvertFStringToFVector(attributeValue);
 			needReplacePosition = true;
+			break;
 		case 3:
 			rotation = UHelpManager::ConvertFStringToFRotator(attributeValue);
 			needReplaceRotation = true;
+			break;
 		default:
 			LogWarning(FString::Printf(TEXT("%s指令中没有第%d参数:%s！"), *actionName, i, *attributeValue));
 			break;

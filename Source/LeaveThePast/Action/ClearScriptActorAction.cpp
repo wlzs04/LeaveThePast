@@ -48,15 +48,19 @@ void UClearScriptActorAction::Load(TArray<FString> paramList)
 		{
 		case 1:
 			actorInfoId = FCString::Atoi(*attributeValue);
+			break;
 		case 2:
 			scriptItemData.chapter = attributeValue;
 			isCurrent = false;
+			break;
 		case 3:
 			scriptItemData.sectionId = FCString::Atoi(*attributeValue);
 			isCurrent = false;
+			break;
 		case 4:
 			scriptItemData.paragraphId = FCString::Atoi(*attributeValue);
 			isCurrent = false;
+			break;
 		default:
 			LogWarning(FString::Printf(TEXT("%s指令中没有第%d参数:%s！"), *actionName, i, *attributeValue));
 			break;

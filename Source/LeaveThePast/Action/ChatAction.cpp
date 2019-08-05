@@ -47,32 +47,20 @@ void UChatAction::Load(TArray<FString> paramList)
 		case 1:
 			actorInfoId = FCString::Atoi(*attributeValue);
 			isPlayerControlActorId = false;
+			break;
 		case 2:
 			text = attributeValue;
+			break;
 		case 3:
 			voicePath = attributeValue;
+			break;
 		case 4:
 			actionTime = FCString::Atof(*attributeValue);
+			break;
 		default:
 			LogWarning(FString::Printf(TEXT("%s指令中没有第%d参数:%s！"), *actionName, i, *attributeValue));
 			break;
 		}
-	}
-	if (paramList.Num() > 1)
-	{
-		actorInfoId = FCString::Atoi(*paramList[1]);
-	}
-	if (paramList.Num() > 2)
-	{
-		text = paramList[2];
-	}
-	if (paramList.Num() > 3)
-	{
-		voicePath = paramList[3];
-	}
-	if (paramList.Num() > 4)
-	{
-		actionTime = FCString::Atof(*paramList[4]);
 	}
 }
 
