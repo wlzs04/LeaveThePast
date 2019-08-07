@@ -1,4 +1,4 @@
-<MainActor>
+<MainActor actorEnum="Main">
 	<Actor actorId="10001" actorName="主角1" headImagePath="GameContent/Resource/Others/Image/MainActor1Head.png" description="主角1的描述。" defaultPosition="6251.0,130,106" defaultRotation="0,0,90">
 		<Model modelName="MainActor" modelRootPath="GameContent/Resource/Others/Model/Main"/>
 		<PropertyList>

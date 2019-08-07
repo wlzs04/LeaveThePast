@@ -9,11 +9,9 @@
 #include "XmlParser/Public/XmlFile.h"
 #include "Engine/Level.h"
 #include "EngineUtils.h"
+#include "Runtime/Core/Public/HAL/FileManager.h"
 
 #include "../Actor/ActorBase.h"
-#include "../Actor/MainActorInfo.h"
-#include "../Actor/MinorActorInfo.h"
-#include "../Actor/MassActorInfo.h"
 #include "../Volume/VolumeBase.h"
 #include "../Volume/ScriptVolume.h"
 #include "../Volume/SceneVolume.h"
@@ -28,9 +26,7 @@ UActorManager* UActorManager::GetInstance()
 void UActorManager::Init()
 {
 	UActorManager::actorManager = this;
-	LoadMainActorInfo();
-	LoadMinorActorInfo();
-	LoadMassActorInfo();
+	LoadActorInfo();
 
 	LoadAllIegalVolume();
 }
@@ -98,17 +94,9 @@ AActorBase* UActorManager::GetActorByInfoId(int actorInfoId)
 
 UActorInfoBase* UActorManager::GetActorInfoByInfoId(int actorInfoId)
 {
-	if (mainActorInfoMap.Contains(actorInfoId))
+	if (actorInfoMap.Contains(actorInfoId))
 	{
-		return mainActorInfoMap[actorInfoId];
-	}
-	else if (minorActorInfoMap.Contains(actorInfoId))
-	{
-		return minorActorInfoMap[actorInfoId];
-	}
-	else if (massActorInfoMap.Contains(actorInfoId))
-	{
-		return massActorInfoMap[actorInfoId];
+		return actorInfoMap[actorInfoId];
 	}
 	else
 	{
@@ -183,97 +171,51 @@ void UActorManager::RemoveVolumeByVolumeValue(FString volumeValue)
 	}
 }
 
-void UActorManager::LoadMainActorInfo()
+void UActorManager::LoadActorInfo()
 {
-	FString mainActorPath = FPaths::ProjectContentDir() + mainActorRelativePath;
-	LogNormal(FString::Printf(TEXT("MainActor文件开始加载：%s"), *mainActorPath));
+	FString actorInfoPath = FPaths::ProjectContentDir() + actorInfoRootPath;
+	//使用此方法查找文件时需要添加文件类型
+	FString actorInfoRootFilePath = actorInfoPath + TEXT("*.*");
+	TArray<FString> actorInfoFilePaths;
+	IFileManager::Get().FindFiles(actorInfoFilePaths, *actorInfoRootFilePath, true, false);
 
-	FXmlFile* xmlFile = new FXmlFile(mainActorPath);
-	if (!xmlFile->IsValid())
-	{
-		LogError(FString::Printf(TEXT("MainActor文件加载失败：%s"), *mainActorPath));
-		return;
-	}
-	FXmlNode* rootNode = xmlFile->GetRootNode();
-	for (auto childNode : rootNode->GetChildrenNodes())
-	{
-		FString childNodeName = childNode->GetTag();
-		if (childNodeName == TEXT("Actor"))
-		{
-			UMainActorInfo* mainActorInfo = NewObject<UMainActorInfo>();
-			mainActorInfo->Load(childNode);
-			mainActorInfoMap.Add(mainActorInfo->GetActorId(), mainActorInfo);
-		}
-		else
-		{
-			LogWarning(FString::Printf(TEXT("MainActor文件中存在未知节点：%s"), *childNodeName));
-		}
-	}
-	xmlFile->Clear();
-	delete xmlFile;
-	LogNormal(FString::Printf(TEXT("MainActor文件加载完成：%s"), *mainActorPath));
-}
+	UEnum* actorEnumPtr = FindObject<UEnum>(ANY_PACKAGE, TEXT("ActorEnum"), true);
 
-void UActorManager::LoadMinorActorInfo()
-{
-	FString minorActorPath = FPaths::ProjectContentDir() + minorActorRelativePath;
-	LogNormal(FString::Printf(TEXT("MinorActor文件开始加载：%s"), *minorActorPath));
+	for (auto var : actorInfoFilePaths)
+	{
+		FString actorInfoRealPath = actorInfoPath + var;
+		LogNormal(FString::Printf(TEXT("Actor文件开始加载：%s"), *actorInfoRealPath));
+		FXmlFile* xmlFile = new FXmlFile(actorInfoRealPath);
+		if (!xmlFile->IsValid())
+		{
+			LogError(FString::Printf(TEXT("Actor文件加载失败：%s"), *actorInfoRealPath));
+			return;
+		}
 
-	FXmlFile* xmlFile = new FXmlFile(minorActorPath);
-	if (!xmlFile->IsValid())
-	{
-		LogError(FString::Printf(TEXT("MinorActor加载失败：%s"), *minorActorPath));
-		return;
-	}
-	FXmlNode* rootNode = xmlFile->GetRootNode();
-	for (auto childNode : rootNode->GetChildrenNodes())
-	{
-		FString childNodeName = childNode->GetTag();
-		if (childNodeName == TEXT("Actor"))
+		FXmlNode* rootNode = xmlFile->GetRootNode();
+		ActorEnum actorEnum = ActorEnum::Unknown;
+		FString actorEnumString = rootNode->GetAttribute(TEXT("actorEnum"));
+		actorEnum = (ActorEnum)actorEnumPtr->GetValueByNameString(actorEnumString);
+		for (auto childNode : rootNode->GetChildrenNodes())
 		{
-			UMinorActorInfo* minorActorInfo = NewObject<UMinorActorInfo>();
-			minorActorInfo->Load(childNode);
-			minorActorInfoMap.Add(minorActorInfo->GetActorId(), minorActorInfo);
+			FString childNodeName = childNode->GetTag();
+			if (childNodeName == TEXT("Actor"))
+			{
+				UActorInfoBase* actorInfo = NewObject<UActorInfoBase>();
+				actorInfo->SetActorEnum(actorEnum);
+				actorInfo->Load(childNode);
+				actorInfoMap.Add(actorInfo->GetActorId(), actorInfo);
+			}
+			else
+			{
+				LogWarning(FString::Printf(TEXT("Actor文件:%s中存在未知节点：%s"), *actorInfoRealPath,*childNodeName));
+			}
 		}
-		else
-		{
-			LogWarning(FString::Printf(TEXT("MinorActor文件中存在未知节点：%s"), *childNodeName));
-		}
-	}
-	xmlFile->Clear();
-	delete xmlFile;
-	LogNormal(FString::Printf(TEXT("MinorActor文件加载完成：%s"), *minorActorPath));
-}
 
-void UActorManager::LoadMassActorInfo()
-{
-	FString massActorPath = FPaths::ProjectContentDir() + massActorRelativePath;
-	LogNormal(FString::Printf(TEXT("MassActor文件开始加载：%s"), *massActorPath));
-
-	FXmlFile* xmlFile = new FXmlFile(massActorPath);
-	if (!xmlFile->IsValid())
-	{
-		LogError(FString::Printf(TEXT("MassActor加载失败：%s"), *massActorPath));
-		return;
+		xmlFile->Clear();
+		delete xmlFile;
+		LogNormal(FString::Printf(TEXT("Actor文件加载完成：%s"), *actorInfoRealPath));
 	}
-	FXmlNode* rootNode = xmlFile->GetRootNode();
-	for (auto childNode : rootNode->GetChildrenNodes())
-	{
-		FString childNodeName = childNode->GetTag();
-		if (childNodeName == TEXT("Actor"))
-		{
-			UMassActorInfo* massActorInfo = NewObject<UMassActorInfo>();
-			massActorInfo->Load(childNode);
-			massActorInfoMap.Add(massActorInfo->GetActorId(), massActorInfo);
-		}
-		else
-		{
-			LogWarning(FString::Printf(TEXT("MassActor文件中存在未知节点：%s"), *childNodeName));
-		}
-	}
-	xmlFile->Clear();
-	delete xmlFile;
-	LogNormal(FString::Printf(TEXT("MassActor文件加载完成：%s"), *massActorPath));
 }
 
 void UActorManager::LoadAllIegalVolume()

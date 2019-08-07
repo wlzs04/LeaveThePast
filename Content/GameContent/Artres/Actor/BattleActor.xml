@@ -1,0 +1,54 @@
+<BattleActor actorEnum="BattleMass">
+	<Actor actorId="60001" actorName="劫匪甲" defaultPosition="0,200,98" defaultRotation="0,0,90">
+		<Model modelName="dianxiaoer" modelRootPath="GameContent/Resource/Others/Model/dianxiaoer">
+		</Model>
+		<PropertyList>
+			<Attack value="100"/>
+			<Defense value="100"/>
+			<Speed value="600"/>
+			<Life value="1000"/>
+			<Power value="500"/>
+			<WarningRange value="500"/>
+			<Score value="500"/>
+		</PropertyList>
+	</Actor>
+	<Actor actorId="60002" actorName="劫匪已" defaultPosition="0,100,98" defaultRotation="0,0,90">
+		<Model modelName="TieJiangNPC" modelRootPath="GameContent/Resource/Others/Model/TieJiangNPC">
+		</Model>
+		<PropertyList>
+			<Attack value="150"/>
+			<Defense value="110"/>
+			<Speed value="400"/>
+			<Life value="1500"/>
+			<Power value="600"/>
+			<WarningRange value="300"/>
+			<Score value="700"/>
+		</PropertyList>
+	</Actor>
+	<Actor actorId="60003" actorName="劫匪丙" defaultPosition="0,0,98" defaultRotation="0,0,90">
+		<Model modelName="TieJiangNPC" modelRootPath="GameContent/Resource/Others/Model/dianxiaoer">
+		</Model>
+		<PropertyList>
+			<Attack value="300"/>
+			<Defense value="110"/>
+			<Speed value="100"/>
+			<Life value="2000"/>
+			<Power value="600"/>
+			<WarningRange value="300"/>
+			<Score value="800"/>
+		</PropertyList>
+	</Actor>
+	<Actor actorId="60004" actorName="劫匪丁" defaultPosition="0,-100,98" defaultRotation="0,0,90">
+		<Model modelName="TieJiangNPC" modelRootPath="GameContent/Resource/Others/Model/TieJiangNPC">
+		</Model>
+		<PropertyList>
+			<Attack value="50"/>
+			<Defense value="70"/>
+			<Speed value="600"/>
+			<Life value="500"/>
+			<Power value="1000"/>
+			<WarningRange value="700"/>
+			<Score value="1000"/>
+		</PropertyList>
+	</Actor>
+</BattleActor>

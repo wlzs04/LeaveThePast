@@ -88,11 +88,18 @@ void UActorInfoBase::Load(FXmlNode* xmlNode)
 				{
 					propertyBase.propertyEnum = PropertyEnum::Power;
 				}
+				else if (propertyTag == TEXT("WarningRange"))
+				{
+					propertyBase.propertyEnum = PropertyEnum::WarningRange;
+				}
+				else if (propertyTag == TEXT("Score"))
+				{
+					propertyBase.propertyEnum = PropertyEnum::Score;
+				}
 				else
 				{
 					LogWarning(FString::Printf(TEXT("演员Id:%d配置中存在未知属性:%s！"), actorId, *propertyTag));
 				}
-				propertyBase.propertyName = propertyNode->GetAttribute(TEXT("name"));
 				propertyBase.propertyValue = FCString::Atof(*propertyNode->GetAttribute(TEXT("value")));
 				propertyMap.Add(propertyTag, propertyBase);
 			}
@@ -142,6 +149,16 @@ void UActorInfoBase::CoverData(USceneActorData* sceneActorData)
 	{
 		LogError(TEXT("使用FSaveActorInfo覆盖UActorInfoBase数据时actorId不同。"));
 	}
+}
+
+void UActorInfoBase::SetActorEnum(ActorEnum newActorEnum)
+{
+	actorEnum = newActorEnum;
+}
+
+ActorEnum UActorInfoBase::GetActorEnum()
+{
+	return actorEnum;
 }
 
 int UActorInfoBase::GetActorId()

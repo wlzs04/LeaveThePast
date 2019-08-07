@@ -4,4 +4,11 @@
   <Recorder id="10003" value="结束"/>
   <Recorder id="10004" value="确定"/>
   <Recorder id="10005" value="取消"/>
+  <Recorder id="10006" value="攻击力"/>
+  <Recorder id="10007" value="防御力"/>
+  <Recorder id="10008" value="最大速度"/>
+  <Recorder id="10009" value="生命值"/>
+  <Recorder id="10010" value="能力值"/>
+  <Recorder id="10011" value="警戒范围"/>
+  <Recorder id="10012" value="评分"/>
 </String>

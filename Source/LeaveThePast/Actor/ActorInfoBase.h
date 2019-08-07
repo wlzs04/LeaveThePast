@@ -11,26 +11,17 @@ class USceneActorData;
 class UParagraph;
 class UActionBase;
 
-//说话结构体
-USTRUCT()
-struct FChat
+//演员类型
+UENUM(BlueprintType)
+enum class ActorEnum :uint8
 {
-	GENERATED_USTRUCT_BODY()
-
-	FString text;
-	FString voicePath;
-
-	FChat()
-	{
-		text = TEXT("无");
-		voicePath = TEXT("");
-	}
-
-	FChat(FString newText, FString newVoicePath)
-	{
-		text = newText;
-		voicePath = newVoicePath;
-	}
+	Unknown UMETA(DisplayName = "未知"),
+	Main UMETA(DisplayName = "主要"),
+	Minor UMETA(DisplayName = "次要"),
+	Mass UMETA(DisplayName = "群众"),
+	BattleMass UMETA(DisplayName = "小怪"),
+	BattleMinor UMETA(DisplayName = "精英怪"),
+	BattleMain UMETA(DisplayName = "Boss"),
 };
 
 //演员属性类型
@@ -43,6 +34,8 @@ enum class PropertyEnum :uint8
 	Speed UMETA(DisplayName = "速度"),
 	Life UMETA(DisplayName = "生命值"),
 	Power UMETA(DisplayName = "能力值"),
+	WarningRange UMETA(DisplayName = "警戒范围"),
+	Score UMETA(DisplayName = "评分"),
 };
 
 //演员属性结构体
@@ -53,15 +46,12 @@ struct FPropertyBase
 
 	FPropertyBase()
 	{
-		propertyName = TEXT("未命名");
 		propertyValue = 0;
 		propertyEnum = PropertyEnum::Unknown;
 	}
 
 	UPROPERTY(BlueprintReadWrite)
 	PropertyEnum propertyEnum;
-	UPROPERTY(BlueprintReadWrite)
-	FString propertyName;
 	UPROPERTY(BlueprintReadWrite)
 	float propertyValue;
 };
@@ -80,7 +70,14 @@ public:
 	//从场景演员信息中覆盖信息
 	void CoverData(USceneActorData* sceneActorData);
 	
+	UFUNCTION(BlueprintCallable)
 	int GetActorId();
+	
+	UFUNCTION(BlueprintCallable)
+	void SetActorEnum(ActorEnum newActorEnum);
+	
+	UFUNCTION(BlueprintCallable)
+	ActorEnum GetActorEnum();
 
 	UFUNCTION(BlueprintCallable)
 	void SetActorName(FString newActorName);
@@ -110,6 +107,7 @@ public:
 	UParagraph* GetNearbyParagraph();
 private:
 	int actorId = 0;//演员的Id
+	ActorEnum actorEnum = ActorEnum::Unknown;//演员类型
 	FString actorName = TEXT("未命名演员");//演员名称
 	FString description = TEXT("无描述。");//演员描述
 	FString modelName = TEXT("");//演员模型的名称

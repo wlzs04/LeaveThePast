@@ -5,9 +5,7 @@
 #include "ActorManager.generated.h"
 
 class AActorBase;
-class UMainActorInfo;
-class UMinorActorInfo;
-class UMassActorInfo;
+class UActorInfoBase;
 class AVolumeBase;
 
 //管理演员和体积
@@ -58,12 +56,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void RemoveVolumeByVolumeValue(FString volumeValue);
 private:
-	//加载主演
-	void LoadMainActorInfo();
-	//加载次演
-	void LoadMinorActorInfo();
-	//加载群演
-	void LoadMassActorInfo();
+	//加载演员信息
+	void LoadActorInfo();
 
 	//加载所有合法体积
 	void LoadAllIegalVolume();
@@ -72,16 +66,10 @@ private:
 
 	static UActorManager* actorManager;
 
-	FString mainActorRelativePath = TEXT("GameContent/Artres/Actor/MainActor.xml");
-	FString minorActorRelativePath = TEXT("GameContent/Artres/Actor/MinorActor.xml");
-	FString massActorRelativePath = TEXT("GameContent/Artres/Actor/MassActor.xml");
+	FString actorInfoRootPath = TEXT("GameContent/Artres/Actor/");
 
 	UPROPERTY()
-	TMap<int, UMainActorInfo*> mainActorInfoMap;
-	UPROPERTY()
-	TMap<int, UMinorActorInfo*> minorActorInfoMap;
-	UPROPERTY()
-	TMap<int, UMassActorInfo*> massActorInfoMap;
+	TMap<int, UActorInfoBase*> actorInfoMap;
 
 	UPROPERTY()
 	TMap<int, AActorBase*> actorBaseByInfoIdMap;
