@@ -220,7 +220,7 @@ void AActorBase::LoadModel()
 
 void AActorBase::ActorBeginOverlapEvent(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	if (!nearbyActionIsCompleted || UScriptManager::GetInstance()->IsExecutingScript())
+	if (!nearbyActionIsCompleted || (UScriptManager::GetInstance() != nullptr && UScriptManager::GetInstance()->IsExecutingScript()))
 	{
 		return;
 	}

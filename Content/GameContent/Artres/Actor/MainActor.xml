@@ -1,6 +1,6 @@
 <MainActor actorEnum="Main">
 	<Actor actorId="10001" actorName="主角1" headImagePath="GameContent/Resource/Others/Image/MainActor1Head.png" description="主角1的描述。" defaultPosition="6251.0,130,106" defaultRotation="0,0,90">
-		<Model modelName="MainActor" modelRootPath="GameContent/Resource/Others/Model/Main"/>
+		<Model modelName="GuoJing" modelRootPath="GameContent/Resource/Others/Model/GuoJing"/>
 		<PropertyList>
 			<Attack name="攻击力" value="100"/>
 			<Defense name="防御力" value="100"/>
@@ -10,7 +10,7 @@
 		</PropertyList>
 	</Actor>
 	<Actor actorId="10002" actorName="主角2" headImagePath="GameContent/Resource/Others/Image/MainActor2Head.png" description="主角2的描述。" defaultPosition="3590.0,-3140.0,110" defaultRotation="0,0,90">
-		<Model modelName="NPC2Actor" modelRootPath="GameContent/Resource/Others/Model/NPC2"/>
+		<Model modelName="HuangRong" modelRootPath="GameContent/Resource/Others/Model/HuangRong"/>
 		<PropertyList>
 			<Attack name="攻击力" value="120"/>
 			<Defense name="防御力" value="110"/>
