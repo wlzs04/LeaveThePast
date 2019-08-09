@@ -86,7 +86,7 @@ void ADirectorActor::InitActor()
 	{
 		if (canControlActorList[i] != currentControlActor)
 		{
-			canControlActorList[i]->SetControlByAI();
+			canControlActorList[i]->AddControlByAI();
 		}
 	}
 
@@ -169,27 +169,28 @@ void ADirectorActor::SetControlActor(AActorBase* actor)
 		if (currentControlActor != nullptr)
 		{
 			currentControlActor->RemoveCameraFollow();
-			currentControlActor->SetControlByAI();
+			currentControlActor->AddControlByAI();
 		}
 		currentControlActor = actor;
-		currentControlActor->AddCameraFollow();
+		currentControlActor->AddCameraFollow(); 
+		currentControlActor->RemoveControlByAI();
 		FAttachmentTransformRules attachmentTransform(EAttachmentRule::KeepRelative,true);
 		AttachToActor(currentControlActor, attachmentTransform);
 		SetActorRelativeLocation(FVector(0,0,0));
 		APlayerController* playerController = UMainGameManager::GetInstance()->GetGameWorld()->GetFirstPlayerController<APlayerController>();
-		if (currentControlActor->GetController() != nullptr)
-		{
-			currentControlActor->GetController()->UnPossess();
-		}
+		
 		playerController->SetViewTarget(currentControlActor);
 		currentControlActor->Controller = playerController;
-		//playerController->Possess(currentControlActor);
 	}
 	for (int i = 0; i < canControlActorList.Num(); i++)
 	{
 		if (canControlActorList[i]->GetActorInfo()->GetActorId() == actor->GetActorInfo()->GetActorId())
 		{
 			currentControlActorIndex = i;
+		}
+		else if ((AMainAIController*)(canControlActorList[i]->Controller!=nullptr))
+		{
+			((AMainAIController*)(canControlActorList[i]->Controller))->SetTagetActor(currentControlActor);
 		}
 	}
 }

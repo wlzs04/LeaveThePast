@@ -20,6 +20,8 @@ public:
 protected:
 	virtual void OnPossess(APawn* Pawn) override;//4.22以后使用OnPossess代替Possess
 
+	UPROPERTY()
 	UBehaviorTreeComponent* behaviorTreeComponent;
+	UPROPERTY()
 	UBlackboardComponent* blackboardComponent;
 };

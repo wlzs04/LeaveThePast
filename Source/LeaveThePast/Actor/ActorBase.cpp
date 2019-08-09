@@ -145,22 +145,28 @@ void AActorBase::RemoveInteractedScript(FScriptItemData scriptItemData)
 	interactedScriptList.Remove(scriptItemData);
 }
 
-void AActorBase::SetControlByAI()
+void AActorBase::AddControlByAI()
 {
 	behaviorTree = LoadObject<UBehaviorTree>(NULL, TEXT("BehaviorTree'/Game/GameContent/AI/Main/MainBehaviorTree.MainBehaviorTree'"));
-	if (behaviorTree != nullptr)
+	
+	if(mainAIController == nullptr)
 	{
-		AMainAIController* mainAIController = GetWorld()->SpawnActor<AMainAIController>(GetActorInfo()->GetDefaultPosition(), GetActorInfo()->GetDefaultRotation());
-
-		Controller = mainAIController;
-		mainAIController->Possess(this);
-		mainAIController->SetTagetActor(ADirectorActor::GetInstance()->GetCurrentControlActor());
+		mainAIController = GetWorld()->SpawnActor<AMainAIController>(GetActorInfo()->GetDefaultPosition(), GetActorInfo()->GetDefaultRotation());
 	}
+	Controller = mainAIController;
+	mainAIController->Possess(this);
+	mainAIController->SetTagetActor(ADirectorActor::GetInstance()->GetCurrentControlActor());
 }
 
-void AActorBase::SetBehaviorTree(UBehaviorTree* newBehaviorTree)
+void AActorBase::RemoveControlByAI()
 {
-	behaviorTree = newBehaviorTree;
+	if (Controller != nullptr)
+	{
+		Controller->UnPossess();
+		Controller = nullptr;
+		mainAIController->Destroy();
+		mainAIController = nullptr;
+	}
 }
 
 UBehaviorTree* AActorBase::GetBehaviorTree()

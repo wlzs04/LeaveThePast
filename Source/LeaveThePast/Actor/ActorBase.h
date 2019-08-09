@@ -14,6 +14,7 @@ class USpringArmComponent;
 class UCameraComponent;
 class UBlackboardComponent;
 class UBehaviorTree;
+class AMainAIController;
 
 //演员基类
 UCLASS()
@@ -64,10 +65,11 @@ public:
 	void RemoveInteractedScript(FScriptItemData scriptItemData);
 
 	//设置被AI控制
-	void SetControlByAI();
+	void AddControlByAI();
+	//设置被AI控制
+	void RemoveControlByAI();
 
 	//行为树
-	void SetBehaviorTree(UBehaviorTree* newBehaviorTree);
 	UBehaviorTree* GetBehaviorTree();
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
@@ -109,5 +111,8 @@ private:
 	bool executeNearbyAction = false;//执行附近指令
 	bool nearbyActionIsCompleted = true;//附近指令是否执行完
 
+	UPROPERTY()
 	UBehaviorTree* behaviorTree = nullptr;
+	UPROPERTY()
+	AMainAIController* mainAIController = nullptr;
 };
