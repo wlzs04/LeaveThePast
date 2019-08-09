@@ -1,6 +1,7 @@
 #include "ActorBase.h"
 #include "../Action/ActionBase.h"
-#include "../Actor/DirectorActor.h"
+#include "DirectorActor.h"
+#include "MainAIController.h"
 #include "../Manager/LogManager.h"
 #include "../Manager/AudioManager.h"
 #include "../Manager/ScriptManager.h"
@@ -17,6 +18,10 @@
 #include "Components/AudioComponent.h"
 #include "Components/SphereComponent.h"
 #include "Sound/SoundCue.h"
+#include "Runtime/AIModule/Classes/AIController.h"
+#include "Runtime/AIModule/Classes/BehaviorTree/BehaviorTree.h"
+#include "Runtime/AIModule/Classes/BehaviorTree/BlackboardData.h"
+#include "Runtime/AIModule/Classes/BehaviorTree/BlackboardComponent.h"
 
 AActorBase::AActorBase()
 {
@@ -50,6 +55,7 @@ AActorBase::AActorBase()
 
 	nearbyComponent->OnComponentBeginOverlap.AddDynamic(this, &AActorBase::ActorBeginOverlapEvent);
 	nearbyComponent->OnComponentEndOverlap.AddDynamic(this, &AActorBase::ActorEndOverlapEvent);
+
 }
 
 void AActorBase::InitByActorInfo()
@@ -139,6 +145,29 @@ void AActorBase::RemoveInteractedScript(FScriptItemData scriptItemData)
 	interactedScriptList.Remove(scriptItemData);
 }
 
+void AActorBase::SetControlByAI()
+{
+	behaviorTree = LoadObject<UBehaviorTree>(NULL, TEXT("BehaviorTree'/Game/GameContent/AI/Main/MainBehaviorTree.MainBehaviorTree'"));
+	if (behaviorTree != nullptr)
+	{
+		AMainAIController* mainAIController = GetWorld()->SpawnActor<AMainAIController>(GetActorInfo()->GetDefaultPosition(), GetActorInfo()->GetDefaultRotation());
+
+		Controller = mainAIController;
+		mainAIController->Possess(this);
+		mainAIController->SetTagetActor(ADirectorActor::GetInstance()->GetCurrentControlActor());
+	}
+}
+
+void AActorBase::SetBehaviorTree(UBehaviorTree* newBehaviorTree)
+{
+	behaviorTree = newBehaviorTree;
+}
+
+UBehaviorTree* AActorBase::GetBehaviorTree()
+{
+	return behaviorTree;
+}
+
 void AActorBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -169,6 +198,8 @@ void AActorBase::SetActorInfo(UActorInfoBase* newActorInfo)
 		return;
 	}
 	actorInfo = newActorInfo;
+
+	
 }
 
 UActorInfoBase* AActorBase::GetActorInfo()

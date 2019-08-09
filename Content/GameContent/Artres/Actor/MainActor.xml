@@ -2,21 +2,21 @@
 	<Actor actorId="10001" actorName="主角1" headImagePath="GameContent/Resource/Others/Image/MainActor1Head.png" description="主角1的描述。" defaultPosition="6251.0,130,106" defaultRotation="0,0,90">
 		<Model modelName="GuoJing" modelRootPath="GameContent/Resource/Others/Model/GuoJing"/>
 		<PropertyList>
-			<Attack name="攻击力" value="100"/>
-			<Defense name="防御力" value="100"/>
-			<Speed name="最大速度" value="600"/>
-			<Life name="生命值" value="1000"/>
-			<Power name="能力值" value="1000"/>
+			<Attack value="100"/>
+			<Defense value="100"/>
+			<Speed value="600"/>
+			<Life value="1000"/>
+			<Power value="1000"/>
 		</PropertyList>
 	</Actor>
 	<Actor actorId="10002" actorName="主角2" headImagePath="GameContent/Resource/Others/Image/MainActor2Head.png" description="主角2的描述。" defaultPosition="3590.0,-3140.0,110" defaultRotation="0,0,90">
 		<Model modelName="HuangRong" modelRootPath="GameContent/Resource/Others/Model/HuangRong"/>
 		<PropertyList>
-			<Attack name="攻击力" value="120"/>
-			<Defense name="防御力" value="110"/>
-			<Speed name="最大速度" value="800"/>
-			<Life name="生命值" value="1200"/>
-			<Power name="能力值" value="600"/>
+			<Attack value="120"/>
+			<Defense value="110"/>
+			<Speed value="800"/>
+			<Life value="1200"/>
+			<Power value="600"/>
 		</PropertyList>
 	</Actor>
 </MainActor>

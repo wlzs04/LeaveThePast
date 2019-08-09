@@ -8,7 +8,7 @@ public class LeaveThePast : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "UMG", "XmlParser", "ImageWrapper" });
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "UMG", "XmlParser", "ImageWrapper","AIModule" });
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 

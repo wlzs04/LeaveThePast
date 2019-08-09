@@ -12,6 +12,8 @@ class UAudioComponent;
 class USphereComponent;
 class USpringArmComponent;
 class UCameraComponent;
+class UBlackboardComponent;
+class UBehaviorTree;
 
 //演员基类
 UCLASS()
@@ -52,6 +54,7 @@ public:
 	void TurnInputFunction(float value);
 	void LookUpInputFunction(float value);
 
+	UFUNCTION(BlueprintCallable)
 	void SetAccelerate(bool enableAccelerate);
 
 	TArray<AActor*> GetInteractedActor();
@@ -59,6 +62,13 @@ public:
 	TArray<FScriptItemData> GetInteractedScriptList();
 	void AddInteractedScript(FScriptItemData scriptItemData);
 	void RemoveInteractedScript(FScriptItemData scriptItemData);
+
+	//设置被AI控制
+	void SetControlByAI();
+
+	//行为树
+	void SetBehaviorTree(UBehaviorTree* newBehaviorTree);
+	UBehaviorTree* GetBehaviorTree();
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	int actorIdForEditor = 0;
@@ -98,4 +108,6 @@ private:
 	int currentActionIndex = 0;
 	bool executeNearbyAction = false;//执行附近指令
 	bool nearbyActionIsCompleted = true;//附近指令是否执行完
+
+	UBehaviorTree* behaviorTree = nullptr;
 };

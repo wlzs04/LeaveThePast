@@ -11,10 +11,12 @@
 #include "../Volume/VolumeBase.h"
 #include "../Config/SceneData.h"
 #include "ActorBase.h"
+#include "MainAIController.h"
 #include "Sound/SoundCue.h"
 #include "GameFramework/PlayerController.h"
 #include "Engine/World.h"
 #include "XmlParser/Public/XmlFile.h"
+#include "Runtime/AIModule/Classes/BehaviorTree/BehaviorTree.h"
 
 ADirectorActor* ADirectorActor::directorActor = nullptr;
 
@@ -65,6 +67,7 @@ void ADirectorActor::InitActor()
 	}
 
 	TArray<int> canControlActorSaveList = userData->GetCanControlActorList();
+	canControlActorList.Empty();
 	for (int canControlActorSaveActorInfoId : canControlActorSaveList)
 	{
 		AActorBase* actor = actorManager->GetActorByInfoId(canControlActorSaveActorInfoId);
@@ -78,6 +81,14 @@ void ADirectorActor::InitActor()
 		}
 	}
 	SetControlActorByIndex(userData->GetCurrentControlActorIndex());
+	
+	for (size_t i = 0; i < canControlActorList.Num(); i++)
+	{
+		if (canControlActorList[i] != currentControlActor)
+		{
+			canControlActorList[i]->SetControlByAI();
+		}
+	}
 
 	TArray<USceneVolumeData*> sceneVolumeList = userData->GetSceneVolumeList();
 
@@ -158,6 +169,7 @@ void ADirectorActor::SetControlActor(AActorBase* actor)
 		if (currentControlActor != nullptr)
 		{
 			currentControlActor->RemoveCameraFollow();
+			currentControlActor->SetControlByAI();
 		}
 		currentControlActor = actor;
 		currentControlActor->AddCameraFollow();
@@ -165,8 +177,13 @@ void ADirectorActor::SetControlActor(AActorBase* actor)
 		AttachToActor(currentControlActor, attachmentTransform);
 		SetActorRelativeLocation(FVector(0,0,0));
 		APlayerController* playerController = UMainGameManager::GetInstance()->GetGameWorld()->GetFirstPlayerController<APlayerController>();
+		if (currentControlActor->GetController() != nullptr)
+		{
+			currentControlActor->GetController()->UnPossess();
+		}
 		playerController->SetViewTarget(currentControlActor);
 		currentControlActor->Controller = playerController;
+		//playerController->Possess(currentControlActor);
 	}
 	for (int i = 0; i < canControlActorList.Num(); i++)
 	{

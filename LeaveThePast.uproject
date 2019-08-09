@@ -11,7 +11,8 @@
 			"LoadingPhase": "Default",
 			"AdditionalDependencies": [
 				"Engine",
-				"CoreUObject"
+				"CoreUObject",
+				"AIModule"
 			]
 		}
 	],
