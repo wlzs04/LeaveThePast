@@ -12,6 +12,7 @@ class UScriptManager;
 class UActorManager;
 class UUIManager;
 class UTexture2D;
+class AActorBase;
 
 //常用函数
 UCLASS()
@@ -54,6 +55,10 @@ public:
 	//获得MainGameManager
 	UFUNCTION(BlueprintCallable, Category = "Main|Manager")
 	static UUIManager* GetUIManager();
+
+	//获得当前玩家控制角色
+	UFUNCTION(BlueprintCallable, Category = "Main|Manager")
+	static AActorBase* GetCurrentControlActor();
 
 	//加载本地图片
 	UFUNCTION(BlueprintCallable, Category = "Main|Texture")

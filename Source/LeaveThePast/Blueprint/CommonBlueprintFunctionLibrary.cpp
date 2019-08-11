@@ -8,6 +8,8 @@
 #include "../Manager/LogManager.h"
 #include "../Manager/UIManager.h"
 #include "../Manager/HelpManager.h"
+#include "../Actor/DirectorActor.h"
+#include "../Actor/ActorBase.h"
 #include "Kismet/GameplayStatics.h"
 
 int UCommonBlueprintFunctionLibrary::GetHours(FTimeData time)
@@ -53,6 +55,11 @@ UActorManager* UCommonBlueprintFunctionLibrary::GetActorManager()
 UUIManager* UCommonBlueprintFunctionLibrary::GetUIManager()
 {
 	return UUIManager::GetInstance();
+}
+
+AActorBase* UCommonBlueprintFunctionLibrary::GetCurrentControlActor()
+{
+	return ADirectorActor::GetInstance()->GetCurrentControlActor();
 }
 
 UTexture2D* UCommonBlueprintFunctionLibrary::LoadTexture2D(FString path, bool& isValid, int32& outWidth, int32& outHeight)

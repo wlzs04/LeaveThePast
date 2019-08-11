@@ -1,6 +1,6 @@
 <BattleActor actorEnum="BattleMass">
 	<Actor actorId="60001" actorName="劫匪甲" defaultPosition="0,200,98" defaultRotation="0,0,90">
-		<Model modelName="dianxiaoer" modelRootPath="GameContent/Resource/Others/Model/dianxiaoer">
+		<Model modelName="HuangYaoShi" modelRootPath="GameContent/Resource/Others/Model/HuangYaoShi">
 		</Model>
 		<PropertyList>
 			<Attack value="100"/>
@@ -13,7 +13,7 @@
 		</PropertyList>
 	</Actor>
 	<Actor actorId="60002" actorName="劫匪已" defaultPosition="0,100,98" defaultRotation="0,0,90">
-		<Model modelName="TieJiangNPC" modelRootPath="GameContent/Resource/Others/Model/TieJiangNPC">
+		<Model modelName="OuYangFeng" modelRootPath="GameContent/Resource/Others/Model/OuYangFeng">
 		</Model>
 		<PropertyList>
 			<Attack value="150"/>
@@ -26,7 +26,7 @@
 		</PropertyList>
 	</Actor>
 	<Actor actorId="60003" actorName="劫匪丙" defaultPosition="0,0,98" defaultRotation="0,0,90">
-		<Model modelName="TieJiangNPC" modelRootPath="GameContent/Resource/Others/Model/dianxiaoer">
+		<Model modelName="YiDengDaShi" modelRootPath="GameContent/Resource/Others/Model/YiDengDaShi">
 		</Model>
 		<PropertyList>
 			<Attack value="300"/>
@@ -39,7 +39,7 @@
 		</PropertyList>
 	</Actor>
 	<Actor actorId="60004" actorName="劫匪丁" defaultPosition="0,-100,98" defaultRotation="0,0,90">
-		<Model modelName="TieJiangNPC" modelRootPath="GameContent/Resource/Others/Model/TieJiangNPC">
+		<Model modelName="HongQiGong" modelRootPath="GameContent/Resource/Others/Model/HongQiGong">
 		</Model>
 		<PropertyList>
 			<Attack value="50"/>

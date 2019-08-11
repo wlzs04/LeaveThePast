@@ -1,0 +1,13 @@
+﻿<Skill>
+  <Recorder id="10001" name="普通攻击1" skillEnum="Attack" description="打出普通一拳。"/>
+  <Recorder id="10002" name="普通攻击2" skillEnum="Attack" description="打出普通一拳。"/>
+  <Recorder id="10003" name="普通攻击3" skillEnum="Attack" description="打出普通一拳。"/>
+  <Recorder id="10004" name="闪避" skillEnum="Defend" description="快速躲避。"/>
+  <Recorder id="10005" name="飞龙探云手" skillEnum="Assist" description="偷钱，慎用。"/>
+  <Recorder id="10006" name="缩地成寸" skillEnum="Assist" description="将前方地面缩小成一寸大，跨过后恢复原状已达到快速移动的效果。"/>
+  <Recorder id="10007" name="铜钱镖" skillEnum="Attack" description="打出一枚铜钱，进行快速攻击。"/>
+  <Recorder id="10008" name="重剑盾" skillEnum="Defend" description="将重剑放在身前阻挡攻击。"/>
+  <Recorder id="10009" name="吐纳" skillEnum="Treat" description="常见心法，可以快速恢复体力，使用中不能做其他事。"/>
+  <Recorder id="10010" name="止血" skillEnum="Assist" description="点穴指法，可以封住自身或其他人流血处的穴道，不过将影响回血功效。"/>
+  <Recorder id="10011" name="打坐" skillEnum="Treat" description="可以快速恢复体力，打坐期间只能使用心法。"/>
+</Skill>

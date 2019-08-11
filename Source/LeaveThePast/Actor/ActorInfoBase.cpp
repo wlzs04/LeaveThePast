@@ -1,5 +1,6 @@
 #include "ActorInfoBase.h"
 #include "../Action/ActionBase.h"
+#include "../Skill/SkillBase.h"
 #include "../Script/Paragraph.h"
 #include "../Manager/LogManager.h"
 #include "../Manager/HelpManager.h"
@@ -64,6 +65,7 @@ void UActorInfoBase::Load(FXmlNode* xmlNode)
 		//属性
 		else if (nodeName == "PropertyList")
 		{
+			propertyMap.Empty();
 			for (auto propertyNode : childNode->GetChildrenNodes())
 			{
 				FPropertyBase propertyBase;
@@ -104,6 +106,17 @@ void UActorInfoBase::Load(FXmlNode* xmlNode)
 				propertyMap.Add(propertyTag, propertyBase);
 			}
 		}
+		//技能
+		else if (nodeName == "SkillList")
+		{
+			skillList.Empty();
+			for (auto skillNode : childNode->GetChildrenNodes())
+			{
+				USkillBase* skill = NewObject<USkillBase>();
+				skill->Load(skillNode);
+				skillList.Add(skill);
+			}
+		}
 		//交互列表
 		else if (nodeName == "Interact")
 		{
@@ -134,6 +147,7 @@ void UActorInfoBase::CopyData(UActorInfoBase* actorInfo)
 	defaultRotation = actorInfo->defaultRotation;
 	headImagePath = actorInfo->headImagePath;
 	propertyMap = actorInfo->propertyMap;
+	skillList = actorInfo->skillList;
 	interactParagraph = actorInfo->interactParagraph;
 	nearbyParagraph = actorInfo->nearbyParagraph;
 }
@@ -217,6 +231,11 @@ float UActorInfoBase::GetPropertyValue(FString propertyName)
 TMap<FString, FPropertyBase> UActorInfoBase::GetPropertyMap()
 {
 	return propertyMap;
+}
+
+TArray<USkillBase*> UActorInfoBase::GetSkillList()
+{
+	return skillList;
 }
 
 UParagraph* UActorInfoBase::GetInteractParagraph()
