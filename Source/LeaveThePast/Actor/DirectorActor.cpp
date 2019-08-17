@@ -295,6 +295,10 @@ void ADirectorActor::SetupPlayerInputComponent(UInputComponent* playerInputCompo
 	playerInputComponent->BindAction("System", EInputEvent::IE_Released, this, &ADirectorActor::SystemInputFunction);
 	playerInputComponent->BindAction("Debug", EInputEvent::IE_Pressed, this, &ADirectorActor::DebugInputFunction);
 	playerInputComponent->BindAction("Map", EInputEvent::IE_Pressed, this, &ADirectorActor::MapInputFunction);
+	
+	
+	
+	playerInputComponent->BindAction("Skill", EInputEvent::IE_Pressed, this, &ADirectorActor::SkillInputFunction);
 }
 
 void ADirectorActor::MoveForwardInputFunction(float value)
@@ -479,5 +483,17 @@ void ADirectorActor::MapInputFunction()
 			return;
 		}
 		UUIManager::GetInstance()->ShowMapUI();
+	}
+}
+
+void ADirectorActor::SkillInputFunction(FKey key)
+{
+	if (!canControl || canOnlyControlUINumber > 0)
+	{
+		return;
+	}
+	if (currentControlActor != nullptr)
+	{
+		currentControlActor->UseSkillByKey(key);
 	}
 }

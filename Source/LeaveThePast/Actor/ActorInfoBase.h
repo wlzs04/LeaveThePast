@@ -101,7 +101,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	TMap<FString, FPropertyBase> GetPropertyMap();
 	UFUNCTION(BlueprintCallable)
-	TArray<USkillBase*> GetSkillList();
+	TMap<int, USkillBase*> GetSkillMap();
 
 	UFUNCTION(BlueprintCallable)
 	UParagraph* GetInteractParagraph();
@@ -121,7 +121,7 @@ private:
 
 	TMap<FString, FPropertyBase> propertyMap;//属性列表
 	UPROPERTY()
-	TArray<USkillBase*> skillList;//技能列表
+	TMap<int,USkillBase*> skillMap;//技能列表
 
 	UPROPERTY()
 	UParagraph* interactParagraph = nullptr;//玩家与此演员交互执行的指令段

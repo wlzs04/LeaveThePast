@@ -5,6 +5,7 @@
 #include "SkillBase.generated.h"
 
 class FXmlNode;
+class USkillRecorder;
 
 UCLASS()
 class LEAVETHEPAST_API USkillBase : public UObject
@@ -13,6 +14,9 @@ class LEAVETHEPAST_API USkillBase : public UObject
 public:
 	void Load(FXmlNode* xmlNode);
 
+	//使用技能
+	void Use();
+
 	UFUNCTION(BlueprintCallable)
 	int GetSkillId();
 	UFUNCTION(BlueprintCallable)
@@ -20,4 +24,6 @@ public:
 private:
 	int skillId = 0;//技能Id
 	int proficiency = 0;//熟练度
+
+	USkillRecorder* skillRecorder = nullptr;
 };

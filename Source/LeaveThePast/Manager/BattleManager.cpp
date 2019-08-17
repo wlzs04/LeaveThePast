@@ -12,12 +12,12 @@ void UBattleManager::Init()
 	inBattle = false;
 }
 
-void UBattleManager::StartBattle()
+void UBattleManager::EnterBattle()
 {
 	inBattle = true;
 }
 
-void UBattleManager::StopBattle()
+void UBattleManager::EndBattle()
 {
 	inBattle = false;
 }

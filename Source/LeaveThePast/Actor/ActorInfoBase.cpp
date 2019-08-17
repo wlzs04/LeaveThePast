@@ -107,14 +107,14 @@ void UActorInfoBase::Load(FXmlNode* xmlNode)
 			}
 		}
 		//技能
-		else if (nodeName == "SkillList")
+		else if (nodeName == "SkillMap")
 		{
-			skillList.Empty();
+			skillMap.Empty();
 			for (auto skillNode : childNode->GetChildrenNodes())
 			{
 				USkillBase* skill = NewObject<USkillBase>();
 				skill->Load(skillNode);
-				skillList.Add(skill);
+				skillMap.Add(skill->GetSkillId(),skill);
 			}
 		}
 		//交互列表
@@ -147,7 +147,7 @@ void UActorInfoBase::CopyData(UActorInfoBase* actorInfo)
 	defaultRotation = actorInfo->defaultRotation;
 	headImagePath = actorInfo->headImagePath;
 	propertyMap = actorInfo->propertyMap;
-	skillList = actorInfo->skillList;
+	skillMap = actorInfo->skillMap;
 	interactParagraph = actorInfo->interactParagraph;
 	nearbyParagraph = actorInfo->nearbyParagraph;
 }
@@ -233,9 +233,9 @@ TMap<FString, FPropertyBase> UActorInfoBase::GetPropertyMap()
 	return propertyMap;
 }
 
-TArray<USkillBase*> UActorInfoBase::GetSkillList()
+TMap<int, USkillBase*> UActorInfoBase::GetSkillMap()
 {
-	return skillList;
+	return skillMap;
 }
 
 UParagraph* UActorInfoBase::GetInteractParagraph()

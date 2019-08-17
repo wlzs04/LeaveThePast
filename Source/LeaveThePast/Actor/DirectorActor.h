@@ -98,6 +98,8 @@ private:
 	void SystemInputFunction();
 	void DebugInputFunction();
 	void MapInputFunction();
+
+	void SkillInputFunction(FKey key);
 	
 	static ADirectorActor* directorActor;
 	

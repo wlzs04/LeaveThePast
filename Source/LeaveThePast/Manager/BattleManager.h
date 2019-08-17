@@ -14,9 +14,9 @@ public:
 	void Init();
 
 	//开始战斗
-	void StartBattle();
-	//停止战斗
-	void StopBattle();
+	void EnterBattle();
+	//结束战斗
+	void EndBattle();
 
 	//是否在战斗中
 	bool IsInBattle();

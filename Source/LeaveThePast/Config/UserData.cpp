@@ -10,6 +10,7 @@
 #include "../Volume/VolumeBase.h"
 #include "ScriptData.h"
 #include "SceneData.h"
+#include "KeySkillMapData.h"
 #include "Paths.h"
 #include "XmlParser/Public/XmlFile.h"
 #include "FileHelper.h"
@@ -181,6 +182,18 @@ void UUserData::Load()
 					}
 				}
 				nextScriptList.Add(scriptItemData);
+			}
+		}
+		//演员按键技能map
+		else if (nodeTag == TEXT("ActorKeySkillMap"))
+		{
+			actorKeySkillMap.Empty();
+			for (FXmlNode* scriptNode : xmlNode->GetChildrenNodes())
+			{
+				UKeySkillMapData* keySkillMapData = NewObject<UKeySkillMapData>();
+				int actorId = FCString::Atoi(*scriptNode->GetAttribute(TEXT("id")));
+				keySkillMapData->LoadFromXmlNode(scriptNode);
+				actorKeySkillMap.Add(actorId, keySkillMapData);
 			}
 		}
 		else
@@ -596,4 +609,18 @@ void UUserData::AddNextScript(FScriptItemData newScriptItemData)
 void UUserData::RemoveNextScript(FScriptItemData newScriptItemData)
 {
 	nextScriptList.Remove(newScriptItemData);
+}
+
+TMap<int, UKeySkillMapData*> UUserData::GetActorKeySkillMap()
+{
+	return actorKeySkillMap;
+}
+
+UKeySkillMapData* UUserData::GetKeySkillMapByActor(int actorId)
+{
+	if (actorKeySkillMap.Contains(actorId))
+	{
+		return actorKeySkillMap[actorId];
+	}
+	return nullptr;
 }

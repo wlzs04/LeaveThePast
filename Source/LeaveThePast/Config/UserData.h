@@ -10,6 +10,7 @@ class FXmlNode;
 class UChapterData;
 class USceneActorData;
 class USceneVolumeData;
+class UKeySkillMapData;
 
 //玩家数据
 UCLASS(BlueprintType)
@@ -128,6 +129,14 @@ public:
 	//移除玩家即将运行的剧本
 	UFUNCTION(BlueprintCallable)
 	void RemoveNextScript(FScriptItemData newScriptItemData);
+
+	//获得演员按键技能map
+	UFUNCTION(BlueprintCallable)
+	TMap<int, UKeySkillMapData*> GetActorKeySkillMap();
+
+	//获得演员按键技能map
+	UFUNCTION(BlueprintCallable)
+	UKeySkillMapData* GetKeySkillMapByActor(int actorId);
 protected:
 	//保存路径
 	FString savePath;
@@ -155,4 +164,6 @@ protected:
 	TMap<FString, UChapterData*> chapterMap;//剧本状态
 
 	TArray<FScriptItemData> nextScriptList;//玩家即将运行的剧本列表，在游戏开始后立即执行
+
+	TMap<int, UKeySkillMapData*> actorKeySkillMap;//演员按键技能map
 };

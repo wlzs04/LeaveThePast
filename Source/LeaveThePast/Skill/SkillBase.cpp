@@ -1,6 +1,9 @@
 #include "SkillBase.h"
 #include "XmlParser/Public/XmlFile.h"
 #include "../Manager/LogManager.h"
+#include "../Manager/ConfigManager.h"
+#include "../Manager/UIManager.h"
+#include "../Config/Recorder/SkillRecorder.h"
 
 void USkillBase::Load(FXmlNode* xmlNode)
 {
@@ -11,6 +14,11 @@ void USkillBase::Load(FXmlNode* xmlNode)
 		if (attributeName == TEXT("id"))
 		{
 			skillId = FCString::Atoi(*attributeValue);
+			skillRecorder = (USkillRecorder*)UConfigManager::GetInstance()->GetConfigByNameId(USkillRecorder::StaticClass(), TEXT(""), skillId);
+			if (skillRecorder == nullptr)
+			{
+				LogError(FString::Printf(TEXT("演员技能列表中Id:%d在技能表中不存在！"), skillId));
+			}
 		}
 		else if (attributeName == TEXT("proficiency"))
 		{
@@ -21,6 +29,15 @@ void USkillBase::Load(FXmlNode* xmlNode)
 			LogWarning(FString::Printf(TEXT("演员技能列表中存在未知属性:%s：%s！"),*attributeName, *attributeValue));
 		}
 	}
+}
+
+void USkillBase::Use()
+{
+	if (skillRecorder == nullptr)
+	{
+		return;
+	}
+	UUIManager::GetInstance()->AddMessageTip(FString::Printf(TEXT("使用技能：%s"), *skillRecorder->GetSkillName()));
 }
 
 int USkillBase::GetSkillId()

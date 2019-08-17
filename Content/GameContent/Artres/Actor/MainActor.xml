@@ -8,15 +8,14 @@
 			<Life value="1000"/>
 			<Power value="1000"/>
 		</PropertyList>
-		<SkillList>
+		<SkillMap>
 			<Skill id="10001"/>
-			<Skill id="10002"/>
-			<Skill id="10004"/>
+			<Skill id="10003"/>
 			<Skill id="10008"/>
 			<Skill id="10009"/>
 			<Skill id="10010"/>
 			<Skill id="10011"/>
-		</SkillList>
+		</SkillMap>
 	</Actor>
 	<Actor actorId="10002" actorName="主角2" headImagePath="GameContent/Resource/Others/Image/MainActor2Head.png" description="主角2的描述。" defaultPosition="3590.0,-3140.0,110" defaultRotation="0,0,90">
 		<Model modelName="HuangRong" modelRootPath="GameContent/Resource/Others/Model/HuangRong"/>
@@ -27,16 +26,13 @@
 			<Life value="1200"/>
 			<Power value="600"/>
 		</PropertyList>
-		<SkillList>
+		<SkillMap>
 			<Skill id="10002"/>
-			<Skill id="10003"/>
 			<Skill id="10004"/>
 			<Skill id="10005"/>
 			<Skill id="10006"/>
 			<Skill id="10007"/>
 			<Skill id="10009"/>
-			<Skill id="10010"/>
-			<Skill id="10011"/>
-		</SkillList>
+		</SkillMap>
 	</Actor>
 </MainActor>

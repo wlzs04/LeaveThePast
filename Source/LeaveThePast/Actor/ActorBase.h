@@ -38,6 +38,12 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool IsInTalking();
 
+	/*UFUNCTION(BlueprintCallable)
+	bool IsInAttack();
+
+	UFUNCTION(BlueprintCallable)
+	bool IsAttackKeyDown();*/
+
 	void StartTalk();
 
 	void StopTalk();
@@ -63,6 +69,25 @@ public:
 	TArray<FScriptItemData> GetInteractedScriptList();
 	void AddInteractedScript(FScriptItemData scriptItemData);
 	void RemoveInteractedScript(FScriptItemData scriptItemData);
+
+	//使用技能
+	UFUNCTION(BlueprintCallable)
+	void UseSkillByKey(FKey key);
+	////攻击
+	//UFUNCTION(BlueprintCallable)
+	//void AttackPress();
+	////攻击
+	//UFUNCTION(BlueprintCallable)
+	//void AttackRelease();
+	////重新计算连招，一般在攻击结束后调用
+	//UFUNCTION(BlueprintCallable)
+	//void ResetAttackCombo();
+	////获得当前为第几次攻击连招
+	//UFUNCTION(BlueprintCallable)
+	//void SetAttackComboIndex(int newAttackComboIndex);
+	////获得当前为第几次攻击连招
+	//UFUNCTION(BlueprintCallable)
+	//int GetAttackComboIndex();
 
 	//设置被AI控制
 	void AddControlByAI();
@@ -92,6 +117,10 @@ private:
 	UActorInfoBase* actorInfo = nullptr;
 
 	bool isInTalking = false;//在谈话中
+	//bool isInAttack = false;//在战斗动作中，有一些战斗动作不允许角色移动
+	//bool isAttackKeyDown = false;//战斗按键是否点击
+
+	int attackComboIndex = -1;//一般用于攻击连招
 
 	//摄像机组件
 	UPROPERTY()

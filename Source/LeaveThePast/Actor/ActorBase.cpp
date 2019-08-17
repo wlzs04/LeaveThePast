@@ -5,7 +5,11 @@
 #include "../Manager/LogManager.h"
 #include "../Manager/AudioManager.h"
 #include "../Manager/ScriptManager.h"
+#include "../Manager/MainGameManager.h"
+#include "../Config/UserData.h"
+#include "../Config/KeySkillMapData.h"
 #include "../Script/Paragraph.h"
+#include "../Skill/SkillBase.h"
 #include "Engine/Engine.h"
 #include "GameFramework/PlayerController.h"
 #include "Components/InputComponent.h"
@@ -55,7 +59,6 @@ AActorBase::AActorBase()
 
 	nearbyComponent->OnComponentBeginOverlap.AddDynamic(this, &AActorBase::ActorBeginOverlapEvent);
 	nearbyComponent->OnComponentEndOverlap.AddDynamic(this, &AActorBase::ActorEndOverlapEvent);
-
 }
 
 void AActorBase::InitByActorInfo()
@@ -76,6 +79,10 @@ void AActorBase::SetupPlayerInputComponent(UInputComponent* playerInputComponent
 
 void AActorBase::MoveForwardInputFunction(float value)
 {
+	/*if (isInAttack)
+	{
+		return;
+	}*/
 	APlayerController* playerController = GWorld->GetFirstPlayerController<APlayerController>();
 	if ((playerController != NULL) && (value != 0.0f))
 	{
@@ -89,6 +96,10 @@ void AActorBase::MoveForwardInputFunction(float value)
 
 void AActorBase::MoveRightInputFunction(float value)
 {
+	/*if (isInAttack)
+	{
+		return;
+	}*/
 	APlayerController* playerController = GWorld->GetFirstPlayerController<APlayerController>();
 	if ((playerController != NULL) && (value != 0.0f))
 	{
@@ -144,6 +155,54 @@ void AActorBase::RemoveInteractedScript(FScriptItemData scriptItemData)
 {
 	interactedScriptList.Remove(scriptItemData);
 }
+
+void AActorBase::UseSkillByKey(FKey key)
+{
+	UKeySkillMapData* keySkillMapData = UMainGameManager::GetInstance()->GetUserData()->GetKeySkillMapByActor(actorInfo->GetActorId());
+	if (keySkillMapData != nullptr)
+	{
+		int skillId = keySkillMapData->GetSkillIdByKey(key);
+		if (actorInfo->GetSkillMap().Contains(skillId))
+		{
+			USkillBase* skill = actorInfo->GetSkillMap()[skillId];
+			skill->Use();
+		}
+	}
+}
+
+//void AActorBase::AttackPress()
+//{
+//	isAttackKeyDown = true;
+//	if (isInAttack)
+//	{
+//	}
+//	else
+//	{
+//		isInAttack = true;
+//		attackComboIndex = 0;
+//	}
+//}
+//
+//void AActorBase::AttackRelease()
+//{
+//	isAttackKeyDown = false;
+//}
+//
+//void AActorBase::ResetAttackCombo()
+//{
+//	isInAttack = false;
+//	attackComboIndex = -1;
+//}
+//
+//void AActorBase::SetAttackComboIndex(int newAttackComboIndex)
+//{
+//	attackComboIndex = newAttackComboIndex;
+//}
+//
+//int AActorBase::GetAttackComboIndex()
+//{
+//	return attackComboIndex;
+//}
 
 void AActorBase::AddControlByAI()
 {
@@ -288,6 +347,16 @@ bool AActorBase::IsInTalking()
 {
 	return isInTalking;
 }
+
+//bool AActorBase::IsInAttack()
+//{
+//	return isInAttack;
+//}
+//
+//bool AActorBase::IsAttackKeyDown()
+//{
+//	return isAttackKeyDown;
+//}
 
 void AActorBase::StartTalk()
 {
