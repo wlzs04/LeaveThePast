@@ -25,6 +25,10 @@ void USkillRecorder::LoadRecorder(FXmlNode* xmlNode)
 		{
 			description = attributeValue;
 		}
+		else if (attributeName == TEXT("iconPath"))
+		{
+			iconPath = attributeValue;
+		}
 		else
 		{
 			LogWarning(FString::Printf(TEXT("%s配置中存在未知属性:%s：%s！"), *GetClass()->GetName().Left(GetClass()->GetName().Len() - 8), *attributeName, *attributeValue));
@@ -45,4 +49,9 @@ FString USkillRecorder::GetDescription()
 SkillEnum USkillRecorder::GetSkillEnum()
 {
 	return skillEnum;
+}
+
+FString USkillRecorder::GetIconPath()
+{
+	return iconPath;
 }

@@ -4,6 +4,7 @@
 #include "../Manager/ConfigManager.h"
 #include "../Manager/UIManager.h"
 #include "../Config/Recorder/SkillRecorder.h"
+#include "../Config/ActorSkillData.h"
 
 void USkillBase::Load(FXmlNode* xmlNode)
 {
@@ -31,6 +32,14 @@ void USkillBase::Load(FXmlNode* xmlNode)
 	}
 }
 
+void USkillBase::Load(FSkillData* skillData)
+{
+	skillId = skillData->skillId;
+	skillRecorder = (USkillRecorder*)UConfigManager::GetInstance()->GetConfigByNameId(USkillRecorder::StaticClass(), TEXT(""), skillId);
+	proficiency = skillData->proficiency;
+	key = skillData->key;
+}
+
 void USkillBase::Use()
 {
 	if (skillRecorder == nullptr)
@@ -48,4 +57,24 @@ int USkillBase::GetSkillId()
 int USkillBase::GetProficiency()
 {
 	return proficiency;
+}
+
+void USkillBase::SetKey(FKey newKey)
+{
+	key = newKey;
+}
+
+FKey USkillBase::GetKey()
+{
+	return key;
+}
+
+FString USkillBase::GetKeyString()
+{
+	return key.ToString();
+}
+
+USkillRecorder* USkillBase::GetSkillRecorder()
+{
+	return skillRecorder;
 }

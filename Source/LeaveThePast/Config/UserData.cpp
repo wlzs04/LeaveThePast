@@ -8,9 +8,10 @@
 #include "../Actor/DirectorActor.h"
 #include "../Actor/ActorBase.h"
 #include "../Volume/VolumeBase.h"
+#include "../Skill/SkillBase.h"
 #include "ScriptData.h"
 #include "SceneData.h"
-#include "KeySkillMapData.h"
+#include "ActorSkillData.h"
 #include "Paths.h"
 #include "XmlParser/Public/XmlFile.h"
 #include "FileHelper.h"
@@ -184,16 +185,16 @@ void UUserData::Load()
 				nextScriptList.Add(scriptItemData);
 			}
 		}
-		//演员按键技能map
-		else if (nodeTag == TEXT("ActorKeySkillMap"))
+		//演员技能map
+		else if (nodeTag == TEXT("ActorSkillMap"))
 		{
-			actorKeySkillMap.Empty();
+			actorSkillMap.Empty();
 			for (FXmlNode* scriptNode : xmlNode->GetChildrenNodes())
 			{
-				UKeySkillMapData* keySkillMapData = NewObject<UKeySkillMapData>();
+				UActorSkillData* actorSkillData = NewObject<UActorSkillData>();
 				int actorId = FCString::Atoi(*scriptNode->GetAttribute(TEXT("id")));
-				keySkillMapData->LoadFromXmlNode(scriptNode);
-				actorKeySkillMap.Add(actorId, keySkillMapData);
+				actorSkillData->LoadFromXmlNode(scriptNode);
+				actorSkillMap.Add(actorId, actorSkillData);
 			}
 		}
 		else
@@ -326,6 +327,27 @@ void UUserData::Save()
 		xmlContent.Append(TEXT("/>\n"));
 	}
 	xmlContent.Append(TEXT("\t</NextScript>\n"));
+	//end 添加剧本信息
+
+	//start 添加即将运行的剧本信息
+	xmlContent.Append(TEXT("\t<ActorSkillMap>\n"));
+	for (AActorBase* actorBase : directorActor->GetCanControlActorList())
+	{
+		xmlContent.Append(TEXT("\t\t<Actor"));
+		xmlContent.Append(TEXT(" id=\"") + FString::FromInt(actorBase->GetActorInfo()->GetActorId()) + TEXT("\""));
+		xmlContent.Append(TEXT(">\n"));
+
+		for (auto var:actorBase->GetActorInfo()->GetSkillMap())
+		{
+			xmlContent.Append(TEXT("\t\t\t<Skill"));
+			xmlContent.Append(TEXT(" skillId=\"") + FString::FromInt(var.Value->GetSkillId()) + TEXT("\""));
+			xmlContent.Append(TEXT(" key=\"") + var.Value->GetKey().ToString() + TEXT("\""));
+			xmlContent.Append(TEXT(" proficiency=\"") + FString::FromInt(var.Value->GetProficiency()) + TEXT("\""));
+			xmlContent.Append(TEXT("/>\n"));
+		}
+		xmlContent.Append(TEXT("\t\t</Actor>\n"));
+	}
+	xmlContent.Append(TEXT("\t</ActorSkillMap>\n"));
 	//end 添加剧本信息
 	xmlContent.Append(TEXT("</UserData>"));
 
@@ -611,16 +633,16 @@ void UUserData::RemoveNextScript(FScriptItemData newScriptItemData)
 	nextScriptList.Remove(newScriptItemData);
 }
 
-TMap<int, UKeySkillMapData*> UUserData::GetActorKeySkillMap()
+TMap<int, UActorSkillData*> UUserData::GetActorSkillMap()
 {
-	return actorKeySkillMap;
+	return actorSkillMap;
 }
 
-UKeySkillMapData* UUserData::GetKeySkillMapByActor(int actorId)
+UActorSkillData* UUserData::GetSkillDataByActor(int actorId)
 {
-	if (actorKeySkillMap.Contains(actorId))
+	if (actorSkillMap.Contains(actorId))
 	{
-		return actorKeySkillMap[actorId];
+		return actorSkillMap[actorId];
 	}
 	return nullptr;
 }

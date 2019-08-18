@@ -11,6 +11,7 @@ class USceneActorData;
 class UParagraph;
 class UActionBase;
 class USkillBase;
+class UActorSkillData;
 
 //演员类型
 UENUM(BlueprintType)
@@ -70,6 +71,9 @@ public:
 
 	//从场景演员信息中覆盖信息
 	void CoverData(USceneActorData* sceneActorData);
+
+	//从技能信息中覆盖信息
+	void CoverData(UActorSkillData* actorSkillData);
 	
 	UFUNCTION(BlueprintCallable)
 	int GetActorId();

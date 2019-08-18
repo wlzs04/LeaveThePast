@@ -31,12 +31,16 @@ public:
 	UFUNCTION(BlueprintCallable)
 	FString GetDescription();
 
-	//获得名称
+	//获得类型
 	UFUNCTION(BlueprintCallable)
 	SkillEnum GetSkillEnum();
+
+	//获得图标路径
+	UFUNCTION(BlueprintCallable)
+	FString GetIconPath();
 private:
 	FString skillName;
 	FString description;
-
 	SkillEnum skillEnum = SkillEnum::Unknown;
+	FString iconPath;
 };

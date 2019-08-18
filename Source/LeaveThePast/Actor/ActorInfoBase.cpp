@@ -6,6 +6,7 @@
 #include "../Manager/HelpManager.h"
 #include "../Manager/ScriptManager.h"
 #include "../Config/SceneData.h"
+#include "../Config/ActorSkillData.h"
 
 void UActorInfoBase::Load(FXmlNode* xmlNode)
 {
@@ -162,6 +163,18 @@ void UActorInfoBase::CoverData(USceneActorData* sceneActorData)
 	else
 	{
 		LogError(TEXT("使用FSaveActorInfo覆盖UActorInfoBase数据时actorId不同。"));
+	}
+}
+
+void UActorInfoBase::CoverData(UActorSkillData* actorSkillData)
+{
+	skillMap.Empty();
+	for (auto var : actorSkillData->GetSkillDataMap())
+	{
+		USkillBase* skill = NewObject<USkillBase>();
+		
+		skill->Load(&var.Value);
+		skillMap.Add(var.Key, skill);
 	}
 }
 

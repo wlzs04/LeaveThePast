@@ -7,7 +7,7 @@
 #include "../Manager/ScriptManager.h"
 #include "../Manager/MainGameManager.h"
 #include "../Config/UserData.h"
-#include "../Config/KeySkillMapData.h"
+#include "../Config/ActorSkillData.h"
 #include "../Script/Paragraph.h"
 #include "../Skill/SkillBase.h"
 #include "Engine/Engine.h"
@@ -158,13 +158,13 @@ void AActorBase::RemoveInteractedScript(FScriptItemData scriptItemData)
 
 void AActorBase::UseSkillByKey(FKey key)
 {
-	UKeySkillMapData* keySkillMapData = UMainGameManager::GetInstance()->GetUserData()->GetKeySkillMapByActor(actorInfo->GetActorId());
-	if (keySkillMapData != nullptr)
+	UActorSkillData* actorSkillData = UMainGameManager::GetInstance()->GetUserData()->GetSkillDataByActor(actorInfo->GetActorId());
+	if (actorSkillData != nullptr)
 	{
-		int skillId = keySkillMapData->GetSkillIdByKey(key);
-		if (actorInfo->GetSkillMap().Contains(skillId))
+		FSkillData skillData = actorSkillData->GetSkillDataByKey(key);
+		if (actorInfo->GetSkillMap().Contains(skillData.skillId))
 		{
-			USkillBase* skill = actorInfo->GetSkillMap()[skillId];
+			USkillBase* skill = actorInfo->GetSkillMap()[skillData.skillId];
 			skill->Use();
 		}
 	}

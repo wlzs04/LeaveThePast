@@ -70,15 +70,7 @@ void ADirectorActor::InitActor()
 	canControlActorList.Empty();
 	for (int canControlActorSaveActorInfoId : canControlActorSaveList)
 	{
-		AActorBase* actor = actorManager->GetActorByInfoId(canControlActorSaveActorInfoId);
-		if (actor != nullptr)
-		{
-			canControlActorList.Add(actor);
-		}
-		else
-		{
-			LogError(FString::Printf(TEXT("初始化可控演员时未找到actorInfoId：%d"), canControlActorSaveActorInfoId));
-		}
+		AddCanControlActorByInfoId(canControlActorSaveActorInfoId);
 	}
 	SetControlActorByIndex(userData->GetCurrentControlActorIndex());
 	
@@ -118,6 +110,13 @@ void ADirectorActor::AddCanControlActorByInfoId(int actorInfoId)
 	{
 		if (!canControlActorList.Contains(actor))
 		{
+			UUserData* userData = UMainGameManager::GetInstance()->GetUserData();
+			UActorSkillData* actorSkillData = userData->GetSkillDataByActor(actor->GetActorInfo()->GetActorId());
+			//覆盖存档中技能信息
+			if (actorSkillData != nullptr)
+			{
+				actor->GetActorInfo()->CoverData(actorSkillData);
+			}
 			canControlActorList.Add(actor);
 		}
 		else
